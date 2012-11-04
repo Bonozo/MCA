@@ -148,39 +148,50 @@ public class AlienShip : MonoBehaviour {
 		if( targetingBox != null ) Destroy(targetingBox);
 	}
 	
+	void Explode(bool withplayer,Collision col)
+	{
+		if( withplayer ) showcrystal = true;
+		GetComponent<Detonator>().enabled = true;
+		
+		Destroy(this.rigidbody);
+		Destroy(this.collider);
+		gameObject.tag = null;
+		
+		if(col != null) Destroy(col.gameObject);
+		if( targetingBox != null ) Destroy(targetingBox);
+		if(withplayer && player != null) player.SendMessage("AddScore");
+		expose = true;
+		audio.PlayOneShot(ExplosionSoundEffect,2f);
+		audio.time = 0.5f;
+		if( !withplayer ) playedgotem = true;
+		
+	}
+	
+	int t;
+	
+	void GetHit()
+	{
+		if( --NumberHitsToDie == 0 )
+		{
+			Explode(true,null);
+		}	
+	}
+	
 	void OnCollisionEnter(Collision col)
 	{	
 		if( GetComponent<Detonator>().enabled )
-		{
 			return;
-		}
 		
-		if( HitWithName(col.gameObject.name,"Bullet") )
+		if( col.gameObject.tag == "Bullet" )
 		{
 			if( --NumberHitsToDie == 0 )
 			{
-			showcrystal = true;
-			GetComponent<Detonator>().enabled = true;
-			Destroy(this.rigidbody);
-			Destroy(col.gameObject);
-			if( targetingBox != null ) Destroy(targetingBox);
-			if(player != null) player.SendMessage("AddScore");
-			expose = true;
-			audio.PlayOneShot(ExplosionSoundEffect,2f);
-			audio.time = 0.5f;
+				Explode(true,col);
 			}
 		}
-		
 		else if( HitWithName(col.gameObject.name,"Asteroid") )
 		{
-			GetComponent<Detonator>().enabled = true;
-			Destroy(this.rigidbody);
-			Destroy(col.gameObject);
-			if( targetingBox != null ) Destroy(targetingBox);
-			expose = true;
-			audio.PlayOneShot(ExplosionSoundEffect,2f);
-			audio.time = 0.5f;
-			playedgotem = true;
+			Explode(false,col);
 		}
 	}
 	

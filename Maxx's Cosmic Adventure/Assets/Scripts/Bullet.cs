@@ -19,10 +19,25 @@ public class Bullet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () 	{
-		
-		if( targeted && target != null)
+		if( target == null ) targeted = false;
+		if( targeted)
+		{
 			transform.LookAt(target.transform.position);
-		transform.Translate(Speed*Time.deltaTime*Vector3.forward);
+		
+			float d = Vector3.Distance(target.transform.position,transform.position);
+			transform.Translate( Mathf.Min(d,Speed*Time.deltaTime)*Vector3.forward );
+			d = Vector3.Distance(target.transform.position,transform.position);
+			if( d == 0.0f ) 
+			{
+				target.SendMessage("GetHit");
+				Destroy(this.gameObject);
+				return;
+			}
+		}
+		else
+		{
+			transform.Translate( Speed*Time.deltaTime*Vector3.forward );
+		}
 		DeadTime -= Time.deltaTime;
 		
 		if( DeadTime <= 0 ) Destroy(this.gameObject);
@@ -30,6 +45,7 @@ public class Bullet : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision col)
 	{
+		if( GameEnvironment.HitWithName(col.gameObject.name,"Bullet") ) return;
 		Vector3 pos = col.contacts[0].point;
 		Instantiate(particleSpark,pos,Quaternion.identity);
 		Destroy(this.gameObject);

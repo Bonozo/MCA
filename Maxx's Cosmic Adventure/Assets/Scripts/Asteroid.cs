@@ -31,7 +31,10 @@ public class Asteroid : MonoBehaviour {
 			if( DestroyTime <= 0f )
 			{
 				if( GameEnvironment.HitWithName(this.gameObject.name,"AsteroidWithBlueCrystal") )
+				{
+					Debug.Log("Blue Crystal");
 					Instantiate(Crystal,transform.position,Quaternion.identity);	
+				}
 				Destroy(this.gameObject);
 			}
 			return;

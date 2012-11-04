@@ -208,9 +208,9 @@ public class Player : MonoBehaviour {
 		float time = 10f;
 		while ( time > 0f )
 		{
-			TryStandardShot(false);
+			TryAutoShot();
 			overheatFire.Down();
-			LevelInfo.Environments.PowerUpTime.text = "Auto Fire " + Mathf.CeilToInt(time);
+			LevelInfo.Environments.PowerUpTime.text = "Sure Shot " + Mathf.CeilToInt(time);
 			time -= Time.deltaTime;
 			yield return new WaitForEndOfFrame();
 		}
@@ -230,6 +230,42 @@ public class Player : MonoBehaviour {
 			Instantiate(Bullet,rightbf.transform.position,Quaternion.Euler(0f,transform.rotation.eulerAngles.y,0f) );
 			fireDeltaTime = FireDeltaTime;
 		}			
+	}
+	
+	void TryAutoShot()
+	{
+		if( fireDeltaTime > 0f ) fireDeltaTime -= Time.deltaTime;
+		if( fireDeltaTime <= 0 )
+		{
+			GameObject[] g = GameObject.FindGameObjectsWithTag("AlienShip");
+			int index = -1; float minvalue = float.PositiveInfinity;
+			for(int i=0;i<g.Length;i++)
+			{
+				Vector3 toscreen = LevelInfo.Environments.MainCamera.WorldToScreenPoint(g[i].transform.position);
+				if(toscreen.x >= 0 && toscreen.x <= Screen.width && 
+					toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f && toscreen.z < minvalue )
+				{
+					minvalue = toscreen.z;
+					index = i;
+				}
+			}
+			if(index != -1)
+			{
+				Vector3 midpos = 0.5f*(leftbf.transform.position+rightbf.transform.position);
+				GameObject j1 = (GameObject)Instantiate(Bullet,midpos,Quaternion.identity );
+				GameObject j2 = (GameObject)Instantiate(Bullet,midpos,Quaternion.identity );
+				j1.transform.LookAt(g[index].transform);
+				j2.transform.LookAt(g[index].transform);
+				j1.transform.position = leftbf.transform.position;
+				j2.transform.position = rightbf.transform.position;
+				j1.SendMessage("ToTarget",g[index]);
+				j2.SendMessage("ToTarget",g[index]);
+				g[index].SendMessage("EnableTargetingBox");
+				audio.PlayOneShot(AudioFire);
+			}
+			
+			fireDeltaTime = 0.1f;	
+		}
 	}
 	
 	void FireSetUp()
@@ -399,6 +435,12 @@ public class Player : MonoBehaviour {
 	{
 		if( score.Lose) return;
 		
+		if( col == null || col.gameObject == null)
+		{
+			Debug.Log("ERROR");
+			return;
+		}
+		
 		if( HitWithName(col.gameObject.name,"Crystal") )
 		{
 			numberCrystal++;
@@ -427,6 +469,7 @@ public class Player : MonoBehaviour {
 				audio.Stop();
 				SoundGamePlay.Stop();
 				audio.PlayOneShot(AudioGameOver);
+				StopAllCoroutines();
 			}
 		}
 		Destroy(col.gameObject);
