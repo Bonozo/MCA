@@ -1,0 +1,25 @@
+FONTLOG for Interval
+------- --- ----------
+This file provides detailed information on the Lavoir Font Software.
+This information should be distributed along with the Lavoir fonts
+and any derivative works.
+
+Basic Font Information
+----- ---- -----------
+Typographic work and development based on an old Art-DŽco public bath sign in Lyon (France). From the few letters there I drew the entire font, adding ligatures, regular and old style figures as well as a small caps version.
+
+At the time I drew the font, I didn't knew the OpenType functions so it could be cool to add some of them. And most kernings have to be improved.
+
+Some details are available on http://alexchavot.fr/lavoir.php
+
+
+ChangeLog
+---------
+16 sept. 2012
+- Initial version of Lavoir.
+
+Acknowledgements
+----------------
+N: Alex Chavot
+E: a.chavot@gmail.com
+W: http://www.alexchavot.fr

@@ -5,7 +5,7 @@ public class TouchInput : MonoBehaviour {
 	
 	public GUITexture LeftGUI,RightGUI,FireLeftGUI,FireRightGUI;
 	public GUITexture MGUI,BGUI;
-	public GUITexture PowerUpAutoFire;
+	//public GUITexture PowerUpAutoFire;
 	
 	// Use this for initialization
 	void Start () {
@@ -91,11 +91,11 @@ public class TouchInput : MonoBehaviour {
 		return false;
 	}
 	
-	public bool PowerUpAutoWithPhase(TouchPhase phase)
+	/*public bool PowerUpAutoWithPhase(TouchPhase phase)
 	{
 		foreach(Touch touch in Input.touches)
 			if( touch.phase == phase && PowerUpAutoFire.HitTest(touch.position) )
 				return true;
 		return false;
-	}
+	}*/
 }

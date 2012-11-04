@@ -3,8 +3,11 @@ using System.Collections;
 
 public class LevelInfo : MonoBehaviour {
 	
-	public GameManager gameManager;
-	public static GameManager Environments { get { return Instance.gameManager; }}
+	public GameManager _gameManager;
+	public static GameManager Environments { get { return Instance._gameManager; }}
+	
+	public AudioManager _audioManager;
+	public static AudioManager Audio { get { return Instance._audioManager; }}
 	
 	// Multithreaded Safe Singleton Pattern
     // URL: http://msdn.microsoft.com/en-us/library/ms998558.aspx

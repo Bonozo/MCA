@@ -4,7 +4,6 @@ using System.Collections;
 public class AlienShip : MonoBehaviour {
 	
 	public GameObject AlienBullet;
-	public GameObject Crystal;
 	public GameObject TargetingBoxPrefab;
 	public Transform Centr,Up;
 	
@@ -37,9 +36,9 @@ public class AlienShip : MonoBehaviour {
 		player = (Player)GameObject.FindObjectOfType(typeof(Player));
 		MainCamera = (Camera)GameObject.FindObjectOfType(typeof(Camera));
 		
-		Vector3 pos = transform.position;
-		pos.y = Random.Range(-player.UpDownMaxHeight,player.UpDownMaxHeight);
-		transform.position = pos;
+		//Vector3 pos = transform.position;
+		//pos.y = Random.Range(-player.UpDownMaxHeight,player.UpDownMaxHeight);
+		//transform.position = pos;
 		
 		transform.rotation = DestinationRotation();
 		
@@ -93,13 +92,13 @@ public class AlienShip : MonoBehaviour {
 			if( !playedgotem && ExplosionTime <=  1.6f )
 			{
 				if( GameEnvironment.Probability(5))
-					audio.PlayOneShot(GotEm);
+					LevelInfo.Audio.audioSourceJeebles.PlayOneShot(GotEm);
 				playedgotem = true;
 			}
 			if (ExplosionTime <= 0 )
 			{
 				if(showcrystal)
-					Instantiate(Crystal,transform.position,Quaternion.identity);
+					LevelInfo.Environments.generator.GenerateNewGem(transform.position);
 				Destroy(this.gameObject);
 			}
 		}
@@ -161,8 +160,8 @@ public class AlienShip : MonoBehaviour {
 		if( targetingBox != null ) Destroy(targetingBox);
 		if(withplayer && player != null) player.SendMessage("AddScore");
 		expose = true;
-		audio.PlayOneShot(ExplosionSoundEffect,2f);
-		audio.time = 0.5f;
+		LevelInfo.Audio.audioSourceJeebles.PlayOneShot(ExplosionSoundEffect);
+		LevelInfo.Audio.audioSourceJeebles.time = 0.5f;
 		if( !withplayer ) playedgotem = true;
 		
 	}
@@ -209,8 +208,8 @@ public class AlienShip : MonoBehaviour {
 		if( targetingBox != null ) Destroy(targetingBox);
 		player.SendMessage("AddScore");
 		expose = true;
-		audio.PlayOneShot(ExplosionSoundEffect,2f);
-		audio.time = 0.5f;	
+		LevelInfo.Audio.audioSourceJeebles.PlayOneShot(ExplosionSoundEffect);
+		LevelInfo.Audio.audioSourceJeebles.time = 0.5f;	
 	}
 	
 	public void EnableTargetingBox()

@@ -2,9 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class Asteroid : MonoBehaviour {
-	
-	public GameObject Crystal;
-	
+		
 	public int HitCountForDestroy = 10;
 	public float DestroyTime = 2.0f;
 	
@@ -30,11 +28,7 @@ public class Asteroid : MonoBehaviour {
 			DestroyTime -= Time.deltaTime;
 			if( DestroyTime <= 0f )
 			{
-				if( GameEnvironment.HitWithName(this.gameObject.name,"AsteroidWithBlueCrystal") )
-				{
-					Debug.Log("Blue Crystal");
-					Instantiate(Crystal,transform.position,Quaternion.identity);	
-				}
+				LevelInfo.Environments.generator.GenerateNewGem(transform.position);
 				Destroy(this.gameObject);
 			}
 			return;

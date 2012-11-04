@@ -4,7 +4,7 @@ using System.Collections;
 public class Score : MonoBehaviour {
 	
 	public Texture2D TextureLive,TextureNoLive;
-	public int MaxLives = 3;
+	public int MaxLives = 5;
 	
 	private int currentLives = 3;
 	
@@ -20,6 +20,7 @@ public class Score : MonoBehaviour {
 	
 	void OnGUI()
 	{
+		if(Time.deltaTime == 0f ) return;
 		for(int i=1;i<=MaxLives;i++)
 		{
 			Texture2D tex = i<=currentLives ? TextureLive:TextureNoLive;

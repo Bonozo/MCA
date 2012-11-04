@@ -43,8 +43,6 @@ public class Player : MonoBehaviour {
 	
 	public CollisionSender colSender;
 	
-	public GUIText ScoreText;
-	
 	#endregion
 	
 	#region Variables
@@ -55,7 +53,7 @@ public class Player : MonoBehaviour {
 	private GameObject leftbf,rightbf;
 	private float fireDeltaTime = 0.0f;
 	private float riseTime;
-	private int numberCrystal = 0;
+	private int numberUnlikelium = 0;
 	
 	private float travelled = 0;
 	private Vector3 lastPosition;
@@ -90,6 +88,7 @@ public class Player : MonoBehaviour {
 		// calc travelled
 		travelled += DistXZ(lastPosition,transform.position);
 		lastPosition = transform.position;
+		LevelInfo.Environments.guiDistanceTravelled.text = "" + (int)travelled /*+ " ly"*/;
 		
 		if( colSender.entered )
 		{
@@ -109,8 +108,8 @@ public class Player : MonoBehaviour {
 			{
 				pos.y = 0;
 				transform.position = pos;
-				GameObject.Find("Generator").GetComponent<AlienShipGenerator>().enabled = true;
-				GameObject.Find("Generator").GetComponent<AsteroidGenerator>().enabled = true;
+				LevelInfo.Environments.generator.GenerateAlienShip = true;
+				LevelInfo.Environments.generator.GenerateAsteroid = true;
 			}
 			return;
 		}
@@ -201,22 +200,25 @@ public class Player : MonoBehaviour {
 	
 	#region Firing
 	
-	private IEnumerator PowerUpAutoFire()
+	private IEnumerator SureShot()
 	{
-		powerupAutoFire = true;
-		
-		float time = 10f;
-		while ( time > 0f )
+		if(!powerupAutoFire ) 
 		{
-			TryAutoShot();
-			overheatFire.Down();
-			LevelInfo.Environments.PowerUpTime.text = "Sure Shot " + Mathf.CeilToInt(time);
-			time -= Time.deltaTime;
-			yield return new WaitForEndOfFrame();
-		}
+			powerupAutoFire = true;
 		
-		LevelInfo.Environments.PowerUpTime.text = "";
-		powerupAutoFire = false;
+			float time = 10f;
+			while ( time > 0f )
+			{
+				TryAutoShot();
+				overheatFire.Down();
+				LevelInfo.Environments.guiPowerUpTime.text = "Sure Shot " + Mathf.CeilToInt(time);
+				time -= Time.deltaTime;
+				yield return new WaitForEndOfFrame();
+			}
+		
+			LevelInfo.Environments.guiPowerUpTime.text = "";
+			powerupAutoFire = false;
+		}
 	}
 	
 	void TryStandardShot(bool effectOverheat)
@@ -225,7 +227,7 @@ public class Player : MonoBehaviour {
 		if( effectOverheat ) overheatFire.Up();
 		if( fireDeltaTime <= 0 && (!effectOverheat || !overheatFire.Overheated) )
 		{
-			audio.PlayOneShot(AudioFire);
+			LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(AudioFire);
 			Instantiate(Bullet,leftbf.transform.position,Quaternion.Euler(0f,transform.rotation.eulerAngles.y,0f) );
 			Instantiate(Bullet,rightbf.transform.position,Quaternion.Euler(0f,transform.rotation.eulerAngles.y,0f) );
 			fireDeltaTime = FireDeltaTime;
@@ -241,7 +243,7 @@ public class Player : MonoBehaviour {
 			int index = -1; float minvalue = float.PositiveInfinity;
 			for(int i=0;i<g.Length;i++)
 			{
-				Vector3 toscreen = LevelInfo.Environments.MainCamera.WorldToScreenPoint(g[i].transform.position);
+				Vector3 toscreen = LevelInfo.Environments.mainCamera.WorldToScreenPoint(g[i].transform.position);
 				if(toscreen.x >= 0 && toscreen.x <= Screen.width && 
 					toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f && toscreen.z < minvalue )
 				{
@@ -261,7 +263,7 @@ public class Player : MonoBehaviour {
 				j1.SendMessage("ToTarget",g[index]);
 				j2.SendMessage("ToTarget",g[index]);
 				g[index].SendMessage("EnableTargetingBox");
-				audio.PlayOneShot(AudioFire);
+				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(AudioFire);
 			}
 			
 			fireDeltaTime = 0.1f;	
@@ -270,14 +272,13 @@ public class Player : MonoBehaviour {
 	
 	void FireSetUp()
 	{
-		
 		if( powerupAutoFire ) return;
-		
-		if( Input.GetKey(KeyCode.L) || touchInput.PowerUpAutoWithPhase(TouchPhase.Ended) )
+				
+		/*if( Input.GetKey(KeyCode.L) || touchInput.PowerUpAutoWithPhase(TouchPhase.Ended) )
 		{
-			StartCoroutine(PowerUpAutoFire());
+			StartCoroutine(SureShot());
 			return;
-		}
+		}*/
 		
 		// Standart shot
 		if( Input.GetKey(KeyCode.F) || touchInput.FireRight || touchInput.FireLeft )
@@ -292,39 +293,7 @@ public class Player : MonoBehaviour {
 		// Auto-shoot to nearest target
 		/*if( Input.GetKeyUp(KeyCode.G) || touchInput.FireLeftWithPhase(TouchPhase.Began) )
 		{
-			audio.PlayOneShot(AudioFire);
-			GameObject[] g = GameObject.FindGameObjectsWithTag("AlienShip");
-			int index = -1; float minvalue = float.PositiveInfinity;
-			for(int i=0;i<g.Length;i++)
-			{
-				Vector3 toscreen = LevelInfo.Environments.MainCamera.WorldToScreenPoint(g[i].transform.position);
-				if(toscreen.x >= 0 && toscreen.x <= Screen.width && 
-					toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f && toscreen.z < minvalue )
-				{
-					minvalue = toscreen.z;
-					index = i;
-				}
-			}
-			if(index == -1)
-			{
-				Instantiate(Bullet,leftbf.transform.position,Quaternion.Euler(0f,transform.rotation.eulerAngles.y,0f) );
-				Instantiate(Bullet,rightbf.transform.position,Quaternion.Euler(0f,transform.rotation.eulerAngles.y,0f) );			
-			}
-			else
-			{
-				Vector3 midpos = 0.5f*(leftbf.transform.position+rightbf.transform.position);
-				GameObject j1 = (GameObject)Instantiate(Bullet,midpos,Quaternion.identity );
-				GameObject j2 = (GameObject)Instantiate(Bullet,midpos,Quaternion.identity );
-				j1.transform.LookAt(g[index].transform);
-				j2.transform.LookAt(g[index].transform);
-				j1.transform.position = leftbf.transform.position;
-				j2.transform.position = rightbf.transform.position;
-				j1.SendMessage("ToTarget",g[index]);
-				j2.SendMessage("ToTarget",g[index]);
-				g[index].SendMessage("EnableTargetingBox");
-			}
-			
-			fireDeltaTime = 0.1f;
+			TryAutoShot();
 		}*/
 		
 		if( touchInput.MWithPhase(TouchPhase.Ended) || Input.GetKeyUp(KeyCode.M) )
@@ -379,17 +348,17 @@ public class Player : MonoBehaviour {
 	{
 		transform.Translate(-Vector3.forward*lastexhaust);
 		
-		LevelInfo.Environments.MainCamera.transform.position = new Vector3(transform.position.x,0f,transform.position.z);
-		LevelInfo.Environments.MainCamera.transform.rotation = transform.rotation;
+		LevelInfo.Environments.mainCamera.transform.position = new Vector3(transform.position.x,0f,transform.position.z);
+		LevelInfo.Environments.mainCamera.transform.rotation = transform.rotation;
 		
 		
-		Vector3 crot = LevelInfo.Environments.MainCamera.transform.rotation.eulerAngles;
+		Vector3 crot = LevelInfo.Environments.mainCamera.transform.rotation.eulerAngles;
 		crot.z = 0.0f;
 		crot.x = 20.0f;
-		LevelInfo.Environments.MainCamera.transform.rotation = Quaternion.Euler(crot);
+		LevelInfo.Environments.mainCamera.transform.rotation = Quaternion.Euler(crot);
 		
-		LevelInfo.Environments.MainCamera.transform.Translate(-Vector3.forward*CameraZ);
-		LevelInfo.Environments.MainCamera.transform.Translate(0,CameraHeight,0);
+		LevelInfo.Environments.mainCamera.transform.Translate(-Vector3.forward*CameraZ);
+		LevelInfo.Environments.mainCamera.transform.Translate(0,CameraHeight,0);
 		
 		transform.Translate(Vector3.forward*lastexhaust);
 	}
@@ -398,13 +367,13 @@ public class Player : MonoBehaviour {
 	void ExhaustSetUp()
 	{	
 		float currentspeed = ExhaustArray[0].startSpeed;
-		if( touchInput.B && !LevelInfo.Environments.FuelOverheat.Up())
+		if( touchInput.B && !LevelInfo.Environments.fuelOverheat.Up())
 		{
 			currentspeed += 0.5f;
 		}
 		else
 		{
-			LevelInfo.Environments.FuelOverheat.Down();
+			LevelInfo.Environments.fuelOverheat.Down();
 			currentspeed -= 0.5f;
 		}
 		currentspeed = Mathf.Clamp(currentspeed,1f,8f);
@@ -420,10 +389,10 @@ public class Player : MonoBehaviour {
 	void SoundSetUp()
 	{
 		if( touchInput.B )
-			audio.clip = AudioEngineBoost;
+			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;
 		else
-			audio.clip = AudioEngineNormal;
-		if( !audio.isPlaying ) audio.Play();
+			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineNormal;
+		if( !LevelInfo.Audio.audioSourcePlayerShip.isPlaying ) LevelInfo.Audio.audioSourcePlayerShip.Play();
 	}
 	
 	bool HitWithName(string name,string comparewith)
@@ -431,19 +400,37 @@ public class Player : MonoBehaviour {
 		return name.Length >= comparewith.Length && name.Substring(0,comparewith.Length) == comparewith;
 	}
 	
+	void EnableAllUnlikeliumsMagnet()
+	{
+		GameObject[] gems = GameObject.FindGameObjectsWithTag("Gem");
+		foreach(var g in gems )
+		{
+			g.SendMessage("ActivateMagnet");
+		}
+	}
+	
 	void ManualOnCollisionEnter(Collision col)
 	{
 		if( score.Lose) return;
 		
-		if( col == null || col.gameObject == null)
+		if( col.gameObject.tag == "Gem" )
 		{
-			Debug.Log("ERROR");
-			return;
-		}
-		
-		if( HitWithName(col.gameObject.name,"Crystal") )
-		{
-			numberCrystal++;
+			Gems gemtype = col.gameObject.GetComponent<Gem>().gemType;
+			switch( gemtype )
+			{
+			case Gems.Unlikelium:
+				numberUnlikelium++;
+				break;
+			case Gems.SureShot:
+				StartCoroutine(SureShot());
+				break;
+			case Gems.Shield:
+				LevelInfo.Environments.score.AddLive();
+				break;
+			case Gems.Magnet:
+				EnableAllUnlikeliumsMagnet();
+				break;
+			}
 			Destroy(col.gameObject);
 		}
 		
@@ -466,9 +453,8 @@ public class Player : MonoBehaviour {
 				foreach(var r in ExhaustArray )
 					r.enableEmission = false;
 				
-				audio.Stop();
-				SoundGamePlay.Stop();
-				audio.PlayOneShot(AudioGameOver);
+				LevelInfo.Audio.StopAll();
+				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(AudioGameOver);
 				StopAllCoroutines();
 			}
 		}
@@ -504,8 +490,7 @@ public class Player : MonoBehaviour {
 		*/
 		
 		
-		GUI.Label(new Rect(0,50,100,50), "Score : " + scorepoint + "\nCrystals : " + numberCrystal);
-		ScoreText.text = "" + (int)travelled /*+ " ly"*/;
+		GUI.Label(new Rect(0,50,100,50), "Score : " + scorepoint + "\nUnlikelium : " + numberUnlikelium);
 		//GUI.Label(new Rect(0,165,400,400), "Acceleration : " + GameEnvironment.InputAxis);
 	}
 	

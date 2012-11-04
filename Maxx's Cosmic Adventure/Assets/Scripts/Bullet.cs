@@ -19,7 +19,7 @@ public class Bullet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () 	{
-		if( target == null ) targeted = false;
+		if( target == null || target.transform.localScale.x == 0 ) targeted = false;
 		if( targeted)
 		{
 			transform.LookAt(target.transform.position);
