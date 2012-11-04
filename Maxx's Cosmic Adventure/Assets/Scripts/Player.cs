@@ -462,7 +462,7 @@ public class Player : MonoBehaviour {
 		
 		
 		GUI.Label(new Rect(0,50,100,50), "Score : " + scorepoint + "\nCrystals : " + numberCrystal);
-		ScoreText.text = (int)travelled + " ly";
+		ScoreText.text = "" + (int)travelled /*+ " ly"*/;
 		//GUI.Label(new Rect(0,165,400,400), "Acceleration : " + GameEnvironment.InputAxis);
 	}
 	

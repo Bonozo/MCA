@@ -5,15 +5,15 @@ Temp
 # Ignore the following file extensions
 *.vcproject
 *.sln
-/Max's Cosmic Adventure/Assembly-CSharp-firstpass.pidb
-/Max's Cosmic Adventure/Assembly-CSharp-firstpass-vs.csproj
-/Max's Cosmic Adventure/Assembly-CSharp-vs.csproj
-/Max's Cosmic Adventure/Assembly-UnityScript-firstpass.pidb
-/Max's Cosmic Adventure/Assembly-UnityScript-firstpass.unityproj
-/Max's Cosmic Adventure/Assembly-UnityScript-firstpass-vs.unityproj
-/Max's Cosmic Adventure/Max's Cosmic Adventure.sln
-/Max's Cosmic Adventure/Max's Cosmic Adventure.userprefs
-/Max's Cosmic Adventure/Max's Cosmic Adventure-csharp.sln
-/Max's Cosmic Adventure/Assembly-CSharp.csproj
-/Max's Cosmic Adventure/Assembly-CSharp.pidb
-/Max's Cosmic Adventure/Assembly-CSharp-firstpass.csproj
+/Maxx's Cosmic Adventure/Assembly-CSharp.pidb
+/Maxx's Cosmic Adventure/Assembly-CSharp-firstpass.csproj
+/Maxx's Cosmic Adventure/Assembly-CSharp-firstpass.pidb
+/Maxx's Cosmic Adventure/Assembly-CSharp-firstpass-vs.csproj
+/Maxx's Cosmic Adventure/Assembly-CSharp-vs.csproj
+/Maxx's Cosmic Adventure/Assembly-UnityScript-firstpass.pidb
+/Maxx's Cosmic Adventure/Assembly-UnityScript-firstpass.unityproj
+/Maxx's Cosmic Adventure/Assembly-UnityScript-firstpass-vs.unityproj
+/Maxx's Cosmic Adventure/Maxx's Cosmic Adventure.sln
+/Maxx's Cosmic Adventure/Maxx's Cosmic Adventure.userprefs
+/Maxx's Cosmic Adventure/Maxx's Cosmic Adventure-csharp.sln
+/Maxx's Cosmic Adventure/Assembly-CSharp.csproj
