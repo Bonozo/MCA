@@ -35,7 +35,7 @@ public class Overheat : MonoBehaviour {
 	
 	public void Down()
 	{
-		delay -= Time.deltaTime*UpTime;
+		delay -= Time.deltaTime*DownTime;
 		delay = Mathf.Clamp01(delay);
 		SetPercent(delay);
 		if( delay == 0f ) reloading = false;

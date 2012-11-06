@@ -11,9 +11,8 @@ public class Generator : MonoBehaviour {
 	public float AlienShipGenerateRate = 5f;
 	public float AlienShipFrontAngleMaxDelta = 30f;
 	
-	private float _alienShipRate;
 	
-	public void GenerateNewAlienShip()
+	public void GenerateNewAlienShip(int index)
 	{
 		if( GenerateAlienShip ) 
 		{
@@ -21,12 +20,11 @@ public class Generator : MonoBehaviour {
 			pos += LevelInfo.Environments.playerShip.transform.position;
 			pos.y = 0;
 		
-			GameObject newAlienShip = (GameObject)Instantiate(AlienShipPrefabs[Random.Range(0,AlienShipPrefabs.Length)],pos,Quaternion.identity);
+			GameObject newAlienShip = (GameObject)Instantiate(AlienShipPrefabs[index],pos,Quaternion.identity);
 			newAlienShip.transform.RotateAround (LevelInfo.Environments.playerShip.transform.position, Vector3.up, 
 				LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y + Random.Range(-AlienShipFrontAngleMaxDelta,AlienShipFrontAngleMaxDelta) );	
 			newAlienShip.tag = "AlienShip";//??//
 		}
-		_alienShipRate = Time.time + AlienShipGenerateRate;
 	}
 	
 	#endregion
@@ -39,24 +37,23 @@ public class Generator : MonoBehaviour {
 	public float AsteroidGenerateRate = 5f;
 	public float AsteroidFrontAngleMaxDelta = 30f;
 	
-	private float _asteroidRate;
 	
 
 	
-	public void GenerateNewAsteroid()
+	public void GenerateNewAsteroid(int index)
 	{
 		if( GenerateAsteroid ) 
 		{
-			Vector3 pos = new Vector3(0,0,Random.Range(AsteroidDistanceMin,AsteroidDistanceMax));
+			Instantiate(AsteroidPrefabs[index]);
+			/*Vector3 pos = new Vector3(0,0,Random.Range(AsteroidDistanceMin,AsteroidDistanceMax));
 			pos += LevelInfo.Environments.playerShip.transform.position;
 			pos.y = 0;
 		
-			GameObject newAsteroid = (GameObject)Instantiate(AsteroidPrefabs[Random.Range(0,AsteroidPrefabs.Length)],pos,Quaternion.identity);
+			GameObject newAsteroid = (GameObject)Instantiate(AsteroidPrefabs[index],pos,Quaternion.identity);
 			newAsteroid.transform.RotateAround (LevelInfo.Environments.playerShip.transform.position, Vector3.up, 
 				LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y + Random.Range(-AsteroidFrontAngleMaxDelta,AsteroidFrontAngleMaxDelta) );	
-			newAsteroid.tag = "Asteroid";//??//
+			newAsteroid.tag = "Asteroid";//??//*/
 		}
-		_asteroidRate = Time.time + AsteroidGenerateRate;
 	}
 	
 	
@@ -99,19 +96,48 @@ public class Generator : MonoBehaviour {
 	
 	#endregion
 	
+	#region Auto Spawing
+	
+	private const float X1a = 100f, X1b = 150f;
+	private const float X2 = 1000f, X3 = 2000f;
+	
+	private float next_asteroid_time = X1a;
+	private float next_jeeble_time = X2;
+	
 	// Use this for initialization
 	void Start () {
 	
-		_alienShipRate = Time.time + AlienShipGenerateRate;
-		_asteroidRate = Time.time + AsteroidGenerateRate;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if( LevelInfo.Environments.playerShip == null ) return;
 		
-		if(  Time.time >= _alienShipRate) GenerateNewAlienShip();
-		if(  Time.time >= _asteroidRate) GenerateNewAsteroid();
+		float distance = LevelInfo.Environments.playerShip.DistanceTravelled;
+		
+		if( distance >= next_asteroid_time )
+		{
+			if( Random.Range(0,2)==1 )
+			{
+				int len = distance >= X2 ? 3 : 2 ;
+				GenerateNewAsteroid(Random.Range(0,len));
+			}
+			next_asteroid_time += X1a;
+		}
+		
+		if( distance >= next_jeeble_time )
+		{
+			if( Random.Range(0,2)==1 )
+			{
+				int len = distance >= X3 ? 2 : 1 ;
+				GenerateNewAlienShip(Random.Range(0,len));
+			}
+			next_jeeble_time += X1b;		
+		}
+		
+		
 	
 	}
+	
+	#endregion
 }

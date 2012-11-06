@@ -6,17 +6,14 @@ public class Asteroid : MonoBehaviour {
 	public int HitCountForDestroy = 10;
 	public float DestroyTime = 2.0f;
 	
-	public float DestroyDistance = 250f;
-	
 	private Camera mainCamera;
 	private Player player;
-	private Vector3 beginposition;
 	
 	// Use this for initialization
 	void Start () {
 		mainCamera = (Camera)GameObject.FindObjectOfType(typeof(Camera));
 		player = (Player)GameObject.FindObjectOfType(typeof(Player));
-		beginposition = transform.position;
+		gameObject.tag = "Asteroid";
 	}
 	
 	bool f = true;
@@ -37,12 +34,11 @@ public class Asteroid : MonoBehaviour {
 		f = !f;
 		transform.rigidbody.velocity = Vector3.zero;
 		transform.rigidbody.angularVelocity = Vector3.zero;
-		transform.position = beginposition + new Vector3(0,0,0.001f*(f?-1:1));
+		transform.Translate(new Vector3(0,0,0.001f*(f?-1:1)));
 		
-		if(player == null || Vector3.Distance(transform.position,player.transform.position) >= DestroyDistance )
-			Destroy(this.gameObject);
-		if( mainCamera.WorldToScreenPoint(transform.position).z < -10f )
-			Destroy(this.gameObject);
+
+		//if( mainCamera.WorldToScreenPoint(transform.position).z < -10f )
+		//	Destroy(this.gameObject);
 	}
 	
 	void OnCollisionEnter(Collision col)

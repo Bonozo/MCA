@@ -39,8 +39,6 @@ public class Player : MonoBehaviour {
 	
 	public float SmartBombDistance = 50;
 	
-	private float FireRightPowerSpeed = 0.2f;
-	
 	public CollisionSender colSender;
 	
 	#endregion
@@ -52,10 +50,13 @@ public class Player : MonoBehaviour {
 	
 	private GameObject leftbf,rightbf;
 	private float fireDeltaTime = 0.0f;
+	private float autofireDeltaTime = 0.0f;
 	private float riseTime;
 	private int numberUnlikelium = 0;
 	
 	private float travelled = 0;
+	public float DistanceTravelled { get { return travelled; }}
+	
 	private Vector3 lastPosition;
 	
 	#endregion
@@ -210,7 +211,6 @@ public class Player : MonoBehaviour {
 			while ( time > 0f )
 			{
 				TryAutoShot();
-				overheatFire.Down();
 				LevelInfo.Environments.guiPowerUpTime.text = "Sure Shot " + Mathf.CeilToInt(time);
 				time -= Time.deltaTime;
 				yield return new WaitForEndOfFrame();
@@ -236,8 +236,8 @@ public class Player : MonoBehaviour {
 	
 	void TryAutoShot()
 	{
-		if( fireDeltaTime > 0f ) fireDeltaTime -= Time.deltaTime;
-		if( fireDeltaTime <= 0 )
+		if( autofireDeltaTime > 0f ) autofireDeltaTime -= Time.deltaTime;
+		if( autofireDeltaTime <= 0 )
 		{
 			GameObject[] g = GameObject.FindGameObjectsWithTag("AlienShip");
 			int index = -1; float minvalue = float.PositiveInfinity;
@@ -266,35 +266,25 @@ public class Player : MonoBehaviour {
 				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(AudioFire);
 			}
 			
-			fireDeltaTime = 0.1f;	
+			autofireDeltaTime = 0.1f;	
 		}
 	}
 	
 	void FireSetUp()
 	{
-		if( powerupAutoFire ) return;
-				
-		/*if( Input.GetKey(KeyCode.L) || touchInput.PowerUpAutoWithPhase(TouchPhase.Ended) )
-		{
-			StartCoroutine(SureShot());
-			return;
-		}*/
 		
 		// Standart shot
 		if( Input.GetKey(KeyCode.F) || touchInput.FireRight || touchInput.FireLeft )
-		{
 			TryStandardShot(true);
-		}
 		else
-		{
 			overheatFire.Down();
-		}
+		
+		if( powerupAutoFire ) return;
 		
 		// Auto-shoot to nearest target
 		/*if( Input.GetKeyUp(KeyCode.G) || touchInput.FireLeftWithPhase(TouchPhase.Began) )
-		{
 			TryAutoShot();
-		}*/
+		*/
 		
 		if( touchInput.MWithPhase(TouchPhase.Ended) || Input.GetKeyUp(KeyCode.M) )
 		{
@@ -307,17 +297,6 @@ public class Player : MonoBehaviour {
 				if( Vector3.Distance(e.transform.position,transform.position) <= SmartBombDistance )
 					e.SendMessage("DestroyObject");	
 		}
-		
-		/*if( !touchInput.Left && !touchInput.Right && GameEnvironment.FireButton )
-		{
-			audio.PlayOneShot(AudioFire);
-			//Vector3 pos = GameEnvironment.LastFireCoord;
-			Ray ray = mainCamera.ScreenPointToRay (GameEnvironment.LastFireCoord);
-			Quaternion rot = Quaternion.LookRotation(ray.direction);
-			
-			Instantiate(Bullet,leftbf.transform.position,rot );
-			Instantiate(Bullet,rightbf.transform.position,rot );			
-		}*/
 	}
 	
 	#endregion
@@ -339,9 +318,7 @@ public class Player : MonoBehaviour {
 		
 		rot.y -= rot.z*RotationToRotateFactor*Time.deltaTime;
 		
-		transform.rotation = Quaternion.Euler(rot);
-		
-		//#endif	
+		transform.rotation = Quaternion.Euler(rot);	
 	}
 	
 	void CameraSetUp()

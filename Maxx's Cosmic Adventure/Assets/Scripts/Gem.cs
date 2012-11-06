@@ -17,7 +17,6 @@ public class Gem : MonoBehaviour {
 	
 	
 	private bool magned = false;
-	private float DestroyDistance = 150f;
 	private Vector3 rot = new Vector3(90f,172.346f,0);
 	
 	// Use this for initialization
@@ -45,8 +44,6 @@ public class Gem : MonoBehaviour {
 		}
 		
 		transform.Rotate(0,0,RotateSpeed*Time.deltaTime);
-		if(LevelInfo.Environments.playerShip == null || Vector3.Distance(transform.position,LevelInfo.Environments.playerShip.transform.position) >= DestroyDistance )
-			Destroy(this.gameObject);
 		
 	}
 	

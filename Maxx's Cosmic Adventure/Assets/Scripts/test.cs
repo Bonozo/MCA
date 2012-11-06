@@ -3,34 +3,25 @@ using System.Collections;
 
 public class test : MonoBehaviour {
 	
-	public Texture tex;
+	public GameObject prefab;
 	
 	// Use this for initialization
 	void Start () {
 	}
 	
+	int n=0;
+	
 	// Update is called once per frame
 	void Update () {
-		 
+		 if( (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Ended) || Input.GetMouseButtonUp(0) )
+		{
+			Instantiate(prefab,new Vector3(-50+20*(n%5),-50,100+10*(n/5)),Quaternion.identity);
+			n++;
+		}
 	}
-	
-	
-	float percentage = 0f; // Up to you here, something like current / max
 	
 	void OnGUI()
 	{
-		//GUI.BeginGroup(new Rect(Screen.width / 2 - 400, Screen.height / 2 - 300, 800, 600));
-        //GUI.Box(new Rect(0, 0, 100, 100), "This box is now centered! - here you would put your main menu");
-        //GUI.EndGroup();
-		
-		percentage += Time.deltaTime*0.10f;
-		
-		GUI.DrawTexture( new Rect( 10, 10, 100, 10 ), tex ); // Note the 100 for the width
-		GUI.BeginGroup( new Rect( 10, 10, 100 * percentage, 10 ) );
-		//GUI.color = Color.blue;
-	    GUI.DrawTexture( new Rect( 0, 0, 100, 10 ), tex ); // Note the 100 for the width
-		GUI.EndGroup();
-		
-		
+		GUI.Label(new Rect(0,100,500,500),"count : " + n );
 	}
 }

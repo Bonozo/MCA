@@ -18,7 +18,6 @@ public class AlienShip : MonoBehaviour {
 	public float AppearTime = 1f;
 	public float ExplosionTime = 2f;
 	
-	private Player player;
 	private float fireDeltaTime = 0.0f;
 	private bool expose = false;
 	private Vector3 beginScale;
@@ -33,7 +32,6 @@ public class AlienShip : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		player = (Player)GameObject.FindObjectOfType(typeof(Player));
 		MainCamera = (Camera)GameObject.FindObjectOfType(typeof(Camera));
 		
 		//Vector3 pos = transform.position;
@@ -118,18 +116,18 @@ public class AlienShip : MonoBehaviour {
 		//pos.y = 2*Mathf.Sin(100*Time.time);
 		//transform.position = pos;
 		
-		if( Vector3.Distance(transform.position,player.transform.position) >= MaxDistanceToAutoDestroy ) 
+		if( Vector3.Distance(transform.position,LevelInfo.Environments.playerShip.transform.position) >= MaxDistanceToAutoDestroy ) 
 			Destroy(this.gameObject);
 	}
 	
 	private bool DestroyNeed()
 	{
-		if( player == null ) return true;
-		if(player.GetComponent<Detonator>().enabled && Vector3.Distance(player.transform.position,transform.position) <= 3f ) return true;
+		if( LevelInfo.Environments.playerShip == null ) return true;
+		if(LevelInfo.Environments.playerShip.GetComponent<Detonator>().enabled && Vector3.Distance(LevelInfo.Environments.playerShip.transform.position,transform.position) <= 3f ) return true;
 		
 		float y = transform.rotation.eulerAngles.y; if( y>=180f) y-=360f;
-		float playery = player.transform.rotation.eulerAngles.y; if(playery>=180f) playery-=360f;
-		if( Vector3.Distance(transform.position,player.transform.position) >= 50f && Mathf.Abs(y-playery) <= 45f )
+		float playery = LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y; if(playery>=180f) playery-=360f;
+		if( Vector3.Distance(transform.position,LevelInfo.Environments.playerShip.transform.position) >= 50f && Mathf.Abs(y-playery) <= 45f )
 			return true;
 		
 		return false;
@@ -137,7 +135,7 @@ public class AlienShip : MonoBehaviour {
 	
 	Quaternion DestinationRotation()
 	{
-		Quaternion rot = Quaternion.LookRotation(-(transform.position-player.transform.position));
+		Quaternion rot = Quaternion.LookRotation(-(transform.position-LevelInfo.Environments.playerShip.transform.position));
 		rot.x = 0.0f;
 		return rot;
 	}
@@ -158,7 +156,7 @@ public class AlienShip : MonoBehaviour {
 		
 		if(col != null) Destroy(col.gameObject);
 		if( targetingBox != null ) Destroy(targetingBox);
-		if(withplayer && player != null) player.SendMessage("AddScore");
+		if(withplayer && LevelInfo.Environments.playerShip != null) LevelInfo.Environments.playerShip.SendMessage("AddScore");
 		expose = true;
 		LevelInfo.Audio.audioSourceJeebles.PlayOneShot(ExplosionSoundEffect);
 		LevelInfo.Audio.audioSourceJeebles.time = 0.5f;
@@ -206,7 +204,7 @@ public class AlienShip : MonoBehaviour {
 		GetComponent<Detonator>().enabled = true;
 		Destroy(this.rigidbody);
 		if( targetingBox != null ) Destroy(targetingBox);
-		player.SendMessage("AddScore");
+		LevelInfo.Environments.playerShip.SendMessage("AddScore");
 		expose = true;
 		LevelInfo.Audio.audioSourceJeebles.PlayOneShot(ExplosionSoundEffect);
 		LevelInfo.Audio.audioSourceJeebles.time = 0.5f;	
