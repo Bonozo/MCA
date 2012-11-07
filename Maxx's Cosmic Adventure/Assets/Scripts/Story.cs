@@ -36,7 +36,7 @@ public class Story : MonoBehaviour {
 			return;
 		}
 		
-		if( GameEnvironment.Swipe.x >= 0.1f )
+		if( GameEnvironment.Swipe.x > 0f )
 		{
 			audio.PlayOneShot(audioPageTurn);
 			current--;
@@ -49,7 +49,7 @@ public class Story : MonoBehaviour {
 				increse = false;
 			}
 		}
-		if( GameEnvironment.Swipe.x <= -0.1f )
+		if( GameEnvironment.Swipe.x < 0f )
 		{
 			audio.PlayOneShot(audioPageTurn);
 			showpopuptime = 4.0f;
