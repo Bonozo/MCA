@@ -43,6 +43,8 @@ public class AlienShip : MonoBehaviour {
 		beginScale = transform.localScale;
 		transform.localScale *= 0.0f;
 		appearTime = AppearTime;
+		
+		tag = "AlienShip";
 	}
 	
 	// Update is called once per frame

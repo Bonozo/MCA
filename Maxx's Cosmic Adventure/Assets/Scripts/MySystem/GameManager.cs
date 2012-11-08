@@ -28,4 +28,10 @@ public class GameManager : MonoBehaviour {
 	public Overheat fireOverheat;
 	
 	#endregion
+	
+	#region Asteroids
+	
+	public GameObject AsteroidExplosionPrefab;
+	
+	#endregion
 }

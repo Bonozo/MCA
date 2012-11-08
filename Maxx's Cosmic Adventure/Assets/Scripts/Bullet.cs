@@ -29,6 +29,7 @@ public class Bullet : MonoBehaviour {
 			d = Vector3.Distance(target.transform.position,transform.position);
 			if( d == 0.0f ) 
 			{
+				if(target == null ) Debug.LogError("turget is null");
 				target.SendMessage("GetHit");
 				Destroy(this.gameObject);
 				return;

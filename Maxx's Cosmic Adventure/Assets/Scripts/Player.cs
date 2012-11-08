@@ -27,6 +27,7 @@ public class Player : MonoBehaviour {
 	public float UpDownMaxHeight = 3f;
 	
 	public GameObject Bullet;
+	public GameObject BulletYellow;
 	public AudioClip AudioFire;
 	public AudioClip ExplosionSoundEffect;
 	
@@ -41,6 +42,9 @@ public class Player : MonoBehaviour {
 	
 	public CollisionSender colSender;
 	
+	public GameObject leftbf,rightbf;
+	public GameObject leftturret,rightturret;
+	
 	#endregion
 	
 	#region Variables
@@ -48,7 +52,9 @@ public class Player : MonoBehaviour {
 	private TouchInput touchInput;
 	private Score score;
 	
-	private GameObject leftbf,rightbf;
+
+	
+	
 	private float fireDeltaTime = 0.0f;
 	private float autofireDeltaTime = 0.0f;
 	private float riseTime;
@@ -73,8 +79,6 @@ public class Player : MonoBehaviour {
 	void Start () {
 		touchInput = (TouchInput)GameObject.FindObjectOfType(typeof(TouchInput));
 		score = (Score)GameObject.FindObjectOfType(typeof(Score));
-		leftbf = GameObject.Find("LeftBulletPipe"); 
-		rightbf = GameObject.Find("RightBulletPipe");
 		riseTime = WaitForRise;
 		CameraSetUp();
 		
@@ -224,7 +228,9 @@ public class Player : MonoBehaviour {
 	void TryStandardShot(bool effectOverheat)
 	{
 		if( fireDeltaTime > 0f ) fireDeltaTime -= Time.deltaTime;
+		bool ovh = overheatFire.Overheated;
 		if( effectOverheat ) overheatFire.Up();
+		if( !ovh && overheatFire.Overheated ) LevelInfo.Audio.PlayAudioWeaponExpire();
 		if( fireDeltaTime <= 0 && (!effectOverheat || !overheatFire.Overheated) )
 		{
 			LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(AudioFire);
@@ -253,13 +259,13 @@ public class Player : MonoBehaviour {
 			}
 			if(index != -1)
 			{
-				Vector3 midpos = 0.5f*(leftbf.transform.position+rightbf.transform.position);
-				GameObject j1 = (GameObject)Instantiate(Bullet,midpos,Quaternion.identity );
-				GameObject j2 = (GameObject)Instantiate(Bullet,midpos,Quaternion.identity );
+				Vector3 midpos = 0.5f*(leftturret.transform.position+rightturret.transform.position);
+				GameObject j1 = (GameObject)Instantiate(BulletYellow,midpos,Quaternion.identity );
+				GameObject j2 = (GameObject)Instantiate(BulletYellow,midpos,Quaternion.identity );
 				j1.transform.LookAt(g[index].transform);
 				j2.transform.LookAt(g[index].transform);
-				j1.transform.position = leftbf.transform.position;
-				j2.transform.position = rightbf.transform.position;
+				j1.transform.position = leftturret.transform.position;
+				j2.transform.position = rightturret.transform.position;
 				j1.SendMessage("ToTarget",g[index]);
 				j2.SendMessage("ToTarget",g[index]);
 				g[index].SendMessage("EnableTargetingBox");
@@ -281,6 +287,11 @@ public class Player : MonoBehaviour {
 		
 		if( powerupAutoFire ) return;
 		
+		if( Input.GetKeyUp(KeyCode.L) )
+		{
+			StartCoroutine(SureShot());
+			return;
+		}
 		// Auto-shoot to nearest target
 		/*if( Input.GetKeyUp(KeyCode.G) || touchInput.FireLeftWithPhase(TouchPhase.Began) )
 			TryAutoShot();
@@ -408,6 +419,8 @@ public class Player : MonoBehaviour {
 				EnableAllUnlikeliumsMagnet();
 				break;
 			}
+			
+			LevelInfo.Audio.PlayAudioGemPickUp(gemtype);
 			Destroy(col.gameObject);
 		}
 		

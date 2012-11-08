@@ -5,14 +5,12 @@ public class Asteroid : MonoBehaviour {
 		
 	public int HitCountForDestroy = 10;
 	public float DestroyTime = 2.0f;
+	public GameObject asteroidPrefab;
 	
-	private Camera mainCamera;
-	private Player player;
+	private bool exploded = false;
 	
 	// Use this for initialization
 	void Start () {
-		mainCamera = (Camera)GameObject.FindObjectOfType(typeof(Camera));
-		player = (Player)GameObject.FindObjectOfType(typeof(Player));
 		gameObject.tag = "Asteroid";
 	}
 	
@@ -20,12 +18,13 @@ public class Asteroid : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(gameObject.GetComponent<Detonator>().enabled) 
+		if(exploded) 
 		{
 			DestroyTime -= Time.deltaTime;
 			if( DestroyTime <= 0f )
 			{
-				LevelInfo.Environments.generator.GenerateNewGem(transform.position);
+				Instantiate(asteroidPrefab,transform.position,Quaternion.identity);
+				//LevelInfo.Environments.generator.GenerateNewGem(transform.position);
 				Destroy(this.gameObject);
 			}
 			return;
@@ -43,13 +42,14 @@ public class Asteroid : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision col)
 	{
-		if(gameObject.GetComponent<Detonator>().enabled) return;
+		if(exploded) return;
 		if( GameEnvironment.HitWithName(col.gameObject.name,"Bullet") )
 		{
 			if(--HitCountForDestroy == 0 )
 			{
+				exploded = true;
 				gameObject.transform.localScale *= 0.0f;
-				gameObject.GetComponent<Detonator>().enabled = true;
+				Instantiate(LevelInfo.Environments.AsteroidExplosionPrefab,transform.position,Quaternion.identity);
 			}
 			Destroy(col.gameObject);
 		}
@@ -57,8 +57,8 @@ public class Asteroid : MonoBehaviour {
 	
 	public void DestroyObject()
 	{
-		if( GetComponent<Detonator>().enabled ) return;
+		if( exploded ) return;
+		exploded = true;
 		gameObject.transform.localScale *= 0.0f;
-		gameObject.GetComponent<Detonator>().enabled = true;
 	}
 }

@@ -23,7 +23,6 @@ public class Generator : MonoBehaviour {
 			GameObject newAlienShip = (GameObject)Instantiate(AlienShipPrefabs[index],pos,Quaternion.identity);
 			newAlienShip.transform.RotateAround (LevelInfo.Environments.playerShip.transform.position, Vector3.up, 
 				LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y + Random.Range(-AlienShipFrontAngleMaxDelta,AlienShipFrontAngleMaxDelta) );	
-			newAlienShip.tag = "AlienShip";//??//
 		}
 	}
 	
@@ -98,11 +97,11 @@ public class Generator : MonoBehaviour {
 	
 	#region Auto Spawing
 	
-	private const float X1a = 100f, X1b = 150f;
-	private const float X2 = 1000f, X3 = 2000f;
+	private const float Stage_One_Step = 50f, Stage_Two_Step_Enemy = 100f;
+	private const float Stage_One_Distance = 500f, Stage_Three_Distance = 1000f;
 	
-	private float next_asteroid_time = X1a;
-	private float next_jeeble_time = X2;
+	private float next_asteroid_time = Stage_One_Step;
+	private float next_jeeble_time = Stage_One_Distance;
 	
 	// Use this for initialization
 	void Start () {
@@ -119,20 +118,20 @@ public class Generator : MonoBehaviour {
 		{
 			if( Random.Range(0,2)==1 )
 			{
-				int len = distance >= X2 ? 3 : 2 ;
+				int len = distance >= Stage_One_Distance ? 7 : 2 ;
 				GenerateNewAsteroid(Random.Range(0,len));
 			}
-			next_asteroid_time += X1a;
+			next_asteroid_time += Stage_One_Step;
 		}
 		
 		if( distance >= next_jeeble_time )
 		{
 			if( Random.Range(0,2)==1 )
 			{
-				int len = distance >= X3 ? 2 : 1 ;
+				int len = distance >= Stage_Three_Distance ? 2 : 1 ;
 				GenerateNewAlienShip(Random.Range(0,len));
 			}
-			next_jeeble_time += X1b;		
+			next_jeeble_time += Stage_Two_Step_Enemy;		
 		}
 		
 		

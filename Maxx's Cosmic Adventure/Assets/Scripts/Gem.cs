@@ -37,6 +37,8 @@ public class Gem : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+		this.rigidbody.velocity = this.rigidbody.angularVelocity = Vector3.zero;
+		
 		if( magned )
 		{
 			Vector3 dir = (LevelInfo.Environments.playerShip.transform.position - transform.position).normalized;
