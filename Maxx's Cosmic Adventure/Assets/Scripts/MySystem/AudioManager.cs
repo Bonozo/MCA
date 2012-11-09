@@ -8,11 +8,13 @@ public class AudioManager : MonoBehaviour {
 	public AudioSource audioSourceBackground;
 	public AudioSource audioSourcePlayerShip;
 	public AudioSource audioSourceJeebles;
+	public AudioSource audioSourceUnlikeliums;
 	
 	public void StopEffects()
 	{
 		audioSourcePlayerShip.Stop();
 		audioSourceJeebles.Stop();
+		audioSourceUnlikeliums.Stop();
 	}
 	
 	public void StopAll()
@@ -22,10 +24,20 @@ public class AudioManager : MonoBehaviour {
 	}
 	
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		audioSourceBackground.volume = Option.hSlideBackgroundVolume;
 		audioSourcePlayerShip.volume = Option.hSlideEffectsVolume;
 		audioSourceJeebles.volume = Option.hSlideEffectsVolume;
+		audioSourceUnlikeliums.volume = Option.hSlideEffectsVolume;
+	}
+	
+	private float pitchAudioUnlikeliumDistance = 0.0f;
+	
+	void Update()
+	{
+		if( LevelInfo.Environments.playerShip.DistanceTravelled >= pitchAudioUnlikeliumDistance )
+			audioSourceUnlikeliums.pitch = 1f;
 	}
 	
 	#endregion
@@ -40,7 +52,9 @@ public class AudioManager : MonoBehaviour {
 	{
 		if( gem == Gems.Unlikelium )
 		{
-			audioSourcePlayerShip.PlayOneShot(audioGemUnlikeliumPickUp);
+			audioSourceUnlikeliums.PlayOneShot(audioGemUnlikeliumPickUp);
+			audioSourceUnlikeliums.pitch += 0.025f;
+			pitchAudioUnlikeliumDistance = LevelInfo.Environments.playerShip.DistanceTravelled+35;
 		}
 	}
 	
