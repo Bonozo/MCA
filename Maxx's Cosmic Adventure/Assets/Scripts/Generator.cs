@@ -118,7 +118,7 @@ public class Generator : MonoBehaviour {
 		{
 			if( Random.Range(0,2)==1 )
 			{
-				int len = distance >= Stage_One_Distance ? 7 : 2 ;
+				int len = distance >= Stage_One_Distance ? AsteroidPrefabs.Length : 2 ;
 				GenerateNewAsteroid(Random.Range(0,len));
 			}
 			next_asteroid_time += Stage_One_Step;
@@ -128,7 +128,7 @@ public class Generator : MonoBehaviour {
 		{
 			if( Random.Range(0,2)==1 )
 			{
-				int len = distance >= Stage_Three_Distance ? 2 : 1 ;
+				int len = distance >= Stage_Three_Distance ? AlienShipPrefabs.Length : 1 ;
 				GenerateNewAlienShip(Random.Range(0,len));
 			}
 			next_jeeble_time += Stage_Two_Step_Enemy;		

@@ -26,12 +26,16 @@ public class GameManager : MonoBehaviour {
 	public Player playerShip;
 	public Overheat fuelOverheat;
 	public Overheat fireOverheat;
+	public GameObject targetingBoxPrefab;
 	
 	#endregion
 	
-	#region Asteroids
+	#region Particles
 	
-	public GameObject AsteroidExplosionPrefab;
+	public GameObject particleExplosionJeeb;
+	public GameObject particleExplosionAsteroid;
 	
 	#endregion
+	
+	
 }

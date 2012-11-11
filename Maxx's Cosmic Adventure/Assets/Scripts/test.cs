@@ -15,9 +15,12 @@ public class test : MonoBehaviour {
 	void Update () {
 		 if( (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Ended) || Input.GetMouseButtonUp(0) )
 		{
-			Instantiate(prefab,new Vector3(-50+20*(n%5),-50,100+10*(n/5)),Quaternion.identity);
+			Instantiate(prefab,new Vector3(Random.Range(0,0),Random.Range(1,1),Random.Range(0,10)),Quaternion.identity);
 			n++;
 		}
+		
+		if( Input.GetKey(KeyCode.W) ) 
+			transform.Translate(0,0,10*Time.deltaTime);
 	}
 	
 	void OnGUI()

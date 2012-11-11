@@ -49,7 +49,8 @@ public class Asteroid : MonoBehaviour {
 			{
 				exploded = true;
 				gameObject.transform.localScale *= 0.0f;
-				Instantiate(LevelInfo.Environments.AsteroidExplosionPrefab,transform.position,Quaternion.identity);
+				LevelInfo.Audio.PlayAudioAsteroidExplode();
+				Instantiate(LevelInfo.Environments.particleExplosionAsteroid,transform.position,Quaternion.identity);
 			}
 			Destroy(col.gameObject);
 		}

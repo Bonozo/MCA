@@ -12,26 +12,14 @@ using System.Collections;
 public class Gem : MonoBehaviour {
 	
 	public float RotateSpeed = 10f;
-	private float MoveSpeed = 30f;
+	public GameObject particle;
 	public Gems gemType;
 	
-	
+	private float MoveSpeed = 70f;
 	private bool magned = false;
-	private Vector3 rot = new Vector3(90f,172.346f,0);
 	
 	// Use this for initialization
 	void Start () {
-		
-		if( LevelInfo.Environments.playerShip == null )
-		{
-			Destroy(this.gameObject);
-			return;
-		}
-		
-		transform.rotation = Quaternion.Euler(rot);
-		Vector3 pos = transform.position;
-		pos.y = 0f;//Random.Range(-LevelInfo.Environments.playerShip.UpDownMaxHeight,LevelInfo.Environments.playerShip.UpDownMaxHeight);
-		transform.position = pos;
 	}
 	
 	// Update is called once per frame
@@ -45,7 +33,8 @@ public class Gem : MonoBehaviour {
 			transform.Translate(dir*Time.deltaTime*MoveSpeed,Space.World);
 		}
 		
-		transform.Rotate(0,0,RotateSpeed*Time.deltaTime);
+		particle.transform.Rotate(0,-1.25f*RotateSpeed*Time.deltaTime,0);
+		transform.Rotate(0,RotateSpeed*Time.deltaTime,0);
 		
 	}
 	

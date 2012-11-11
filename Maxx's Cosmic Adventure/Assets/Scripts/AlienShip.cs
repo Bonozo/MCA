@@ -4,14 +4,11 @@ using System.Collections;
 public class AlienShip : MonoBehaviour {
 	
 	public GameObject AlienBullet;
-	public GameObject TargetingBoxPrefab;
 	public Transform Centr,Up;
 	
 	public AudioClip ExplosionSoundEffect;
-	public AudioClip GotEm;
 	
 	public float Speed = 2f;
-	public float MaxDistanceToAutoDestroy = 150f;
 	public int FireFrequency = 100;
 	public float FireRelax = 0.5f;
 	
@@ -19,20 +16,18 @@ public class AlienShip : MonoBehaviour {
 	public float ExplosionTime = 2f;
 	
 	private float fireDeltaTime = 0.0f;
-	private bool expose = false;
 	private Vector3 beginScale;
 	private float appearTime;
 	private bool showcrystal = false;
 	private bool playedgotem = false;
 	
-	private Camera MainCamera;
 	private GameObject targetingBox = null;
+	private bool exploded = false;
 	
 	private int NumberHitsToDie = 5;
 	
 	// Use this for initialization
 	void Start () {
-		MainCamera = (Camera)GameObject.FindObjectOfType(typeof(Camera));
 		
 		//Vector3 pos = transform.position;
 		//pos.y = Random.Range(-player.UpDownMaxHeight,player.UpDownMaxHeight);
@@ -50,20 +45,7 @@ public class AlienShip : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if( targetingBox != null )
-		{
-			Vector3 centr = MainCamera.WorldToScreenPoint(Centr.position);
-			Vector3 up = MainCamera.WorldToScreenPoint(Up.position);
-			
-			centr.x /= Screen.width; centr.y /= Screen.height;
-			up.x /= Screen.width; up.y /= Screen.height;
-			float sc = Mathf.Abs(centr.y-up.y)*4;
-			
-			targetingBox.guiTexture.enabled = centr.z > 0;
-			
-			targetingBox.transform.position = new Vector3(centr.x,centr.y,targetingBox.transform.position.z);
-			targetingBox.transform.localScale = new Vector3(sc,sc,targetingBox.transform.localScale.z);
-		}
+		UpdateTargetingBox();
 		
 		if( appearTime >= 0 )
 		{
@@ -81,7 +63,7 @@ public class AlienShip : MonoBehaviour {
 			
 		
 		////////////////// Transform Setup //////////////
-		if( ! GetComponent<Detonator>().enabled )
+		if( !exploded )
 		{
 			transform.Translate(Speed*Time.deltaTime*Vector3.forward);
 		}
@@ -92,7 +74,7 @@ public class AlienShip : MonoBehaviour {
 			if( !playedgotem && ExplosionTime <=  1.6f )
 			{
 				if( GameEnvironment.Probability(5))
-					LevelInfo.Audio.audioSourceJeebles.PlayOneShot(GotEm);
+					LevelInfo.Audio.PlayAudioGotEm();
 				playedgotem = true;
 			}
 			if (ExplosionTime <= 0 )
@@ -106,7 +88,7 @@ public class AlienShip : MonoBehaviour {
 		
 		///////////// Fire SetUp ///////////////
 		if( fireDeltaTime > 0f ) fireDeltaTime -= Time.deltaTime;
-		if( !expose && Random.Range(1,FireFrequency) == 1 && fireDeltaTime <= 0f )
+		if( !exploded && Random.Range(1,FireFrequency) == 1 && fireDeltaTime <= 0f )
 		{
 			Instantiate(AlienBullet,transform.position,transform.rotation);
 			
@@ -117,15 +99,29 @@ public class AlienShip : MonoBehaviour {
 		//Vector3 pos = transform.position;
 		//pos.y = 2*Mathf.Sin(100*Time.time);
 		//transform.position = pos;
-		
-		if( Vector3.Distance(transform.position,LevelInfo.Environments.playerShip.transform.position) >= MaxDistanceToAutoDestroy ) 
-			Destroy(this.gameObject);
+	}
+	
+	private void UpdateTargetingBox()
+	{
+		if( targetingBox != null )
+		{
+			Vector3 centr = LevelInfo.Environments.mainCamera.WorldToScreenPoint(Centr.position);
+			Vector3 up = LevelInfo.Environments.mainCamera.WorldToScreenPoint(Up.position);
+			
+			centr.x /= Screen.width; centr.y /= Screen.height;
+			up.x /= Screen.width; up.y /= Screen.height;
+			float sc = Mathf.Abs(centr.y-up.y)*4;
+			
+			targetingBox.guiTexture.enabled = centr.z > 0;
+			
+			targetingBox.transform.position = new Vector3(centr.x,centr.y,targetingBox.transform.position.z);
+			targetingBox.transform.localScale = new Vector3(sc,sc,targetingBox.transform.localScale.z);
+		}
 	}
 	
 	private bool DestroyNeed()
 	{
 		if( LevelInfo.Environments.playerShip == null ) return true;
-		if(LevelInfo.Environments.playerShip.GetComponent<Detonator>().enabled && Vector3.Distance(LevelInfo.Environments.playerShip.transform.position,transform.position) <= 3f ) return true;
 		
 		float y = transform.rotation.eulerAngles.y; if( y>=180f) y-=360f;
 		float playery = LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y; if(playery>=180f) playery-=360f;
@@ -150,7 +146,8 @@ public class AlienShip : MonoBehaviour {
 	void Explode(bool withplayer,Collision col)
 	{
 		if( withplayer ) showcrystal = true;
-		GetComponent<Detonator>().enabled = true;
+		Instantiate(LevelInfo.Environments.particleExplosionJeeb,Centr.transform.position,Quaternion.identity);
+		exploded = true;
 		
 		Destroy(this.rigidbody);
 		Destroy(this.collider);
@@ -158,8 +155,8 @@ public class AlienShip : MonoBehaviour {
 		
 		if(col != null) Destroy(col.gameObject);
 		if( targetingBox != null ) Destroy(targetingBox);
-		if(withplayer && LevelInfo.Environments.playerShip != null) LevelInfo.Environments.playerShip.SendMessage("AddScore");
-		expose = true;
+		if(withplayer && LevelInfo.Environments.playerShip != null) LevelInfo.Environments.playerShip.AddScore();
+		
 		LevelInfo.Audio.audioSourceJeebles.PlayOneShot(ExplosionSoundEffect);
 		LevelInfo.Audio.audioSourceJeebles.time = 0.5f;
 		if( !withplayer ) playedgotem = true;
@@ -178,7 +175,7 @@ public class AlienShip : MonoBehaviour {
 	
 	void OnCollisionEnter(Collision col)
 	{	
-		if( GetComponent<Detonator>().enabled )
+		if( exploded )
 			return;
 		
 		if( col.gameObject.tag == "Bullet" )
@@ -201,20 +198,13 @@ public class AlienShip : MonoBehaviour {
 	
 	public void DestroyObject()
 	{
-		if( GetComponent<Detonator>().enabled ) return;
-		showcrystal = true;
-		GetComponent<Detonator>().enabled = true;
-		Destroy(this.rigidbody);
-		if( targetingBox != null ) Destroy(targetingBox);
-		LevelInfo.Environments.playerShip.SendMessage("AddScore");
-		expose = true;
-		LevelInfo.Audio.audioSourceJeebles.PlayOneShot(ExplosionSoundEffect);
-		LevelInfo.Audio.audioSourceJeebles.time = 0.5f;	
+		if( exploded) return;
+		Explode(true,null);
 	}
 	
 	public void EnableTargetingBox()
 	{
-		if( targetingBox == null && !GetComponent<Detonator>().enabled )
-			targetingBox = (GameObject)Instantiate(TargetingBoxPrefab);
+		if( targetingBox == null && !exploded )
+			targetingBox = (GameObject)Instantiate(LevelInfo.Environments.targetingBoxPrefab);
 	}
 }

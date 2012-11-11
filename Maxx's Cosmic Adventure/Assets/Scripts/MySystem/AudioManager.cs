@@ -66,5 +66,22 @@ public class AudioManager : MonoBehaviour {
 	#endregion
 	
 	
+	#region Enemies
+	
+	public AudioClip audioGotEm;
+	public void PlayAudioGotEm()
+	{
+		audioSourceJeebles.PlayOneShot(audioGotEm);
+	}
+	
+	public AudioClip audioAsteroidExplode;
+	public void PlayAudioAsteroidExplode()
+	{
+		audioSourceJeebles.PlayOneShot(audioAsteroidExplode);
+	}
+	
+	
+	
+	#endregion
 	
 }
