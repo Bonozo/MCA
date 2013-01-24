@@ -168,7 +168,7 @@ public class Player : MonoBehaviour {
 	private float lasty = 0;
 	
 	void TransformSetUp()
-	{
+	{	
 		float delta = GameEnvironment.InputAxis.y-lasty;
 		lasty = GameEnvironment.InputAxis.y;
 		

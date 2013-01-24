@@ -37,44 +37,7 @@ public class GameEnvironment : MonoBehaviour {
 	
 	#endregion
 	
-	#if !UNITY_ANDROID
-	private static Vector2 last;
-	public static Vector2 Swipe { get {
-		Vector2 mousepos = Input.mousePosition;
-		mousepos.x /= Screen.width;
-		mousepos.y /= Screen.height;
-
-		Vector2 res = Vector2.zero;
-		if( Input.GetMouseButtonDown(0) )
-		{
-			last = mousepos;
-		}
-		if( Input.GetMouseButtonUp(0) )
-		{
-			res = mousepos-last;
-		}
-		
-		return res;
-	}}
-	
-	public static Vector3 LastFireCoord { get; private set; }
-	
-	public static bool FireButton { get {
-		if( Input.GetMouseButtonUp(0) )
-		{
-			LastFireCoord = Input.mousePosition;
-			return true;     		
-		}
-			
-		return false;
-			
-	}}
-	
-	public static Vector3 InputAxis { get {
-		return new Vector3(Input.GetAxis("Horizontal"),Input.GetAxis("Vertical"),0f);
-	}}
-	
-	#else
+	#if UNITY_ANDROID || UNITY_IPHONE
 	private static Vector2 startPos;
 	public static Vector2 Swipe { get {
 		Vector2 res = Vector2.zero;
@@ -139,11 +102,49 @@ public class GameEnvironment : MonoBehaviour {
 		
 		if(dir.sqrMagnitude > 1)
 			dir.Normalize();
-		dir.y = dir.z; dir.z = 0;
+		dir.y = -dir.x;
+		dir.x = dir.z;
+		dir.z = 0;
 			
 		return dir;
 	}}
 	
+	#else
+	private static Vector2 last;
+	public static Vector2 Swipe { get {
+		Vector2 mousepos = Input.mousePosition;
+		mousepos.x /= Screen.width;
+		mousepos.y /= Screen.height;
+
+		Vector2 res = Vector2.zero;
+		if( Input.GetMouseButtonDown(0) )
+		{
+			last = mousepos;
+		}
+		if( Input.GetMouseButtonUp(0) )
+		{
+			res = mousepos-last;
+		}
+		
+		return res;
+	}}
+	
+	public static Vector3 LastFireCoord { get; private set; }
+	
+	public static bool FireButton { get {
+		if( Input.GetMouseButtonUp(0) )
+		{
+			LastFireCoord = Input.mousePosition;
+			return true;     		
+		}
+			
+		return false;
+			
+	}}
+	
+	public static Vector3 InputAxis { get {
+		return new Vector3(Input.GetAxis("Horizontal"),Input.GetAxis("Vertical"),0f);
+	}}
 	#endif
 	
 	#region Helpful

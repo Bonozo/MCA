@@ -12,10 +12,10 @@ public class ButtonPause : MonoBehaviour {
 		store = (Store)GameObject.FindObjectOfType(typeof(Store));
 	}
 	
-	void OnMouseUp()
+	/*void OnMouseUp()
 	{
 		Time.timeScale = 1-Time.timeScale;
-	}
+	}*/
 	
 	void Update()
 	{
