@@ -3,30 +3,30 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 	
-	#region Game
-	
-	public Camera mainCamera;
-	public Generator generator;
-	public Score score;
+	#region Game Environments
 	
 	public float upDownMaxHeight = 3.0f;
 	
 	#endregion
 	
-	#region GUI
-		
-	public GUIText guiPowerUpTime;
-	public GUIText guiDistanceTravelled;
-
+	#region Game
+	
+	public Camera mainCamera;
+	public Player playerShip;
+	public Generator generator;
+	public Score score;
+	public GameObject targetingBoxPrefab;
 	
 	#endregion
 	
-	#region Player
+	#region HUB
 	
-	public Player playerShip;
 	public Overheat fuelOverheat;
 	public Overheat fireOverheat;
-	public GameObject targetingBoxPrefab;
+	
+	// must change to NGUI
+	public GUIText guiPowerUpTime;
+	public GUIText guiDistanceTravelled;
 	
 	#endregion
 	

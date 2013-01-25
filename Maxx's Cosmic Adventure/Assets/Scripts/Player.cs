@@ -6,7 +6,6 @@ public class Player : MonoBehaviour {
 	#region Parameters
 	
 	public Texture TextureGage;
-	public Overheat overheatFire;
 	
 	public float RotationMaxAngle = 20.0f;
 	public float RotationAngleChangeFactor = 20.0f;
@@ -228,10 +227,10 @@ public class Player : MonoBehaviour {
 	void TryStandardShot(bool effectOverheat)
 	{
 		if( fireDeltaTime > 0f ) fireDeltaTime -= Time.deltaTime;
-		bool ovh = overheatFire.Overheated;
-		if( effectOverheat ) overheatFire.Up();
-		if( !ovh && overheatFire.Overheated ) LevelInfo.Audio.PlayAudioWeaponExpire();
-		if( fireDeltaTime <= 0 && (!effectOverheat || !overheatFire.Overheated) )
+		bool ovh = LevelInfo.Environments.fireOverheat.Overheated;
+		if( effectOverheat ) LevelInfo.Environments.fireOverheat.Up();
+		if( !ovh && LevelInfo.Environments.fireOverheat.Overheated ) LevelInfo.Audio.PlayAudioWeaponExpire();
+		if( fireDeltaTime <= 0 && (!effectOverheat || !LevelInfo.Environments.fireOverheat.Overheated) )
 		{
 			LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(AudioFire);
 			Instantiate(Bullet,leftbf.transform.position,Quaternion.Euler(0f,transform.rotation.eulerAngles.y,0f) );
@@ -283,7 +282,7 @@ public class Player : MonoBehaviour {
 		if( Input.GetKey(KeyCode.F) || touchInput.FireRight || touchInput.FireLeft )
 			TryStandardShot(true);
 		else
-			overheatFire.Down();
+			LevelInfo.Environments.fireOverheat.Down();
 		
 		if( powerupAutoFire ) return;
 		

@@ -42,7 +42,7 @@ public class Store : MonoBehaviour {
 		GUI.Box(new Rect(screen.x*0.25f,screen.y-udh,screen.x*0.25f,udh),"Graphics icon Stored Powerups");
 		
 		// Return to Game
-		if( GUI.Button(new Rect(screenpart.x,screen.y-udh,screen.x*0.25f,udh),"Return to Game") )
+		if(/*??*/Application.loadedLevelName=="playgame" && GUI.Button(new Rect(screenpart.x,screen.y-udh,screen.x*0.25f,udh),"Return to Game") )
 		{
 			Time.timeScale = 1f;
 			Active = false;
