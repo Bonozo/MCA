@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+[AddComponentMenu("Menu/Story")]
 public class Story : MonoBehaviour {
 
 	public Texture2D[] slide;
@@ -57,7 +58,7 @@ public class Story : MonoBehaviour {
 			if( current == slide.Length )
 			{
 				current--;
-				Application.LoadLevel("playgame");
+				Application.LoadLevel("load");
 			}
 			else
 			{
@@ -97,7 +98,7 @@ public class Story : MonoBehaviour {
 		GUI.backgroundColor = Color.clear;
 		
 		if( GUI.Button(new Rect(Screen.width*0.85f,Screen.height*0.9f,Screen.width*0.15f,Screen.height*0.1f),skip) )
-			Application.LoadLevel("playgame");
+			Application.LoadLevel("load");
 		
 		GUI.color = popupcolor;
 		GUI.DrawTexture(new Rect(Screen.width*0.25f,Screen.height*0.25f,Screen.width*0.5f,Screen.height*0.5f),popUp,ScaleMode.StretchToFill);

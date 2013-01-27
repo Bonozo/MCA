@@ -65,8 +65,5 @@ public class Option : MonoBehaviour {
 			if( GUI.Button( new Rect(Screen.width-200,Screen.height-60,80,40),"Debug"))
 				debug = true;
 		}
-		
-		if( GUI.Button( new Rect(Screen.width-100,Screen.height-60,80,40),"Main Menu") || Input.GetKeyUp(KeyCode.Escape) )
-			MainMenu.Instance.State = MainMenu.MenuState.Title;
 	}
 }

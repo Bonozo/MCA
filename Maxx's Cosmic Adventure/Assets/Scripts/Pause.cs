@@ -20,6 +20,6 @@ public class Pause : MonoBehaviour {
 		if( Input.GetKeyUp(KeyCode.Escape) )
 			Time.timeScale = 1-Time.timeScale;			
 		
-		store.Active = Time.timeScale == 0.0f;
+		store.ShowStore = Time.timeScale == 0.0f;
 	}
 }

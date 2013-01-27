@@ -27,8 +27,6 @@ public class Credits : MonoBehaviour {
 	void Update () {
 		if( Input.touchCount == 0 )
 			currentHeight += Time.deltaTime*Speed;
-		if( Input.GetKeyUp(KeyCode.Escape) )
-			MainMenu.Instance.State = MainMenu.MenuState.Title;
 	}
 	
 	void OnEnable()

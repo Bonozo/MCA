@@ -3,24 +3,64 @@ using System.Collections;
 
 public class Store : MonoBehaviour {
 	
+	#region Enums
+	
 	private enum State { Nothing,Offence,Defence};
 	
-	public bool Active = false;
+	#endregion
 	
-	private State state = State.Nothing;
+	#region Public Field
 	
+	public GameObject storeMaxxShip;
 	public Texture2D textureBackground;
 	public Texture2D textureScreenShot;
 	
-	private float udh = 0.1f*Screen.height;
-	private Vector2 screenpart = new Vector2(Screen.width*0.5f,Screen.height*0.5f);
-	private Vector2 screen = new Vector2(Screen.width,Screen.height);
+	#endregion
+	
+	#region Private Field
+	
+	private bool _showStore = false;
+	public bool ShowStore{
+		get{
+			return _showStore;
+		}
+		set{
+			_showStore = value;
+			storeMaxxShip.SetActive(_showStore);
+		}
+	}
+	
+	private State state = State.Nothing;
 	
 	private Vector2 scrollposition = Vector2.zero;
 	private int wooi = -1;
 	
+	#endregion
+	
+	#region Properties
+	
+	public bool IsMainMenu { get { return Application.loadedLevelName=="mainmenu"; }}
+	public bool IsPlayGame { get { return Application.loadedLevelName=="playgame"; }}
+	
+	#endregion
+	
+	#region Awake, Start, Update
+	
+	void Awake()
+	{
+		DontDestroyOnLoad(this.gameObject);
+	}
+	
+	#endregion
+	
+	#region Draw Store
+
 	public void DrawStore()
 	{	
+		float udh = 0.1f*Screen.height;
+		Vector2 screenpart = new Vector2(Screen.width*0.5f,Screen.height*0.5f);
+		Vector2 screen = new Vector2(Screen.width,Screen.height);
+		
 		// Background
 		GUI.DrawTexture(new Rect(0f,0f,Screen.width,udh),textureBackground);
 		GUI.DrawTexture(new Rect(0f,0f,screenpart.x,Screen.height),textureBackground);
@@ -42,10 +82,10 @@ public class Store : MonoBehaviour {
 		GUI.Box(new Rect(screen.x*0.25f,screen.y-udh,screen.x*0.25f,udh),"Graphics icon Stored Powerups");
 		
 		// Return to Game
-		if(/*??*/Application.loadedLevelName=="playgame" && GUI.Button(new Rect(screenpart.x,screen.y-udh,screen.x*0.25f,udh),"Return to Game") )
+		if(IsPlayGame && GUI.Button(new Rect(screenpart.x,screen.y-udh,screen.x*0.25f,udh),"Return to Game") )
 		{
 			Time.timeScale = 1f;
-			Active = false;
+			ShowStore = false;
 			wooi = -1;
 		}
 		
@@ -53,9 +93,12 @@ public class Store : MonoBehaviour {
 		if( GUI.Button(new Rect(screen.x*0.75f,screen.y-udh,screen.x*0.25f,udh),"Main Menu") )
 		{
 			Time.timeScale = 1f;
-			Application.LoadLevel("mainmenu");
-			Active = false;
+			ShowStore = false;
 			wooi = -1;
+			if(IsMainMenu)
+				MainMenu.Instance.State = MainMenu.MenuState.Title;
+			if(IsPlayGame)
+				Application.LoadLevel("mainmenu");
 		}	
 		
 		switch(state)
@@ -117,26 +160,34 @@ public class Store : MonoBehaviour {
 		}
 		
 	}
-	
-	private bool maxxloaded = false;
+
 	void OnGUI()
 	{
-		if( Active ) 
-		{
-			if( ! maxxloaded )
-			{
-				Application.LoadLevelAdditive("maxxrotate");
-				maxxloaded = true;
-			}
+		if( ShowStore ) 
 			DrawStore();
-		}
-		else
-		{
-			if( maxxloaded )
-			{
-				Destroy(GameObject.Find("maxxrotate"));
-				maxxloaded = false;
-			}	
-		}
 	}
+	
+	#endregion
+	
+	#region  Safe Store
+	
+	//Multithreaded Safe Singleton Pattern
+    // URL: http://msdn.microsoft.com/en-us/library/ms998558.aspx
+    private static readonly object _syncRoot = new Object();
+    private static volatile Store _staticInstance;	
+    public static Store Instance {
+        get {
+            if (_staticInstance == null) {				
+                lock (_syncRoot) {
+                    _staticInstance = FindObjectOfType (typeof(Store)) as Store;
+                    if (_staticInstance == null) {
+                       Debug.LogError("The Store instance was unable to be found, if this error persists please contact support.");						
+                    }
+                }
+            }
+            return _staticInstance;
+        }
+    }
+	
+	#endregion
 }

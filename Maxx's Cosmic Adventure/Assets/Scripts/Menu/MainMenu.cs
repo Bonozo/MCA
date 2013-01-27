@@ -15,7 +15,7 @@ public class MainMenu : MonoBehaviour {
 		Stats
 	}
 	
-	public GameObject objTitle,objOptions,objCredits,objStats,objStore;
+	public GameObject objTitle,objOptions,objCredits,objStats;
 	
 	private MenuState _state;
 	public MenuState State{
@@ -31,8 +31,9 @@ public class MainMenu : MonoBehaviour {
 			objOptions.SetActive(_state == MenuState.Options);
 			objCredits.SetActive(_state == MenuState.Credits);
 			objStats.SetActive(_state == MenuState.Stats);
-			objStore.SetActive(_state == MenuState.Store);
 			
+			if(_state == MenuState.Store)
+				Store.Instance.ShowStore = true;
 		}
 	}
 	
