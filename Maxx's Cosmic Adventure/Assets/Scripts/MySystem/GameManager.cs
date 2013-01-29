@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
 	public Generator generator;
 	public Score score;
 	public GameObject targetingBoxPrefab;
+	public GameObject FPS;
 	
 	#endregion
 	

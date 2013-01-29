@@ -51,9 +51,6 @@ public class Player : MonoBehaviour {
 	private TouchInput touchInput;
 	private Score score;
 	
-
-	
-	
 	private float fireDeltaTime = 0.0f;
 	private float autofireDeltaTime = 0.0f;
 	private float riseTime;
@@ -74,8 +71,14 @@ public class Player : MonoBehaviour {
 	
 	#region Start Update
 	
+	void Awake()
+	{
+		LevelInfo.Environments.FPS.SetActive(Option.ShowFPS);
+	}
+	
 	// Use this for initialization
 	void Start () {
+		
 		touchInput = (TouchInput)GameObject.FindObjectOfType(typeof(TouchInput));
 		score = (Score)GameObject.FindObjectOfType(typeof(Score));
 		riseTime = WaitForRise;
