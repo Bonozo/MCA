@@ -3,13 +3,6 @@ using System.Collections;
 
 public class Pause : MonoBehaviour {
 
-	private Store store;
-	
-	void Start()
-	{
-		store = (Store)GameObject.FindObjectOfType(typeof(Store));
-	}
-	
 	/*void OnMouseUp()
 	{
 		Time.timeScale = 1-Time.timeScale;
@@ -20,6 +13,6 @@ public class Pause : MonoBehaviour {
 		if( Input.GetKeyUp(KeyCode.Escape) )
 			Time.timeScale = 1-Time.timeScale;			
 		
-		store.ShowStore = Time.timeScale == 0.0f;
+		Store.Instance.ShowStore = Time.timeScale == 0.0f;
 	}
 }

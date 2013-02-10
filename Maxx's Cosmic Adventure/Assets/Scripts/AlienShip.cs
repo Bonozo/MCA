@@ -143,6 +143,11 @@ public class AlienShip : MonoBehaviour {
 		if( targetingBox != null ) Destroy(targetingBox);
 	}
 	
+	void Explode()
+	{
+		Explode(false,null);
+	}
+	
 	void Explode(bool withplayer,Collision col)
 	{
 		if( withplayer ) showcrystal = true;

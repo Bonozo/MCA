@@ -15,7 +15,8 @@ public class GameManager : MonoBehaviour {
 	public Player playerShip;
 	public Generator generator;
 	public Score score;
-	public GameObject targetingBoxPrefab;
+	public Missles missles;
+	
 	public GameObject FPS;
 	
 	#endregion
@@ -35,6 +36,16 @@ public class GameManager : MonoBehaviour {
 	
 	public GameObject particleExplosionJeeb;
 	public GameObject particleExplosionAsteroid;
+	public GameObject particleSpark;
+	
+	#endregion
+	
+	#region Prefabs
+	
+	public GameObject targetingBoxPrefab;
+	
+	public GameObject prefabPlayerProjectile;
+	public GameObject prebafIn3sProjectile;
 	
 	#endregion
 	

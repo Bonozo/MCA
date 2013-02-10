@@ -6,7 +6,8 @@ using System.Collections;
 		Unlikelium,
 		SureShot,
 		Shield,
-		Magnet
+		Magnet,
+		Missle
 	}
 
 public class Gem : MonoBehaviour {
@@ -20,6 +21,7 @@ public class Gem : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		tag = "Gem";
 	}
 	
 	// Update is called once per frame

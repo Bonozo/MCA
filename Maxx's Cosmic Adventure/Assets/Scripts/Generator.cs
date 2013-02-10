@@ -64,6 +64,7 @@ public class Generator : MonoBehaviour {
 	public GameObject GemSureShotPrefab;
 	public GameObject GemShieldPrefab;
 	public GameObject GemMagnetPrefab;
+	public GameObject GemMisslePrefab;
 	
 	public void GenerateNewGem(Vector3 pos,Gems gemtype)
 	{

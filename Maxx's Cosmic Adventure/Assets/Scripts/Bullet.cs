@@ -5,12 +5,13 @@ public class Bullet : MonoBehaviour {
 	
 	public Vector3 BeginPosition { set { transform.position = value; } }
 	public Vector3 BeginRotation { set { transform.position = value; } }
-	public float Speed = 10f;
+	public float Speed = 200f;
 	public float DeadTime = 10f;
 	
+	private bool explodewithoneshot = false;
 	private bool targeted = false;
 	private GameObject target;
-	public GameObject particleSpark;
+	
 	
 	// Use this for initialization
 	void Start () {
@@ -27,10 +28,13 @@ public class Bullet : MonoBehaviour {
 			float d = Vector3.Distance(target.transform.position,transform.position);
 			transform.Translate( Mathf.Min(d,Speed*Time.deltaTime)*Vector3.forward );
 			d = Vector3.Distance(target.transform.position,transform.position);
-			if( d == 0.0f ) 
+			if( d <= 0.1f ) 
 			{
 				if(target == null ) Debug.LogError("turget is null");
-				target.SendMessage("GetHit");
+				if(explodewithoneshot)
+					target.SendMessage("Explode");
+				else
+					target.SendMessage("GetHit");
 				Destroy(this.gameObject);
 				return;
 			}
@@ -48,13 +52,20 @@ public class Bullet : MonoBehaviour {
 	{
 		if( GameEnvironment.HitWithName(col.gameObject.name,"Bullet") ) return;
 		Vector3 pos = col.contacts[0].point;
-		Instantiate(particleSpark,pos,Quaternion.identity);
+		Instantiate(LevelInfo.Environments.particleSpark,pos,Quaternion.identity);
 		Destroy(this.gameObject);
 	}
 	
 	public void ToTarget(GameObject v)
 	{
 		targeted = true;
+		target = v;
+	}
+	
+	public void ExplodeTargetWithOneShot(GameObject v)
+	{
+		targeted = true;
+		explodewithoneshot = true;
 		target = v;
 	}
 }

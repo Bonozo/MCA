@@ -37,8 +37,6 @@ public class Player : MonoBehaviour {
 	
 	public ParticleSystem[] ExhaustArray;
 	
-	public float SmartBombDistance = 50;
-	
 	public CollisionSender colSender;
 	
 	public GameObject leftbf,rightbf;
@@ -298,18 +296,6 @@ public class Player : MonoBehaviour {
 		/*if( Input.GetKeyUp(KeyCode.G) || touchInput.FireLeftWithPhase(TouchPhase.Began) )
 			TryAutoShot();
 		*/
-		
-		if( touchInput.MWithPhase(TouchPhase.Ended) || Input.GetKeyUp(KeyCode.M) )
-		{
-			GameObject[] g = GameObject.FindGameObjectsWithTag("AlienShip");
-			foreach(GameObject e in g)
-				if( Vector3.Distance(e.transform.position,transform.position) <= SmartBombDistance )
-					e.SendMessage("DestroyObject");	
-			g = GameObject.FindGameObjectsWithTag("Asteroid");
-			foreach(GameObject e in g)
-				if( Vector3.Distance(e.transform.position,transform.position) <= SmartBombDistance )
-					e.SendMessage("DestroyObject");	
-		}
 	}
 	
 	#endregion
@@ -419,6 +405,9 @@ public class Player : MonoBehaviour {
 				break;
 			case Gems.Magnet:
 				EnableAllUnlikeliumsMagnet();
+				break;
+			case Gems.Missle:
+				LevelInfo.Environments.missles.missleCount++;
 				break;
 			}
 			
