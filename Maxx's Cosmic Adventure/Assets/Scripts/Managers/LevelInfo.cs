@@ -9,6 +9,9 @@ public class LevelInfo : MonoBehaviour {
 	public AudioManager _audioManager;
 	public static AudioManager Audio { get { return Instance._audioManager; }}
 	
+	public StateManager _stateManager;
+	public static StateManager State { get { return Instance._stateManager; }}
+	
 	// Multithreaded Safe Singleton Pattern
     // URL: http://msdn.microsoft.com/en-us/library/ms998558.aspx
     private static readonly object _syncRoot = new Object();

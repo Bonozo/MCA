@@ -84,9 +84,9 @@ public class Store : MonoBehaviour {
 		// Return to Game
 		if(IsPlayGame && GUI.Button(new Rect(screenpart.x,screen.y-udh,screen.x*0.25f,udh),"Return to Game") )
 		{
-			Time.timeScale = 1f;
 			ShowStore = false;
 			wooi = -1;
+			LevelInfo.State.state = GameState.Paused;
 		}
 		
 		// Main menu

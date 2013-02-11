@@ -13,9 +13,11 @@ public class GameManager : MonoBehaviour {
 	
 	public Camera mainCamera;
 	public Player playerShip;
+	public GameObject HUB;
 	public Generator generator;
 	public Score score;
 	public Missles missles;
+	public Pause pause;
 	
 	public GameObject FPS;
 	
