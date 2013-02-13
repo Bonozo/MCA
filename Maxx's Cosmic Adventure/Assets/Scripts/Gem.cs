@@ -1,22 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
-	public enum Gems
-	{
-		Unlikelium,
-		SureShot,
-		Shield,
-		Magnet,
-		Missle
-	}
-
 public class Gem : MonoBehaviour {
 	
 	public float RotateSpeed = 10f;
 	public GameObject particle;
 	public Gems gemType;
 	
-	private float MoveSpeed = 70f;
+	private float MoveSpeed = 100f;
 	private bool magned = false;
 	
 	// Use this for initialization
@@ -27,7 +18,7 @@ public class Gem : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		this.rigidbody.velocity = this.rigidbody.angularVelocity = Vector3.zero;
+		//this.rigidbody.velocity = this.rigidbody.angularVelocity = Vector3.zero;
 		
 		if( magned )
 		{

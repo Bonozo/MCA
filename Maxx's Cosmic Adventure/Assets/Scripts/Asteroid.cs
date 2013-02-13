@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Asteroid : MonoBehaviour {
 		
-	public int HitCountForDestroy = 10;
+	public int Power = 10;
 	public float DestroyTime = 2.0f;
 	public GameObject asteroidPrefab;
 	
@@ -45,7 +45,7 @@ public class Asteroid : MonoBehaviour {
 		if(exploded) return;
 		if( GameEnvironment.HitWithName(col.gameObject.name,"Bullet") )
 		{
-			if(--HitCountForDestroy == 0 )
+			if(--Power == 0 )
 			{
 				exploded = true;
 				gameObject.transform.localScale *= 0.0f;
@@ -61,5 +61,11 @@ public class Asteroid : MonoBehaviour {
 		if( exploded ) return;
 		exploded = true;
 		gameObject.transform.localScale *= 0.0f;
+	}
+	
+	public void Explode()
+	{
+		Instantiate(asteroidPrefab,transform.position,Quaternion.identity);
+		Destroy(this.gameObject);
 	}
 }

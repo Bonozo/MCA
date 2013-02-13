@@ -38,7 +38,12 @@ public class Score : MonoBehaviour {
 	#region Messages
 	
 	public void AddLive() { currentLives = Mathf.Min(currentLives+1,MaxLives); }
-	public void LostLive() { currentLives = Mathf.Max(currentLives-1,0); }
+	public void LostLive() 
+	{
+		currentLives = Mathf.Max(currentLives-1,0);
+		if( currentLives == 0 )
+			LevelInfo.State.state = GameState.Lose;
+	}
 	
 	#endregion
 }

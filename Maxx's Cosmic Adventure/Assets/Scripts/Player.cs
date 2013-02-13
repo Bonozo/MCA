@@ -4,9 +4,7 @@ using System.Collections;
 public class Player : MonoBehaviour {
 	
 	#region Parameters
-	
-	public Texture TextureGage;
-	
+
 	public float RotationMaxAngle = 20.0f;
 	public float RotationAngleChangeFactor = 20.0f;
 	public float RotationToRotateFactor = 20.0f;
@@ -44,15 +42,17 @@ public class Player : MonoBehaviour {
 	
 	#endregion
 	
+	[System.NonSerialized]
+	public int numberUnlikelium = 0;
+	
 	#region Variables
 	
 	private TouchInput touchInput;
-	private Score score;
 	
 	private float fireDeltaTime = 0.0f;
 	private float autofireDeltaTime = 0.0f;
 	private float riseTime;
-	private int numberUnlikelium = 0;
+	
 	
 	private float travelled = 0;
 	public float DistanceTravelled { get { return travelled; }}
@@ -78,7 +78,6 @@ public class Player : MonoBehaviour {
 	void Start () {
 		
 		touchInput = (TouchInput)GameObject.FindObjectOfType(typeof(TouchInput));
-		score = (Score)GameObject.FindObjectOfType(typeof(Score));
 		riseTime = WaitForRise;
 		CameraSetUp();
 		
@@ -88,7 +87,8 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if( Time.deltaTime == 0.0f || score.Lose ) return;
+		
+		if(LevelInfo.State.state != GameState.Play ) return;
 		
 		// calc travelled
 		travelled += DistXZ(lastPosition,transform.position);
@@ -118,15 +118,6 @@ public class Player : MonoBehaviour {
 			}
 			return;
 		}
-		
-		/*if( GetComponent<Detonator>().enabled ) 
-		{
-			if( Application.platform == RuntimePlatform.Android )
-				Handheld.Vibrate();
-			foreach(ParticleSystem e in ExhaustArray)
-				e.enableEmission = false;
-			return;
-		}*/
 		
 		//// animation playing setup ////
 		if( !animation.isPlaying)
@@ -205,7 +196,12 @@ public class Player : MonoBehaviour {
 	
 	#region Firing
 	
-	private IEnumerator SureShot()
+	public void StartSureShot()
+	{
+		StartCoroutine(SureShotThread());
+	}
+	
+	private IEnumerator SureShotThread()
 	{
 		if(!powerupAutoFire ) 
 		{
@@ -215,7 +211,7 @@ public class Player : MonoBehaviour {
 			while ( time > 0f )
 			{
 				TryAutoShot();
-				LevelInfo.Environments.guiPowerUpTime.text = "Sure Shot " + Mathf.CeilToInt(time);
+				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(time);
 				time -= Time.deltaTime;
 				yield return new WaitForEndOfFrame();
 			}
@@ -230,7 +226,7 @@ public class Player : MonoBehaviour {
 		if( fireDeltaTime > 0f ) fireDeltaTime -= Time.deltaTime;
 		bool ovh = LevelInfo.Environments.fireOverheat.Overheated;
 		if( effectOverheat ) LevelInfo.Environments.fireOverheat.Up();
-		if( !ovh && LevelInfo.Environments.fireOverheat.Overheated ) LevelInfo.Audio.PlayAudioWeaponExpire();
+		if( !ovh && LevelInfo.Environments.fireOverheat.Overheated ) {/*PLevelInfo.Audio.PlayAudioWeaponExpire();*/}
 		if( fireDeltaTime <= 0 && (!effectOverheat || !LevelInfo.Environments.fireOverheat.Overheated) )
 		{
 			LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(AudioFire);
@@ -289,7 +285,7 @@ public class Player : MonoBehaviour {
 		
 		if( Input.GetKeyUp(KeyCode.L) )
 		{
-			StartCoroutine(SureShot());
+			StartCoroutine(SureShotThread());
 			return;
 		}
 		// Auto-shoot to nearest target
@@ -376,55 +372,20 @@ public class Player : MonoBehaviour {
 		return name.Length >= comparewith.Length && name.Substring(0,comparewith.Length) == comparewith;
 	}
 	
-	void EnableAllUnlikeliumsMagnet()
-	{
-		GameObject[] gems = GameObject.FindGameObjectsWithTag("Gem");
-		foreach(var g in gems )
-		{
-			g.SendMessage("ActivateMagnet");
-		}
-	}
-	
 	void ManualOnCollisionEnter(Collision col)
 	{
-		if( score.Lose) return;
-		
-		if( col.gameObject.tag == "Gem" )
-		{
-			Gems gemtype = col.gameObject.GetComponent<Gem>().gemType;
-			switch( gemtype )
-			{
-			case Gems.Unlikelium:
-				numberUnlikelium++;
-				break;
-			case Gems.SureShot:
-				StartCoroutine(SureShot());
-				break;
-			case Gems.Shield:
-				LevelInfo.Environments.score.AddLive();
-				break;
-			case Gems.Magnet:
-				EnableAllUnlikeliumsMagnet();
-				break;
-			case Gems.Missle:
-				LevelInfo.Environments.missles.missleCount++;
-				break;
-			}
-			
-			LevelInfo.Audio.PlayAudioGemPickUp(gemtype);
-			Destroy(col.gameObject);
-		}
+		if( LevelInfo.State.state != GameState.Play ) return;
 		
 		bool lose = HitWithName(col.gameObject.name,"AlienBullet") || HitWithName(col.gameObject.name,"AlienShip")
 			|| HitWithName(col.gameObject.name,"Asteroid");
 		if( lose )
 		{
-			score.LostLive();
-			#if UNITY_ANDROID
+			LevelInfo.Environments.score.LostLive();
+			#if UNITY_ANDROID || UNITY_IPHONE
 			if( Option.Vibration )
 				Handheld.Vibrate();
 			#endif
-			if( score.Lose )
+			if( LevelInfo.State.state == GameState.Lose )
 			{
 				transform.localScale *= 0;
 				GameObject c = GameObject.Find("GameOverText");
@@ -450,26 +411,30 @@ public class Player : MonoBehaviour {
 		scorepoint++;
 	}
 	
+	#region Get Hit
+	
+	public void GetAsteroidBump()
+	{
+		
+	}
+	
+	public void GetEnemyShipBump()
+	{
+		
+	}
+	
+	public void GetEnemyBulletBump()
+	{
+		
+	}
+	
+	#endregion
+	
 	#region GUI
 	
 	void OnGUI()
 	{
 		if( Time.timeScale == 0.0f ) return;
-		
-		/*
-		// Draw Gage
-		float w = Screen.width, h = Screen.height;
-		GUI.DrawTexture(new Rect(0.03f*w,0.8f*h,0.94f*w,0.2f*h),TextureGage);
-		
-		// Right Progress Bar
-		float percent = 1-fireRightPower;
-		GUI.BeginGroup(new Rect(0.79f*w,0.8f*h,percent*0.17f*w,0.2f*h));
-		GUI.color = new Color(0.5f,0.0f,0.5f,0.5f);
-		GUI.DrawTexture(new Rect(-0.76f*w,0,0.94f*w,0.2f*h),TextureGage);
-		GUI.EndGroup();
-		GUI.color = Color.white;
-		*/
-		
 		
 		GUI.Label(new Rect(0,50,100,50), "Score : " + scorepoint + "\nUnlikelium : " + numberUnlikelium);
 		//GUI.Label(new Rect(0,165,400,400), "Acceleration : " + GameEnvironment.InputAxis);

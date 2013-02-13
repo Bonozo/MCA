@@ -11,6 +11,15 @@ public enum GameState
 	None
 }
 
+public enum Gems
+{
+	Unlikelium,
+	SureShot,
+	Shield,
+	Magnet,
+	Missle
+}
+
 public class StateManager : MonoBehaviour {
 	
 	#region game Parameters
@@ -56,7 +65,7 @@ public class StateManager : MonoBehaviour {
 	
 	void Start()
 	{
-		
+		state = GameState.Play;
 	}
 	
 	void Update()

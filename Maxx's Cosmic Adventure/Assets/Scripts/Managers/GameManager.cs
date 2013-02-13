@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour {
 	public Score score;
 	public Missles missles;
 	public Pause pause;
+	public InfoMessage infoMessage;
 	
 	public GameObject FPS;
 	
@@ -29,8 +30,8 @@ public class GameManager : MonoBehaviour {
 	public Overheat fireOverheat;
 	
 	// must change to NGUI
-	public GUIText guiPowerUpTime;
-	public GUIText guiDistanceTravelled;
+	public UILabel guiPowerUpTime;
+	public UILabel guiDistanceTravelled;
 	
 	#endregion
 	
