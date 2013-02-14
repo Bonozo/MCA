@@ -26,7 +26,8 @@ public class Gem : MonoBehaviour {
 			transform.Translate(dir*Time.deltaTime*MoveSpeed,Space.World);
 		}
 		
-		particle.transform.Rotate(0,-1.25f*RotateSpeed*Time.deltaTime,0);
+		if(particle != null )
+			particle.transform.Rotate(0,-1.25f*RotateSpeed*Time.deltaTime,0);
 		transform.Rotate(0,RotateSpeed*Time.deltaTime,0);
 		
 	}

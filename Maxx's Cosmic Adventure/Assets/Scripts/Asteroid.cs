@@ -31,16 +31,16 @@ public class Asteroid : MonoBehaviour {
 		}
 		
 		f = !f;
-		transform.rigidbody.velocity = Vector3.zero;
+		/*transform.rigidbody.velocity = Vector3.zero;
 		transform.rigidbody.angularVelocity = Vector3.zero;
-		transform.Translate(new Vector3(0,0,0.001f*(f?-1:1)));
+		transform.Translate(new Vector3(0,0,0.001f*(f?-1:1)));*/
 		
 
 		//if( mainCamera.WorldToScreenPoint(transform.position).z < -10f )
 		//	Destroy(this.gameObject);
 	}
 	
-	void OnCollisionEnter(Collision col)
+/*	void OnCollisionEnter(Collision col)
 	{
 		if(exploded) return;
 		if( GameEnvironment.HitWithName(col.gameObject.name,"Bullet") )
@@ -55,7 +55,7 @@ public class Asteroid : MonoBehaviour {
 			Destroy(col.gameObject);
 		}
 	}
-	
+*/	
 	public void DestroyObject()
 	{
 		if( exploded ) return;
@@ -63,9 +63,19 @@ public class Asteroid : MonoBehaviour {
 		gameObject.transform.localScale *= 0.0f;
 	}
 	
+	public void GetHit(int power)
+	{
+		Power -= power;
+		if(Power <= 0 )
+			Explode();
+	}
+	
 	public void Explode()
 	{
-		Instantiate(asteroidPrefab,transform.position,Quaternion.identity);
+		LevelInfo.Audio.PlayAudioAsteroidExplode();
+		LevelInfo.Environments.generator.GenerateNewGem(transform.position);
+		//Instantiate(asteroidPrefab,transform.position,Quaternion.identity);
+		Instantiate(LevelInfo.Environments.particleExplosionAsteroid,transform.position,Quaternion.identity);
 		Destroy(this.gameObject);
 	}
 }

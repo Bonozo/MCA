@@ -3,86 +3,165 @@ using System.Collections;
 
 public class Missles : MonoBehaviour {
 	
-	public Transform[] bulletPositions;//len = 3
+	public UILabel powerupName;
 	
-	private float SmartBombDistance = 75;
-	public GameObject[] gui;
-	
-	private int _missleCount = 0;
-	public int missleCount{
-		get
-		{
-			return _missleCount;
+	private Gems _currentPowerup = Gems.None;
+	public Gems currentPowerup{
+		get{
+			return _currentPowerup;
 		}
-		set
-		{
-			_missleCount = Mathf.Min(value,gui.Length);
-			for(int i=0;i<gui.Length;i++)
-				gui[i].SetActive(i<_missleCount);
+		set{
+			_currentPowerup = value;
+			
+			if( timedpowerup )
+			{
+				StopAllCoroutines();
+				timedpowerup=false;
+			}
+			
+			switch(_currentPowerup)
+			{
+			case Gems.In3s:
+				powerupName.text = "In 3's";
+				break;
+			case Gems.Pow:
+				powerupName.text = "Pow";
+				break;
+			case Gems.FireBall:
+				StartCoroutine(FireBallPowerup());
+				break;
+			default:
+				powerupName.text = "";
+				break;
+			}
+			
 		}
 	}
 	
-	private int currentActiveCount = 0;
-	private GameObject[] bullet = new GameObject[3];
+	private bool timedpowerup=false;
 	
 	void Awake()
 	{
-		missleCount = 1;
-		//foreach(GameObject g in gui) g.SetActive(false);
+		currentPowerup = Gems.In3s;
 	}
 	
 	void OnPress(bool isDown)
 	{
-		if( isDown )
+		if(isDown) 
 		{
-			/*??*/if( Time.deltaTime == 0.0f || LevelInfo.Environments.score.Lose ) return;
-			if(missleCount>0 && currentActiveCount==0)
+			if(timedpowerup)
 			{
-				missleCount--;
-				StartCoroutine(StartMission());
+				if(currentPowerup == Gems.FireBall)
+					Instantiate(LevelInfo.Environments.prefabPlayerFireBall,LevelInfo.Environments.posPlayerMissle[0].position,LevelInfo.Environments.posPlayerMissle[0].rotation);			
+
+			}
+			else
+			{
+				if(LevelInfo.State.state == GameState.Play && currentPowerup != Gems.None)
+					StartPowerup();
 			}
 		}
 	}
 	
-	private IEnumerator StartMission()
+	void StartPowerup()
 	{
+		switch(currentPowerup)
+		{
+		case Gems.In3s:
+			In3sPowerup();
+			break;
+		case Gems.Pow:
+			StartCoroutine(PowPowerup());
+			break;
+		}
+	}
+
+	void In3sPowerup()
+	{
+		GameObject[] ship = GameObject.FindGameObjectsWithTag("Enemy");
+		GameObject[] asteroid = GameObject.FindGameObjectsWithTag("Asteroid");
+		
+		GameObject[] target = {null,null,null};
+		float[] dist = {float.PositiveInfinity,float.PositiveInfinity,float.PositiveInfinity};
+		
+		foreach(GameObject g in ship)
+		{
+			Vector3 toscreen = LevelInfo.Environments.mainCamera.WorldToScreenPoint(g.transform.position);
+			if(toscreen.x >= 0 && toscreen.x <= Screen.width && toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f)
+			{
+				for(int i=0;i<3;i++)
+					if(toscreen.z < dist[i])
+					{
+						for(int j=i+1;j<3;j++)
+						{
+							target[j]=target[j-1];
+							dist[j] = dist[j-1];
+						}
+						dist[i] = toscreen.z;
+						target[i] = g;
+						break;
+					}
+			}	
+		}
+		
+		foreach(GameObject g in asteroid)
+		{
+			Vector3 toscreen = LevelInfo.Environments.mainCamera.WorldToScreenPoint(g.transform.position);
+			if(toscreen.x >= 0 && toscreen.x <= Screen.width && toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f)
+			{
+				for(int i=0;i<3;i++)
+					if(toscreen.z < dist[i])
+					{
+						for(int j=i+1;j<3;j++)
+						{
+							target[j]=target[j-1];
+							dist[j] = dist[j-1];
+						}
+						dist[i] = toscreen.z;
+						target[i] = g;
+						break;
+					}
+			}	
+		}
+		
 		for(int i=0;i<3;i++)
 		{
-			bullet[i] = (GameObject)Instantiate(LevelInfo.Environments.prebafIn3sProjectile,bulletPositions[i].position,bulletPositions[i].rotation);
-			bullet[i].transform.parent = LevelInfo.Environments.playerShip.transform;
+			GameObject missle = (GameObject)Instantiate(LevelInfo.Environments.prefabPlayerMissle,
+				LevelInfo.Environments.posPlayerMissle[i].position,LevelInfo.Environments.posPlayerMissle[i].rotation);
+			if( target[i] != null)
+				missle.GetComponent<Bullet>().ExplodeTargetWithOneShot(target[i]);
 		}
-		currentActiveCount = 3;
 		
-		while(currentActiveCount>0)
-		{
-			GameObject[] g = GameObject.FindGameObjectsWithTag("AlienShip");
-			foreach(GameObject e in g)
-				if(currentActiveCount>0 && Vector3.Distance(e.transform.position,LevelInfo.Environments.playerShip.transform.position) <= SmartBombDistance )
-				{
-					int  current = 3-currentActiveCount;
-					currentActiveCount--;
-				
-					Vector3 pos = bullet[current].transform.position;
-					Destroy(bullet[current]);
-					
-					var b = ((GameObject)Instantiate(LevelInfo.Environments.prefabPlayerProjectile,pos,Quaternion.identity)).GetComponent<Bullet>();
-					b.Speed = 200;
-					b.DeadTime = float.PositiveInfinity;
-					e.tag = "AutoTargeted";
-					b.ExplodeTargetWithOneShot(e);
-					
-				}
-			yield return new WaitForSeconds(0.11f);
-		}
+		currentPowerup = Gems.None;
 	}
 	
-
-	void Update()
+	IEnumerator PowPowerup()
 	{
-		if(Input.GetKeyUp(KeyCode.M) )
-			missleCount++;
+		LevelInfo.Environments.ShockWave.Emit(1);
 		
+		yield return new WaitForSeconds(0.2f);
+		
+		GameObject[] ship = GameObject.FindGameObjectsWithTag("Enemy");
+		GameObject[] asteroid = GameObject.FindGameObjectsWithTag("Asteroid");	
+		
+		foreach(GameObject g in ship) g.SendMessage("Explode");
+		foreach(GameObject g in asteroid) g.SendMessage("Explode");
+		
+		currentPowerup = Gems.None;
 	}
 	
-	
+	IEnumerator FireBallPowerup()
+	{
+		timedpowerup = true;
+		float time = 10f;
+		while(time>0)
+		{
+			time -= Time.deltaTime;
+			powerupName.text = "Fireball " + (int)(time+0.99f);
+			yield return null;
+		}
+		
+		timedpowerup = false;
+		currentPowerup = Gems.None;
+	}
 }

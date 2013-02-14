@@ -3,10 +3,12 @@ using System.Collections;
 
 public class Bullet : MonoBehaviour {
 	
+	public int Power=1;
+	public float Speed = 200f;
+	public float DeadTime = 10f;	
+	
 	public Vector3 BeginPosition { set { transform.position = value; } }
 	public Vector3 BeginRotation { set { transform.position = value; } }
-	public float Speed = 200f;
-	public float DeadTime = 10f;
 	
 	private bool explodewithoneshot = false;
 	private bool targeted = false;
@@ -30,11 +32,11 @@ public class Bullet : MonoBehaviour {
 			d = Vector3.Distance(target.transform.position,transform.position);
 			if( d <= 0.1f ) 
 			{
-				if(target == null ) Debug.LogError("turget is null");
+				if(target == null ) Debug.LogError("target is null");
 				if(explodewithoneshot)
 					target.SendMessage("Explode");
 				else
-					target.SendMessage("GetHit");
+					target.SendMessage("GetHit",Power);
 				Destroy(this.gameObject);
 				return;
 			}
@@ -54,6 +56,18 @@ public class Bullet : MonoBehaviour {
 		Vector3 pos = col.contacts[0].point;
 		Instantiate(LevelInfo.Environments.particleSpark,pos,Quaternion.identity);
 		Destroy(this.gameObject);
+	}
+	
+	void OnTriggerEnter(Collider col)
+	{
+		if(targeted) return;
+		
+		if( col.gameObject.CompareTag("Asteroid") || col.gameObject.CompareTag("Enemy") )
+		{
+			col.gameObject.SendMessage("GetHit",Power);	
+			Instantiate(LevelInfo.Environments.particleSpark,transform.position,Quaternion.identity);
+			Destroy(this.gameObject);
+		}
 	}
 	
 	public void ToTarget(GameObject v)

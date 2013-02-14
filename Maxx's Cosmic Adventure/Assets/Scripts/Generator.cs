@@ -60,38 +60,12 @@ public class Generator : MonoBehaviour {
 	
 	#region Gems
 	
-	public GameObject GemUnlikeliumPrefab;
-	public GameObject GemSureShotPrefab;
-	public GameObject GemShieldPrefab;
-	public GameObject GemMagnetPrefab;
-	public GameObject GemMisslePrefab;
-	
-	public void GenerateNewGem(Vector3 pos,Gems gemtype)
-	{
-		GameObject prefab = null;
-		switch(gemtype)
-		{
-		case Gems.Unlikelium:
-			prefab = GemUnlikeliumPrefab;
-			break;
-		case Gems.SureShot:
-			prefab = GemSureShotPrefab;
-			break;
-		case Gems.Shield:
-			prefab = GemShieldPrefab;
-			break;
-		case Gems.Magnet:
-			prefab = GemMagnetPrefab;
-			break;
-		}
-		
-		Instantiate(prefab,pos,Quaternion.identity);
-	}
+	public GameObject[] Gem;
 	
 	public void GenerateNewGem(Vector3 pos)
 	{
-		int rand = Random.Range(0,sizeof(Gems));//??//
-		GenerateNewGem(pos,(Gems)rand);
+		int rand = Random.Range(0,Gem.Length);
+		Instantiate(Gem[rand],pos,Quaternion.identity);
 	}
 	
 	#endregion

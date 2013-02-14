@@ -3,6 +3,8 @@ using System.Collections;
 
 public class AlienShip : MonoBehaviour {
 	
+	public int Power = 10;
+	
 	public GameObject AlienBullet;
 	public Transform Centr,Up;
 	
@@ -39,7 +41,7 @@ public class AlienShip : MonoBehaviour {
 		transform.localScale *= 0.0f;
 		appearTime = AppearTime;
 		
-		tag = "AlienShip";
+		tag = "Enemy";
 	}
 	
 	// Update is called once per frame
@@ -60,7 +62,7 @@ public class AlienShip : MonoBehaviour {
 			return;
 		}
 		
-			
+		if(LevelInfo.Environments.playerShip.FreezeWorld) return;
 		
 		////////////////// Transform Setup //////////////
 		if( !exploded )
@@ -143,9 +145,25 @@ public class AlienShip : MonoBehaviour {
 		if( targetingBox != null ) Destroy(targetingBox);
 	}
 	
+	public void GetHit(int power)
+	{
+		Power -= power;
+		if(Power <= 0 )
+			Explode();
+	}
+	
 	void Explode()
 	{
-		Explode(false,null);
+		Instantiate(LevelInfo.Environments.particleExplosionJeeb,Centr.transform.position,Quaternion.identity);
+		
+		LevelInfo.Audio.audioSourceJeebles.PlayOneShot(ExplosionSoundEffect);
+		LevelInfo.Audio.audioSourceJeebles.time = 0.5f;
+		
+		if( GameEnvironment.Probability(2))
+					LevelInfo.Audio.PlayAudioGotEm();
+		
+		Destroy(this.gameObject);
+		
 	}
 	
 	void Explode(bool withplayer,Collision col)

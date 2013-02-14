@@ -13,11 +13,15 @@ public enum GameState
 
 public enum Gems
 {
+	None,
 	Unlikelium,
 	SureShot,
 	Shield,
 	Magnet,
-	Missle
+	In3s,
+	FreezeWorld,
+	Pow,
+	FireBall
 }
 
 public class StateManager : MonoBehaviour {
@@ -25,8 +29,6 @@ public class StateManager : MonoBehaviour {
 	#region game Parameters
 	
 	#endregion
-
-	
 	
 	private GameState _state = GameState.None;
 	public GameState state{

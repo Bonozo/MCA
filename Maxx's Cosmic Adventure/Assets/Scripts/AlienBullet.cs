@@ -23,7 +23,10 @@ public class AlienBullet : MonoBehaviour {
 			return;
 		}
 		
+		if(LevelInfo.Environments.playerShip.FreezeWorld) return;
+		
 		transform.Translate(Speed*Time.deltaTime*Vector3.forward);
+		
 		DeadTime -= Time.deltaTime;
 		if( DeadTime <= 0 ) Destroy(this.gameObject);
 	}

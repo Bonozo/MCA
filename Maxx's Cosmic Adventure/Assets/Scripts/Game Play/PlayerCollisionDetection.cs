@@ -37,20 +37,32 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			break;
 		case Gems.SureShot:
 			LevelInfo.Environments.playerShip.StartSureShot();
+			LevelInfo.Environments.infoMessage.ShowMessage("Sure Shot");
 			break;
 		case Gems.Shield:
 			LevelInfo.Environments.score.AddLive();
 			break;
 		case Gems.Magnet:
 			EnableAllUnlikeliumsMagnet();
+			LevelInfo.Environments.infoMessage.ShowMessage("Magnet");
 			break;
-		case Gems.Missle:
-			LevelInfo.Environments.missles.missleCount++;
+		case Gems.In3s:
+			LevelInfo.Environments.missles.currentPowerup = Gems.In3s;
+			LevelInfo.Environments.infoMessage.ShowMessage("In 3's");
+			break;
+		case Gems.FreezeWorld:
+			LevelInfo.Environments.playerShip.StartFreezeWorld();
+			LevelInfo.Environments.infoMessage.ShowMessage("Freeze Galaxy");
+			break;
+		case Gems.Pow:
+			LevelInfo.Environments.missles.currentPowerup = Gems.Pow;
+			LevelInfo.Environments.infoMessage.ShowMessage("Pow");
+			break;
+		case Gems.FireBall:
+				LevelInfo.Environments.missles.currentPowerup = Gems.FireBall;
+			LevelInfo.Environments.infoMessage.ShowMessage("FireBall");
 			break;
 		}
-		
-		if( gemtype != Gems.Unlikelium )
-			LevelInfo.Environments.infoMessage.ShowMessage(gemtype.ToString());
 		LevelInfo.Audio.PlayAudioGemPickUp(gemtype);
 		Destroy(gem);
 	}
@@ -58,11 +70,14 @@ public class PlayerCollisionDetection : MonoBehaviour {
 	private void EnableAllUnlikeliumsMagnet()
 	{
 		GameObject[] gems = GameObject.FindGameObjectsWithTag("Gem");
-		foreach(var g in gems )
+		foreach(GameObject g in gems )
 		{
-			g.SendMessage("ActivateMagnet");
+			if(g!=null && g.GetComponent<Gem>() != null)
+				g.GetComponent<Gem>().ActivateMagnet();
 		}
 	}
+	
+	
 	
 	#endregion
 }

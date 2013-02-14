@@ -35,8 +35,6 @@ public class Player : MonoBehaviour {
 	
 	public ParticleSystem[] ExhaustArray;
 	
-	public CollisionSender colSender;
-	
 	public GameObject leftbf,rightbf;
 	public GameObject leftturret,rightturret;
 	
@@ -63,7 +61,53 @@ public class Player : MonoBehaviour {
 	
 	#region PowerUps
 	
-	private bool powerupAutoFire = false;
+	[System.NonSerializedAttribute]
+	public bool AutoFire = false;
+	
+	[System.NonSerializedAttribute]
+	public bool FreezeWorld = false;
+	
+	
+	public void StartSureShot()
+	{
+		StartCoroutine(SureShotThread());
+	}
+
+	private IEnumerator SureShotThread()
+	{
+		if(!AutoFire) 
+		{
+			AutoFire = true;
+		
+			float time = 10f;
+			while ( time > 0f )
+			{
+				TryAutoShot();
+				LevelInfo.Environments.guiPowerUpTime.text = "Sure Shot " + Mathf.CeilToInt(time);
+				time -= Time.deltaTime;
+				yield return new WaitForEndOfFrame();
+			}
+		
+			LevelInfo.Environments.guiPowerUpTime.text = "";
+			AutoFire = false;
+		}
+	}
+	
+	public void StartFreezeWorld()
+	{
+		StartCoroutine(FreezeWorldThread());
+	}
+	
+	private IEnumerator FreezeWorldThread()
+	{
+		if(!FreezeWorld ) 
+		{
+			FreezeWorld = true;
+			yield return new WaitForSeconds(10f);
+			FreezeWorld = false;
+		}
+	}
+	
 	
 	#endregion
 	
@@ -94,14 +138,6 @@ public class Player : MonoBehaviour {
 		travelled += DistXZ(lastPosition,transform.position);
 		lastPosition = transform.position;
 		LevelInfo.Environments.guiDistanceTravelled.text = "" + (int)travelled /*+ " ly"*/;
-		
-		if( colSender.entered )
-		{
-			ManualOnCollisionEnter(colSender.col);
-			colSender.Restart();
-			return;
-		}
-		
 		
 		if( riseTime > 0 )
 		{
@@ -195,32 +231,7 @@ public class Player : MonoBehaviour {
 	#endregion
 	
 	#region Firing
-	
-	public void StartSureShot()
-	{
-		StartCoroutine(SureShotThread());
-	}
-	
-	private IEnumerator SureShotThread()
-	{
-		if(!powerupAutoFire ) 
-		{
-			powerupAutoFire = true;
-		
-			float time = 10f;
-			while ( time > 0f )
-			{
-				TryAutoShot();
-				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(time);
-				time -= Time.deltaTime;
-				yield return new WaitForEndOfFrame();
-			}
-		
-			LevelInfo.Environments.guiPowerUpTime.text = "";
-			powerupAutoFire = false;
-		}
-	}
-	
+
 	void TryStandardShot(bool effectOverheat)
 	{
 		if( fireDeltaTime > 0f ) fireDeltaTime -= Time.deltaTime;
@@ -241,7 +252,7 @@ public class Player : MonoBehaviour {
 		if( autofireDeltaTime > 0f ) autofireDeltaTime -= Time.deltaTime;
 		if( autofireDeltaTime <= 0 )
 		{
-			GameObject[] g = GameObject.FindGameObjectsWithTag("AlienShip");
+			GameObject[] g = GameObject.FindGameObjectsWithTag("Enemy");
 			int index = -1; float minvalue = float.PositiveInfinity;
 			for(int i=0;i<g.Length;i++)
 			{
@@ -281,7 +292,7 @@ public class Player : MonoBehaviour {
 		else
 			LevelInfo.Environments.fireOverheat.Down();
 		
-		if( powerupAutoFire ) return;
+		if( AutoFire ) return;
 		
 		if( Input.GetKeyUp(KeyCode.L) )
 		{
@@ -372,6 +383,7 @@ public class Player : MonoBehaviour {
 		return name.Length >= comparewith.Length && name.Substring(0,comparewith.Length) == comparewith;
 	}
 	
+	/*??*/
 	void ManualOnCollisionEnter(Collision col)
 	{
 		if( LevelInfo.State.state != GameState.Play ) return;
