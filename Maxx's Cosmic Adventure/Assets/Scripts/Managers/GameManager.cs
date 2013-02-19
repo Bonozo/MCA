@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour {
 	public GameObject prefabPlayerMissle;
 	public GameObject prefabPlayerFireBall;
 	
+	public GameObject prefabUnlikelium;
+	
 	#endregion
 	
 	#region Player Positions

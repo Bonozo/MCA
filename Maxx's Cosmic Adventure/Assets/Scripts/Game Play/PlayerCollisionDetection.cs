@@ -59,8 +59,12 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			LevelInfo.Environments.infoMessage.ShowMessage("Pow");
 			break;
 		case Gems.FireBall:
-				LevelInfo.Environments.missles.currentPowerup = Gems.FireBall;
+			LevelInfo.Environments.missles.currentPowerup = Gems.FireBall;
 			LevelInfo.Environments.infoMessage.ShowMessage("FireBall");
+			break;
+		case Gems.LoveUnlikelium:
+			LevelInfo.Environments.playerShip.StartLoveUnlikelium();
+			LevelInfo.Environments.infoMessage.ShowMessage("Unlikelium List");
 			break;
 		}
 		LevelInfo.Audio.PlayAudioGemPickUp(gemtype);

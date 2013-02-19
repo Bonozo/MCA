@@ -21,7 +21,8 @@ public enum Gems
 	In3s,
 	FreezeWorld,
 	Pow,
-	FireBall
+	FireBall,
+	LoveUnlikelium
 }
 
 public class StateManager : MonoBehaviour {

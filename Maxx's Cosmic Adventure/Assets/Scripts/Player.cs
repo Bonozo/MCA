@@ -67,6 +67,21 @@ public class Player : MonoBehaviour {
 	[System.NonSerializedAttribute]
 	public bool FreezeWorld = false;
 	
+	[System.NonSerializedAttribute]
+	public bool Intergalactic = false;
+	
+	[System.NonSerializedAttribute]
+	public bool LoveUnlikelium = false;
+	
+	private void ClearAllPowerups()
+	{
+		StopAllCoroutines();
+		AutoFire = false;
+		FreezeWorld = false;
+		Intergalactic = false;
+		LoveUnlikelium = false;
+		LevelInfo.Environments.guiPowerUpTime.text = "";
+	}
 	
 	public void StartSureShot()
 	{
@@ -108,7 +123,70 @@ public class Player : MonoBehaviour {
 		}
 	}
 	
+	public void StartIntergalactic()
+	{
+		ClearAllPowerups();
+		StartCoroutine(IntergalacticThread());
+	}
 	
+	private IEnumerator IntergalacticThread()
+	{	
+		Intergalactic = true;
+		LevelInfo.Environments.generator.GenerateAlienShip = false;
+		LevelInfo.Environments.generator.GenerateAsteroid = false;
+		float time = 3f;
+		float speed = 5000f;
+		while(time>0f)
+		{
+			time -= Time.deltaTime;
+			transform.Translate(speed*Time.deltaTime*Vector3.forward);	
+			CameraSetUp();
+			UpdateHUB();
+			yield return null;
+		}
+		
+		LevelInfo.Environments.generator.GenerateAlienShip = true;
+		LevelInfo.Environments.generator.GenerateAsteroid = true;
+		Intergalactic = false;
+	}	
+
+	public void StartLoveUnlikelium()
+	{
+		StartFreezeWorld();
+		StartCoroutine(LoveUnlikeliumThread());
+	}
+	
+	private IEnumerator LoveUnlikeliumThread()
+	{	
+		if(!LoveUnlikelium)
+		{
+			LoveUnlikelium = true;
+			LevelInfo.Environments.generator.GenerateAlienShip = false;
+			LevelInfo.Environments.generator.GenerateAsteroid = false;
+			
+			LevelInfo.Environments.generator.StartUnlikeliumGenerator();
+			float time = 10f;
+			while(time>0f)
+			{
+				time -= Time.deltaTime;
+				yield return null;
+			}
+			LevelInfo.Environments.generator.StopUnlikeliumGenerator();
+			
+			time = 4f;
+			while(time>0f)
+			{
+				time -= Time.deltaTime;
+				yield return null;
+			}
+			LevelInfo.Environments.generator.DeletaUnlikeliumList();
+			
+			LevelInfo.Environments.generator.GenerateAlienShip = true;
+			LevelInfo.Environments.generator.GenerateAsteroid = true;
+			LoveUnlikelium = false;
+		}
+	}		
+
 	#endregion
 	
 	#region Start Update
@@ -134,10 +212,11 @@ public class Player : MonoBehaviour {
 		
 		if(LevelInfo.State.state != GameState.Play ) return;
 		
-		// calc travelled
-		travelled += DistXZ(lastPosition,transform.position);
-		lastPosition = transform.position;
-		LevelInfo.Environments.guiDistanceTravelled.text = "" + (int)travelled /*+ " ly"*/;
+		if( Intergalactic ) return;
+		if( Input.GetKeyUp(KeyCode.I) )
+			StartLoveUnlikelium();
+		
+		UpdateHUB();
 		
 		if( riseTime > 0 )
 		{
@@ -183,7 +262,19 @@ public class Player : MonoBehaviour {
 	}
 	
 	#endregion
-
+	
+	#region HUB
+	
+	private void UpdateHUB()
+	{
+		// calc travelled
+		travelled += DistXZ(lastPosition,transform.position);
+		lastPosition = transform.position;
+		LevelInfo.Environments.guiDistanceTravelled.text = "" + (int)travelled /*+ " ly"*/;
+	}
+	
+	#endregion
+	
 	
 	#region Transform
 	
@@ -350,16 +441,21 @@ public class Player : MonoBehaviour {
 	void ExhaustSetUp()
 	{	
 		float currentspeed = ExhaustArray[0].startSpeed;
-		if( touchInput.B && !LevelInfo.Environments.fuelOverheat.Up())
+		
+		if( LoveUnlikelium || (touchInput.B  && !LevelInfo.Environments.fuelOverheat.Up()) )
 		{
-			currentspeed += 0.5f;
+			currentspeed += 30f*Time.deltaTime;
+			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;
 		}
 		else
 		{
 			LevelInfo.Environments.fuelOverheat.Down();
-			currentspeed -= 0.5f;
+			currentspeed -= 30f*Time.deltaTime;
+			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineNormal;
 		}
-		currentspeed = Mathf.Clamp(currentspeed,1f,8f);
+		if( !LevelInfo.Audio.audioSourcePlayerShip.isPlaying ) LevelInfo.Audio.audioSourcePlayerShip.Play();
+		
+		currentspeed = Mathf.Clamp(currentspeed,1f,LoveUnlikelium?8f:6f);
 		foreach(ParticleSystem e in ExhaustArray)
 			e.startSpeed = currentspeed;
 		float delta = currentspeed-lastexhaust;
@@ -371,11 +467,11 @@ public class Player : MonoBehaviour {
 	
 	void SoundSetUp()
 	{
-		if( touchInput.B )
+		/*if( touchInput.B )
 			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;
 		else
 			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineNormal;
-		if( !LevelInfo.Audio.audioSourcePlayerShip.isPlaying ) LevelInfo.Audio.audioSourcePlayerShip.Play();
+		if( !LevelInfo.Audio.audioSourcePlayerShip.isPlaying ) LevelInfo.Audio.audioSourcePlayerShip.Play();*/
 	}
 	
 	bool HitWithName(string name,string comparewith)
