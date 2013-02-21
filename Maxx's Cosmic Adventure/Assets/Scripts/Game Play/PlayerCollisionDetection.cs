@@ -7,21 +7,29 @@ public class PlayerCollisionDetection : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider col)
 	{
+		Debug.Log("Trigger " + col.gameObject.name);
 		switch(col.gameObject.tag)
 		{
 		case "Gem":
 			TakeGem(col.gameObject);
 			break;
 		case "Asteroid":
-			
+		case "Enemy":
+		case "AlienBullet":
+			#if UNITY_ANDROID || UNITY_IPHONE
+			if( Option.Vibration )
+				Handheld.Vibrate();
+			#endif	
+			LevelInfo.Environments.score.LostLive();
+			Destroy(col.gameObject);
 			break;
 		}
 	}
 	
-	/*void OnCollisionEnter(Collision col)
+	void OnCollisionEnter(Collision col)
 	{
-		
-	}*/
+		Debug.Log("Collision " + col.gameObject.name);
+	}
 	
 	#endregion
 	

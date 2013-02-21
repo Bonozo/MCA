@@ -57,6 +57,19 @@ public class StateManager : MonoBehaviour {
 				LevelInfo.Environments.HUB.SetActive(false);
 				Store.Instance.ShowStore = true;
 				break;
+			case GameState.Lose:
+				LevelInfo.Environments.playerShip.transform.localScale *= 0;
+				LevelInfo.Environments.playerShip.ClearAllPowerups();
+				GameObject c = GameObject.Find("GameOverText");
+				if(c != null )
+					c.GetComponent<GameOver>().enabled = true;
+				
+				foreach(var r in LevelInfo.Environments.playerShip.ExhaustArray )
+					r.enableEmission = false;
+				
+				LevelInfo.Audio.StopAll();
+				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Environments.playerShip.AudioGameOver);
+				break;
 			}
 			
 			Time.timeScale = (state == GameState.Play?1f:0f);

@@ -75,7 +75,7 @@ public class Player : MonoBehaviour {
 	[System.NonSerializedAttribute]
 	public bool Magned = false;
 	
-	private void ClearAllPowerups()
+	public void ClearAllPowerups()
 	{
 		StopAllCoroutines();
 		AutoFire = false;
@@ -141,7 +141,6 @@ public class Player : MonoBehaviour {
 	
 	public void StartIntergalactic()
 	{
-		ClearAllPowerups();
 		StartCoroutine(IntergalacticThread());
 	}
 	
@@ -237,6 +236,8 @@ public class Player : MonoBehaviour {
 	void Awake()
 	{
 		LevelInfo.Environments.FPS.SetActive(Option.ShowFPS);
+		//animation["barrelrollup"].speed = animation["barrelrollleft"].speed
+		//	= animation["barrelrollright"].speed = 0.7f;
 	}
 	
 	// Use this for initialization
