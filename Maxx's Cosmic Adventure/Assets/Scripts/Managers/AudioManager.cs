@@ -80,7 +80,11 @@ public class AudioManager : MonoBehaviour {
 		audioSourceJeebles.PlayOneShot(audioAsteroidExplode);
 	}
 	
+	#endregion
 	
+	#region Powerups
+	
+	public AudioClip clipPowerupPOW;
 	
 	#endregion
 	

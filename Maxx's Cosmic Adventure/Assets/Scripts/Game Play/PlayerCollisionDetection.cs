@@ -43,16 +43,16 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			LevelInfo.Environments.score.AddLive();
 			break;
 		case Gems.Magnet:
-			EnableAllUnlikeliumsMagnet();
-			LevelInfo.Environments.infoMessage.ShowMessage("Magnet");
+			LevelInfo.Environments.playerShip.StartMagned();
+			LevelInfo.Environments.infoMessage.ShowMessage("Lay It On Me");
 			break;
 		case Gems.In3s:
 			LevelInfo.Environments.missles.currentPowerup = Gems.In3s;
-			LevelInfo.Environments.infoMessage.ShowMessage("In 3's");
+			LevelInfo.Environments.infoMessage.ShowMessage("Triple Trouble");
 			break;
 		case Gems.FreezeWorld:
 			LevelInfo.Environments.playerShip.StartFreezeWorld();
-			LevelInfo.Environments.infoMessage.ShowMessage("Freeze Galaxy");
+			LevelInfo.Environments.infoMessage.ShowMessage("Hold It Now, Hit It");
 			break;
 		case Gems.Pow:
 			LevelInfo.Environments.missles.currentPowerup = Gems.Pow;
@@ -60,28 +60,24 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			break;
 		case Gems.FireBall:
 			LevelInfo.Environments.missles.currentPowerup = Gems.FireBall;
-			LevelInfo.Environments.infoMessage.ShowMessage("FireBall");
+			LevelInfo.Environments.infoMessage.ShowMessage("Lighten Up");
 			break;
 		case Gems.LoveUnlikelium:
 			LevelInfo.Environments.playerShip.StartLoveUnlikelium();
-			LevelInfo.Environments.infoMessage.ShowMessage("Unlikelium List");
+			LevelInfo.Environments.infoMessage.ShowMessage("Shazam!");
+			break;
+		case Gems.Intergalactic:
+			LevelInfo.Environments.playerShip.StartIntergalactic();
+			LevelInfo.Environments.infoMessage.ShowMessage("Intergalactic");
+			break;
+		case Gems.ToughGuy:
+			LevelInfo.Environments.score.AddLive();
+			LevelInfo.Environments.infoMessage.ShowMessage("Tough Guy");
 			break;
 		}
 		LevelInfo.Audio.PlayAudioGemPickUp(gemtype);
 		Destroy(gem);
 	}
-	
-	private void EnableAllUnlikeliumsMagnet()
-	{
-		GameObject[] gems = GameObject.FindGameObjectsWithTag("Gem");
-		foreach(GameObject g in gems )
-		{
-			if(g!=null && g.GetComponent<Gem>() != null)
-				g.GetComponent<Gem>().ActivateMagnet();
-		}
-	}
-	
-	
 	
 	#endregion
 }

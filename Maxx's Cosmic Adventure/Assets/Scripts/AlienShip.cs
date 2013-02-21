@@ -22,6 +22,7 @@ public class AlienShip : MonoBehaviour {
 	private float appearTime;
 	private bool showcrystal = false;
 	private bool playedgotem = false;
+	private float targetingboxtime = 3f;
 	
 	private GameObject targetingBox = null;
 	private bool exploded = false;
@@ -118,6 +119,9 @@ public class AlienShip : MonoBehaviour {
 			
 			targetingBox.transform.position = new Vector3(centr.x,centr.y,targetingBox.transform.position.z);
 			targetingBox.transform.localScale = new Vector3(sc,sc,targetingBox.transform.localScale.z);
+			
+			targetingboxtime -= Time.deltaTime;
+			if(targetingboxtime<=0f) Destroy(targetingBox);
 		}
 	}
 	
@@ -228,6 +232,9 @@ public class AlienShip : MonoBehaviour {
 	public void EnableTargetingBox()
 	{
 		if( targetingBox == null && !exploded )
+		{
 			targetingBox = (GameObject)Instantiate(LevelInfo.Environments.targetingBoxPrefab);
+			targetingboxtime = 3f;
+		}
 	}
 }

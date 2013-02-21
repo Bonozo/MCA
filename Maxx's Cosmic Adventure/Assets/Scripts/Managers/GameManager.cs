@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject targetingBoxPrefab;
 	
 	public GameObject prefabPlayerProjectile;
+	public GameObject prefabPlayerAutoFireProjectile;
 	public GameObject prefabPlayerMissle;
 	public GameObject prefabPlayerFireBall;
 	
@@ -56,6 +57,10 @@ public class GameManager : MonoBehaviour {
 	#endregion
 	
 	#region Player Positions
+	
+	public Transform playerLeftFireTransform;
+	public Transform playerRightFireTransform;
+	public Transform playerAutoFireTransform;
 	
 	public Transform[] posPlayerMissle;
 	public ParticleSystem ShockWave;

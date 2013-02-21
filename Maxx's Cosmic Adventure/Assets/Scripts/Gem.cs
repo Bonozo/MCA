@@ -8,7 +8,6 @@ public class Gem : MonoBehaviour {
 	public Gems gemType;
 	
 	private float MoveSpeed = 100f;
-	private bool magned = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -20,21 +19,19 @@ public class Gem : MonoBehaviour {
 		
 		//this.rigidbody.velocity = this.rigidbody.angularVelocity = Vector3.zero;
 		
-		if( magned )
+		if(gemType == Gems.Unlikelium)
 		{
-			Vector3 dir = (LevelInfo.Environments.playerShip.transform.position - transform.position).normalized;
-			transform.Translate(dir*Time.deltaTime*MoveSpeed,Space.World);
+			var player = LevelInfo.Environments.playerShip;
+			if( player.Magned &&  player.DistXZ(transform.position) <= 60f)
+			{
+				Vector3 dir = (LevelInfo.Environments.playerShip.transform.position - transform.position).normalized;
+				transform.Translate(dir*Time.deltaTime*MoveSpeed,Space.World);
+			}
 		}
 		
 		if(particle != null )
 			particle.transform.Rotate(0,-1.25f*RotateSpeed*Time.deltaTime,0);
 		transform.Rotate(0,RotateSpeed*Time.deltaTime,0);
 		
-	}
-	
-	public void ActivateMagnet()
-	{
-		if( gemType == Gems.Unlikelium )
-			magned = true;
 	}
 }

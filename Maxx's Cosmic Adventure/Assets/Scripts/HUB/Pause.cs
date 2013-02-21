@@ -7,12 +7,10 @@ public class Pause : MonoBehaviour {
 	
 	bool ppause = false;
 	float maxx = 1500;
-	float current;
 	float speed = 4000;
 	
 	void Awake()
 	{
-		current = maxx;
 		left1.localPosition  = new Vector3(-maxx,left1.localPosition.y,left1.localPosition.z);
 		left2.localPosition  = new Vector3(-maxx,left2.localPosition.y,left2.localPosition.z);
 		right1.localPosition = new Vector3( maxx,right1.localPosition.y,right1.localPosition.z);

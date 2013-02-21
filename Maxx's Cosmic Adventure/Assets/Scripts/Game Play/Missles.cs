@@ -22,7 +22,7 @@ public class Missles : MonoBehaviour {
 			switch(_currentPowerup)
 			{
 			case Gems.In3s:
-				powerupName.text = "In 3's";
+				powerupName.text = "Triple Trouble";
 				break;
 			case Gems.Pow:
 				powerupName.text = "Pow";
@@ -137,6 +137,7 @@ public class Missles : MonoBehaviour {
 	
 	IEnumerator PowPowerup()
 	{
+		LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Audio.clipPowerupPOW);
 		LevelInfo.Environments.ShockWave.Emit(1);
 		
 		yield return new WaitForSeconds(0.2f);

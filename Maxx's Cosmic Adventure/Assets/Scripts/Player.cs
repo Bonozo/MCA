@@ -23,8 +23,6 @@ public class Player : MonoBehaviour {
 	
 	public float UpDownMaxHeight = 3f;
 	
-	public GameObject Bullet;
-	public GameObject BulletYellow;
 	public AudioClip AudioFire;
 	public AudioClip ExplosionSoundEffect;
 	
@@ -35,7 +33,6 @@ public class Player : MonoBehaviour {
 	
 	public ParticleSystem[] ExhaustArray;
 	
-	public GameObject leftbf,rightbf;
 	public GameObject leftturret,rightturret;
 	
 	#endregion
@@ -61,6 +58,8 @@ public class Player : MonoBehaviour {
 	
 	#region PowerUps
 	
+	public float SureShotDistance = 80;
+	
 	[System.NonSerializedAttribute]
 	public bool AutoFire = false;
 	
@@ -73,6 +72,9 @@ public class Player : MonoBehaviour {
 	[System.NonSerializedAttribute]
 	public bool LoveUnlikelium = false;
 	
+	[System.NonSerializedAttribute]
+	public bool Magned = false;
+	
 	private void ClearAllPowerups()
 	{
 		StopAllCoroutines();
@@ -80,6 +82,7 @@ public class Player : MonoBehaviour {
 		FreezeWorld = false;
 		Intergalactic = false;
 		LoveUnlikelium = false;
+		Magned = false;
 		LevelInfo.Environments.guiPowerUpTime.text = "";
 	}
 	
@@ -88,24 +91,27 @@ public class Player : MonoBehaviour {
 		StartCoroutine(SureShotThread());
 	}
 
+	private float poweruptime = 0f;
 	private IEnumerator SureShotThread()
 	{
 		if(!AutoFire) 
 		{
 			AutoFire = true;
 		
-			float time = 10f;
-			while ( time > 0f )
+			poweruptime = 10f;
+			while ( poweruptime > 0f )
 			{
 				TryAutoShot();
-				LevelInfo.Environments.guiPowerUpTime.text = "Sure Shot " + Mathf.CeilToInt(time);
-				time -= Time.deltaTime;
+				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
+				poweruptime -= Time.deltaTime;
 				yield return new WaitForEndOfFrame();
 			}
 		
 			LevelInfo.Environments.guiPowerUpTime.text = "";
 			AutoFire = false;
 		}
+		else
+			poweruptime = 10f;
 	}
 	
 	public void StartFreezeWorld()
@@ -118,9 +124,19 @@ public class Player : MonoBehaviour {
 		if(!FreezeWorld ) 
 		{
 			FreezeWorld = true;
-			yield return new WaitForSeconds(10f);
+			poweruptime = 10f;
+			while ( poweruptime > 0f )
+			{
+				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
+				poweruptime -= Time.deltaTime;
+				yield return new WaitForEndOfFrame();
+			}
+		
+			LevelInfo.Environments.guiPowerUpTime.text = "";
 			FreezeWorld = false;
 		}
+		else
+			poweruptime = 10f;
 	}
 	
 	public void StartIntergalactic()
@@ -131,28 +147,28 @@ public class Player : MonoBehaviour {
 	
 	private IEnumerator IntergalacticThread()
 	{	
-		Intergalactic = true;
-		LevelInfo.Environments.generator.GenerateAlienShip = false;
-		LevelInfo.Environments.generator.GenerateAsteroid = false;
-		float time = 3f;
-		float speed = 5000f;
-		while(time>0f)
+		if(!Intergalactic)
 		{
-			time -= Time.deltaTime;
-			transform.Translate(speed*Time.deltaTime*Vector3.forward);	
-			CameraSetUp();
-			UpdateHUB();
-			yield return null;
+			Intergalactic = true;
+			LevelInfo.Environments.generator.GenerateAlienShip = false;
+			LevelInfo.Environments.generator.GenerateAsteroid = false;
+			
+			poweruptime = 5f;
+			while(poweruptime>0f)
+			{
+				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
+				poweruptime -= Time.deltaTime;
+				yield return null;
+			}
+			LevelInfo.Environments.guiPowerUpTime.text = "";
+			LevelInfo.Environments.generator.GenerateAlienShip = true;
+			LevelInfo.Environments.generator.GenerateAsteroid = true;
+			Intergalactic = false;
 		}
-		
-		LevelInfo.Environments.generator.GenerateAlienShip = true;
-		LevelInfo.Environments.generator.GenerateAsteroid = true;
-		Intergalactic = false;
 	}	
 
 	public void StartLoveUnlikelium()
 	{
-		StartFreezeWorld();
 		StartCoroutine(LoveUnlikeliumThread());
 	}
 	
@@ -165,15 +181,17 @@ public class Player : MonoBehaviour {
 			LevelInfo.Environments.generator.GenerateAsteroid = false;
 			
 			LevelInfo.Environments.generator.StartUnlikeliumGenerator();
-			float time = 10f;
-			while(time>0f)
+			poweruptime = 10f;
+			while(poweruptime>0f)
 			{
-				time -= Time.deltaTime;
+				poweruptime -= Time.deltaTime;
+				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
 				yield return null;
 			}
 			LevelInfo.Environments.generator.StopUnlikeliumGenerator();
+			LevelInfo.Environments.guiPowerUpTime.text = "";
 			
-			time = 4f;
+			float time = 4f;
 			while(time>0f)
 			{
 				time -= Time.deltaTime;
@@ -186,7 +204,32 @@ public class Player : MonoBehaviour {
 			LoveUnlikelium = false;
 		}
 	}		
-
+		
+	
+	public void StartMagned()
+	{
+		StartCoroutine(MagnedThread());
+	}
+	
+	private IEnumerator MagnedThread()
+	{
+		if(!Magned ) 
+		{
+			Magned = true;
+			poweruptime = 10f;
+			while ( poweruptime > 0f )
+			{
+				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
+				poweruptime -= Time.deltaTime;
+				yield return new WaitForEndOfFrame();
+			}
+	
+			LevelInfo.Environments.guiPowerUpTime.text = "";
+			Magned = false;
+		}
+		else
+			poweruptime = 10f;
+	}
 	#endregion
 	
 	#region Start Update
@@ -211,10 +254,6 @@ public class Player : MonoBehaviour {
 	void Update () {
 		
 		if(LevelInfo.State.state != GameState.Play ) return;
-		
-		if( Intergalactic ) return;
-		if( Input.GetKeyUp(KeyCode.I) )
-			StartLoveUnlikelium();
 		
 		UpdateHUB();
 		
@@ -332,8 +371,8 @@ public class Player : MonoBehaviour {
 		if( fireDeltaTime <= 0 && (!effectOverheat || !LevelInfo.Environments.fireOverheat.Overheated) )
 		{
 			LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(AudioFire);
-			Instantiate(Bullet,leftbf.transform.position,Quaternion.Euler(0f,transform.rotation.eulerAngles.y,0f) );
-			Instantiate(Bullet,rightbf.transform.position,Quaternion.Euler(0f,transform.rotation.eulerAngles.y,0f) );
+			Instantiate(LevelInfo.Environments.prefabPlayerProjectile,LevelInfo.Environments.playerLeftFireTransform.position,Quaternion.Euler(0f,transform.rotation.eulerAngles.y,0f) );
+			Instantiate(LevelInfo.Environments.prefabPlayerProjectile,LevelInfo.Environments.playerRightFireTransform.position,Quaternion.Euler(0f,transform.rotation.eulerAngles.y,0f) );
 			fireDeltaTime = FireDeltaTime;
 		}			
 	}
@@ -348,7 +387,8 @@ public class Player : MonoBehaviour {
 			for(int i=0;i<g.Length;i++)
 			{
 				Vector3 toscreen = LevelInfo.Environments.mainCamera.WorldToScreenPoint(g[i].transform.position);
-				if(toscreen.x >= 0 && toscreen.x <= Screen.width && 
+				if( DistXZ(g[i].transform.position,transform.position) <= SureShotDistance &&
+					toscreen.x >= 0 && toscreen.x <= Screen.width && 
 					toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f && toscreen.z < minvalue )
 				{
 					minvalue = toscreen.z;
@@ -357,7 +397,7 @@ public class Player : MonoBehaviour {
 			}
 			if(index != -1)
 			{
-				Vector3 midpos = 0.5f*(leftturret.transform.position+rightturret.transform.position);
+				/*Vector3 midpos = 0.5f*(leftturret.transform.position+rightturret.transform.position);
 				GameObject j1 = (GameObject)Instantiate(BulletYellow,midpos,Quaternion.identity );
 				GameObject j2 = (GameObject)Instantiate(BulletYellow,midpos,Quaternion.identity );
 				j1.transform.LookAt(g[index].transform);
@@ -366,8 +406,12 @@ public class Player : MonoBehaviour {
 				j2.transform.position = rightturret.transform.position;
 				j1.SendMessage("ToTarget",g[index]);
 				j2.SendMessage("ToTarget",g[index]);
-				g[index].SendMessage("EnableTargetingBox");
+				g[index].SendMessage("EnableTargetingBox");*/
 				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(AudioFire);
+				GameObject bullet = (GameObject)Instantiate(LevelInfo.Environments.prefabPlayerAutoFireProjectile,LevelInfo.Environments.playerAutoFireTransform.position,Quaternion.Euler(0f,transform.rotation.eulerAngles.y,0f) );
+				bullet.transform.LookAt(g[index].transform);
+				bullet.GetComponent<Bullet>().ToTarget(g[index]);
+				g[index].SendMessage("EnableTargetingBox");
 			}
 			
 			autofireDeltaTime = 0.1f;	
@@ -376,6 +420,7 @@ public class Player : MonoBehaviour {
 	
 	void FireSetUp()
 	{
+		if( Intergalactic ) return;
 		
 		// Standart shot
 		if( Input.GetKey(KeyCode.F) || touchInput.FireRight || touchInput.FireLeft )
@@ -440,9 +485,15 @@ public class Player : MonoBehaviour {
 	float lastexhaust = 1f;
 	void ExhaustSetUp()
 	{	
+		bool reduce=false;
 		float currentspeed = ExhaustArray[0].startSpeed;
 		
-		if( LoveUnlikelium || (touchInput.B  && !LevelInfo.Environments.fuelOverheat.Up()) )
+		if( Intergalactic )
+		{
+			currentspeed += 60f*Time.deltaTime;
+			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;		
+		}
+		else if( LoveUnlikelium || (touchInput.B  && !LevelInfo.Environments.fuelOverheat.Up()) )
 		{
 			currentspeed += 30f*Time.deltaTime;
 			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;
@@ -452,10 +503,20 @@ public class Player : MonoBehaviour {
 			LevelInfo.Environments.fuelOverheat.Down();
 			currentspeed -= 30f*Time.deltaTime;
 			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineNormal;
+			reduce=true;
 		}
 		if( !LevelInfo.Audio.audioSourcePlayerShip.isPlaying ) LevelInfo.Audio.audioSourcePlayerShip.Play();
 		
-		currentspeed = Mathf.Clamp(currentspeed,1f,LoveUnlikelium?8f:6f);
+		if(reduce)
+		{ 
+			currentspeed = Mathf.Clamp(currentspeed,1f,float.PositiveInfinity);
+		}
+		else
+		{
+			if(Intergalactic) currentspeed = Mathf.Clamp(currentspeed,1f,50f);
+			else currentspeed = Mathf.Clamp(currentspeed,1f,LoveUnlikelium?8f:6f);
+		}
+		
 		foreach(ParticleSystem e in ExhaustArray)
 			e.startSpeed = currentspeed;
 		float delta = currentspeed-lastexhaust;
@@ -556,6 +617,13 @@ public class Player : MonoBehaviour {
 	{
 		a.y=b.y=0;
 		return Vector3.Distance(a,b);
+	}
+	
+	public float DistXZ(Vector3 pos)
+	{
+		var a = transform.position;
+		a.y=pos.y=0;
+		return Vector3.Distance(a,pos);
 	}
 	
 	#endregion
