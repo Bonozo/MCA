@@ -41,7 +41,7 @@ public class PlayerCollisionDetection : MonoBehaviour {
 		switch( gemtype )
 		{
 		case Gems.Unlikelium:
-			LevelInfo.Environments.playerShip.numberUnlikelium++;
+			Store.Instance.Unlikeliums++;
 			break;
 		case Gems.SureShot:
 			LevelInfo.Environments.playerShip.StartSureShot();

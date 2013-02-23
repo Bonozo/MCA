@@ -3,6 +3,128 @@ using System.Collections;
 
 public class Store : MonoBehaviour {
 	
+	#region Player Prefabs
+	
+	private int _unlikeliums;
+	public int Unlikeliums{
+		get{
+			return _unlikeliums;
+		}
+		set{
+			_unlikeliums=value;
+			PlayerPrefs.SetInt("unlikeliums",_unlikeliums);
+			guiUnlikelium.text = "" + _unlikeliums;
+		}
+	}
+	
+	void Awake()
+	{
+		Unlikeliums = PlayerPrefs.GetInt("unlikeliums",0);
+		
+		DontDestroyOnLoad(this.gameObject);
+		
+		FingerGestures.OnDragMove += HandleFingerGesturesOnDragMove;
+		
+		ShowStore=false;
+	}
+	
+	#endregion
+	
+	#region References
+	
+	public GameObject gui;
+	public Camera camera2d;
+	public Transform buttonsDelta;
+	public UILabel guiUnlikelium;
+	public GameObject buttonGame;
+	
+	public GameObject popup;
+	public UILabel popupName;
+	public UISprite popupIcon;
+	public UILabel popupCost;
+	
+	#endregion
+	
+	#region Public Field
+	
+	private bool _showStore = false;
+	public bool ShowStore{
+		get{
+			return _showStore;
+		}
+		set{
+			_showStore = value;
+			storeMaxxShip.SetActive(_showStore);
+			if(_showStore)
+			{
+				popup.SetActive(false);
+				buttonGame.SetActive(IsPlayGame);
+			}
+		}
+	}
+	
+	[System.NonSerializedAttribute]
+	public UpdateablePowerup _currentPowerup;
+	
+	#endregion
+
+	#region Input Events
+	
+	void HandleFingerGesturesOnDragMove (Vector2 fingerPos, Vector2 delta)
+	{
+		if(!ShowStore) return;
+		fingerPos = camera2d.transform.worldToLocalMatrix * camera2d.ScreenToWorldPoint( fingerPos );
+		fingerPos += new Vector2(camera2d.pixelWidth*0.5f,camera2d.pixelHeight*0.5f);
+		if( fingerPos.x >= 30f && fingerPos.x <= 350 && fingerPos.y >= 10f && fingerPos.y <= 410f )
+			buttonsDelta.localPosition = new Vector3(buttonsDelta.localPosition.x,Mathf.Clamp(buttonsDelta.localPosition.y+delta.y,0f,80f),buttonsDelta.localPosition.z);
+	}
+	
+	#endregion
+	
+	#region Powerups
+	
+	public UpdateablePowerup powerupSureShot;
+	public UpdateablePowerup powerupMagned;
+	public UpdateablePowerup powerupLighenUp;
+	public UpdateablePowerup powerupFreeze;
+	public UpdateablePowerup powerupShazam;
+	public UpdateablePowerup powerupIntergalactic;
+	
+	
+	public readonly int[] costs = {30,100,300,1000,3000};
+	public void Activate(UpdateablePowerup powerup)
+	{
+		_currentPowerup = powerup;
+		
+		popupName.text = powerup.powerupName.ToUpper()+"!";
+		popupCost.text = powerup.level==4?"FULLY UPGRATED":"LEVEL " + (powerup.level+1) + " (" + costs[powerup.level]+")";
+		popup.SetActive(true);
+	}
+	
+	#endregion
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	#region Enums
 	
 	private enum State { Nothing,Offence,Defence};
@@ -19,17 +141,6 @@ public class Store : MonoBehaviour {
 	
 	#region Private Field
 	
-	private bool _showStore = false;
-	public bool ShowStore{
-		get{
-			return _showStore;
-		}
-		set{
-			_showStore = value;
-			storeMaxxShip.SetActive(_showStore);
-		}
-	}
-	
 	private State state = State.Nothing;
 	
 	private Vector2 scrollposition = Vector2.zero;
@@ -41,15 +152,6 @@ public class Store : MonoBehaviour {
 	
 	public bool IsMainMenu { get { return Application.loadedLevelName=="mainmenu"; }}
 	public bool IsPlayGame { get { return Application.loadedLevelName=="playgame"; }}
-	
-	#endregion
-	
-	#region Awake, Start, Update
-	
-	void Awake()
-	{
-		DontDestroyOnLoad(this.gameObject);
-	}
 	
 	#endregion
 	
@@ -163,8 +265,8 @@ public class Store : MonoBehaviour {
 
 	void OnGUI()
 	{
-		if( ShowStore ) 
-			DrawStore();
+		//if( ShowStore ) 
+		//	DrawStore();
 	}
 	
 	#endregion

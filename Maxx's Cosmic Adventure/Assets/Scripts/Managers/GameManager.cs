@@ -29,9 +29,9 @@ public class GameManager : MonoBehaviour {
 	public Overheat fuelOverheat;
 	public Overheat fireOverheat;
 	
-	// must change to NGUI
 	public UILabel guiPowerUpTime;
 	public UILabel guiDistanceTravelled;
+	public UILabel guiUnlikeliums;
 	
 	#endregion
 	

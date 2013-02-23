@@ -154,11 +154,11 @@ public class Missles : MonoBehaviour {
 	IEnumerator FireBallPowerup()
 	{
 		timedpowerup = true;
-		float time = 10f;
+		float time = Store.Instance.powerupLighenUp.LevelTime;
 		while(time>0)
 		{
 			time -= Time.deltaTime;
-			powerupName.text = "Fireball " + (int)(time+0.99f);
+			powerupName.text = "" + (int)(time+0.99f);
 			yield return null;
 		}
 		

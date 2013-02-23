@@ -37,9 +37,6 @@ public class Player : MonoBehaviour {
 	
 	#endregion
 	
-	[System.NonSerialized]
-	public int numberUnlikelium = 0;
-	
 	#region Variables
 	
 	private TouchInput touchInput;
@@ -98,7 +95,7 @@ public class Player : MonoBehaviour {
 		{
 			AutoFire = true;
 		
-			poweruptime = 10f;
+			poweruptime = Store.Instance.powerupSureShot.LevelTime;
 			while ( poweruptime > 0f )
 			{
 				TryAutoShot();
@@ -124,7 +121,7 @@ public class Player : MonoBehaviour {
 		if(!FreezeWorld ) 
 		{
 			FreezeWorld = true;
-			poweruptime = 10f;
+			poweruptime = Store.Instance.powerupFreeze.LevelTime;
 			while ( poweruptime > 0f )
 			{
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
@@ -152,7 +149,7 @@ public class Player : MonoBehaviour {
 			LevelInfo.Environments.generator.GenerateAlienShip = false;
 			LevelInfo.Environments.generator.GenerateAsteroid = false;
 			
-			poweruptime = 5f;
+			poweruptime = Store.Instance.powerupIntergalactic.LevelTime*0.5f;
 			while(poweruptime>0f)
 			{
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
@@ -180,7 +177,7 @@ public class Player : MonoBehaviour {
 			LevelInfo.Environments.generator.GenerateAsteroid = false;
 			
 			LevelInfo.Environments.generator.StartUnlikeliumGenerator();
-			poweruptime = 10f;
+			poweruptime = Store.Instance.powerupShazam.LevelTime;
 			while(poweruptime>0f)
 			{
 				poweruptime -= Time.deltaTime;
@@ -215,7 +212,7 @@ public class Player : MonoBehaviour {
 		if(!Magned ) 
 		{
 			Magned = true;
-			poweruptime = 10f;
+			poweruptime = Store.Instance.powerupMagned.LevelTime;
 			while ( poweruptime > 0f )
 			{
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
@@ -311,6 +308,7 @@ public class Player : MonoBehaviour {
 		travelled += DistXZ(lastPosition,transform.position);
 		lastPosition = transform.position;
 		LevelInfo.Environments.guiDistanceTravelled.text = "" + (int)travelled /*+ " ly"*/;
+		LevelInfo.Environments.guiUnlikeliums.text = "" + Store.Instance.Unlikeliums + " u";
 	}
 	
 	#endregion
@@ -596,18 +594,6 @@ public class Player : MonoBehaviour {
 	public void GetEnemyBulletBump()
 	{
 		
-	}
-	
-	#endregion
-	
-	#region GUI
-	
-	void OnGUI()
-	{
-		if( Time.timeScale == 0.0f ) return;
-		
-		GUI.Label(new Rect(0,50,100,50), "Score : " + scorepoint + "\nUnlikelium : " + numberUnlikelium);
-		//GUI.Label(new Rect(0,165,400,400), "Acceleration : " + GameEnvironment.InputAxis);
 	}
 	
 	#endregion
