@@ -4,7 +4,7 @@ using System.Collections;
 public class Player : MonoBehaviour {
 	
 	#region Parameters
-
+	
 	public float RotationMaxAngle = 20.0f;
 	public float RotationAngleChangeFactor = 20.0f;
 	public float RotationToRotateFactor = 20.0f;
@@ -18,7 +18,7 @@ public class Player : MonoBehaviour {
 	public float WaitForStart = 2f;
 	public float BeginHeight = -3f;
 	
-	public float CameraZ = 9.5f;
+	public float CameraZ = 9.5f; 
 	public float CameraHeight = 1.5f;
 	
 	public float UpDownMaxHeight = 3f;

@@ -30,7 +30,7 @@ public class AlienShipGenerator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if( player == null || player.GetComponent<Detonator>().enabled)
+		if( LevelInfo.State.state != GameState.Play)
 			return;
 		
 		rate -= Time.deltaTime;
