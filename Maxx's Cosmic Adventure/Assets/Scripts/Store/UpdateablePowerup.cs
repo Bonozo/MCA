@@ -23,8 +23,8 @@ public class UpdateablePowerup : MonoBehaviour {
 	
 	void OnPress(bool isDown)
 	{
-		if(!isDown)
-			Store.Instance.Activate(this);
+		//if(!isDown)
+		//	Store.Instance.Activate(this);
 	}
 	
 	public bool FullyUpdated { get { return level==4; }}
