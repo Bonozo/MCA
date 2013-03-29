@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour {
 	public int Power=1;
 	public float Speed = 200f;
 	public float DeadTime = 10f;	
+	public bool Active = true;
 	
 	public Vector3 BeginPosition { set { transform.position = value; } }
 	public Vector3 BeginRotation { set { transform.position = value; } }
@@ -22,6 +23,13 @@ public class Bullet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () 	{
+		
+		if(!Active) 
+		{
+			UpdateLRHitch();
+			return;
+		}
+		
 		if( target == null || target.transform.localScale.x == 0 ) targeted = false;
 		if( targeted)
 		{
@@ -81,5 +89,21 @@ public class Bullet : MonoBehaviour {
 		targeted = true;
 		explodewithoneshot = true;
 		target = v;
+	}
+	
+	public void Activate()
+	{
+		Active = true;
+	}
+	
+	
+	
+	float len = 0.05f;
+	float delta = 0.025f*0.5f;
+	void UpdateLRHitch()
+	{
+		delta += 0.1f*Time.deltaTime;
+		delta%=len;
+		transform.Translate(transform.right*(delta-len*0.5f));
 	}
 }

@@ -42,7 +42,12 @@ public class Missles : MonoBehaviour {
 	
 	void Awake()
 	{
-		currentPowerup = Gems.Pow;
+		currentPowerup = Gems.In3s;
+	}
+	
+	void Update()
+	{
+		In3sUpdate();
 	}
 	
 	void OnPress(bool isDown)
@@ -75,9 +80,23 @@ public class Missles : MonoBehaviour {
 			break;
 		}
 	}
-
+	
+	int in3scount = 0;
+	GameObject[] in3smissle = new GameObject[3]; 
+	
 	void In3sPowerup()
 	{
+		while(in3scount < 3 )
+		{
+			in3smissle[in3scount] = (GameObject)Instantiate(LevelInfo.Environments.prefabPlayerMissle,
+				LevelInfo.Environments.posPlayerMissle[in3scount].position,LevelInfo.Environments.posPlayerMissle[in3scount].rotation);
+			in3smissle[in3scount].transform.parent = LevelInfo.Environments.posPlayerMissle[in3scount].transform;
+			in3scount++;
+		}
+		
+		//currentPowerup = Gems.None;
+		/*return;
+		
 		GameObject[] ship = GameObject.FindGameObjectsWithTag("Enemy");
 		GameObject[] asteroid = GameObject.FindGameObjectsWithTag("Asteroid");
 		
@@ -132,7 +151,58 @@ public class Missles : MonoBehaviour {
 				missle.GetComponent<Bullet>().ExplodeTargetWithOneShot(target[i]);
 		}
 		
-		currentPowerup = Gems.None;
+		currentPowerup = Gems.None;*/
+	}
+	
+	float distancetoshot = 150f;
+	float wtin3s = 0.0f;
+	void In3sUpdate()
+	{
+		if(in3scount>0)
+		{
+			wtin3s-=Time.deltaTime;
+			if(wtin3s<=0f)
+			{	
+				wtin3s = 0.3f;
+				
+				float dist = float.PositiveInfinity;
+				GameObject target = null;
+				
+				GameObject[] ship = GameObject.FindGameObjectsWithTag("Enemy");
+				GameObject[] asteroid = GameObject.FindGameObjectsWithTag("Asteroid");
+				
+				foreach(GameObject g in ship)
+				{		
+					Vector3 toscreen = LevelInfo.Environments.mainCamera.WorldToScreenPoint(g.transform.position);
+					Debug.Log("toscreen.z = " + toscreen.z);
+					if(g.GetComponent<MissledAlienShip>()==null && toscreen.x >= 0 && toscreen.x <= Screen.width && toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f && toscreen.z < distancetoshot && toscreen.z < dist)
+					{
+						target = g;
+						dist = toscreen.z;
+					}	
+				}
+				
+				foreach(GameObject g in asteroid)
+				{
+					Vector3 toscreen = LevelInfo.Environments.mainCamera.WorldToScreenPoint(g.transform.position);
+					Debug.Log("toscreen.z = " + toscreen.z);
+					if(g.GetComponent<MissledAlienShip>()==null && toscreen.x >= 0 && toscreen.x <= Screen.width && toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f && toscreen.z < distancetoshot && toscreen.z < dist)
+					{
+						target = g;
+						dist = toscreen.z;
+					}		
+				}	
+				
+				if( target != null )
+				{
+					target.AddComponent<MissledAlienShip>();
+					in3scount--;
+					in3smissle[in3scount].transform.parent = null;
+					in3smissle[in3scount].GetComponent<Bullet>().Activate();
+					in3smissle[in3scount].GetComponent<Bullet>().ExplodeTargetWithOneShot(target);	
+				}
+			}
+		}		
 	}
 	
 	IEnumerator PowPowerup()
