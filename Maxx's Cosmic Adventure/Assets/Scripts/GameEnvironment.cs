@@ -37,7 +37,7 @@ public class GameEnvironment : MonoBehaviour {
 	
 	#endregion
 	
-	#if !UNITY_ANDROID || UNITY_IPHONE
+	#if UNITY_ANDROID || UNITY_IPHONE
 	private static Vector2 startPos;
 	public static Vector2 Swipe { get {
 		Vector2 res = Vector2.zero;
