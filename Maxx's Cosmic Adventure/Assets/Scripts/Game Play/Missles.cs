@@ -15,7 +15,7 @@ public class Missles : MonoBehaviour {
 			
 			if( timedpowerup )
 			{
-				StopAllCoroutines();
+				StopCoroutine("FireBallPowerup");
 				timedpowerup=false;
 			}
 			
@@ -28,13 +28,12 @@ public class Missles : MonoBehaviour {
 				powerupName.text = "Pow";
 				break;
 			case Gems.FireBall:
-				StartCoroutine(FireBallPowerup());
+				StartCoroutine("FireBallPowerup");
 				break;
 			default:
 				powerupName.text = "";
 				break;
 			}
-			
 		}
 	}
 	
@@ -94,7 +93,7 @@ public class Missles : MonoBehaviour {
 			in3scount++;
 		}
 		
-		//currentPowerup = Gems.None;
+		currentPowerup = Gems.None;
 		/*return;
 		
 		GameObject[] ship = GameObject.FindGameObjectsWithTag("Enemy");

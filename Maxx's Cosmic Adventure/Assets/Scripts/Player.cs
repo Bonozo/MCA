@@ -106,7 +106,7 @@ public class Player : MonoBehaviour {
 			AutoFire = false;
 		}
 		else
-			poweruptime = 10f;
+			poweruptime = Store.Instance.powerupSureShot.LevelTime;
 	}
 	
 	public void StartFreezeWorld()
@@ -131,7 +131,7 @@ public class Player : MonoBehaviour {
 			FreezeWorld = false;
 		}
 		else
-			poweruptime = 10f;
+			poweruptime = Store.Instance.powerupFreeze.LevelTime;
 	}
 	
 	public void StartIntergalactic()
@@ -222,7 +222,7 @@ public class Player : MonoBehaviour {
 			Magned = false;
 		}
 		else
-			poweruptime = 10f;
+			poweruptime = Store.Instance.powerupMagned.LevelTime;
 	}
 	#endregion
 	
