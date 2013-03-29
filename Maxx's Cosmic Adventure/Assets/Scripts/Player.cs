@@ -253,6 +253,8 @@ public class Player : MonoBehaviour {
 		
 		if( Input.GetKeyUp(KeyCode.PageUp) )
 			StartSureShot();
+		if( Input.GetKeyUp(KeyCode.PageDown) )
+			StartFreezeWorld();
 		
 		#endif
 		
@@ -358,7 +360,8 @@ public class Player : MonoBehaviour {
 			if( y <=-UpDownMaxHeight ) { y=-UpDownMaxHeight;ymoveindex=0; }
 		}
 		
-		transform.position = new Vector3(transform.position.x,y,transform.position.z);
+		//transform.position = new Vector3(transform.position.x,y,transform.position.z);
+		
 		transform.Translate(Speed*Time.deltaTime*Vector3.forward);	
 	}
 	
