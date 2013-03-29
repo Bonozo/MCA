@@ -55,8 +55,6 @@ public class Player : MonoBehaviour {
 	
 	#region PowerUps
 	
-	public float SureShotDistance = 80;
-	
 	[System.NonSerializedAttribute]
 	public bool AutoFire = false;
 	
@@ -249,7 +247,14 @@ public class Player : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{	
+		#if UNITY_EDITOR
+		
+		if( Input.GetKeyUp(KeyCode.PageUp) )
+			StartSureShot();
+		
+		#endif
 		
 		if(LevelInfo.State.state != GameState.Play ) return;
 		
@@ -386,7 +391,7 @@ public class Player : MonoBehaviour {
 			for(int i=0;i<g.Length;i++)
 			{
 				Vector3 toscreen = LevelInfo.Environments.mainCamera.WorldToScreenPoint(g[i].transform.position);
-				if( DistXZ(g[i].transform.position,transform.position) <= SureShotDistance &&
+				if( DistXZ(g[i].transform.position,transform.position) <= GameEnvironment.SureShotDistance &&
 					toscreen.x >= 0 && toscreen.x <= Screen.width && 
 					toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f && toscreen.z < minvalue )
 				{
