@@ -18,7 +18,7 @@ public class Mars : MonoBehaviour {
 		vec.z += Distance;
 		vec.y = 0;
 		transform.position = vec;
-		float sf = 1+Mathf.Max(LevelInfo.Environments.playerShip.transform.position.z,0)/5000f;
+		float sf = 1+Mathf.Max(LevelInfo.Environments.playerShip.transform.position.z,0)/20000f;
 		transform.localScale = sf*scale;
 	}
 }
