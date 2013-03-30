@@ -15,17 +15,13 @@ public class AlienShip : MonoBehaviour {
 	public float FireRelax = 0.5f;
 	
 	public float AppearTime = 1f;
-	public float ExplosionTime = 2f;
 	
 	private float fireDeltaTime = 0.0f;
 	private Vector3 beginScale;
 	private float appearTime;
-	private bool showcrystal = false;
-	private bool playedgotem = false;
 	private float targetingboxtime = 3f;
 	
 	private GameObject targetingBox = null;
-	private bool exploded = false;
 	
 	private int NumberHitsToDie = 5;
 	
@@ -66,32 +62,11 @@ public class AlienShip : MonoBehaviour {
 		if(LevelInfo.Environments.playerShip.FreezeWorld) return;
 		
 		////////////////// Transform Setup //////////////
-		if( !exploded )
-		{
-			transform.Translate(Speed*Time.deltaTime*Vector3.forward);
-		}
-		else
-		{
-			transform.localScale *= 0.0f;
-			ExplosionTime -= Time.deltaTime;
-			if( !playedgotem && ExplosionTime <=  1.6f )
-			{
-				if( GameEnvironment.Probability(5))
-					LevelInfo.Audio.PlayAudioGotEm();
-				playedgotem = true;
-			}
-			if (ExplosionTime <= 0 )
-			{
-				if(showcrystal)
-					LevelInfo.Environments.generator.GenerateNewGem(transform.position);
-				Destroy(this.gameObject);
-			}
-		}
-		///////////////////////////////////////////////
+		transform.Translate(Speed*Time.deltaTime*Vector3.forward);
 		
 		///////////// Fire SetUp ///////////////
 		if( fireDeltaTime > 0f ) fireDeltaTime -= Time.deltaTime;
-		if( !exploded && Random.Range(1,FireFrequency) == 1 && fireDeltaTime <= 0f )
+		if( Random.Range(1,FireFrequency) == 1 && fireDeltaTime <= 0f )
 		{
 			Instantiate(AlienBullet,transform.position,transform.rotation);
 			
@@ -149,6 +124,15 @@ public class AlienShip : MonoBehaviour {
 		if( targetingBox != null ) Destroy(targetingBox);
 	}
 	
+	void OnTriggerEnter(Collider col)
+	{	
+		if( col.gameObject.CompareTag("Asteroid") || col.gameObject.CompareTag("Enemy") )
+		{
+			col.gameObject.SendMessage("Explode");
+			Explode();
+		}
+	}
+	
 	public void GetHit(int power)
 	{
 		Power -= power;
@@ -156,8 +140,11 @@ public class AlienShip : MonoBehaviour {
 			Explode();
 	}
 	
+	private bool exploded = false;
 	void Explode()
 	{
+		if(exploded) return;
+		exploded = true;
 		Instantiate(LevelInfo.Environments.particleExplosionJeeb,Centr.transform.position,Quaternion.identity);
 		
 		LevelInfo.Audio.audioSourceJeebles.PlayOneShot(ExplosionSoundEffect);
@@ -170,63 +157,12 @@ public class AlienShip : MonoBehaviour {
 		
 	}
 	
-	void Explode(bool withplayer,Collision col)
-	{
-		if( withplayer ) showcrystal = true;
-		Instantiate(LevelInfo.Environments.particleExplosionJeeb,Centr.transform.position,Quaternion.identity);
-		exploded = true;
-		
-		Destroy(this.rigidbody);
-		Destroy(this.collider);
-		gameObject.tag = null;
-		
-		if(col != null) Destroy(col.gameObject);
-		if( targetingBox != null ) Destroy(targetingBox);
-		if(withplayer && LevelInfo.Environments.playerShip != null) LevelInfo.Environments.playerShip.AddScore();
-		
-		LevelInfo.Audio.audioSourceJeebles.PlayOneShot(ExplosionSoundEffect);
-		LevelInfo.Audio.audioSourceJeebles.time = 0.5f;
-		if( !withplayer ) playedgotem = true;
-		
-	}
-	
-	int t;
-	
 	void GetHit()
 	{
 		if( --NumberHitsToDie == 0 )
 		{
-			Explode(true,null);
+			Explode();
 		}	
-	}
-	
-	void OnCollisionEnter(Collision col)
-	{	
-		if( exploded )
-			return;
-		
-		if( col.gameObject.tag == "Bullet" )
-		{
-			if( --NumberHitsToDie == 0 )
-			{
-				Explode(true,col);
-			}
-		}
-		else if( HitWithName(col.gameObject.name,"Asteroid") )
-		{
-			Explode(false,col);
-		}
-	}
-	
-	bool HitWithName(string name,string comparewith)
-	{
-		return name.Length >= comparewith.Length && name.Substring(0,comparewith.Length) == comparewith;
-	}
-	
-	public void DestroyObject()
-	{
-		if( exploded) return;
-		Explode(true,null);
 	}
 	
 	public void EnableTargetingBox()

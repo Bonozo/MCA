@@ -8,35 +8,27 @@ public class AlienBullet : MonoBehaviour {
 	public float Speed = 10f;
 	public float DeadTime = 10f;
 	
-	private GameObject player;
 	
-	// Use this for initialization
-	void Start () {
-		player = GameObject.Find("PlayerShip");
+	void Awake()
+	{
+		tag = "AlienBullet";
+		Destroy(this.gameObject,DeadTime);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if( player == null )
-		{
-			Destroy(this.gameObject);
-			return;
-		}
-		
+		if(LevelInfo.State.state != GameState.Play) return;
 		if(LevelInfo.Environments.playerShip.FreezeWorld) return;
 		
 		transform.Translate(Speed*Time.deltaTime*Vector3.forward);
-		
-		DeadTime -= Time.deltaTime;
-		if( DeadTime <= 0 ) Destroy(this.gameObject);
 	}
 	
-	void OnCollisionEnter(Collision col)
-	{
-	}
-		
-	private float MaxAxeDistance(Vector3 a,Vector3 b)
-	{
-		return Mathf.Max(Mathf.Abs(a.x-b.x),Mathf.Abs(a.y-b.y),Mathf.Abs(a.z-b.z));
+	void OnTriggerEnter(Collider col)
+	{	
+		if( col.gameObject.CompareTag("Asteroid") || col.gameObject.CompareTag("Enemy") )
+		{
+			col.gameObject.SendMessage("Explode");
+			Destroy(this.gameObject);
+		}
 	}
 }

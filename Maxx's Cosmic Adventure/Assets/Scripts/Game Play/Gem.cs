@@ -10,14 +10,14 @@ public class Gem : MonoBehaviour {
 	private float MoveSpeed = 100f;
 	
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		tag = "Gem";
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
-		//this.rigidbody.velocity = this.rigidbody.angularVelocity = Vector3.zero;
+	void Update ()
+	{
 		
 		if(gemType == Gems.Unlikelium)
 		{

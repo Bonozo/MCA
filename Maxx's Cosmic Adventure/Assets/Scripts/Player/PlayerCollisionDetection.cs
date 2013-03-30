@@ -7,7 +7,6 @@ public class PlayerCollisionDetection : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider col)
 	{
-		Debug.Log("Trigger " + col.gameObject.name);
 		switch(col.gameObject.tag)
 		{
 		case "Gem":
