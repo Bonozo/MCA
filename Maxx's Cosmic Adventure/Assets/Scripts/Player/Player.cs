@@ -92,6 +92,8 @@ public class Player : MonoBehaviour {
 		if(!AutoFire) 
 		{
 			AutoFire = true;
+			LevelInfo.Environments.playerAnimations.OpenTurette();
+			yield return new WaitForSeconds(0.5f);
 		
 			poweruptime = Store.Instance.powerupSureShot.LevelTime;
 			while ( poweruptime > 0f )
@@ -103,6 +105,8 @@ public class Player : MonoBehaviour {
 			}
 		
 			LevelInfo.Environments.guiPowerUpTime.text = "";
+			
+			LevelInfo.Environments.playerAnimations.CloseTurette();
 			AutoFire = false;
 		}
 		else
@@ -522,49 +526,8 @@ public class Player : MonoBehaviour {
 	
 	void SoundSetUp()
 	{
-		/*if( touchInput.B )
-			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;
-		else
-			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineNormal;
-		if( !LevelInfo.Audio.audioSourcePlayerShip.isPlaying ) LevelInfo.Audio.audioSourcePlayerShip.Play();*/
 	}
 	
-	bool HitWithName(string name,string comparewith)
-	{
-		return name.Length >= comparewith.Length && name.Substring(0,comparewith.Length) == comparewith;
-	}
-	
-	/*??*/
-	void ManualOnCollisionEnter(Collision col)
-	{
-		if( LevelInfo.State.state != GameState.Play ) return;
-		
-		bool lose = HitWithName(col.gameObject.name,"AlienBullet") || HitWithName(col.gameObject.name,"AlienShip")
-			|| HitWithName(col.gameObject.name,"Asteroid");
-		if( lose )
-		{
-			LevelInfo.Environments.score.LostLive();
-			#if UNITY_ANDROID || UNITY_IPHONE
-			if( Option.Vibration )
-				Handheld.Vibrate();
-			#endif
-			if( LevelInfo.State.state == GameState.Lose )
-			{
-				transform.localScale *= 0;
-				GameObject c = GameObject.Find("GameOverText");
-				if(c != null )
-					c.GetComponent<GameOver>().enabled = true;
-				
-				foreach(var r in ExhaustArray )
-					r.enableEmission = false;
-				
-				LevelInfo.Audio.StopAll();
-				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(AudioGameOver);
-				StopAllCoroutines();
-			}
-		}
-		Destroy(col.gameObject);
-	}
 	
 	public float x,y,z;
 	

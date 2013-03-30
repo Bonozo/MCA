@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour {
 	
 	public Camera mainCamera;
 	public Player playerShip;
+	public PlayerShipAnimationController playerAnimations;
+	
 	public GameObject HUB;
 	public Generator generator;
 	public Score score;
