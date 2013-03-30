@@ -24,7 +24,6 @@ public class Asteroid : MonoBehaviour {
 	
 	public void GetHit(int power)
 	{
-		Debug.Log("Get Hit");
 		Power -= power;
 		if(Power <= 0 )
 			Explode();

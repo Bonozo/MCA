@@ -41,7 +41,7 @@ public class Missles : MonoBehaviour {
 	
 	void Awake()
 	{
-		currentPowerup = Gems.In3s;
+		currentPowerup = Gems.Pow;
 	}
 	
 	void Update()
