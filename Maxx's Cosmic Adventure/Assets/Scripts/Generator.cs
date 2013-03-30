@@ -114,8 +114,8 @@ public class Generator : MonoBehaviour {
 		if( GenerateUnlikeliumList )
 		{
 			utime -= Time.deltaTime;
-			upos += udir*Time.deltaTime*LevelInfo.Environments.playerShip.Speed;
-			upos += url*url*ucount*ucount*uright*Time.deltaTime*LevelInfo.Environments.playerShip.Speed;
+			upos += udir*Time.deltaTime*LevelInfo.Settings.PlayerSpeed;
+			upos += url*url*ucount*ucount*uright*Time.deltaTime*LevelInfo.Settings.PlayerSpeed;
 			if(utime<=0f)
 			{
 				utime = utimedelta;

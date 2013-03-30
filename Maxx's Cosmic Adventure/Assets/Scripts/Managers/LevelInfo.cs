@@ -12,6 +12,9 @@ public class LevelInfo : MonoBehaviour {
 	public StateManager _stateManager;
 	public static StateManager State { get { return Instance._stateManager; }}
 	
+	public LevelManager _levelManager;
+	public static LevelManager Settings { get { return Instance._levelManager; }}
+	
 	// Multithreaded Safe Singleton Pattern
     // URL: http://msdn.microsoft.com/en-us/library/ms998558.aspx
     private static readonly object _syncRoot = new Object();

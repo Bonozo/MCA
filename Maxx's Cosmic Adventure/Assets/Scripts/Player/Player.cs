@@ -9,7 +9,6 @@ public class Player : MonoBehaviour {
 	public float RotationAngleChangeFactor = 20.0f;
 	public float RotationToRotateFactor = 20.0f;
 	public float UpDownChangeFactor = 0.1f;
-	public float Speed = 10f;
 	public float FireDeltaTime;
 	
 	public float ExplosionTime = 3.0f;
@@ -353,7 +352,7 @@ public class Player : MonoBehaviour {
 		
 		//transform.position = new Vector3(transform.position.x,y,transform.position.z);
 		
-		transform.Translate(Speed*Time.deltaTime*Vector3.forward);	
+		transform.Translate(LevelInfo.Settings.PlayerSpeed*Time.deltaTime*Vector3.forward);	
 	}
 	
 	#endregion
@@ -385,7 +384,7 @@ public class Player : MonoBehaviour {
 			for(int i=0;i<g.Length;i++)
 			{
 				Vector3 toscreen = LevelInfo.Environments.mainCamera.WorldToScreenPoint(g[i].transform.position);
-				if( DistXZ(g[i].transform.position,transform.position) <= GameEnvironment.SureShotDistance &&
+				if( DistXZ(g[i].transform.position,transform.position) <= LevelInfo.Settings.SureShotDistance &&
 					toscreen.x >= 0 && toscreen.x <= Screen.width && 
 					toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f && toscreen.z < minvalue )
 				{
@@ -521,7 +520,7 @@ public class Player : MonoBehaviour {
 		lastexhaust = currentspeed;
 		
 		transform.Translate(Vector3.forward*delta);
-		Speed += 4*delta;
+		LevelInfo.Settings.PlayerSpeed += 4*delta;
 	}
 	
 	void SoundSetUp()

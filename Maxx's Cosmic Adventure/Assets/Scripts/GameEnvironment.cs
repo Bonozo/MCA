@@ -3,12 +3,6 @@ using System.Collections;
 
 public class GameEnvironment : MonoBehaviour {
 	
-	#region Game Static Parameters
-	
-	public static float SureShotDistance = 150f;
-	
-	#endregion
-	
 	#region Store
 	
 	public static float Unlikelium = 100;
