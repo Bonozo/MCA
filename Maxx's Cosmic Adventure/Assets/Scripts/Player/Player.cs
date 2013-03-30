@@ -278,19 +278,6 @@ public class Player : MonoBehaviour {
 			return;
 		}
 		
-		//// animation playing setup ////
-		if( !animation.isPlaying)
-		{
-			Vector2 swp = GameEnvironment.Swipe;
-			if( swp.y>=0.3f && Mathf.Abs(swp.y)>Mathf.Abs(swp.x) || Input.GetKeyUp(KeyCode.R) )
-				animation.Play("barrelrollup");
-			if( swp.x<=-0.3f && Mathf.Abs(swp.x)>Mathf.Abs(swp.y) || Input.GetKeyUp(KeyCode.Q) )
-				animation.Play("barrelrollleft");
-			if( swp.x>=0.3f && Mathf.Abs(swp.x)>Mathf.Abs(swp.y) || Input.GetKeyUp(KeyCode.E) )
-				animation.Play("barrelrollright");
-		}
-		/////////////////////////////////
-		
 		FireSetUp();
 		
 		RotationSetUp();
