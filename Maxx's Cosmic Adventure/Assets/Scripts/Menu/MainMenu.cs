@@ -45,16 +45,10 @@ public class MainMenu : MonoBehaviour {
 		State = MenuState.Title;
 	}
 	
-	float exittime=0.5f;
 	void Update()
 	{
-		if(_state == MenuState.Title && Input.GetKey(KeyCode.Escape) )
-		{
-			exittime-=Time.deltaTime;
-			if(exittime<=0f) Application.Quit();
-		}
-		else
-			exittime = 0.5f;
+		if(_state == MenuState.Title && Input.GetKeyDown(KeyCode.Escape) )
+			Application.Quit();
 	}
 	
 	// Multithreaded Safe Singleton Pattern
