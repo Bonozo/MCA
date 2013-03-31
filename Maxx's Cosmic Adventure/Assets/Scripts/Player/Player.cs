@@ -8,19 +8,15 @@ public class Player : MonoBehaviour {
 	public float RotationMaxAngle = 20.0f;
 	public float RotationAngleChangeFactor = 20.0f;
 	public float RotationToRotateFactor = 20.0f;
-	public float UpDownChangeFactor = 0.1f;
 	public float FireDeltaTime;
 	
 	public float ExplosionTime = 3.0f;
 	
-	public float WaitForRise = 3f;
-	public float WaitForStart = 2f;
+
 	public float BeginHeight = -3f;
 	
 	public float CameraZ = 9.5f; 
 	public float CameraHeight = 1.5f;
-	
-	public float UpDownMaxHeight = 3f;
 	
 	public AudioClip AudioFire;
 	public AudioClip ExplosionSoundEffect;
@@ -242,7 +238,7 @@ public class Player : MonoBehaviour {
 	void Start () {
 		
 		touchInput = (TouchInput)GameObject.FindObjectOfType(typeof(TouchInput));
-		riseTime = WaitForRise;
+		riseTime = LevelInfo.Settings.PlayerWaitForRise;
 		CameraSetUp();
 		
 		lastPosition = transform.position;
@@ -268,7 +264,7 @@ public class Player : MonoBehaviour {
 		if( riseTime > 0 )
 		{
 			Vector3 pos = transform.position;
-			pos.y = riseTime*BeginHeight/WaitForRise;
+			pos.y = riseTime*BeginHeight/LevelInfo.Settings.PlayerWaitForRise;
 			transform.position = pos;
 			riseTime -= Time.deltaTime;
 			if( riseTime <= 0 )
@@ -313,47 +309,51 @@ public class Player : MonoBehaviour {
 	
 	#region Transform
 	
-	private float deltaY = 0f;
-	private float deltaYtime = 0f;
-	private const float deltaYtimeMax = 0.3f;
-	private float ymoveindex = 0;
-	
 	private float lasty = 0;
+	
+	private bool upblock = true;
+	private bool downblock = true;
+	public float calibrate = 0f;
+	float calibratedelta()
+	{
+		float current = GameEnvironment.DeviceAngle;
+		current -= calibrate;
+		if(current > 180f) current-=360f;
+		if(current < -180f) current+=360f;
+		return current;
+	}
 	
 	void TransformSetUp()
 	{	
-		float delta = GameEnvironment.InputAxis.y-lasty;
-		lasty = GameEnvironment.InputAxis.y;
+		float current = Mathf.Clamp(calibratedelta(),-30f,30f)/-10f;
+		var y = transform.position.y;
 		
-		deltaYtime += Time.deltaTime;
+		float uplock = upblock?0.25f:0f;
 		
-		if( delta != 0 && deltaYtime <= deltaYtimeMax )deltaY += delta;
-		else { deltaY = 0; deltaYtime = 0f; }
+		float downlock = downblock?0.25f:0f;
 		
-		if( deltaY >= 0.3f ) ymoveindex = 1f;
-		if( deltaY <= -0.3f ) ymoveindex = -1f;
-			
-		
-		float y = transform.position.y;
-		
-		if( ymoveindex == 0f )
+		if( current > y+uplock ) 
 		{
-			float ly = y;
-			if( y > 0 ) y -= Time.deltaTime*UpDownChangeFactor;
-			if( y < 0 ) y += Time.deltaTime*UpDownChangeFactor;
-			if( y*ly < 0 ) y = 0;
+			y = Mathf.Min(current,y+Time.deltaTime*LevelInfo.Settings.PlayerUpDownSpeed);
+			upblock = false;
+			downblock = true;
 		}
-		else
+		if( current < y-downlock ) 
 		{
-			y += ymoveindex*Time.deltaTime*UpDownChangeFactor*10f;
-			if( y >= UpDownMaxHeight ) { y= UpDownMaxHeight;ymoveindex=0; }
-			if( y <=-UpDownMaxHeight ) { y=-UpDownMaxHeight;ymoveindex=0; }
+			y = Mathf.Max(current,y-Time.deltaTime*LevelInfo.Settings.PlayerUpDownSpeed);
+			downblock = false;
+			upblock = true;
 		}
 		
-		//transform.position = new Vector3(transform.position.x,y,transform.position.z);
+		transform.position = new Vector3(transform.position.x,y,transform.position.z);
 		
 		transform.Translate(LevelInfo.Settings.PlayerSpeed*Time.deltaTime*Vector3.forward);	
 	}
+	
+	/*void OnGUI()
+	{
+		GUI.Label(new Rect(100,100,2000,2000),"ship y: " + transform.position.y + "\nc delta: " + calibratedelta());
+	}*/
 	
 	#endregion
 	

@@ -58,14 +58,6 @@ public class Bullet : MonoBehaviour {
 		if( DeadTime <= 0 ) Destroy(this.gameObject);
 	}
 	
-	void OnCollisionEnter(Collision col)
-	{
-		if( GameEnvironment.HitWithName(col.gameObject.name,"Bullet") ) return;
-		Vector3 pos = col.contacts[0].point;
-		Instantiate(LevelInfo.Environments.particleSpark,pos,Quaternion.identity);
-		Destroy(this.gameObject);
-	}
-	
 	void OnTriggerEnter(Collider col)
 	{
 		if(targeted) return;

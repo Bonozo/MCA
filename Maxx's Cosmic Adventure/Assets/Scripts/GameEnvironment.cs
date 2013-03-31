@@ -3,40 +3,6 @@ using System.Collections;
 
 public class GameEnvironment : MonoBehaviour {
 	
-	#region Store
-	
-	public static float Unlikelium = 100;
-	
-	public static string[] Offence = new string[]
-	{
-		"Offence 1",
-		"Offence 2",
-		"Offence 3",
-		"Offence 4",
-		"Offence 5",
-		"Offence 7",
-		"Offence 8",
-		"Offence 9",
-		"Offence 10"
-	};
-	
-	public static string[] Defence = new string[]
-	{
-		"Defence 1",
-		"Defence 2",
-		"Defence 3",
-		"Defence 4",
-		"Defence 5",
-		"Defence 6",
-		"Defence 7",
-		"Defence 8",
-		"Defence 9",
-		"Defence 10",
-		"Defence 11",
-	};
-	
-	#endregion
-	
 	#if UNITY_ANDROID || UNITY_IPHONE
 	private static Vector2 startPos;
 	public static Vector2 Swipe { get {
@@ -109,6 +75,18 @@ public class GameEnvironment : MonoBehaviour {
 		return dir;
 	}}
 	
+	public static float DeviceAngle{ 
+		get{
+			var acc = Input.acceleration;
+			if(acc.sqrMagnitude>1) acc.Normalize();
+			if(acc.y<=0f&&acc.z<=0f) return Mathf.Lerp(0f,90f,-acc.y);
+			if(acc.y<=0f&&acc.z>=0f) return Mathf.Lerp(90f,180f,acc.z);
+			if(acc.y>=0f&&acc.z>=0f) return Mathf.Lerp(180f,270f,acc.y);
+			if(acc.y>=0f&&acc.z<=0f) return Mathf.Lerp(270,360f,-acc.z);
+			return 0.0f;
+			}
+	}
+	
 	#else
 	private static Vector2 last;
 	public static Vector2 Swipe { get {
@@ -145,14 +123,18 @@ public class GameEnvironment : MonoBehaviour {
 	public static Vector3 InputAxis { get {
 		return new Vector3(Input.GetAxis("Horizontal"),Input.GetAxis("Vertical"),0f);
 	}}
+	
+	public static float DeviceAngle{ 
+		get{
+			float yaxis = 90f*Input.GetAxis("Vertical");
+			if(yaxis<0f) yaxis=360f+yaxis;
+			return yaxis;
+			}
+	}
+	
 	#endif
 	
 	#region Helpful
-	
-	public static bool HitWithName(string name,string comparewith)
-	{
-		return name.Length >= comparewith.Length && name.Substring(0,comparewith.Length) == comparewith;
-	}
 	
 	public static bool Probability(int cases)
 	{
