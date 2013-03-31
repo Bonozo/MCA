@@ -128,7 +128,7 @@ public class GameEnvironment : MonoBehaviour {
 		get{
 			float yaxis = 90f*Input.GetAxis("Vertical");
 			if(yaxis<0f) yaxis=360f+yaxis;
-			return yaxis;
+			return -yaxis;
 			}
 	}
 	

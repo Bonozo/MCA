@@ -242,7 +242,6 @@ public class Player : MonoBehaviour {
 		CameraSetUp();
 		
 		lastPosition = transform.position;
-		lasty = GameEnvironment.InputAxis.y;
 	}
 	
 	// Update is called once per frame
@@ -308,8 +307,6 @@ public class Player : MonoBehaviour {
 	
 	
 	#region Transform
-	
-	private float lasty = 0;
 	
 	private bool upblock = true;
 	private bool downblock = true;

@@ -22,23 +22,22 @@ public class PlayerShipAnimationController : MonoBehaviour {
 		animation["barrelrollleft"].AddMixingTransform(boneBase,false);
 		animation["barrelrollup"].AddMixingTransform(boneBase,false);
 		
+		FingerGestures.OnSwipe += HandleFingerGesturesOnSwipe;
 	}
 	
-	void Update()
+	void HandleFingerGesturesOnSwipe (Vector2 startPos, FingerGestures.SwipeDirection direction, float velocity)
 	{
-		if(LevelInfo.State.state != GameState.Play ) return;
-		
-		// barrel roll animations
-		Vector2 swp = GameEnvironment.Swipe;
-		
-		if( swp != Vector2.zero && !IsPlayingAnyRollAnimation)
+		if( velocity > 250f && !IsPlayingAnyRollAnimation)
 		{
-			if(swp.y>=0.3f && Mathf.Abs(swp.y)>Mathf.Abs(swp.x))
-				animation.Play("barrelrollup");
-			if(swp.x<=-0.3f && Mathf.Abs(swp.x)>Mathf.Abs(swp.y))
-				animation.Play("barrelrollleft");
-			if(swp.x>=0.3f && Mathf.Abs(swp.x)>Mathf.Abs(swp.y))
-				animation.Play("barrelrollright");
+			switch(direction)
+			{
+			case FingerGestures.SwipeDirection.Left: animation.Play("barrelrollleft");
+				break;
+			case FingerGestures.SwipeDirection.Right: animation.Play("barrelrollright");
+				break;
+			case FingerGestures.SwipeDirection.Up: animation.Play("barrelrollup");
+				break;
+			}
 		}
 	}
 	
