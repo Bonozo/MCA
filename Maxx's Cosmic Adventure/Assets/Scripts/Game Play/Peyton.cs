@@ -42,7 +42,7 @@ public class Peyton : MonoBehaviour {
 			label.text += message[index++];
 			yield return new WaitForSeconds(framerate);
 		}
-		yield return new WaitForSeconds(3f);
+		yield return new WaitForSeconds(2f);
 		
 		while(alpha>0f)
 		{
