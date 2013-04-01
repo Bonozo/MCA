@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Gem : MonoBehaviour {
 	
+	public int unlikeliumValue = 1;
 	public float RotateSpeed = 10f;
 	public GameObject particle;
 	public Gems gemType;
@@ -18,7 +19,6 @@ public class Gem : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		
 		if(gemType == Gems.Unlikelium)
 		{
 			var player = LevelInfo.Environments.playerShip;
