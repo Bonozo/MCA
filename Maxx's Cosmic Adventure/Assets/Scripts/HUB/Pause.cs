@@ -19,7 +19,7 @@ public class Pause : MonoBehaviour {
 	
 	void OnPress(bool isDown)
 	{
-		if(isDown)
+		if(isDown && LevelInfo.Environments.playerShip.Ready)
 		{
 			if(ppause) UnPauseGame();
 			else PauseGame();

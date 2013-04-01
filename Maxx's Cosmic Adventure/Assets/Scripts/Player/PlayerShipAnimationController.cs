@@ -27,7 +27,7 @@ public class PlayerShipAnimationController : MonoBehaviour {
 	
 	void HandleFingerGesturesOnSwipe (Vector2 startPos, FingerGestures.SwipeDirection direction, float velocity)
 	{
-		if( velocity > 250f && !IsPlayingAnyRollAnimation)
+		if( velocity > 250f && LevelInfo.Environments.playerShip.Ready && !IsPlayingAnyRollAnimation)
 		{
 			switch(direction)
 			{

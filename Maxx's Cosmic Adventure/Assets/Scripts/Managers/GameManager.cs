@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour {
 	public Missles missles;
 	public Pause pause;
 	public InfoMessage infoMessage;
+	public GameObject popupCalibrate;
 	
 	public GameObject FPS;
 	

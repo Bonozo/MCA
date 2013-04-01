@@ -38,8 +38,6 @@ public class Player : MonoBehaviour {
 	
 	private float fireDeltaTime = 0.0f;
 	private float autofireDeltaTime = 0.0f;
-	private float riseTime;
-	
 	
 	private float travelled = 0;
 	public float DistanceTravelled { get { return travelled; }}
@@ -230,18 +228,17 @@ public class Player : MonoBehaviour {
 	void Awake()
 	{
 		LevelInfo.Environments.FPS.SetActive(Option.ShowFPS);
-		//animation["barrelrollup"].speed = animation["barrelrollleft"].speed
-		//	= animation["barrelrollright"].speed = 0.7f;
 	}
 	
 	// Use this for initialization
-	void Start () {
-		
+	void Start () 
+	{	
 		touchInput = (TouchInput)GameObject.FindObjectOfType(typeof(TouchInput));
-		riseTime = LevelInfo.Settings.PlayerWaitForRise;
 		CameraSetUp();
 		
 		lastPosition = transform.position;
+		
+		StartCoroutine(Rise());
 	}
 	
 	// Update is called once per frame
@@ -260,33 +257,14 @@ public class Player : MonoBehaviour {
 		
 		UpdateHUB();
 		
-		if( riseTime > 0 )
-		{
-			Vector3 pos = transform.position;
-			pos.y = riseTime*BeginHeight/LevelInfo.Settings.PlayerWaitForRise;
-			transform.position = pos;
-			riseTime -= Time.deltaTime;
-			if( riseTime <= 0 )
-			{
-				pos.y = 0;
-				transform.position = pos;
-				LevelInfo.Environments.generator.GenerateAlienShip = true;
-				LevelInfo.Environments.generator.GenerateAsteroid = true;
-			}
-			return;
-		}
+		if(!Ready) return;
 		
-		FireSetUp();
 		
+		FireSetUp();	
 		RotationSetUp();
-		
 		TransformSetUp();
-
-		
 		CameraSetUp();
-		
 		ExhaustSetUp();
-		
 		SoundSetUp();
 	}
 	
@@ -305,12 +283,55 @@ public class Player : MonoBehaviour {
 	
 	#endregion
 	
+	#region Get Ready
+	
+	[System.NonSerializedAttribute]
+	public bool Ready = false;
+	
+	private bool waitforcalibrate = false;
+	
+	private IEnumerator Rise()
+	{
+		float riseTime = LevelInfo.Settings.PlayerWaitForRise;
+		while( riseTime > 0 )
+		{
+			Vector3 pos = transform.position;
+			pos.y = riseTime*BeginHeight/LevelInfo.Settings.PlayerWaitForRise;
+			transform.position = pos;
+			riseTime -= Time.deltaTime;
+			if( riseTime <= 0 )
+			{
+				pos.y = 0;
+				transform.position = pos;
+				LevelInfo.Environments.generator.GenerateAlienShip = true;
+				LevelInfo.Environments.generator.GenerateAsteroid = true;
+			}
+			yield return new WaitForEndOfFrame();
+		}		
+		waitforcalibrate = true;
+		LevelInfo.Environments.popupCalibrate.SetActive(true);
+		Time.timeScale = 0.0f;
+	}
+	
+	public void Calibrate(bool vertified)
+	{
+		calibrate = GameEnvironment.DeviceAngle;
+		if(waitforcalibrate && vertified)
+		{
+			Ready = true;
+			waitforcalibrate = false;
+			LevelInfo.Environments.popupCalibrate.SetActive(false);
+			Time.timeScale = 1.0f;
+		}
+	}
+	
+	#endregion
 	
 	#region Transform
 	
 	private bool upblock = true;
 	private bool downblock = true;
-	public float calibrate = 0f;
+	private float calibrate = 0f;
 	float calibratedelta()
 	{
 		float current = GameEnvironment.DeviceAngle;
