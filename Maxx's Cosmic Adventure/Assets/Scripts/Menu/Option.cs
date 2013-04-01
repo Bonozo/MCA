@@ -15,20 +15,20 @@ public class Option : MonoBehaviour {
 	public static bool ShowFPS = false;
 	#endregion
 	
-	public GameObject guiVersion;
+	//public GameObject guiVersion;
 	private bool debug;
 	
 	// Use this for initialization
 	void OnEnable ()
 	{
-		guiVersion.SetActive(false);
+		//guiVersion.SetActive(false);
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
 		AudioListener.volume = hSlideVolume;
-		guiVersion.SetActive(debug);
+		//guiVersion.SetActive(debug);
 	}
 
 	private Rect textRect(float index)
