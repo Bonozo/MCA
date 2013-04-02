@@ -343,7 +343,7 @@ public class Player : MonoBehaviour {
 	
 	void TransformSetUp()
 	{	
-		float current = Mathf.Clamp(calibratedelta(),-30f,30f)/-10f;
+		float current = Mathf.Clamp(calibratedelta(),-30f,30f)*LevelInfo.Settings.MaxSpaceY/-30f;
 		var y = transform.position.y;
 		
 		float uplock = upblock?0.25f:0f;

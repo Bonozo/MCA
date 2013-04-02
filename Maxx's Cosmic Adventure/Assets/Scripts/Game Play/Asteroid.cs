@@ -33,8 +33,10 @@ public class Asteroid : MonoBehaviour {
 	{
 		if(exploded) return; exploded=true;
 		LevelInfo.Audio.PlayAudioAsteroidExplode();
-		LevelInfo.Environments.generator.GenerateNewGem(transform.position);
-		//Instantiate(asteroidPrefab,transform.position,Quaternion.identity);
+		
+		var gempos = transform.position; gempos.y=0;
+		LevelInfo.Environments.generator.GenerateNewGem(gempos);
+		
 		Instantiate(LevelInfo.Environments.particleExplosionAsteroid,transform.position,Quaternion.identity);
 		Destroy(this.gameObject);
 	}

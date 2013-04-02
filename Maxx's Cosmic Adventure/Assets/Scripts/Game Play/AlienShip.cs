@@ -4,6 +4,7 @@ using System.Collections;
 public class AlienShip : MonoBehaviour {
 	
 	public int Power = 10;
+	public bool randomHeight;
 	
 	public GameObject AlienBullet;
 	public Transform Centr,Up;
@@ -28,9 +29,11 @@ public class AlienShip : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
-		//Vector3 pos = transform.position;
-		//pos.y = Random.Range(-player.UpDownMaxHeight,player.UpDownMaxHeight);
-		//transform.position = pos;
+		if(randomHeight)
+		{
+			float height = Random.Range(-LevelInfo.Settings.MaxSpaceY,LevelInfo.Settings.MaxSpaceY);
+			transform.position = new Vector3(transform.position.x,height,transform.position.z);
+		}
 		
 		transform.rotation = DestinationRotation();
 		
