@@ -24,7 +24,6 @@ public class Player : MonoBehaviour {
 	public AudioClip AudioEngineNormal;
 	public AudioClip AudioEngineBoost;
 	public AudioClip AudioGameOver;
-	public AudioSource SoundGamePlay;
 	
 	public ParticleSystem[] ExhaustArray;
 	

@@ -8,7 +8,6 @@ public class Generator : MonoBehaviour {
 	public bool GenerateAlienShip = false;
 	public GameObject[] AlienShipPrefabs;
 	public float AlienShipDistanceMin=30f, AlienShipDistanceMax=50f;
-	public float AlienShipGenerateRate = 5f;
 	public float AlienShipFrontAngleMaxDelta = 30f;
 	
 	
@@ -33,11 +32,6 @@ public class Generator : MonoBehaviour {
 	public bool GenerateAsteroid = false;
 	public GameObject[] AsteroidPrefabs;
 	public float AsteroidDistanceMin=30f, AsteroidDistanceMax=50f;
-	public float AsteroidGenerateRate = 5f;
-	public float AsteroidFrontAngleMaxDelta = 30f;
-	
-	
-
 	
 	public void GenerateNewAsteroid(int index)
 	{
