@@ -41,7 +41,7 @@ public class Missles : MonoBehaviour {
 	
 	void Awake()
 	{
-		currentPowerup = Gems.Pow;
+		currentPowerup = Gems.In3s;
 	}
 	
 	void Update()
@@ -173,7 +173,6 @@ public class Missles : MonoBehaviour {
 				foreach(GameObject g in ship)
 				{		
 					Vector3 toscreen = LevelInfo.Environments.mainCamera.WorldToScreenPoint(g.transform.position);
-					Debug.Log("toscreen.z = " + toscreen.z);
 					if(g.GetComponent<MissledAlienShip>()==null && toscreen.x >= 0 && toscreen.x <= Screen.width && toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f && toscreen.z < distancetoshot && toscreen.z < dist)
 					{
 						target = g;
@@ -184,7 +183,6 @@ public class Missles : MonoBehaviour {
 				foreach(GameObject g in asteroid)
 				{
 					Vector3 toscreen = LevelInfo.Environments.mainCamera.WorldToScreenPoint(g.transform.position);
-					Debug.Log("toscreen.z = " + toscreen.z);
 					if(g.GetComponent<MissledAlienShip>()==null && toscreen.x >= 0 && toscreen.x <= Screen.width && toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f && toscreen.z < distancetoshot && toscreen.z < dist)
 					{
 						target = g;
