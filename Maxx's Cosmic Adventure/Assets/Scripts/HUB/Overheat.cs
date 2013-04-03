@@ -24,14 +24,6 @@ public class Overheat : MonoBehaviour {
 		for(int i=n;i<parts.Length;i++) parts[parts.Length-1-i].enabled = false;
 	}
 	
-	/*private void SetPercent(float c)
-	{
-		Debug.Log(transform.parent.gameObject.name);
-		int n = (int)(parts.Length*c);
-		for(int i=0;i<n;i++) parts[parts.Length-1-i].color = Color.green;
-		for(int i=n;i<parts.Length;i++) parts[parts.Length-1-i].color = Color.red;
-	}*/
-	
 	public bool Up()
 	{
 		if( !reloading )

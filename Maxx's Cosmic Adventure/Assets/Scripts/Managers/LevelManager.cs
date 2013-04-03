@@ -14,4 +14,21 @@ public class LevelManager : MonoBehaviour {
 	
 	// Aliens
 	public float AlienShipAppearTime = 1f;
+	
+	public void UpdateOptions()
+	{
+		LevelInfo.Environments.FPS.SetActive(Option.ShowFPS);
+	}
+	
+	public void UpdatePurchasedItems()
+	{
+		LevelInfo.Environments.fuelOverheat.UpTime = 0.5f-0.1f*Store.Instance.powerupBoostFuel.level;
+		LevelInfo.Environments.score.Lives = Store.Instance.powerupToughGuy.level+1;
+	}
+	
+	void Awake()
+	{
+		UpdateOptions();
+		UpdatePurchasedItems();
+	}
 }

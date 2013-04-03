@@ -9,7 +9,10 @@ public class StoreBuyButton : MonoBehaviour {
 		{
 			if(!Store.Instance._currentPowerup.FullyUpdated && Store.Instance.Unlikeliums>=Store.Instance.costs[Store.Instance._currentPowerup.level])
 			{
-				Store.Instance.Unlikeliums -= Store.Instance.costs[Store.Instance._currentPowerup.level];
+				if(Store.Instance._currentPowerup.stored)
+					Store.Instance.Unlikeliums -= Store.Instance.costStored;
+				else
+					Store.Instance.Unlikeliums -= Store.Instance.costs[Store.Instance._currentPowerup.level];
 				Store.Instance._currentPowerup.level++;
 				Store.Instance.Activate(Store.Instance._currentPowerup);		
 			}

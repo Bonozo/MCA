@@ -42,6 +42,7 @@ public class Store : MonoBehaviour {
 	public UILabel popupName;
 	public UISprite popupIcon;
 	public UILabel popupCost;
+	public UILabel popupBuyText;
 	
 	#endregion
 	
@@ -60,6 +61,11 @@ public class Store : MonoBehaviour {
 				popup.SetActive(false);
 				buttonGame.SetActive(IsPlayGame);
 			}
+			else
+			{
+				if(IsPlayGame)
+					LevelInfo.Settings.UpdatePurchasedItems();
+			}
 		}
 	}
 	
@@ -70,13 +76,14 @@ public class Store : MonoBehaviour {
 
 	#region Input Events
 	
+	public float storeWidth;
 	void HandleFingerGesturesOnDragMove (Vector2 fingerPos, Vector2 delta)
 	{
-		if(!ShowStore) return;
+		if(!ShowStore||PopupActive) return;
 		fingerPos = camera2d.transform.worldToLocalMatrix * camera2d.ScreenToWorldPoint( fingerPos );
 		fingerPos += new Vector2(camera2d.pixelWidth*0.5f,camera2d.pixelHeight*0.5f);
 		
-		float scrollmax = buttonsDelta.transform.childCount*200f-camera2d.pixelWidth/camera2d.pixelHeight*480;
+		float scrollmax = storeWidth-camera2d.pixelWidth/camera2d.pixelHeight*480;
 
 		if( fingerPos.y >= 10f && fingerPos.y <= 410f )
 			buttonsDelta.localPosition = new Vector3(Mathf.Clamp(buttonsDelta.localPosition.x+delta.x,-scrollmax,5f),buttonsDelta.localPosition.y,buttonsDelta.localPosition.z);
@@ -92,17 +99,31 @@ public class Store : MonoBehaviour {
 	public UpdateablePowerup powerupFreeze;
 	public UpdateablePowerup powerupShazam;
 	public UpdateablePowerup powerupIntergalactic;
-	
+	public UpdateablePowerup powerupBoostFuel;
+	public UpdateablePowerup powerupToughGuy;
 	
 	public readonly int[] costs = {30,100,300,1000,3000};
+	public readonly int costStored = 100;
+	
 	public void Activate(UpdateablePowerup powerup)
 	{
 		_currentPowerup = powerup;
 		
 		popupName.text = powerup.powerupName.ToUpper()+"!";
-		popupCost.text = powerup.level==4?"FULLY UPGRATED":"LEVEL " + (powerup.level+1) + " (" + costs[powerup.level]+")";
+		if(_currentPowerup.stored)
+		{
+			popupCost.text = "YOU HAVE " + (powerup.level+1);
+			popupBuyText.text = powerup.level==4?"FULL":"ADD BY " + costStored;
+		}
+		else
+		{
+			popupCost.text = "LEVEL " + (powerup.level+1);
+			popupBuyText.text = powerup.level==4?"FULLY UPGRADED":"LEVEL " + (powerup.level+2) + " BY "  + costs[powerup.level];
+		}
 		popup.SetActive(true);
 	}
+	
+	public bool PopupActive{ get{ return popup.activeSelf; }}
 	
 	#endregion
 	

@@ -30,7 +30,14 @@ public class Score : MonoBehaviour {
 	
 	#region Properties
 	
-	public int Lives { get { return currentLives; }}
+	public int Lives {
+		get {
+			return currentLives; 
+		}
+		set{
+			currentLives = value;
+		}
+	}
 	public bool Lose { get { return currentLives==0; }}
 	
 	#endregion

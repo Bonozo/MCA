@@ -230,7 +230,6 @@ public class Player : MonoBehaviour {
 	
 	void Awake()
 	{
-		LevelInfo.Environments.FPS.SetActive(Option.ShowFPS);
 	}
 	
 	// Use this for initialization
