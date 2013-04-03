@@ -42,6 +42,7 @@ public class MainMenu : MonoBehaviour {
 	// Use this for initialization
 	void Awake ()
 	{
+		Time.timeScale = 1.0f;
 		State = MenuState.Title;
 	}
 	

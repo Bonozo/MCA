@@ -70,6 +70,7 @@ public class Player : MonoBehaviour {
 		Intergalactic = false;
 		LoveUnlikelium = false;
 		Magned = false;
+		if(Time.timeScale>0) Time.timeScale = 1.0f;
 		LevelInfo.Environments.guiPowerUpTime.text = "";
 	}
 	
@@ -115,9 +116,11 @@ public class Player : MonoBehaviour {
 		if(!FreezeWorld ) 
 		{
 			FreezeWorld = true;
-			poweruptime = Store.Instance.powerupFreeze.LevelTime;
+			poweruptime = Store.Instance.powerupFreeze.LevelTime*0.5f;
 			while ( poweruptime > 0f )
 			{
+				if(Time.timeScale>0) Time.timeScale = 0.5f;
+				
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
 				poweruptime -= Time.deltaTime;
 				yield return new WaitForEndOfFrame();
@@ -125,9 +128,10 @@ public class Player : MonoBehaviour {
 		
 			LevelInfo.Environments.guiPowerUpTime.text = "";
 			FreezeWorld = false;
+			Time.timeScale = 1f;
 		}
 		else
-			poweruptime = Store.Instance.powerupFreeze.LevelTime;
+			poweruptime = Store.Instance.powerupFreeze.LevelTime*0.5f;
 	}
 	
 	public void StartIntergalactic()
