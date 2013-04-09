@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameEnvironment : MonoBehaviour {
 	
-	#if UNITY_ANDROID || UNITY_IPHONE
+	#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
 	private static Vector2 startPos;
 	public static Vector2 Swipe { get {
 		Vector2 res = Vector2.zero;

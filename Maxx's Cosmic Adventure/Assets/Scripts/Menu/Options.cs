@@ -5,10 +5,9 @@ using System.Collections;
 public class Options : MonoBehaviour {
 	
 	#region Options
-	public static float hSlideVolume = 1f;
-	public static float hSlideBackgroundVolume = 0.5f;
-	public static float hSlideEffectsVolume = 1f;
-	public static bool Vibration = true;
+	public float volumeMusic = 1f;
+	public float volumeSFX = 1f;
+	public bool Vibration = true;
 	#endregion
 	
 	#region Debug Options
@@ -50,6 +49,11 @@ public class Options : MonoBehaviour {
 		return new Rect(w+Screen.width*0.0f+textSize.x,index*50f,buttonSize.x,buttonSize.y);
 	}
 	
+	void Awake()
+	{
+		ShowOptions = false;
+	}
+	
 	void OnGUI()
 	{
 		if(!ShowOptions) return;
@@ -65,18 +69,16 @@ public class Options : MonoBehaviour {
 		}
 		else
 		{
-			GUI.Label(textRect(1),"Volume");
-			hSlideVolume = GUI.HorizontalSlider(buttonRect(1),hSlideVolume,0f,1f);
+			GUI.Label(textRect(1),"Music");
+			volumeMusic = GUI.HorizontalSlider(buttonRect(1),volumeMusic,0f,1f);
+	
+			GUI.Label(textRect(2),"Sfx");
+			volumeSFX = GUI.HorizontalSlider(buttonRect(2),volumeSFX,0f,1f);
+			NGUITools.soundVolume = volumeSFX;
 			
-			GUI.Label(textRect(2),"Vibration");
-			if( GUI.Button(buttonRect(2),Vibration?"ON":"OFF" ) )
-				Vibration = !Vibration;
-			
-			GUI.Label(textRect(3),"Backsound Volume");
-			hSlideBackgroundVolume = GUI.HorizontalSlider(buttonRect(3),hSlideBackgroundVolume,0f,1f);
-		
-			GUI.Label(textRect(4),"Effects Volume");
-			hSlideEffectsVolume = GUI.HorizontalSlider(buttonRect(4),hSlideEffectsVolume,0f,1f);			
+			GUI.Label(textRect(3),"Vibration");
+			if( GUI.Button(buttonRect(3),Vibration?"ON":"OFF" ) )
+				Vibration = !Vibration;			
 
 			if( GUI.Button( new Rect(Screen.width-100,Screen.height-60,80,40),"Debug"))
 				debug = true;

@@ -60,11 +60,14 @@ public class Store : MonoBehaviour {
 			{
 				popup.SetActive(false);
 				buttonGame.SetActive(IsPlayGame);
+				audio.volume = Options.Instance.volumeMusic;
+				audio.Play();
 			}
 			else
 			{
 				if(IsPlayGame)
 					LevelInfo.Settings.UpdatePurchasedItems();
+				audio.Stop();
 			}
 		}
 	}

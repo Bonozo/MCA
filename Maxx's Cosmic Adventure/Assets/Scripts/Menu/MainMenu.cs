@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour {
 		Stats
 	}
 	
+	public AudioClip clipMenuLoop;
 	public GameObject objTitle,objCredits,objStats;
 	
 	private MenuState _state;
@@ -25,6 +26,9 @@ public class MainMenu : MonoBehaviour {
 		}
 		set
 		{
+			if(_state == MenuState.Store && value != MenuState.Store && !audio.isPlaying)
+				audio.Play();
+			
 			_state = value;
 			
 			objTitle.SetActive(_state == MenuState.Title);
@@ -32,7 +36,10 @@ public class MainMenu : MonoBehaviour {
 			objStats.SetActive(_state == MenuState.Stats);
 			
 			if(_state == MenuState.Store)
+			{
 				Store.Instance.ShowStore = true;
+				audio.Stop();
+			}
 			
 			if(_state == MenuState.Options)
 				Options.Instance.ShowOptions = true;
@@ -52,6 +59,8 @@ public class MainMenu : MonoBehaviour {
 	{
 		if(_state == MenuState.Title && Input.GetKeyDown(KeyCode.Escape) )
 			Application.Quit();
+		
+		audio.volume = Options.Instance.volumeMusic;
 	}
 	
 	// Multithreaded Safe Singleton Pattern
