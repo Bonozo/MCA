@@ -5,7 +5,6 @@ public class ButtonOptionsBack : MonoBehaviour {
 	
 	void Action()
 	{
-		Debug.Log("Options Back Action");
 		Options.Instance.ShowOptions = false;
 		if(Store.Instance.IsMainMenu)
 			MainMenu.Instance.State = MainMenu.MenuState.Title;

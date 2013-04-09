@@ -5,13 +5,53 @@ using System.Collections;
 public class Options : MonoBehaviour {
 	
 	#region Options
-	public float volumeMusic = 1f;
-	public float volumeSFX = 1f;
-	public bool Vibration = true;
+	public float _volumeMusic = 1f;
+	public float volumeMusic{
+		get{
+			return _volumeMusic;
+		}
+		set{
+			_volumeMusic = value;
+			PlayerPrefs.SetFloat("options_volume_music",_volumeMusic);
+		}
+	}
+	
+	
+	public float _volumeSFX = 1f;
+	public float volumeSFX{
+		get{
+			return _volumeSFX;
+		}
+		set{
+			_volumeSFX = value;
+			NGUITools.soundVolume = value;
+			PlayerPrefs.SetFloat("options_volume_sfx",_volumeSFX);
+		}
+	}
+	
+	
+	public bool _vibration = true;
+	public bool vibration{
+		get{
+			return _vibration;
+		}
+		set{
+			_vibration = value;
+			PlayerPrefs.SetInt("options_vibration",_vibration?1:0);
+		}
+	}
+	
+	public void RestoreOptions()
+	{
+		volumeMusic = PlayerPrefs.GetFloat("options_volume_music");
+		volumeSFX = PlayerPrefs.GetFloat("options_volume_sfx");
+		vibration = PlayerPrefs.GetInt("options_vibration")==1;
+	}
+	
 	#endregion
 	
 	#region Debug Options
-	public static bool ShowFPS = false;
+	public bool showFPS = false;
 	#endregion
 	
 	#region GUI
@@ -60,8 +100,8 @@ public class Options : MonoBehaviour {
 		if(debug)
 		{
 			GUI.Label(textRect(1),"Display Framerate");
-			if( GUI.Button(buttonRect(1),ShowFPS?"ON":"OFF" ) )
-				ShowFPS = !ShowFPS;
+			if( GUI.Button(buttonRect(1),showFPS?"ON":"OFF" ) )
+				showFPS = !showFPS;
 			
 			
 			if( GUI.Button( new Rect(Screen.width-100,Screen.height-60,80,40),"Options"))
@@ -74,11 +114,10 @@ public class Options : MonoBehaviour {
 	
 			GUI.Label(textRect(2),"Sfx");
 			volumeSFX = GUI.HorizontalSlider(buttonRect(2),volumeSFX,0f,1f);
-			NGUITools.soundVolume = volumeSFX;
 			
 			GUI.Label(textRect(3),"Vibration");
-			if( GUI.Button(buttonRect(3),Vibration?"ON":"OFF" ) )
-				Vibration = !Vibration;			
+			if( GUI.Button(buttonRect(3),vibration?"ON":"OFF" ) )
+				vibration = !vibration;			
 
 			if( GUI.Button( new Rect(Screen.width-100,Screen.height-60,80,40),"Debug"))
 				debug = true;
