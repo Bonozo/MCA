@@ -17,7 +17,7 @@ public class LevelManager : MonoBehaviour {
 	
 	public void UpdateOptions()
 	{
-		LevelInfo.Environments.FPS.SetActive(Option.ShowFPS);
+		LevelInfo.Environments.FPS.SetActive(Options.ShowFPS);
 	}
 	
 	public void UpdatePurchasedItems()

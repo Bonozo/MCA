@@ -81,12 +81,12 @@ public class Store : MonoBehaviour {
 	{
 		if(!ShowStore||PopupActive) return;
 		fingerPos = camera2d.transform.worldToLocalMatrix * camera2d.ScreenToWorldPoint( fingerPos );
-		fingerPos += new Vector2(camera2d.pixelWidth*0.5f,camera2d.pixelHeight*0.5f);
-		
-		float scrollmax = storeWidth-camera2d.pixelWidth/camera2d.pixelHeight*480;
 
-		if( fingerPos.y >= 10f && fingerPos.y <= 410f )
+		if( Mathf.Abs(fingerPos.y) <= 250f )
+		{
+			float scrollmax = storeWidth-camera2d.pixelWidth/camera2d.pixelHeight*800;
 			buttonsDelta.localPosition = new Vector3(Mathf.Clamp(buttonsDelta.localPosition.x+delta.x,-scrollmax,5f),buttonsDelta.localPosition.y,buttonsDelta.localPosition.z);
+		}
 	}
 	
 	#endregion

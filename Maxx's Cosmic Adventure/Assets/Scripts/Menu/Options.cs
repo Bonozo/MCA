@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 [AddComponentMenu("Menu/Option")]
-public class Option : MonoBehaviour {
+public class Options : MonoBehaviour {
 	
 	#region Options
 	public static float hSlideVolume = 1f;
@@ -15,22 +15,23 @@ public class Option : MonoBehaviour {
 	public static bool ShowFPS = false;
 	#endregion
 	
-	//public GameObject guiVersion;
+	#region GUI
+	
+	public GameObject gui;
+	
+	private bool _showOptions = false;
+	public bool ShowOptions{
+		get{
+			return _showOptions;
+		}
+		set{
+			_showOptions = value;
+			gui.SetActive(value);
+		}
+	}
+	
 	private bool debug;
 	
-	// Use this for initialization
-	void OnEnable ()
-	{
-		//guiVersion.SetActive(false);
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		AudioListener.volume = hSlideVolume;
-		//guiVersion.SetActive(debug);
-	}
-
 	private Rect textRect(float index)
 	{
 		Vector2 textSize = new Vector2(Screen.width*0.2f,30);
@@ -51,6 +52,7 @@ public class Option : MonoBehaviour {
 	
 	void OnGUI()
 	{
+		if(!ShowOptions) return;
 		if(debug)
 		{
 			GUI.Label(textRect(1),"Display Framerate");
@@ -80,4 +82,28 @@ public class Option : MonoBehaviour {
 				debug = true;
 		}
 	}
+	
+	#endregion
+	
+	#region  Static Instance
+	
+	//Multithreaded Safe Singleton Pattern
+    // URL: http://msdn.microsoft.com/en-us/library/ms998558.aspx
+    private static readonly object _syncRoot = new Object();
+    private static volatile Options _staticInstance;	
+    public static Options Instance {
+        get {
+            if (_staticInstance == null) {				
+                lock (_syncRoot) {
+                    _staticInstance = FindObjectOfType (typeof(Options)) as Options;
+                    if (_staticInstance == null) {
+                       Debug.LogError("The Options instance was unable to be found, if this error persists please contact support.");						
+                    }
+                }
+            }
+            return _staticInstance;
+        }
+    }
+	
+	#endregion
 }

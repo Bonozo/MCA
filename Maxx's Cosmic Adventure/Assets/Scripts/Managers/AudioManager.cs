@@ -26,10 +26,10 @@ public class AudioManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		audioSourceBackground.volume = Option.hSlideBackgroundVolume;
-		audioSourcePlayerShip.volume = Option.hSlideEffectsVolume;
-		audioSourceJeebles.volume = Option.hSlideEffectsVolume;
-		audioSourceUnlikeliums.volume = Option.hSlideEffectsVolume;
+		audioSourceBackground.volume = Options.hSlideBackgroundVolume;
+		audioSourcePlayerShip.volume = Options.hSlideEffectsVolume;
+		audioSourceJeebles.volume = Options.hSlideEffectsVolume;
+		audioSourceUnlikeliums.volume = Options.hSlideEffectsVolume;
 	}
 	
 	private float pitchAudioUnlikeliumDistance = 0.0f;

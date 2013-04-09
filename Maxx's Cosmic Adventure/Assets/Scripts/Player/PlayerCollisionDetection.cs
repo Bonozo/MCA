@@ -16,7 +16,7 @@ public class PlayerCollisionDetection : MonoBehaviour {
 		case "Enemy":
 		case "AlienBullet":
 			#if UNITY_ANDROID || UNITY_IPHONE
-			if( Option.Vibration )
+			if( Options.Vibration )
 				Handheld.Vibrate();
 			#endif	
 			LevelInfo.Environments.score.LostLive();
