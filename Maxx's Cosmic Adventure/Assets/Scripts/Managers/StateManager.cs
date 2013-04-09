@@ -44,7 +44,7 @@ public class StateManager : MonoBehaviour {
 			GameState last = _state;
 			_state = value;
 			
-			if(last == GameState.Store )
+			if(last == GameState.Store || last == GameState.Options)
 				LevelInfo.Environments.HUB.SetActive(true);
 			
 			switch(_state)
@@ -56,6 +56,10 @@ public class StateManager : MonoBehaviour {
 			case GameState.Store:
 				LevelInfo.Environments.HUB.SetActive(false);
 				Store.Instance.ShowStore = true;
+				break;
+			case GameState.Options:
+				LevelInfo.Environments.HUB.SetActive(false);
+				Options.Instance.ShowOptions = true;
 				break;
 			case GameState.Lose:
 				LevelInfo.Environments.playerShip.transform.localScale *= 0;
