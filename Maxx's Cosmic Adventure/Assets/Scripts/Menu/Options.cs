@@ -43,9 +43,9 @@ public class Options : MonoBehaviour {
 	
 	public void RestoreOptions()
 	{
-		volumeMusic = PlayerPrefs.GetFloat("options_volume_music");
-		volumeSFX = PlayerPrefs.GetFloat("options_volume_sfx");
-		vibration = PlayerPrefs.GetInt("options_vibration")==1;
+		volumeMusic = PlayerPrefs.GetFloat("options_volume_music",1f);
+		volumeSFX = PlayerPrefs.GetFloat("options_volume_sfx",1f);
+		vibration = PlayerPrefs.GetInt("options_vibration",1)==1;
 	}
 	
 	#endregion
