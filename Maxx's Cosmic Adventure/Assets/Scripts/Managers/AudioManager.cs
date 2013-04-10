@@ -10,6 +10,11 @@ public class AudioManager : MonoBehaviour {
 	public AudioSource audioSourceJeebles;
 	public AudioSource audioSourceUnlikeliums;
 	
+	public void StopMusic()
+	{
+		audioSourceBackground.Stop();
+	}
+	
 	public void StopEffects()
 	{
 		audioSourcePlayerShip.Stop();
@@ -19,23 +24,38 @@ public class AudioManager : MonoBehaviour {
 	
 	public void StopAll()
 	{
-		audioSourceBackground.Stop();
+		StopMusic();
 		StopEffects();
 	}
 	
-	// Use this for initialization
-	void Start () 
+	public void PauseMusic()
 	{
-		/*audioSourceBackground.volume = Options.hSlideBackgroundVolume;
-		audioSourcePlayerShip.volume = Options.hSlideEffectsVolume;
-		audioSourceJeebles.volume = Options.hSlideEffectsVolume;
-		audioSourceUnlikeliums.volume = Options.hSlideEffectsVolume;*/
+		audioSourceBackground.Pause();
+	}
+	
+	public void ResumeMusic()
+	{
+		audioSourceBackground.Play();
 	}
 	
 	private float pitchAudioUnlikeliumDistance = 0.0f;
 	
+	void VolumeSetup()
+	{
+		audioSourceBackground.volume = Options.Instance.volumeMusic;
+		audioSourcePlayerShip.volume = Options.Instance.volumeSFX;
+		audioSourceJeebles.volume = Options.Instance.volumeSFX;
+		audioSourceUnlikeliums.volume = Options.Instance.volumeSFX;
+	}
+	
+	void Start()
+	{
+		VolumeSetup();
+	}
+	
 	void Update()
 	{
+		VolumeSetup();
 		if( LevelInfo.Environments.playerShip.DistanceTravelled >= pitchAudioUnlikeliumDistance )
 			audioSourceUnlikeliums.pitch = 1f;
 	}

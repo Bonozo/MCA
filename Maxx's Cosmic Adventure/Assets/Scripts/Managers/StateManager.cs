@@ -44,16 +44,19 @@ public class StateManager : MonoBehaviour {
 			GameState last = _state;
 			_state = value;
 			
-			if(last == GameState.Store || last == GameState.Options)
-				LevelInfo.Environments.HUB.SetActive(true);
+			LevelInfo.Environments.HUB.SetActive(HUBActiveHelper(_state));
+	
+			if(last == GameState.Store) LevelInfo.Audio.ResumeMusic();
 			
 			switch(_state)
 			{
 			case GameState.Play:
 				break;
 			case GameState.Paused:
+				LevelInfo.Audio.StopEffects();
 				break;
 			case GameState.Store:
+				LevelInfo.Audio.PauseMusic();
 				LevelInfo.Environments.HUB.SetActive(false);
 				Store.Instance.ShowStore = true;
 				break;
@@ -79,6 +82,18 @@ public class StateManager : MonoBehaviour {
 			Time.timeScale = (state == GameState.Play?1f:0f);
 		}
 	}
+	
+	private bool HUBActiveHelper(GameState _state)
+	{
+		return _state == GameState.Lose || _state == GameState.Paused || _state == GameState.Play;
+	}
+	
+	public bool HUBActive{
+		get{
+			return HUBActiveHelper(state);
+		}
+	}
+	
 	
 	void Awake()
 	{
