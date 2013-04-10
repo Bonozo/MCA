@@ -3,7 +3,8 @@ using System.Collections;
 
 [AddComponentMenu("Menu/Story")]
 public class Story : MonoBehaviour {
-
+	
+	public AudioSource storyMusic;
 	public Texture2D[] slide;
 	public float slideTime = 0.1f;
 	public Texture2D popUp;
@@ -22,9 +23,13 @@ public class Story : MonoBehaviour {
 	
 	public AudioClip audioPageTurn;
 	
-	void Start()
+	void Awake()
 	{
-		gameObject.AddComponent<AudioSource>();
+		var source = gameObject.AddComponent<AudioSource>();
+		source.bypassEffects = true;
+		source.volume = Options.Instance.volumeSFX;
+		
+		storyMusic.volume = Options.Instance.volumeMusic;
 	}
 	
 	void Update()

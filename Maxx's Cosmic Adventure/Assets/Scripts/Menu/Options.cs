@@ -91,6 +91,7 @@ public class Options : MonoBehaviour {
 	
 	void Awake()
 	{
+		RestoreOptions();
 		ShowOptions = false;
 	}
 	
