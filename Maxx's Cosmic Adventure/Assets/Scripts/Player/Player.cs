@@ -29,6 +29,8 @@ public class Player : MonoBehaviour {
 	
 	public GameObject leftturret,rightturret;
 	
+	public static int attempt = 0;
+	
 	#endregion
 	
 	#region Variables
@@ -230,6 +232,7 @@ public class Player : MonoBehaviour {
 	
 	void Awake()
 	{
+		attempt++;
 	}
 	
 	// Use this for initialization
@@ -309,10 +312,16 @@ public class Player : MonoBehaviour {
 				LevelInfo.Environments.generator.GenerateAsteroid = true;
 			}
 			yield return new WaitForEndOfFrame();
-		}		
-		waitforcalibrate = true;
-		LevelInfo.Environments.popupCalibrate.SetActive(true);
-		Time.timeScale = 0.0f;
+		}	
+		
+		if(attempt==1) // First attemp of game launch
+		{
+			waitforcalibrate = true;
+			LevelInfo.Environments.popupCalibrate.SetActive(true);
+			Time.timeScale = 0.0f;
+		}
+		else
+			Ready = true;
 	}
 	
 	public void Calibrate(bool vertified)
