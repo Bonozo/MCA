@@ -4,18 +4,13 @@ using System.Collections;
 public class Score : MonoBehaviour {
 	
 	public Texture2D TextureLive,TextureNoLive;
-	public int MaxLives = 5;
+	public readonly int MaxLives = 5;
 	
 	private int currentLives = 3;
 	
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	void Start ()
+	{
+		Lives = Store.Instance.powerupToughGuy.level+1;
 	}
 	
 	void OnGUI()
