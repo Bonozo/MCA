@@ -47,6 +47,11 @@ public class Missles : MonoBehaviour {
 	void Update()
 	{
 		In3sUpdate();
+		
+		#if UNITY_EDITOR || UNITY_STANDALONE
+		if( Input.GetKeyDown(KeyCode.M) )
+			OnPress(true);
+		#endif
 	}
 	
 	void OnPress(bool isDown)

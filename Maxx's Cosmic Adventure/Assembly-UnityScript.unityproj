@@ -44,6 +44,22 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_TransRimShaderFader.js" />
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_TransRimShaderInOut.js" />
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_TransRimShaderIrisator.js" />
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_UVScroller.js" />
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_animRandomizer.js" />
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_animSpeedRandomizer.js" />
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_destroyThisTimed.js" />
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_effectCaster.js" />
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_materialColorRandomizer.js" />
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_moveThis.js" />
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_prefabGenerator.js" />
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_randomRotation.js" />
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_randomScale.js" />
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_rotateThis.js" />
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_stohasticArrowMovement.js" />
+     <Compile Include="Assets\ShurikenMagic\Scripts\SM_trailFade.js" />
      <Compile Include="Assets\Stock Assets\FingerGestures\SkeletonCode\JavascriptSkeleton.js" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\Fonts\lavoir\OFL-FAQ.txt" />
@@ -80,9 +96,11 @@
      <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
      <None Include="Assets\NGUI\Examples\Shaders\Refractive.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Depth.shader" />
+     <None Include="Assets\ShurikenMagic\Shaders\SM_2sided_transparent.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (SoftClip).shader" />
      <None Include="Assets\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
+     <None Include="Assets\ShurikenMagic\Shaders\SM_TransparentRim.shader" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
