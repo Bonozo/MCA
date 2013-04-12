@@ -13,12 +13,6 @@ public class Missles : MonoBehaviour {
 		set{
 			_currentPowerup = value;
 			
-			if( timedpowerup )
-			{
-				StopCoroutine("FireBallPowerup");
-				timedpowerup=false;
-			}
-			
 			switch(_currentPowerup)
 			{
 			case Gems.In3s:
@@ -28,7 +22,8 @@ public class Missles : MonoBehaviour {
 				powerupName.text = "Pow";
 				break;
 			case Gems.FireBall:
-				StartCoroutine("FireBallPowerup");
+				fireballCount = Mathf.RoundToInt(Store.Instance.powerupLighenUp.LevelTime);
+				powerupName.text = "Lighten Up " + fireballCount;
 				break;
 			default:
 				powerupName.text = "";
@@ -36,8 +31,6 @@ public class Missles : MonoBehaviour {
 			}
 		}
 	}
-	
-	private bool timedpowerup=false;
 	
 	void Awake()
 	{
@@ -58,17 +51,8 @@ public class Missles : MonoBehaviour {
 	{
 		if(isDown && LevelInfo.Environments.playerShip.Ready) 
 		{
-			if(timedpowerup)
-			{
-				if(currentPowerup == Gems.FireBall)
-					Instantiate(LevelInfo.Environments.prefabPlayerFireBall,LevelInfo.Environments.posPlayerMissle[0].position,LevelInfo.Environments.posPlayerMissle[0].rotation);			
-
-			}
-			else
-			{
-				if(LevelInfo.State.state == GameState.Play && currentPowerup != Gems.None)
-					StartPowerup();
-			}
+			if(LevelInfo.State.state == GameState.Play && currentPowerup != Gems.None)
+				StartPowerup();
 		}
 	}
 	
@@ -81,6 +65,17 @@ public class Missles : MonoBehaviour {
 			break;
 		case Gems.Pow:
 			StartCoroutine(PowPowerup());
+			break;
+		case Gems.FireBall:
+			Instantiate(LevelInfo.Environments.prefabPlayerFireBall,LevelInfo.Environments.posPlayerMissle[0].position,LevelInfo.Environments.posPlayerMissle[0].rotation);			
+			fireballCount--;
+			if(fireballCount==0)
+			{
+				powerupName.text = "";
+				currentPowerup = Gems.None;
+			}
+			else
+				powerupName.text = "Lighten Up " + fireballCount;
 			break;
 		}
 	}
@@ -223,7 +218,8 @@ public class Missles : MonoBehaviour {
 		currentPowerup = Gems.None;
 	}
 	
-	IEnumerator FireBallPowerup()
+	int fireballCount = 0;
+	/*IEnumerator FireBallPowerup()
 	{
 		timedpowerup = true;
 		float time = Store.Instance.powerupLighenUp.LevelTime;
@@ -236,5 +232,5 @@ public class Missles : MonoBehaviour {
 		
 		timedpowerup = false;
 		currentPowerup = Gems.None;
-	}
+	}*/
 }
