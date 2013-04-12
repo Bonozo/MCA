@@ -46,12 +46,23 @@ public class Options : MonoBehaviour {
 		volumeMusic = PlayerPrefs.GetFloat("options_volume_music",1f);
 		volumeSFX = PlayerPrefs.GetFloat("options_volume_sfx",1f);
 		vibration = PlayerPrefs.GetInt("options_vibration",1)==1;
+		showFPS = PlayerPrefs.GetInt("options_showframerate",0)==1;
 	}
 	
 	#endregion
 	
 	#region Debug Options
-	public bool showFPS = false;
+	public bool _showFPS = false;
+	public bool showFPS{
+		get{
+			return _showOptions;
+		}
+		set{
+			_showOptions = value;
+			PlayerPrefs.SetInt("options_showframerate",_showFPS?1:0);
+		}
+		
+	}
 	#endregion
 	
 	#region GUI
@@ -105,7 +116,10 @@ public class Options : MonoBehaviour {
 				showFPS = !showFPS;
 			
 			
-			if( GUI.Button( new Rect(Screen.width-100,Screen.height-60,80,40),"Options"))
+			if( GUI.Button( new Rect(Screen.width-110,10,100,40),"1000 Unlikeliums"))
+				Store.Instance.Unlikeliums += 1000;
+			
+			if( GUI.Button( new Rect(Screen.width-110,Screen.height-50,100,40),"Options"))
 				debug = false;
 		}
 		else
