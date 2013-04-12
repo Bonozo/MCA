@@ -132,8 +132,6 @@ public class AlienShip : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider col)
 	{	
-		Debug.Log("Jeeble Trigger " + col.gameObject.name);
-		
 		if( col.gameObject.CompareTag("Asteroid") || col.gameObject.CompareTag("Enemy") )
 		{
 			col.gameObject.SendMessage("Explode");

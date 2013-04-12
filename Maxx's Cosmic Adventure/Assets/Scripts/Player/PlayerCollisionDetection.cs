@@ -51,7 +51,6 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			LevelInfo.Environments.infoMessage.ShowMessage("Sure Shot");
 			break;
 		case Gems.Shield:
-			LevelInfo.Environments.score.AddLive();
 			break;
 		case Gems.Magnet:
 			LevelInfo.Environments.playerShip.StartMagned();

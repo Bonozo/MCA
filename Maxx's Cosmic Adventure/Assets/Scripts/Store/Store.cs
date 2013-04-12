@@ -118,12 +118,12 @@ public class Store : MonoBehaviour {
 		if(_currentPowerup.stored)
 		{
 			popupCost.text = "YOU HAVE " + (powerup.level+1);
-			popupBuyText.text = powerup.level==4?"FULL":"ADD BY " + costStored;
+			popupBuyText.text = powerup.FullyUpdated?"FULL":"ADD BY " + costStored;
 		}
 		else
 		{
 			popupCost.text = "LEVEL " + (powerup.level+1);
-			popupBuyText.text = powerup.level==4?"FULLY UPGRADED":"LEVEL " + (powerup.level+2) + " BY "  + costs[powerup.level];
+			popupBuyText.text = powerup.FullyUpdated?"FULLY UPGRADED":"LEVEL " + (powerup.level+2) + " BY "  + costs[powerup.level];
 		}
 		popup.SetActive(true);
 	}

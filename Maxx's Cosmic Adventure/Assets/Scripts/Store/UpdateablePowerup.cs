@@ -6,9 +6,11 @@ public class UpdateablePowerup : MonoBehaviour {
 	public bool stored = false;
 	public string powerupName;
 	
-	private int _level;
+	private int _level = -1;
 	public int level{
 		get{
+			if(_level==-1)
+				level = PlayerPrefs.GetInt("powerup_"+powerupName,0);
 			return _level;
 		}
 		set{
@@ -21,7 +23,6 @@ public class UpdateablePowerup : MonoBehaviour {
 	
 	void Awake()
 	{
-		level = PlayerPrefs.GetInt("powerup_"+powerupName,0);
 		button = this.GetComponent<UIButton>();
 	}
 	

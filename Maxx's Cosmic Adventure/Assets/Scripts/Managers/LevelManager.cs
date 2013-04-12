@@ -8,7 +8,13 @@ public class LevelManager : MonoBehaviour {
 	
 	// Player
 	public float PlayerSpeed = 40f;
-	public float PlayerUpDownSpeed = 8f;
+	public float PlayerUpDownSpeed = 0.2f;
+	public float PlayerUpDownIgnore = 0.0f; // in meters (0-3)
+	
+	public float PlayerRotateSpeed = 0.2f;
+	public float PlayerRotationMaxAngle = 50f;
+	public float PlayerRotateIgnore = 0.0f; // in degrees (0-90)
+	
 	public float PlayerWaitForRise = 4f;
 	public float SureShotDistance = 150f;
 	
