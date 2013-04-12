@@ -106,6 +106,7 @@ public class Store : MonoBehaviour {
 	public UpdateablePowerup powerupIntergalactic;
 	public UpdateablePowerup powerupBoostFuel;
 	public UpdateablePowerup powerupToughGuy;
+	public UpdateablePowerup powerupFireHeating;
 	
 	public readonly int[] costs = {30,100,300,1000,3000};
 	public readonly int costStored = 100;

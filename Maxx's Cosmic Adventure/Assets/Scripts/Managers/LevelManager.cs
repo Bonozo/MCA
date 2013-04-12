@@ -29,6 +29,7 @@ public class LevelManager : MonoBehaviour {
 	public void UpdatePurchasedItems()
 	{
 		LevelInfo.Environments.fuelOverheat.UpTime = 0.5f-0.1f*Store.Instance.powerupBoostFuel.level;
+		LevelInfo.Environments.fireOverheat.UpTime = 0.3f-0.05f*Store.Instance.powerupFireHeating.level;
 		//LevelInfo.Environments.score.Lives = Store.Instance.powerupToughGuy.level+1;
 	}
 	
