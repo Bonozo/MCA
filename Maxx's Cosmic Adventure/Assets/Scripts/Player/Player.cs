@@ -380,7 +380,10 @@ public class Player : MonoBehaviour {
 	public void ClearAllPowerups()
 	{
 		StopAllCoroutines();
+		
 		AutoFire = false;
+		LevelInfo.Environments.playerAnimations.CloseTurette();
+		
 		FreezeWorld = false;
 		Intergalactic = false;
 		LoveUnlikelium = false;

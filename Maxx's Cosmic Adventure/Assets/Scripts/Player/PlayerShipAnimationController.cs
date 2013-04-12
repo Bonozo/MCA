@@ -46,15 +46,19 @@ public class PlayerShipAnimationController : MonoBehaviour {
 				||animation.IsPlaying("barrelrollright");
 		}}
 	
+	bool turreteopened = false;
 	public void OpenTurette()
 	{
 		animation.Play("turette open");
+		turreteopened = true;
 	}
 	
 	public void CloseTurette()
 	{
-		animation.Play("turette close");
+		if(turreteopened)
+		{
+			animation.Play("turette close");
+			turreteopened = false;
+		}
 	}
-	
-	
 }

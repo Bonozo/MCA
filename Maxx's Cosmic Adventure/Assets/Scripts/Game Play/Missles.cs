@@ -158,7 +158,7 @@ public class Missles : MonoBehaviour {
 		currentPowerup = Gems.None;*/
 	}
 	
-	float distancetoshot = 150f;
+	float in3sdistancetoshot = 200f;
 	float wtin3s = 0.0f;
 	void In3sUpdate()
 	{
@@ -178,7 +178,7 @@ public class Missles : MonoBehaviour {
 				foreach(GameObject g in ship)
 				{		
 					Vector3 toscreen = LevelInfo.Environments.mainCamera.WorldToScreenPoint(g.transform.position);
-					if(g.GetComponent<MissledAlienShip>()==null && toscreen.x >= 0 && toscreen.x <= Screen.width && toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f && toscreen.z < distancetoshot && toscreen.z < dist)
+					if(g.GetComponent<MissledAlienShip>()==null && toscreen.x >= 0 && toscreen.x <= Screen.width && toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f && toscreen.z < in3sdistancetoshot && toscreen.z < dist)
 					{
 						target = g;
 						dist = toscreen.z;
@@ -188,7 +188,7 @@ public class Missles : MonoBehaviour {
 				foreach(GameObject g in asteroid)
 				{
 					Vector3 toscreen = LevelInfo.Environments.mainCamera.WorldToScreenPoint(g.transform.position);
-					if(g.GetComponent<MissledAlienShip>()==null && toscreen.x >= 0 && toscreen.x <= Screen.width && toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f && toscreen.z < distancetoshot && toscreen.z < dist)
+					if(g.GetComponent<MissledAlienShip>()==null && toscreen.x >= 0 && toscreen.x <= Screen.width && toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f && toscreen.z < in3sdistancetoshot && toscreen.z < dist)
 					{
 						target = g;
 						dist = toscreen.z;
