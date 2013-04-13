@@ -83,6 +83,7 @@
      <None Include="Assets\NGUI\Examples\Models\Orc\Orc Skin.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo20.txt" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />
+     <None Include="Assets\Standard Assets\Fx Maker Path\Resources\EffectShader\FXMaker_Mask Additive Tint.shader" />
      <None Include="Assets\Fonts\press-start-2p\LICENSE.txt" />
      <None Include="Assets\Shaders\UnlitAlpha.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Masked Colored.shader" />
