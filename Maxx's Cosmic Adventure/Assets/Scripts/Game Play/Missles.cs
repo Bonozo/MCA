@@ -22,7 +22,7 @@ public class Missles : MonoBehaviour {
 				powerupName.text = "Pow";
 				break;
 			case Gems.FireBall:
-				fireballCount = Mathf.RoundToInt(Store.Instance.powerupLighenUp.LevelTime);
+				fireballCount = 3*(Store.Instance.powerupLighenUp.level+1);
 				powerupName.text = "Lighten Up " + fireballCount;
 				break;
 			default:
