@@ -107,12 +107,16 @@ public class Player : MonoBehaviour {
 	
 	private IEnumerator Rise()
 	{
+		LevelInfo.Environments.gameStartTimer.gameObject.SetActive(true);
 		float riseTime = LevelInfo.Settings.PlayerWaitForRise;
 		while( riseTime > 0 )
 		{
+			LevelInfo.Environments.gameStartTimer.text = "Get Ready!\n" + Mathf.Min(5,(int)(5f*riseTime/LevelInfo.Settings.PlayerWaitForRise+1f));
+			
 			Vector3 pos = transform.position;
 			pos.y = riseTime*BeginHeight/LevelInfo.Settings.PlayerWaitForRise;
 			transform.position = pos;
+			
 			riseTime -= Time.deltaTime;
 			if( riseTime <= 0 )
 			{
@@ -124,14 +128,22 @@ public class Player : MonoBehaviour {
 			yield return new WaitForEndOfFrame();
 		}	
 		
-		if(attempt==1) // First attemp of game launch
+		if( PlayerPrefs.GetInt("first_play",0)==0)
 		{
+			PlayerPrefs.SetInt("first_play",1);
 			waitforcalibrate = true;
 			LevelInfo.Environments.popupCalibrate.SetActive(true);
 			Time.timeScale = 0.0f;
 		}
 		else
+		{
+			LevelInfo.Environments.gameStartTimer.text = "GO!";
+			yield return new WaitForSeconds(0.05f);
 			Ready = true;
+			yield return new WaitForSeconds(1.5f);
+		}
+		
+		LevelInfo.Environments.gameStartTimer.gameObject.SetActive(false);
 	}
 	
 	#endregion
