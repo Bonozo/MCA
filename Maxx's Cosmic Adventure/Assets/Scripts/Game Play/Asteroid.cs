@@ -2,13 +2,25 @@ using UnityEngine;
 using System.Collections;
 
 public class Asteroid : MonoBehaviour {
-		
+	
+	public static int GlobalCount = 0;
+	
 	public int Power = 10;
 	public GameObject asteroidPrefab;
 	
 	private bool exploded=false;
 	private Vector3 beginposition;
 	private bool f=false;
+	
+	void Awake()
+	{
+		GlobalCount++;
+	}
+	
+	void OnDestroy()
+	{
+		GlobalCount--;
+	}
 	
 	void Start () 
 	{

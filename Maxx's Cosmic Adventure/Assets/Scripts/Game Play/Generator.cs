@@ -13,7 +13,7 @@ public class Generator : MonoBehaviour {
 	
 	public void GenerateNewAlienShip(int index)
 	{
-		if( GenerateAlienShip ) 
+		if( GenerateAlienShip && AlienShip.GlobalCount<15) 
 		{
 			Vector3 pos = new Vector3(0,0,Random.Range(AlienShipDistanceMin,AlienShipDistanceMax));
 			pos += LevelInfo.Environments.playerShip.transform.position;
@@ -35,7 +35,7 @@ public class Generator : MonoBehaviour {
 	
 	public void GenerateNewAsteroid(int index)
 	{
-		if( GenerateAsteroid ) 
+		if( GenerateAsteroid && Asteroid.GlobalCount<10) 
 		{
 			Instantiate(AsteroidPrefabs[index]);
 			/*Vector3 pos = new Vector3(0,0,Random.Range(AsteroidDistanceMin,AsteroidDistanceMax));

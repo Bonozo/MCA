@@ -5,6 +5,8 @@ public class AlienShip : MonoBehaviour {
 	
 	#region References
 	
+	public static int GlobalCount=0;
+	
 	// Power, Speed
 	public int Power = 10;
 	public float Speed = 2f;
@@ -35,6 +37,16 @@ public class AlienShip : MonoBehaviour {
 	#endregion
 	
 	#region Start, Update
+	
+	void Awake()
+	{
+		GlobalCount++;
+	}
+	
+	void OnDestroy()
+	{
+		GlobalCount--;
+	}
 	
 	void Start () 
 	{
