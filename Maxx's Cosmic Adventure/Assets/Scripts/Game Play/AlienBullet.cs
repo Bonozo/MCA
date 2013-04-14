@@ -16,8 +16,8 @@ public class AlienBullet : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void Update () 
+	{
 		if(LevelInfo.State.state != GameState.Play) return;
 		if(LevelInfo.Environments.playerShip.FreezeWorld) return;
 		
