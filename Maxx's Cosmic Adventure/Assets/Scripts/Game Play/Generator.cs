@@ -72,13 +72,12 @@ public class Generator : MonoBehaviour {
 	private float next_asteroid_time = Stage_One_Step;
 	private float next_jeeble_time = Stage_One_Distance;
 	
-	// Use this for initialization
-	void Start () {
-	
+	void Start()
+	{
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 		if( LevelInfo.Environments.playerShip == null ) return;
 		
 		float distance = LevelInfo.Environments.playerShip.DistanceTravelled;

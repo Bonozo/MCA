@@ -5,17 +5,23 @@ public class AlienShip : MonoBehaviour {
 	
 	#region References
 	
+	// Power, Speed
 	public int Power = 10;
-	
 	public float Speed = 2f;
-	public int FireFrequency = 100;
-	public float FireRelax = 0.5f;
 	
-	public bool attackPlayer = false;
-	public bool canAttack = true;
+	// Fire
+	public bool canFire = true;
+	public bool targetedFire = false;
+	public int fireFrequency = 80;
+	public float fireRelax = 0.5f;
+	
+	// Move
+	public bool targetedMove = false;
+	
+	
 	public bool randomHeight;
 	
-	public GameObject AlienBullet;
+	public GameObject alienBullet;
 	public Transform Centr,Up;
 	public Transform projectilePosition;
 	
@@ -24,17 +30,14 @@ public class AlienShip : MonoBehaviour {
 	#endregion
 	
 	#region Private Variables
-	
+	private bool ready = false;
 	private float fireDeltaTime = 0.0f;
-	private Vector3 beginScale;
-	private float appearTime;
 	#endregion
 	
 	#region Start, Update
 	
-	// Use this for initialization
-	void Start () {
-		
+	void Start () 
+	{
 		if(randomHeight)
 		{
 			float height = Random.Range(-LevelInfo.Settings.MaxSpaceY,LevelInfo.Settings.MaxSpaceY);
@@ -42,24 +45,31 @@ public class AlienShip : MonoBehaviour {
 		}
 		
 		transform.rotation = ToPlayerRotation();
-		
-		beginScale = transform.localScale;
-		transform.localScale *= 0.0f;
-		appearTime = LevelInfo.Settings.AlienShipAppearTime;
-		
 		tag = "Enemy";
+		
+		StartCoroutine(GetReady());
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		if(LevelInfo.State.state != GameState.Play) return;
+	IEnumerator GetReady()
+	{
+		var beginScale = transform.localScale;
+		transform.localScale *= 0.0f;
 		
-		if( appearTime >= 0 )
+		float appearTime = LevelInfo.Settings.AlienShipAppearTime;
+		while( appearTime >= 0 )
 		{
 			transform.localScale = beginScale*(LevelInfo.Settings.AlienShipAppearTime-appearTime)/LevelInfo.Settings.AlienShipAppearTime;
 			appearTime -= Time.deltaTime;
-			return;
+			yield return null;
 		}
+		ready = true;
+	}
+	
+	void Update ()
+	{
+		if(LevelInfo.State.state != GameState.Play) return;
+		if( !ready ) return;
+
 		
 		if( DestroyNeed() )
 		{
@@ -70,29 +80,36 @@ public class AlienShip : MonoBehaviour {
 		if(LevelInfo.Environments.playerShip.FreezeWorld) return;
 		
 		// Move
-		if(attackPlayer && PlayerDistance()>60f )
+		if(targetedMove && PlayerDistance()>60f )
 			transform.rotation = ToForwardPlayerRotation();
 		else 
-			attackPlayer = false;
+			targetedMove = false;
 		
 		
 		transform.Translate(Speed*Time.deltaTime*Vector3.forward);
 		
 		// Fire
-		if( canAttack )
+		if( canFire )
 		{
 			if( fireDeltaTime > 0f ) fireDeltaTime -= Time.deltaTime;
-			if( Random.Range(1,FireFrequency) == 1 && fireDeltaTime <= 0f )
+			if( Random.Range(1,fireFrequency) == 1 && fireDeltaTime <= 0f && IsFrontOfCamera() )
 			{
-				Instantiate(AlienBullet,projectilePosition.position,transform.rotation);
-				fireDeltaTime = FireRelax;
+				var c = ((GameObject)Instantiate(alienBullet,projectilePosition.position,transform.rotation)).GetComponent<AlienBullet>();
+				if(targetedFire)
+				{
+					c.Speed *= 2;
+					c.GoTo(PlayerForwardPosition());
+					Debug.Log("targetted fire to player");
+				}
+				
+				fireDeltaTime = fireRelax;
 			}
 		}
-		
-		//Vector3 pos = transform.position;
-		//pos.y = 2*Mathf.Sin(100*Time.time);
-		//transform.position = pos;
 	}
+	
+	#endregion
+	
+	#region Methods
 	
 	private bool DestroyNeed()
 	{
@@ -120,10 +137,24 @@ public class AlienShip : MonoBehaviour {
 		return rot;
 	}	
 	
+	private Vector3 PlayerForwardPosition()
+	{
+		var player = LevelInfo.Environments.playerShip.transform.position;
+		player += 30f*Vector3.forward;
+		return player;
+	}
+	
 	private float PlayerDistance()
 	{
 		var p = LevelInfo.Environments.playerShip.transform.position; p.y = transform.position.y;
 		return Vector3.Distance(transform.position,p);
+	}
+	
+	private bool IsFrontOfCamera()
+	{
+		var sc = LevelInfo.Environments.mainCamera.WorldToScreenPoint(transform.position);
+		sc.x /= Screen.width; sc.y /= Screen.height;
+		return sc.z > 20f && Mathf.Clamp(sc.x,0.1f,0.9f)==sc.x && Mathf.Clamp(sc.y,0.1f,0.9f) == sc.y;
 	}
 	
 	#endregion
