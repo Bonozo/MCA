@@ -3,10 +3,9 @@ using System.Collections;
 
 public class AlienAttack : MonoBehaviour {
 	
-	IEnumerator Start () 
+	void Start () 
 	{
-		yield return new WaitForSeconds(15f);
-		StartCoroutine(BlueFighterAttack(25,1f));
+		StartCoroutine(BlueFighterAttack(250,1f));
 	}
 	
 	void Update () 
@@ -20,7 +19,7 @@ public class AlienAttack : MonoBehaviour {
 		{
 			yield return new WaitForSeconds(delta);
 			
-			LevelInfo.Environments.generator.GenerateNewAlienShip(0);
+			LevelInfo.Environments.generator.GenerateNewAlienShip(1);
 			
 			time -= delta;
 		}

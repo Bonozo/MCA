@@ -56,7 +56,7 @@ public class AlienShip : MonoBehaviour {
 			transform.position = new Vector3(transform.position.x,height,transform.position.z);
 		}
 		
-		transform.rotation = ToPlayerRotation();
+		transform.rotation = targetedMove?ToForwardPlayerRotation():ToPlayerRotation();
 		tag = "Enemy";
 		
 		StartCoroutine(GetReady());
@@ -91,11 +91,11 @@ public class AlienShip : MonoBehaviour {
 		
 		if(LevelInfo.Environments.playerShip.FreezeWorld) return;
 		
-		// Move
+		/*// Move
 		if(targetedMove && PlayerDistance()>60f )
 			transform.rotation = ToForwardPlayerRotation();
 		else 
-			targetedMove = false;
+			targetedMove = false;*/
 		
 		
 		transform.Translate(Speed*Time.deltaTime*Vector3.forward);
@@ -125,12 +125,11 @@ public class AlienShip : MonoBehaviour {
 	
 	private bool DestroyNeed()
 	{
-		float y = transform.rotation.eulerAngles.y; if( y>=180f) y-=360f;
+		/*float y = transform.rotation.eulerAngles.y; if( y>=180f) y-=360f;
 		float playery = LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y; if(playery>=180f) playery-=360f;
 		if( Vector3.Distance(transform.position,LevelInfo.Environments.playerShip.transform.position) >= 50f && Mathf.Abs(y-playery) <= 45f )
-			return true;
-		
-		return false;
+			return true;*/
+		return PlayerDistance() >= 350f;
 	}
 	
 	private Quaternion ToPlayerRotation()
@@ -143,7 +142,7 @@ public class AlienShip : MonoBehaviour {
 	Quaternion ToForwardPlayerRotation()
 	{
 		var player = LevelInfo.Environments.playerShip.transform.position;
-		player += 30f*Vector3.forward;
+		player += Random.Range(50f,150f)*Vector3.forward;
 		Quaternion rot = Quaternion.LookRotation(-(transform.position-player));
 		rot.x = 0.0f;
 		return rot;

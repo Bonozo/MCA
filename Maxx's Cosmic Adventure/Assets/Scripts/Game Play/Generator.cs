@@ -20,8 +20,10 @@ public class Generator : MonoBehaviour {
 			pos.y = 0;
 		
 			GameObject newAlienShip = (GameObject)Instantiate(AlienShipPrefabs[index],pos,Quaternion.identity);
+			var dlt = Random.Range(-AlienShipFrontAngleMaxDelta,AlienShipFrontAngleMaxDelta);
+			dlt *= 1f/Random.Range(1,3);
 			newAlienShip.transform.RotateAround (LevelInfo.Environments.playerShip.transform.position, Vector3.up, 
-				LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y + Random.Range(-AlienShipFrontAngleMaxDelta,AlienShipFrontAngleMaxDelta) );	
+				LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y + dlt );	
 		}
 	}
 	
