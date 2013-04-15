@@ -5,7 +5,7 @@ public class AlienAttack : MonoBehaviour {
 	
 	void Start () 
 	{
-		StartCoroutine(BlueFighterAttack(250,1f));
+		//StartCoroutine(BlueFighterAttack(250,1f));
 	}
 	
 	void Update () 
@@ -19,7 +19,7 @@ public class AlienAttack : MonoBehaviour {
 		{
 			yield return new WaitForSeconds(delta);
 			
-			LevelInfo.Environments.generator.GenerateNewAlienShip(5);
+			LevelInfo.Environments.generator.GenerateNewAlienShip(0);
 			
 			time -= delta;
 		}

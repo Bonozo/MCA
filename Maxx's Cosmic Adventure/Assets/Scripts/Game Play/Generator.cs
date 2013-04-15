@@ -13,9 +13,33 @@ public class Generator : MonoBehaviour {
 	
 	public void GenerateNewAlienShip(int index)
 	{
-		if( GenerateAlienShip && AlienShip.GlobalCount<15) 
-		{
+		if( GenerateAlienShip && AlienShip.GlobalCount<20) 
 			Instantiate(AlienShipPrefabs[index]);
+	}
+	
+	public void GenerateNewAlienShip()
+	{
+		float maxdistance = 12000f;
+		float currentdistance = LevelInfo.Environments.playerShip.DistanceTravelled;
+		
+		int maxindex = Mathf.Min((int)(AlienShipPrefabs.Length*currentdistance/maxdistance),AlienShipPrefabs.Length);
+		int index = Random.Range(0,maxindex);
+		
+		int count = Mathf.Max(1,(int)(Random.Range(0,currentdistance)/1000f));
+		if(index==2||index==3) count = Mathf.Max(1,3);
+		
+		float delta = 1f;
+
+		StartCoroutine(StartAlienAttack(index,count,delta));
+	}
+	
+	public IEnumerator StartAlienAttack(int index,int count,float delta)
+	{
+		while(count>0)
+		{
+			yield return new WaitForSeconds(delta);
+			LevelInfo.Environments.generator.GenerateNewAlienShip(index);
+			count--;
 		}
 	}
 	
@@ -84,7 +108,7 @@ public class Generator : MonoBehaviour {
 			if( Random.Range(0,2)==1 )
 			{
 				int len = distance >= Stage_Three_Distance ? AlienShipPrefabs.Length : 1 ;
-				GenerateNewAlienShip(Random.Range(0,len));
+				GenerateNewAlienShip();
 			}
 			next_jeeble_time += Stage_Two_Step_Enemy;	
 			/*??*/if(next_jeeble_time<distance) next_jeeble_time=distance+Random.Range(0f,2f);
