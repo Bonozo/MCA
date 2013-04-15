@@ -19,7 +19,7 @@ public class AlienAttack : MonoBehaviour {
 		{
 			yield return new WaitForSeconds(delta);
 			
-			LevelInfo.Environments.generator.GenerateNewAlienShip(4);
+			LevelInfo.Environments.generator.GenerateNewAlienShip(5);
 			
 			time -= delta;
 		}

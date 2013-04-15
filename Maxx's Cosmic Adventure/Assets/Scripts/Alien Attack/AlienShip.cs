@@ -24,7 +24,7 @@ public class AlienShip : MonoBehaviour {
 	
 	// Move
 	public bool targetedMove = false;
-	
+	public bool appearAtPlayerFront = false;
 	
 	public bool randomHeight;
 	
@@ -72,7 +72,13 @@ public class AlienShip : MonoBehaviour {
 			transform.position = new Vector3(transform.position.x,height,transform.position.z);
 		}
 		
-		transform.rotation = targetedMove?ToForwardPlayerRotation():ToPlayerRotation();
+		if(targetedMove)
+			transform.rotation = ToForwardPlayerRotation();
+		else if(appearAtPlayerFront)
+			transform.rotation = ToPlayerRotation();
+		else
+			transform.rotation = ToNearPlayerRotation();
+		
 		tag = "Enemy";
 		
 		StartCoroutine(GetReady());
@@ -107,6 +113,24 @@ public class AlienShip : MonoBehaviour {
 		
 		if(LevelInfo.Environments.playerShip.FreezeWorld) return;
 		
+		// Move
+		if( appearAtPlayerFront && IsFrontOfCamera() && PlayerDistance()>50f)
+		{
+			float playery = LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y+360f;
+			float y = transform.rotation.eulerAngles.y+360f+180f;
+			if(y>playery+180f) y-=360f;
+			
+			float ignore = 2f;
+			float speed = 10f;
+		
+			transform.rotation = ToPlayerRotation();
+			
+			if( y < playery-ignore )
+				transform.RotateAround(LevelInfo.Environments.playerShip.transform.position, Vector3.up,Time.deltaTime*speed);
+			if( y > playery+ignore)
+				transform.RotateAround(LevelInfo.Environments.playerShip.transform.position, Vector3.up,-Time.deltaTime*speed);
+			
+		}
 		transform.Translate(Speed*Time.deltaTime*Vector3.forward);
 		
 		// Fire
@@ -143,6 +167,16 @@ public class AlienShip : MonoBehaviour {
 	private Quaternion ToPlayerRotation()
 	{
 		var player = LevelInfo.Environments.playerShip.transform.position;
+		player.y = transform.position.y;
+		Quaternion rot = Quaternion.LookRotation(-(transform.position-player));
+		rot.x = 0.0f;
+		return rot;
+	}	
+	
+	private Quaternion ToNearPlayerRotation()
+	{
+		var player = LevelInfo.Environments.playerShip.transform.position;
+		player.y = transform.position.y;
 		player += Random.Range(0f,40f)*LevelInfo.Environments.playerShip.transform.forward;
 		Quaternion rot = Quaternion.LookRotation(-(transform.position-player));
 		rot.x = 0.0f;
@@ -152,6 +186,7 @@ public class AlienShip : MonoBehaviour {
 	Quaternion ToForwardPlayerRotation()
 	{
 		var player = LevelInfo.Environments.playerShip.transform.position;
+		player.y = transform.position.y;
 		player += Random.Range(50f,150f)*LevelInfo.Environments.playerShip.transform.forward;
 		Quaternion rot = Quaternion.LookRotation(-(transform.position-player));
 		rot.x = 0.0f;
