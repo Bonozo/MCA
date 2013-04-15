@@ -15,15 +15,7 @@ public class Generator : MonoBehaviour {
 	{
 		if( GenerateAlienShip && AlienShip.GlobalCount<15) 
 		{
-			Vector3 pos = new Vector3(0,0,Random.Range(AlienShipDistanceMin,AlienShipDistanceMax));
-			pos += LevelInfo.Environments.playerShip.transform.position;
-			pos.y = 0;
-		
-			GameObject newAlienShip = (GameObject)Instantiate(AlienShipPrefabs[index],pos,Quaternion.identity);
-			var dlt = Random.Range(-AlienShipFrontAngleMaxDelta,AlienShipFrontAngleMaxDelta);
-			dlt *= 1f/Random.Range(1,3);
-			newAlienShip.transform.RotateAround (LevelInfo.Environments.playerShip.transform.position, Vector3.up, 
-				LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y + dlt );	
+			Instantiate(AlienShipPrefabs[index]);
 		}
 	}
 	
@@ -40,14 +32,6 @@ public class Generator : MonoBehaviour {
 		if( GenerateAsteroid && Asteroid.GlobalCount<10) 
 		{
 			Instantiate(AsteroidPrefabs[index]);
-			/*Vector3 pos = new Vector3(0,0,Random.Range(AsteroidDistanceMin,AsteroidDistanceMax));
-			pos += LevelInfo.Environments.playerShip.transform.position;
-			pos.y = 0;
-		
-			GameObject newAsteroid = (GameObject)Instantiate(AsteroidPrefabs[index],pos,Quaternion.identity);
-			newAsteroid.transform.RotateAround (LevelInfo.Environments.playerShip.transform.position, Vector3.up, 
-				LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y + Random.Range(-AsteroidFrontAngleMaxDelta,AsteroidFrontAngleMaxDelta) );	
-			newAsteroid.tag = "Asteroid";//??//*/
 		}
 	}
 	
