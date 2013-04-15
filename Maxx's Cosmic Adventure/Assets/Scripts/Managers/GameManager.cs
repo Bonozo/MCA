@@ -58,6 +58,9 @@ public class GameManager : MonoBehaviour {
 	public GameObject prefabPlayerFireBall;
 	
 	public GameObject prefabUnlikelium;
+	public GameObject prefabUnlikeliumBronze;
+	public GameObject prefabUnlikeliumSilver;
+	public GameObject prefabUnlikeliumGold;
 	
 	#endregion
 	

@@ -272,16 +272,6 @@ public class Player : MonoBehaviour {
 			LevelInfo.Environments.fireOverheat.Down();
 		
 		if( AutoFire ) return;
-		
-		if( Input.GetKeyUp(KeyCode.L) )
-		{
-			StartCoroutine(SureShotThread());
-			return;
-		}
-		// Auto-shoot to nearest target
-		/*if( Input.GetKeyUp(KeyCode.G) || touchInput.FireLeftWithPhase(TouchPhase.Began) )
-			TryAutoShot();
-		*/
 	}
 	
 	#endregion
@@ -505,7 +495,7 @@ public class Player : MonoBehaviour {
 			LevelInfo.Environments.generator.GenerateAsteroid = false;
 			
 			LevelInfo.Environments.generator.StartUnlikeliumGenerator();
-			poweruptime = Store.Instance.powerupShazam.LevelTime;
+			poweruptime = 10f+(float)Store.Instance.powerupShazam.level;
 			while(poweruptime>0f)
 			{
 				poweruptime -= Time.deltaTime;

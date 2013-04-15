@@ -130,7 +130,13 @@ public class Generator : MonoBehaviour {
 					url = Random.Range(0,2)==1-Random.Range(0,2)?0.1f:-0.1f;
 				}
 				
-				unlikeliums.Add((GameObject)Instantiate(LevelInfo.Environments.prefabUnlikelium,upos,Quaternion.identity));
+				shazamcount++;
+				
+				int level = Store.Instance.powerupShazam.level;
+				if(level>0 && shazamcount%(6-level)==0)
+					unlikeliums.Add((GameObject)Instantiate(LevelInfo.Environments.prefabUnlikeliumBronze,upos,Quaternion.identity));
+				else
+					unlikeliums.Add((GameObject)Instantiate(LevelInfo.Environments.prefabUnlikelium,upos,Quaternion.identity));
 			}
 		}
 	
@@ -146,6 +152,7 @@ public class Generator : MonoBehaviour {
 	private float url = 0;
 	private int ucount = 5;
 	private bool uplus = false;
+	private int shazamcount = 0;
 	
 	private System.Collections.Generic.List<GameObject> unlikeliums = new System.Collections.Generic.List<GameObject>();
 	private Vector3 upos,udir,uright;
@@ -167,6 +174,7 @@ public class Generator : MonoBehaviour {
 		url = 0.0f;
 		ucount=5;
 		uplus = false;
+		shazamcount = 0;
 		GenerateUnlikeliumList = true;
 	}
 	
