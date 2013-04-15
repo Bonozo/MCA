@@ -113,14 +113,13 @@ public class AlienShip : MonoBehaviour {
 		if( canFire )
 		{
 			if( fireDeltaTime > 0f ) fireDeltaTime -= Time.deltaTime;
-			if( Random.Range(1,fireFrequency) == 1 && fireDeltaTime <= 0f && IsFrontOfCamera() )
+			if( Random.Range(1,fireFrequency) == 1 && fireDeltaTime<=0f && IsFrontOfCamera() && PlayerDistance()>50f )
 			{
 				var c = ((GameObject)Instantiate(alienBullet,projectilePosition.position,transform.rotation)).GetComponent<AlienBullet>();
 				if(targetedFire)
 				{
 					c.Speed *= 2;
 					c.GoTo(PlayerForwardPosition());
-					Debug.Log("targetted fire to player");
 				}
 				
 				fireDeltaTime = fireRelax;
@@ -143,7 +142,9 @@ public class AlienShip : MonoBehaviour {
 	
 	private Quaternion ToPlayerRotation()
 	{
-		Quaternion rot = Quaternion.LookRotation(-(transform.position-LevelInfo.Environments.playerShip.transform.position));
+		var player = LevelInfo.Environments.playerShip.transform.position;
+		player += Random.Range(0f,40f)*LevelInfo.Environments.playerShip.transform.forward;
+		Quaternion rot = Quaternion.LookRotation(-(transform.position-player));
 		rot.x = 0.0f;
 		return rot;
 	}
@@ -160,7 +161,7 @@ public class AlienShip : MonoBehaviour {
 	private Vector3 PlayerForwardPosition()
 	{
 		var player = LevelInfo.Environments.playerShip.transform.position;
-		player += Random.Range(50f,150f)*LevelInfo.Environments.playerShip.transform.forward;
+		player += Random.Range(30f,80f)*LevelInfo.Environments.playerShip.transform.forward;
 		return player;
 	}
 	
