@@ -364,6 +364,13 @@ public class Player : MonoBehaviour {
 	
 	#region PowerUps
 	
+	private int _invincibility = 0;
+	public bool Invincibility{
+		get{
+			return _invincibility>0;
+		}
+	}
+	
 	[System.NonSerializedAttribute]
 	public bool AutoFire = false;
 	
@@ -390,6 +397,8 @@ public class Player : MonoBehaviour {
 		Intergalactic = false;
 		LoveUnlikelium = false;
 		Magned = false;
+		_invincibility = 0;
+		
 		if(Time.timeScale>0) Time.timeScale = 1.0f;
 		LevelInfo.Environments.guiPowerUpTime.text = "";
 	}
@@ -464,6 +473,7 @@ public class Player : MonoBehaviour {
 		if(!Intergalactic)
 		{
 			Intergalactic = true;
+			_invincibility++;
 			LevelInfo.Environments.generator.GenerateAlienShip = false;
 			LevelInfo.Environments.generator.GenerateAsteroid = false;
 			
@@ -478,6 +488,7 @@ public class Player : MonoBehaviour {
 			LevelInfo.Environments.generator.GenerateAlienShip = true;
 			LevelInfo.Environments.generator.GenerateAsteroid = true;
 			Intergalactic = false;
+			_invincibility--;
 		}
 	}	
 
@@ -491,6 +502,7 @@ public class Player : MonoBehaviour {
 		if(!LoveUnlikelium)
 		{
 			LoveUnlikelium = true;
+			_invincibility++;
 			LevelInfo.Environments.generator.GenerateAlienShip = false;
 			LevelInfo.Environments.generator.GenerateAsteroid = false;
 			
@@ -516,6 +528,7 @@ public class Player : MonoBehaviour {
 			LevelInfo.Environments.generator.GenerateAlienShip = true;
 			LevelInfo.Environments.generator.GenerateAsteroid = true;
 			LoveUnlikelium = false;
+			_invincibility--;
 		}
 	}		
 		

@@ -15,12 +15,14 @@ public class PlayerCollisionDetection : MonoBehaviour {
 		case "Asteroid":
 		case "Enemy":
 		case "AlienBullet":
+			Destroy(col.gameObject);
+			if(LevelInfo.Environments.playerShip.Invincibility)
+				break;
 			#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
 			if( Options.Instance.vibration )
 				Handheld.Vibrate();
 			#endif	
 			LevelInfo.Environments.score.LostLive();
-			Destroy(col.gameObject);
 			break;
 		}
 	}
