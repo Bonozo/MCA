@@ -16,7 +16,7 @@ public class SpawnableObject : MonoBehaviour {
 		if( autoInitTransform )
 		{
 			Vector3 pos = new Vector3(0,0,Random.Range(distanceMin,distanceMax));
-			pos += LevelInfo.Environments.playerShip.transform.position;
+			pos += LevelInfo.Environments.playerShip.transform.position; pos.y=0;
 			transform.position = pos;
 		
 			transform.RotateAround (LevelInfo.Environments.playerShip.transform.position, Vector3.up, 

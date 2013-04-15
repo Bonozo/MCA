@@ -8,6 +8,7 @@ public class AlienShip : MonoBehaviour {
 	public static int GlobalCount=0;
 	
 	// Spawn
+	public bool initBeginTransform = true;
 	public float spawnDistanceMin=230f, spawnDistanceMax=250f;
 	public float maxFrontAngle=30f, autoKillDistance = 350f;
 	
@@ -54,13 +55,16 @@ public class AlienShip : MonoBehaviour {
 	
 	void Start () 
 	{
-		var player = LevelInfo.Environments.playerShip.transform;
-		transform.position = new Vector3(player.position.x,0,player.position.z+Random.Range(spawnDistanceMin,spawnDistanceMax));
+		if( initBeginTransform )
+		{
+			var player = LevelInfo.Environments.playerShip.transform;
+			transform.position = new Vector3(player.position.x,0,player.position.z+Random.Range(spawnDistanceMin,spawnDistanceMax));
 		
-		var dlt = Random.Range(-maxFrontAngle,maxFrontAngle);
-		dlt *= 1f/Random.Range(1,3);
-		transform.RotateAround (LevelInfo.Environments.playerShip.transform.position, Vector3.up, 
-		LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y + dlt );	
+			var dlt = Random.Range(-maxFrontAngle,maxFrontAngle);
+			dlt *= 1f/Random.Range(1,3);
+			transform.RotateAround (LevelInfo.Environments.playerShip.transform.position, Vector3.up, 
+			LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y + dlt );	
+		}
 		
 		if(randomHeight)
 		{
@@ -181,8 +185,8 @@ public class AlienShip : MonoBehaviour {
 	{	
 		if( col.gameObject.CompareTag("Asteroid") || col.gameObject.CompareTag("Enemy") )
 		{
-			col.gameObject.SendMessage("Explode");
-			Explode();
+			col.gameObject.SendMessage("Explode",false);
+			Explode(false);
 		}
 	}
 	
@@ -196,6 +200,11 @@ public class AlienShip : MonoBehaviour {
 	private bool exploded = false;
 	void Explode()
 	{
+		Explode(true);
+	}
+	
+	void Explode(bool byMaxx)
+	{
 		if(exploded) return;
 		exploded = true;
 		Instantiate(LevelInfo.Environments.particleExplosionJeeb,Centr.transform.position,Quaternion.identity);
@@ -203,11 +212,10 @@ public class AlienShip : MonoBehaviour {
 		LevelInfo.Audio.audioSourceJeebles.PlayOneShot(ExplosionSoundEffect);
 		LevelInfo.Audio.audioSourceJeebles.time = 0.5f;
 		
-		if( GameEnvironment.Probability(2))
+		if(byMaxx && GameEnvironment.Probability(2))
 					LevelInfo.Audio.PlayAudioGotEm();
 		
-		Destroy(this.gameObject);
-		
+		Destroy(this.gameObject);		
 	}
 	
 	#endregion

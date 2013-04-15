@@ -28,7 +28,7 @@ public class AlienBullet : MonoBehaviour {
 	{	
 		if( col.gameObject.CompareTag("Asteroid") || col.gameObject.CompareTag("Enemy") )
 		{
-			col.gameObject.SendMessage("Explode");
+			col.gameObject.SendMessage("Explode",false);
 			Destroy(this.gameObject);
 		}
 	}
