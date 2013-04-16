@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour {
 	public Overheat fireOverheat;
 	
 	public UILabel guiPowerUpTime;
+	public UIFilledSprite guiPowerupCountDown;
+	
 	public UILabel guiDistanceTravelled;
 	public UILabel guiUnlikeliums;
 	

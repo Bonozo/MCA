@@ -432,6 +432,7 @@ public class Player : MonoBehaviour {
 		
 		AutoFire = false;
 		LevelInfo.Environments.playerAnimations.CloseTurette();
+		LevelInfo.Environments.guiPowerupCountDown.fillAmount = 0;
 		
 		FreezeWorld = false;
 		Intergalactic = false;
@@ -441,6 +442,11 @@ public class Player : MonoBehaviour {
 		
 		if(Time.timeScale>0) Time.timeScale = 1.0f;
 		LevelInfo.Environments.guiPowerUpTime.text = "";
+	}
+	
+	private void SetPowerupFillAmount(float cur,float all)
+	{
+		LevelInfo.Environments.guiPowerupCountDown.fillAmount = Mathf.Clamp01(cur/all);
 	}
 	
 	public void StartSureShot()
@@ -458,6 +464,7 @@ public class Player : MonoBehaviour {
 			
 			poweruptime = Store.Instance.powerupSureShot.LevelTime;
 			LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
+			SetPowerupFillAmount(1f,1f);
 			
 			LevelInfo.Environments.playerAnimations.OpenTurette();
 			yield return new WaitForSeconds(0.5f);
@@ -468,6 +475,7 @@ public class Player : MonoBehaviour {
 				TryAutoShot();
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
 				poweruptime -= Time.deltaTime;
+				SetPowerupFillAmount(poweruptime,Store.Instance.powerupSureShot.LevelTime);
 				yield return new WaitForEndOfFrame();
 			}
 		
@@ -498,6 +506,7 @@ public class Player : MonoBehaviour {
 				
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
 				poweruptime -= Time.deltaTime;
+				SetPowerupFillAmount(poweruptime,Store.Instance.powerupFreeze.LevelTime*0.5f);
 				yield return new WaitForEndOfFrame();
 			}
 		
@@ -529,6 +538,7 @@ public class Player : MonoBehaviour {
 			{
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
 				poweruptime -= Time.deltaTime;
+				SetPowerupFillAmount(poweruptime,Store.Instance.powerupIntergalactic.LevelTime*0.5f);
 				yield return null;
 			}
 			LevelInfo.Environments.guiPowerUpTime.text = "";
@@ -560,6 +570,7 @@ public class Player : MonoBehaviour {
 			{
 				poweruptime -= Time.deltaTime;
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
+				SetPowerupFillAmount(poweruptime,10f+Store.Instance.powerupShazam.level);
 				yield return null;
 			}
 			LevelInfo.Environments.generator.StopUnlikeliumGenerator();
@@ -597,6 +608,7 @@ public class Player : MonoBehaviour {
 			{
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
 				poweruptime -= Time.deltaTime;
+				SetPowerupFillAmount(poweruptime,Store.Instance.powerupMagned.LevelTime);
 				yield return new WaitForEndOfFrame();
 			}
 	
