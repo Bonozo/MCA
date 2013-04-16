@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour {
 	public Pause pause;
 	public InfoMessage infoMessage;
 	
+	public GameObject popupLose;
+	
 	public GameObject popupCalibrate;
 	public UILabel gameStartTimer;
 	

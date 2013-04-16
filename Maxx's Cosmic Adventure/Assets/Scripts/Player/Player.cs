@@ -59,7 +59,6 @@ public class Player : MonoBehaviour {
 		StartCoroutine(Rise());
 	}
 	
-	// Update is called once per frame
 	void Update () 
 	{	
 		#if UNITY_EDITOR
@@ -67,6 +66,11 @@ public class Player : MonoBehaviour {
 			StartSureShot();
 		if( Input.GetKeyUp(KeyCode.PageDown) )
 			StartFreezeWorld();
+		
+		if( Input.GetKeyUp(KeyCode.KeypadPlus) )
+			LevelInfo.Environments.score.AddLive();
+		if( Input.GetKeyUp(KeyCode.KeypadMinus) )
+			LevelInfo.Environments.score.LostLive();
 		#endif
 		
 		if(LevelInfo.State.state != GameState.Play ) return;

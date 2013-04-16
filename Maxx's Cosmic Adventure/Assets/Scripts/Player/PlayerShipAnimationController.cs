@@ -21,8 +21,16 @@ public class PlayerShipAnimationController : MonoBehaviour {
 		animation["barrelrollright"].AddMixingTransform(boneBase,false);
 		animation["barrelrollleft"].AddMixingTransform(boneBase,false);
 		animation["barrelrollup"].AddMixingTransform(boneBase,false);
-		
+	}
+	
+	void OnEnable()
+	{
 		FingerGestures.OnSwipe += HandleFingerGesturesOnSwipe;
+	}
+	
+	void OnDisable()
+	{
+		FingerGestures.OnSwipe -= HandleFingerGesturesOnSwipe;
 	}
 	
 	void HandleFingerGesturesOnSwipe (Vector2 startPos, FingerGestures.SwipeDirection direction, float velocity)

@@ -67,15 +67,14 @@ public class StateManager : MonoBehaviour {
 			case GameState.Lose:
 				LevelInfo.Environments.playerShip.transform.localScale *= 0;
 				LevelInfo.Environments.playerShip.ClearAllPowerups();
-				GameObject c = GameObject.Find("GameOverText");
-				if(c != null )
-					c.GetComponent<GameOver>().enabled = true;
 				
 				foreach(var r in LevelInfo.Environments.playerShip.ExhaustArray )
 					r.enableEmission = false;
 				
 				LevelInfo.Audio.StopAll();
 				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Environments.playerShip.AudioGameOver);
+				
+				LevelInfo.Environments.popupLose.SetActive(true);
 				break;
 			}
 			
