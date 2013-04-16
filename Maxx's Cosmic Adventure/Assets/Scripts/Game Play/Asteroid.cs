@@ -30,6 +30,7 @@ public class Asteroid : MonoBehaviour {
 	
 	void Update()
 	{
+		if(LevelInfo.State.state != GameState.Play) return;
 		f=!f;
 		transform.Rotate(0f,0f,0.001f*(f?-1:1));
 	}

@@ -19,6 +19,7 @@ public class Gem : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
+		if(LevelInfo.State.state != GameState.Play) return;
 		if(gemType == Gems.Unlikelium)
 		{
 			var player = LevelInfo.Environments.playerShip;

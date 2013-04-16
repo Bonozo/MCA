@@ -24,6 +24,8 @@ public class Bullet : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 	{
 		
+		if(LevelInfo.State.state != GameState.Play) return;
+		
 		if(!Active) 
 		{
 			UpdateLRHitch();
