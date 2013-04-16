@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Score : MonoBehaviour {
 	
-	public Texture2D TextureLive,TextureNoLive;
 	public readonly int MaxLives = 5;
+	public UISprite[] guiShield;
 	
 	private int currentLives = 3;
 	
@@ -14,16 +14,30 @@ public class Score : MonoBehaviour {
 	void Start ()
 	{
 		Lives = Store.Instance.powerupToughGuy.level+1;
+		
+		UpdateActiveShields();
+		UpdateCrashedShield();
 	}
 	
-	void OnGUI()
+	void UpdateActiveShields()
 	{
-		if(Time.deltaTime == 0f ) return;
-		for(int i=1;i<=MaxLives;i++)
+		for(int i=0;i<currentLives;i++)
 		{
-			Texture2D tex = i<=currentLives ? TextureLive:TextureNoLive;
-			GUI.DrawTexture(new Rect(25*(i-1),0,25,25),tex);
+			guiShield[i].gameObject.SetActive(true);
+			guiShield[i].spriteName = "shield";
 		}
+	}
+	
+	void UpdateCrashedShield()
+	{
+		for(int i=currentLives;i<MaxLives;i++)
+			guiShield[i].gameObject.SetActive(false);		
+	}
+	
+	void Update()
+	{
+		if(LevelInfo.State.state != GameState.Play) return;
+		UpdateActiveShields();
 	}
 	
 	#region Properties
@@ -42,12 +56,31 @@ public class Score : MonoBehaviour {
 	
 	#region Messages
 	
-	public void AddLive() { currentLives = Mathf.Min(currentLives+1,MaxLives); }
+	public void AddLive()
+	{
+		currentLives = Mathf.Min(currentLives+1,MaxLives); 
+	}
 	public void LostLive() 
 	{
 		currentLives = Mathf.Max(currentLives-1,0);
+		
 		if( currentLives == 0 )
+		{
+			UpdateCrashedShield();
 			LevelInfo.State.state = GameState.Lose;
+		}
+		else
+		{
+			StartCoroutine(LostLiveThread(currentLives));
+		}
+	}
+	
+	private IEnumerator LostLiveThread(int t)
+	{
+		guiShield[t].spriteName = "shieldcrash";
+		yield return new WaitForSeconds(0.5f);
+		if(t>=currentLives) 
+			guiShield[t].gameObject.SetActive(false);
 	}
 	
 	#endregion
