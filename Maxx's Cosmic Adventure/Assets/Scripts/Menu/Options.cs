@@ -55,10 +55,10 @@ public class Options : MonoBehaviour {
 	public bool _showFPS = false;
 	public bool showFPS{
 		get{
-			return _showOptions;
+			return _showFPS;
 		}
 		set{
-			_showOptions = value;
+			_showFPS = value;
 			PlayerPrefs.SetInt("options_showframerate",_showFPS?1:0);
 		}
 		
