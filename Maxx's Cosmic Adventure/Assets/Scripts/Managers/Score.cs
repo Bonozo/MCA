@@ -8,6 +8,9 @@ public class Score : MonoBehaviour {
 	
 	private int currentLives = 3;
 	
+	[System.NonSerializedAttribute]
+	public int score = 0;
+	
 	void Start ()
 	{
 		Lives = Store.Instance.powerupToughGuy.level+1;

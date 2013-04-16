@@ -43,11 +43,19 @@ public class Asteroid : MonoBehaviour {
 	
 	public void Explode()
 	{
+		Explode(true);
+	}
+	
+	public void Explode(bool byMaxx)
+	{
 		if(exploded) return; exploded=true;
 		LevelInfo.Audio.PlayAudioAsteroidExplode();
 		
 		var gempos = transform.position; gempos.y=0;
 		LevelInfo.Environments.generator.GenerateNewGem(gempos);
+			
+		if(byMaxx)
+			LevelInfo.Environments.score.score += LevelInfo.Settings.scoreAsteroid;
 		
 		Instantiate(LevelInfo.Environments.particleExplosionAsteroid,transform.position,Quaternion.identity);
 		Destroy(this.gameObject);

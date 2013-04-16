@@ -34,7 +34,23 @@ public class Player : MonoBehaviour {
 	private float fireDeltaTime = 0.0f;
 	private float autofireDeltaTime = 0.0f;
 	
-	private float travelled = 0;
+	private int lastmeter = 0;
+	private float _travelled = 0;
+	private float travelled{
+		get{
+			return _travelled;
+		}
+		set{
+			_travelled = value;
+			int meter = (int)_travelled;
+			if(meter > lastmeter )
+			{
+				int report = (meter-lastmeter)*LevelInfo.Settings.scoreDistanceMultiply;
+				LevelInfo.Environments.score.score += report;
+				lastmeter = meter;
+			}
+		}
+	}
 	public float DistanceTravelled { get { return travelled; }}
 	
 	private Vector3 lastPosition;

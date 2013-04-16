@@ -74,6 +74,9 @@ public class StateManager : MonoBehaviour {
 				LevelInfo.Audio.StopAll();
 				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Environments.playerShip.AudioGameOver);
 				
+				LevelInfo.Environments.popupLoseLabel.text = 
+					"CRASHED\n\n" +
+					"score: " + LevelInfo.Environments.score.score;
 				LevelInfo.Environments.popupLose.SetActive(true);
 				break;
 			}

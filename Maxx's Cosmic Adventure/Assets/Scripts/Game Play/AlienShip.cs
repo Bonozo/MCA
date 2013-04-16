@@ -251,6 +251,9 @@ public class AlienShip : MonoBehaviour {
 		if(byMaxx && GameEnvironment.Probability(2))
 					LevelInfo.Audio.PlayAudioGotEm();
 		
+		if(byMaxx)
+			LevelInfo.Environments.score.score += LevelInfo.Settings.scoreJeebie;
+		
 		Destroy(this.gameObject);		
 	}
 	

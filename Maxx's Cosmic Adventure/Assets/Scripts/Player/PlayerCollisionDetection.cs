@@ -87,6 +87,9 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			LevelInfo.Environments.infoMessage.ShowMessage("Tough Guy");
 			break;
 		}
+		
+		LevelInfo.Environments.score.score += LevelInfo.Settings.scorePowerup;
+		
 		LevelInfo.Audio.PlayAudioGemPickUp(gemtype);
 		Destroy(gem);
 	}
