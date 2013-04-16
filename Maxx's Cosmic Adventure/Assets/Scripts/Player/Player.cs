@@ -88,7 +88,7 @@ public class Player : MonoBehaviour {
 		
 		lastPosition = transform.position;
 		
-		StartCoroutine(Rise());
+		StartCoroutine("Rise");
 	}
 	
 	void Update () 
@@ -424,7 +424,11 @@ public class Player : MonoBehaviour {
 	
 	public void ClearAllPowerups()
 	{
-		StopAllCoroutines();
+		StopCoroutine("SureShotThread");
+		StopCoroutine("FreezeWorldThread");
+		StopCoroutine("IntergalacticThread");
+		StopCoroutine("LoveUnlikeliumThread");
+		StopCoroutine("MagnedThread");
 		
 		AutoFire = false;
 		LevelInfo.Environments.playerAnimations.CloseTurette();
@@ -441,7 +445,7 @@ public class Player : MonoBehaviour {
 	
 	public void StartSureShot()
 	{
-		StartCoroutine(SureShotThread());
+		StartCoroutine("SureShotThread");
 	}
 
 	private float poweruptime = 0f;
@@ -449,11 +453,16 @@ public class Player : MonoBehaviour {
 	{
 		if(!AutoFire) 
 		{
+			ClearAllPowerups();
 			AutoFire = true;
+			
+			poweruptime = Store.Instance.powerupSureShot.LevelTime;
+			LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
+			
 			LevelInfo.Environments.playerAnimations.OpenTurette();
 			yield return new WaitForSeconds(0.5f);
 		
-			poweruptime = Store.Instance.powerupSureShot.LevelTime;
+			
 			while ( poweruptime > 0f )
 			{
 				TryAutoShot();
@@ -473,13 +482,14 @@ public class Player : MonoBehaviour {
 	
 	public void StartFreezeWorld()
 	{
-		StartCoroutine(FreezeWorldThread());
+		StartCoroutine("FreezeWorldThread");
 	}
 	
 	private IEnumerator FreezeWorldThread()
 	{
 		if(!FreezeWorld ) 
 		{
+			ClearAllPowerups();
 			FreezeWorld = true;
 			poweruptime = Store.Instance.powerupFreeze.LevelTime*0.5f;
 			while ( poweruptime > 0f )
@@ -501,13 +511,14 @@ public class Player : MonoBehaviour {
 	
 	public void StartIntergalactic()
 	{
-		StartCoroutine(IntergalacticThread());
+		StartCoroutine("IntergalacticThread");
 	}
 	
 	private IEnumerator IntergalacticThread()
 	{	
 		if(!Intergalactic)
 		{
+			ClearAllPowerups();
 			Intergalactic = true;
 			_invincibility++;
 			LevelInfo.Environments.generator.GenerateAlienShip = false;
@@ -530,13 +541,14 @@ public class Player : MonoBehaviour {
 
 	public void StartLoveUnlikelium()
 	{
-		StartCoroutine(LoveUnlikeliumThread());
+		StartCoroutine("LoveUnlikeliumThread");
 	}
 	
 	private IEnumerator LoveUnlikeliumThread()
 	{	
 		if(!LoveUnlikelium)
 		{
+			ClearAllPowerups();
 			LoveUnlikelium = true;
 			_invincibility++;
 			LevelInfo.Environments.generator.GenerateAlienShip = false;
@@ -571,13 +583,14 @@ public class Player : MonoBehaviour {
 	
 	public void StartMagned()
 	{
-		StartCoroutine(MagnedThread());
+		StartCoroutine("MagnedThread");
 	}
 	
 	private IEnumerator MagnedThread()
 	{
 		if(!Magned ) 
 		{
+			ClearAllPowerups();
 			Magned = true;
 			poweruptime = Store.Instance.powerupMagned.LevelTime;
 			while ( poweruptime > 0f )
