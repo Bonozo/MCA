@@ -52,6 +52,22 @@ public class Player : MonoBehaviour {
 		}
 	}
 	public float DistanceTravelled { get { return travelled; }}
+	private int lastunlikeliums = 0;
+	private int _unlikeliums = 0;
+	public int unlikeliums{
+		get{
+			return _unlikeliums;
+		}
+		set{
+			_unlikeliums = value;
+			if(_unlikeliums > lastunlikeliums )
+			{
+				Store.Instance.Unlikeliums += _unlikeliums-lastunlikeliums;
+				lastunlikeliums = _unlikeliums;
+			}
+		}
+	}
+	
 	
 	private Vector3 lastPosition;
 	
@@ -113,7 +129,7 @@ public class Player : MonoBehaviour {
 		travelled += DistXZ(lastPosition,transform.position);
 		lastPosition = transform.position;
 		LevelInfo.Environments.guiDistanceTravelled.text = "" + (int)travelled /*+ " ly"*/;
-		LevelInfo.Environments.guiUnlikeliums.text = "" + Store.Instance.Unlikeliums + " u";
+		LevelInfo.Environments.guiUnlikeliums.text = "" + unlikeliums;
 	}
 	
 	#endregion

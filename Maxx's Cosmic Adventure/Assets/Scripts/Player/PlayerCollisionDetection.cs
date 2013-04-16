@@ -43,7 +43,7 @@ public class PlayerCollisionDetection : MonoBehaviour {
 		{
 		case Gems.Unlikelium:
 			int val = gem.GetComponent<Gem>().unlikeliumValue;
-			Store.Instance.Unlikeliums += val;
+			LevelInfo.Environments.playerShip.unlikeliums += val;
 			if(val==5) LevelInfo.Environments.infoMessage.ShowMessage("Bronze");
 			if(val==10) LevelInfo.Environments.infoMessage.ShowMessage("Silver");
 			if(val==25) LevelInfo.Environments.infoMessage.ShowMessage("Gold");
