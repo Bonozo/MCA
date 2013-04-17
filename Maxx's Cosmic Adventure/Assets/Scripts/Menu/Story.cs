@@ -16,8 +16,8 @@ public class Story : MonoBehaviour {
 	private bool increse = false;
 	
 	private Color popupcolor = new Color(1f,1f,1f,1f);
-	private bool showpopup = true;
-	private float showpopuptime = 0.0f;
+	private bool showpopup = false;
+	private bool firstpageslided = false;
 	
 	private int current = 0;
 	
@@ -30,6 +30,39 @@ public class Story : MonoBehaviour {
 		source.volume = Options.Instance.volumeSFX;
 		
 		storyMusic.volume = Options.Instance.volumeMusic;
+	}
+	
+	IEnumerator Start()
+	{
+		// show swipe popup
+		while(!firstpageslided)
+		{
+			yield return new WaitForSeconds(5f);
+			if(!firstpageslided)
+			{
+				showpopup = true;
+				
+				float transparent = 0.9f;
+				float showpopuptime = 2f;
+				while(showpopuptime>0f)
+				{
+					showpopuptime -= Time.deltaTime;
+					popupcolor.a = transparent-transparent*(0.5f*showpopuptime);
+					yield return new WaitForEndOfFrame();
+				}
+				yield return new WaitForSeconds(1f);
+				showpopuptime = 2f;
+				while(showpopuptime>0f)
+				{
+					showpopuptime -= Time.deltaTime;
+					popupcolor.a = transparent*0.5f*showpopuptime;
+					yield return new WaitForEndOfFrame();
+				}
+				
+				showpopup = false;
+				yield return new WaitForSeconds(7f);
+			}
+		}
 	}
 	
 	void Update()
@@ -58,8 +91,8 @@ public class Story : MonoBehaviour {
 		if( GameEnvironment.Swipe.x < 0f )
 		{
 			audio.PlayOneShot(audioPageTurn);
-			showpopuptime = 4.0f;
 			current++;
+			firstpageslided = true;
 			if( current == slide.Length )
 			{
 				current--;
@@ -73,16 +106,6 @@ public class Story : MonoBehaviour {
 				increse = true;
 			}
 		}
-		
-		if( showpopup )
-		{
-			showpopuptime += Time.deltaTime;
-			if( showpopuptime > 2f )
-				popupcolor.a = 1.0f-0.5f*(showpopuptime-2f);
-			if( showpopuptime > 4f )
-				showpopup = false;
-		}
-
 	}
 	
 	
@@ -106,7 +129,8 @@ public class Story : MonoBehaviour {
 			Application.LoadLevel("load");
 		
 		GUI.color = popupcolor;
-		GUI.DrawTexture(new Rect(Screen.width*0.25f,Screen.height*0.25f,Screen.width*0.5f,Screen.height*0.5f),popUp,ScaleMode.StretchToFill);
-			
+		
+		if(showpopup)
+			GUI.DrawTexture(new Rect(Screen.width*0.35f,Screen.height*0.35f,Screen.width*0.3f,Screen.height*0.3f),popUp,ScaleMode.StretchToFill);	
 	}
 }
