@@ -4,6 +4,8 @@ using System.Collections;
 public class Pause : MonoBehaviour {
 	
 	public Transform left1,left2,right1,right2;
+	public UIButton[] buttons;
+	public GameObject popupQuitGame;
 	
 	bool ppause = false;
 	float maxx = 1500;
@@ -69,6 +71,19 @@ public class Pause : MonoBehaviour {
 		left2.localPosition  = new Vector3(-maxx,left2.localPosition.y,left2.localPosition.z);
 		right1.localPosition = new Vector3( maxx,right1.localPosition.y,right1.localPosition.z);
 		right2.localPosition = new Vector3( maxx,right2.localPosition.y,right2.localPosition.z);		
+	}
+	
+	public void SetPauseButtonsActive(bool active)
+	{
+		foreach(var button in buttons)
+			button.gameObject.SetActive(active);
+	}
+	
+	public bool WantToExitGame{
+		set{
+			SetPauseButtonsActive(!value);
+			popupQuitGame.SetActive(value);
+		}
 	}
 	
 }

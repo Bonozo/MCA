@@ -1,13 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
-public class ButtonHUBQuit : MonoBehaviour {
+public class ButtonQuitPopupQuit : MonoBehaviour {
 
 	void OnPress(bool isDown)
 	{
 		if(!isDown)
 		{
-			LevelInfo.Environments.pause.WantToExitGame = true;
+			Application.LoadLevel("mainmenu");
 		}
 	}
 }
