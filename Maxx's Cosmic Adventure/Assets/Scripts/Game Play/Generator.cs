@@ -118,7 +118,7 @@ public class Generator : MonoBehaviour {
 		{
 			utime -= Time.deltaTime;
 			upos += udir*Time.deltaTime*LevelInfo.Settings.PlayerSpeed;
-			upos += url*url*ucount*ucount*uright*Time.deltaTime*LevelInfo.Settings.PlayerSpeed;
+			upos += url*ucount*ucount*uright*Time.deltaTime*LevelInfo.Settings.PlayerSpeed;
 			if(utime<=0f)
 			{
 				utime = utimedelta;
@@ -127,7 +127,8 @@ public class Generator : MonoBehaviour {
 				if(!uplus && ucount==0)
 				{
 					ucount = 0; uplus=true;
-					url = Random.Range(0,2)==1-Random.Range(0,2)?0.1f:-0.1f;
+					//url = Random.Range(0,2)==1-Random.Range(0,2)?0.01f:-0.01f;
+					url = Random.Range(-1,2)*0.01f;
 				}
 				
 				shazamcount++;
