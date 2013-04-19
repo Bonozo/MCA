@@ -91,7 +91,7 @@ public class Generator : MonoBehaviour {
 	
 	void Update () 
 	{
-		if( LevelInfo.Environments.playerShip == null ) return;
+		if( LevelInfo.State.state != GameState.Play ) return;
 		
 		float distance = LevelInfo.Environments.playerShip.DistanceTravelled;
 		

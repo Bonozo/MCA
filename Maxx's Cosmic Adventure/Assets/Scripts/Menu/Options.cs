@@ -118,6 +118,9 @@ public class Options : MonoBehaviour {
 			
 			if( GUI.Button( new Rect(Screen.width-110,10,100,40),"1000 Unlikeliums"))
 				Store.Instance.Unlikeliums += 1000;
+	
+			if(Store.Instance.IsPlayGame && GUI.Button( new Rect(Screen.width-110,60,100,40),"5000 Distance"))
+				LevelInfo.Environments.playerShip.travelled += 5000;
 			
 			if( GUI.Button( new Rect(Screen.width-110,Screen.height-50,100,40),"Options"))
 				debug = false;
