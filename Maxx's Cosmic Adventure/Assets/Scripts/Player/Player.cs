@@ -36,7 +36,7 @@ public class Player : MonoBehaviour {
 	
 	private int lastmeter = 0;
 	private float _travelled = 0;
-	private float travelled{
+	public float travelled{
 		get{
 			return _travelled;
 		}

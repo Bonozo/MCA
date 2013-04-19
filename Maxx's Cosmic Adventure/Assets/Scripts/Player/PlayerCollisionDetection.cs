@@ -25,6 +25,8 @@ public class PlayerCollisionDetection : MonoBehaviour {
 				Handheld.Vibrate();
 			#endif	
 			LevelInfo.Environments.score.LostLive();
+			if(LevelInfo.Environments.score.Lives > 0 )
+				LevelInfo.Audio.MaxxLostLife();
 			break;
 		}
 	}
@@ -41,6 +43,12 @@ public class PlayerCollisionDetection : MonoBehaviour {
 	private void TakeGem(GameObject gem)
 	{
 		Gems gemtype = gem.GetComponent<Gem>().gemType;
+		
+		if(gemtype != Gems.Unlikelium)
+		{
+			LevelInfo.Audio.MaxxGetsPowerup();
+		}
+		
 		switch( gemtype )
 		{
 		case Gems.Unlikelium:

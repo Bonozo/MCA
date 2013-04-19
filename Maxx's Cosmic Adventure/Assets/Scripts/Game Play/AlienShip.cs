@@ -248,11 +248,11 @@ public class AlienShip : MonoBehaviour {
 		LevelInfo.Audio.audioSourceJeebles.PlayOneShot(ExplosionSoundEffect);
 		LevelInfo.Audio.audioSourceJeebles.time = 0.5f;
 		
-		if(byMaxx && GameEnvironment.Probability(2))
-					LevelInfo.Audio.PlayAudioGotEm();
-		
 		if(byMaxx)
+		{
 			LevelInfo.Environments.score.score += LevelInfo.Settings.scoreJeebie;
+			LevelInfo.Audio.MaxxExplodedJeebie();
+		}	
 		
 		Destroy(this.gameObject);		
 	}

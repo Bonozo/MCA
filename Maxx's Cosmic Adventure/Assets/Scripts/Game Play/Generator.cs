@@ -13,7 +13,7 @@ public class Generator : MonoBehaviour {
 	
 	public void GenerateNewAlienShip(int index)
 	{
-		if( GenerateAlienShip && AlienShip.GlobalCount<20) 
+		if( GenerateAlienShip && AlienShip.GlobalCount<30) 
 			Instantiate(AlienShipPrefabs[index]);
 	}
 	
@@ -35,11 +35,14 @@ public class Generator : MonoBehaviour {
 	
 	public IEnumerator StartAlienAttack(int index,int count,float delta)
 	{
+		int countsave = count;
 		while(count>0)
 		{
 			yield return new WaitForSeconds(delta);
 			LevelInfo.Environments.generator.GenerateNewAlienShip(index);
 			count--;
+			if(countsave-count>=Random.Range(3,5))
+				LevelInfo.Audio.MaxxJeebieAttack();
 		}
 	}
 	
@@ -53,7 +56,7 @@ public class Generator : MonoBehaviour {
 	
 	public void GenerateNewAsteroid(int index)
 	{
-		if( GenerateAsteroid && Asteroid.GlobalCount<10) 
+		if( GenerateAsteroid && Asteroid.GlobalCount<15) 
 		{
 			Instantiate(AsteroidPrefabs[index]);
 		}
