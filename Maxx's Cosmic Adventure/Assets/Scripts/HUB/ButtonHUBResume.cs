@@ -3,11 +3,8 @@ using System.Collections;
 
 public class ButtonHUBResume : MonoBehaviour {
 
-	void OnPress(bool isDown)
+	void OnClick()
 	{
-		if(!isDown)
-		{
-			LevelInfo.Environments.pause.UnPauseGame();
-		}
+		LevelInfo.Environments.pause.UnPauseGame();
 	}
 }

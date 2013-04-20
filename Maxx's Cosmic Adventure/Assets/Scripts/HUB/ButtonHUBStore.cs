@@ -3,12 +3,9 @@ using System.Collections;
 
 public class ButtonHUBStore : MonoBehaviour {
 
-	void OnPress(bool isDown)
+	void OnClick()
 	{
-		if(!isDown)
-		{
-			LevelInfo.State.state = GameState.Store;
-		}
+		LevelInfo.State.state = GameState.Store;
 	}
 	
 }

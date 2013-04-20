@@ -3,11 +3,8 @@ using System.Collections;
 
 public class ButtonQuitPopupBack : MonoBehaviour {
 
-	void OnPress(bool isDown)
+	void OnClick()
 	{
-		if(!isDown)
-		{
-			LevelInfo.Environments.pause.WantToExitGame = false;
-		}
+		LevelInfo.Environments.pause.WantToExitGame = false;
 	}
 }

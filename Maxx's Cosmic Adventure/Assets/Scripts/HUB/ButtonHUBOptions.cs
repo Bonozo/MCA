@@ -3,11 +3,8 @@ using System.Collections;
 
 public class ButtonHUBOptions : MonoBehaviour {
 
-	void OnPress(bool isDown)
+	void OnClick()
 	{
-		if(!isDown)
-		{
-			LevelInfo.State.state = GameState.Options;
-		}
+		LevelInfo.State.state = GameState.Options;
 	}
 }

@@ -3,11 +3,8 @@ using System.Collections;
 
 public class ButtonHUBQuit : MonoBehaviour {
 
-	void OnPress(bool isDown)
+	void OnClick()
 	{
-		if(!isDown)
-		{
-			LevelInfo.Environments.pause.WantToExitGame = true;
-		}
+		LevelInfo.Environments.pause.WantToExitGame = true;
 	}
 }

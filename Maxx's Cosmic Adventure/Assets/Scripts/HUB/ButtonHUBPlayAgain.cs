@@ -3,11 +3,8 @@ using System.Collections;
 
 public class ButtonHUBPlayAgain : MonoBehaviour {
 
-	void OnPress(bool isDown)
+	void OnClick()
 	{
-		if(!isDown)
-		{
-			Application.LoadLevel(Application.loadedLevel);
-		}
+		Application.LoadLevel(Application.loadedLevel);
 	}
 }

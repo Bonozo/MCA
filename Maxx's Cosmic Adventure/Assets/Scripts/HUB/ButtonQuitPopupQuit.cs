@@ -3,11 +3,8 @@ using System.Collections;
 
 public class ButtonQuitPopupQuit : MonoBehaviour {
 
-	void OnPress(bool isDown)
+	void OnClick()
 	{
-		if(!isDown)
-		{
-			Application.LoadLevel("mainmenu");
-		}
+		Application.LoadLevel("mainmenu");
 	}
 }

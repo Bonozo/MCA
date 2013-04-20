@@ -3,11 +3,8 @@ using System.Collections;
 
 public class ButtonHUBMenu : MonoBehaviour {
 
-	void OnPress(bool isDown)
+	void OnClick()
 	{
-		if(!isDown)
-		{
-			Application.LoadLevel("mainmenu");
-		}
+		Application.LoadLevel("mainmenu");
 	}
 }
