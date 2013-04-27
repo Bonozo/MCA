@@ -5,7 +5,7 @@ using System.Collections;
 public class Options : MonoBehaviour {
 	
 	#region Options
-	public float _volumeMusic = 1f;
+	private float _volumeMusic;
 	public float volumeMusic{
 		get{
 			return _volumeMusic;
@@ -17,7 +17,7 @@ public class Options : MonoBehaviour {
 	}
 	
 	
-	public float _volumeSFX = 1f;
+	private float _volumeSFX;
 	public float volumeSFX{
 		get{
 			return _volumeSFX;
@@ -30,7 +30,7 @@ public class Options : MonoBehaviour {
 	}
 	
 	
-	public bool _vibration = true;
+	private bool _vibration;
 	public bool vibration{
 		get{
 			return _vibration;
@@ -41,18 +41,31 @@ public class Options : MonoBehaviour {
 		}
 	}
 	
+	private bool _yInvert;
+	public bool yInvert{
+		get{
+			return _yInvert;
+		}
+		set{
+			_yInvert = value;
+			PlayerPrefs.SetInt("options_yinvert",_yInvert?1:0);
+		}
+	}
+	
 	public void RestoreOptions()
 	{
 		volumeMusic = PlayerPrefs.GetFloat("options_volume_music",1f);
 		volumeSFX = PlayerPrefs.GetFloat("options_volume_sfx",1f);
 		vibration = PlayerPrefs.GetInt("options_vibration",1)==1;
+		yInvert = PlayerPrefs.GetInt("options_yinvert",0)==1;
+		
 		showFPS = PlayerPrefs.GetInt("options_showframerate",0)==1;
 	}
 	
 	#endregion
 	
 	#region Debug Options
-	public bool _showFPS = false;
+	private bool _showFPS = false;
 	public bool showFPS{
 		get{
 			return _showFPS;
@@ -136,7 +149,11 @@ public class Options : MonoBehaviour {
 			GUI.Label(textRect(3),"Vibration");
 			if( GUI.Button(buttonRect(3),vibration?"ON":"OFF" ) )
 				vibration = !vibration;			
-
+			
+			GUI.Label(textRect(4),"Y Invert");
+			if( GUI.Button(buttonRect(4),yInvert?"ON":"OFF" ) )
+				yInvert = !yInvert;
+			
 			if( GUI.Button( new Rect(Screen.width-100,Screen.height-60,80,40),"Debug"))
 				debug = true;
 		}

@@ -211,7 +211,8 @@ public class Player : MonoBehaviour {
 	void UpdateShip()
 	{	
 		// Up/Down Tilting
-		float current = Mathf.Clamp(calibratedelta(),-30f,30f)*LevelInfo.Settings.MaxSpaceY/-30f;
+		float ytilt = calibratedelta(); if(Options.Instance.yInvert) ytilt =- ytilt;
+		float current = Mathf.Clamp(ytilt,-30f,30f)*LevelInfo.Settings.MaxSpaceY/-30f;
 		var y = transform.position.y;
 		
 		if( Mathf.Abs(y-current) > LevelInfo.Settings.PlayerUpDownIgnore )
