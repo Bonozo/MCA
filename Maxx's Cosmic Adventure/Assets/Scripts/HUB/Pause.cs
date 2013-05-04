@@ -19,13 +19,20 @@ public class Pause : MonoBehaviour {
 		right2.localPosition = new Vector3( maxx,right2.localPosition.y,right2.localPosition.z);
 	}
 	
-	void OnPress(bool isDown)
+	void DoPauseAction()
 	{
-		if(isDown && LevelInfo.Environments.playerShip.Ready)
+		if(LevelInfo.Environments.playerShip.Ready && !wantToExitGame &&
+			(LevelInfo.State.state == GameState.Play || LevelInfo.State.state == GameState.Paused) )
 		{
 			if(ppause) UnPauseGame();
 			else PauseGame();
-		}
+		}	
+	}
+	
+	void OnPress(bool isDown)
+	{
+		if(isDown)
+			DoPauseAction();
 	}
 	
 	public void PauseGame()
@@ -63,6 +70,9 @@ public class Pause : MonoBehaviour {
 				LevelInfo.State.state = GameState.Play;
 			}
 		}
+		
+		if(Input.GetKeyDown(KeyCode.Escape))
+			DoPauseAction();
 	}
 	
 	void SetX(float maxx)
@@ -79,8 +89,13 @@ public class Pause : MonoBehaviour {
 			button.gameObject.SetActive(active);
 	}
 	
+	private bool wantToExitGame = false;
 	public bool WantToExitGame{
+		get{
+			return wantToExitGame;
+		}
 		set{
+			wantToExitGame = value;
 			SetPauseButtonsActive(!value);
 			popupQuitGame.SetActive(value);
 		}
