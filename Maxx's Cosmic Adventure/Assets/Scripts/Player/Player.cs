@@ -412,7 +412,7 @@ public class Player : MonoBehaviour {
 			currentspeed += 60f*Time.deltaTime;
 			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;		
 		}
-		else if( LoveUnlikelium || (LevelInfo.Environments.bButton.isDown  && !LevelInfo.Environments.fuelOverheat.Up() && currentspeed<=6f) )
+		else if( LoveUnlikelium || ( (LevelInfo.Environments.bButton.isDown||Input.GetKey(KeyCode.B))  && !LevelInfo.Environments.fuelOverheat.Up() && currentspeed<=6f) )
 		{
 			currentspeed += 30f*Time.deltaTime;
 			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;
