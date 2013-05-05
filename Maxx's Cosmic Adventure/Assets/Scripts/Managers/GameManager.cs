@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour {
 	public GameObject popupCalibrate;
 	public UILabel gameStartTimer;
 	
+	public GameObject popupHeadStart;
+	
 	public GameObject FPS;
 	
 	#endregion

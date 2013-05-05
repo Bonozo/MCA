@@ -145,6 +145,10 @@ public class Player : MonoBehaviour {
 	private IEnumerator Rise()
 	{
 		LevelInfo.Environments.gameStartTimer.gameObject.SetActive(true);
+		
+		if(Store.Instance.powerupHeadStart.level>0)	
+			StartCoroutine(EnableHeadStartButton());
+		
 		float riseTime = LevelInfo.Settings.PlayerWaitForRise;
 		while( riseTime > 0 )
 		{
@@ -165,6 +169,9 @@ public class Player : MonoBehaviour {
 			yield return new WaitForEndOfFrame();
 		}	
 		
+		if(!useHeadStart)
+			StartCoroutine(DisalbeHeadStartButton());
+		
 		if( PlayerPrefs.GetInt("first_play",0)==0)
 		{
 			PlayerPrefs.SetInt("first_play",1);
@@ -177,10 +184,71 @@ public class Player : MonoBehaviour {
 			LevelInfo.Environments.gameStartTimer.text = "GO!";
 			yield return new WaitForSeconds(0.05f);
 			Ready = true;
+			if(useHeadStart)
+			{
+				Store.Instance.powerupHeadStart.level--;
+				StartCoroutine("StartHeadStartThread");
+			}
 			yield return new WaitForSeconds(1.5f);
 		}
 		
 		LevelInfo.Environments.gameStartTimer.gameObject.SetActive(false);
+	}
+	
+	private bool useHeadStart = false;
+	public void UseHeadStart()
+	{
+		if( !useHeadStart )
+		{
+			useHeadStart = true;
+			StartCoroutine(DisalbeHeadStartButton());
+		}
+	}
+	
+	private IEnumerator StartHeadStartThread()
+	{
+		LevelInfo.Environments.generator.GenerateAlienShip = false;
+		LevelInfo.Environments.generator.GenerateAsteroid = false;
+		Intergalactic = true;
+		_invincibility++;
+		
+		float poweruptime = 5f;
+		while(poweruptime>0f)
+		{
+			poweruptime -= Time.deltaTime;
+			yield return null;
+		}
+		
+		_invincibility--;
+		Intergalactic = false;
+		LevelInfo.Environments.generator.GenerateAlienShip = true;
+		LevelInfo.Environments.generator.GenerateAsteroid = true;
+	}
+	
+	IEnumerator EnableHeadStartButton()
+	{
+		LevelInfo.Environments.popupHeadStart.transform.localPosition = new Vector3(-300f,-105.5f,0f);
+		LevelInfo.Environments.popupHeadStart.SetActive(true);
+		
+		float time = 1.0f;
+		while(time>0f)
+		{
+			time -= Time.deltaTime;
+			LevelInfo.Environments.popupHeadStart.transform.Translate(0f,Time.deltaTime*0.5f,0f);
+			yield return null;
+		}
+	}	
+	
+	IEnumerator DisalbeHeadStartButton()
+	{
+		float time = 1.0f;
+		while(time>0f)
+		{
+			time -= Time.deltaTime;
+			LevelInfo.Environments.popupHeadStart.transform.Translate(0f,-Time.deltaTime*0.5f,0f);
+			yield return null;
+		}
+		LevelInfo.Environments.popupHeadStart.SetActive(false);
 	}
 	
 	#endregion
@@ -623,6 +691,7 @@ public class Player : MonoBehaviour {
 		else
 			poweruptime = Store.Instance.powerupMagned.LevelTime;
 	}
+	
 	#endregion
 	
 	#region Helpful
