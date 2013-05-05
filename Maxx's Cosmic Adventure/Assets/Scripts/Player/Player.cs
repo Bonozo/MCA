@@ -438,7 +438,10 @@ public class Player : MonoBehaviour {
 		
 		FreezeWorld = false;
 		Intergalactic = false;
+		
 		LoveUnlikelium = false;
+		LevelInfo.Environments.generator.StopUnlikeliumGenerator();
+		
 		Magned = false;
 		_invincibility = 0;
 		
@@ -562,9 +565,9 @@ public class Player : MonoBehaviour {
 		{
 			ClearAllPowerups();
 			LoveUnlikelium = true;
-			_invincibility++;
-			LevelInfo.Environments.generator.GenerateAlienShip = false;
-			LevelInfo.Environments.generator.GenerateAsteroid = false;
+			//_invincibility++;
+			//LevelInfo.Environments.generator.GenerateAlienShip = false;
+			//LevelInfo.Environments.generator.GenerateAsteroid = false;
 			
 			LevelInfo.Environments.generator.StartUnlikeliumGenerator();
 			poweruptime = 10f+(float)Store.Instance.powerupShazam.level;
@@ -586,10 +589,10 @@ public class Player : MonoBehaviour {
 			}
 			LevelInfo.Environments.generator.DeletaUnlikeliumList();
 			
-			LevelInfo.Environments.generator.GenerateAlienShip = true;
-			LevelInfo.Environments.generator.GenerateAsteroid = true;
+			//LevelInfo.Environments.generator.GenerateAlienShip = true;
+			//LevelInfo.Environments.generator.GenerateAsteroid = true;
+			//_invincibility--;
 			LoveUnlikelium = false;
-			_invincibility--;
 		}
 	}		
 		
