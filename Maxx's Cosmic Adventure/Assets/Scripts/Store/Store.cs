@@ -107,9 +107,10 @@ public class Store : MonoBehaviour {
 	public UpdateablePowerup powerupBoostFuel;
 	public UpdateablePowerup powerupToughGuy;
 	public UpdateablePowerup powerupFireHeating;
+	public UpdateablePowerup powerupHeadStart;
 	
 	public readonly int[] costs = {30,100,300,1000,3000};
-	public readonly int costStored = 100;
+	public readonly int costStored = 1000;
 	
 	public void Activate(UpdateablePowerup powerup)
 	{
@@ -118,8 +119,8 @@ public class Store : MonoBehaviour {
 		popupName.text = powerup.powerupName.ToUpper()+"!";
 		if(_currentPowerup.stored)
 		{
-			popupCost.text = "YOU HAVE " + (powerup.level+1);
-			popupBuyText.text = powerup.FullyUpdated?"FULL":"ADD BY " + costStored;
+			popupCost.text = "YOU HAVE " + powerup.level;
+			popupBuyText.text = "ADD BY " + costStored;
 		}
 		else
 		{
