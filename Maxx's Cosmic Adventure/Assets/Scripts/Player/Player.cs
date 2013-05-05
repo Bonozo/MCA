@@ -77,6 +77,7 @@ public class Player : MonoBehaviour {
 	
 	void Awake()
 	{
+		if(attempt==0&&!Application.isEditor&&(Application.platform==RuntimePlatform.Android||Application.platform==RuntimePlatform.IPhonePlayer)) calibrate = 45;
 		attempt++;
 	}
 	
