@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour {
 	public GameObject HUB;
 	public Generator generator;
 	public Score score;
-	public Missles missles;
+	public MButton mButton;
+	public BButton bButton;
 	public Pause pause;
 	public InfoMessage infoMessage;
 	

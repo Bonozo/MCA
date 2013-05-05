@@ -69,7 +69,7 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			LevelInfo.Environments.infoMessage.ShowMessage("Lay It On Me");
 			break;
 		case Gems.In3s:
-			LevelInfo.Environments.missles.currentPowerup = Gems.In3s;
+			LevelInfo.Environments.mButton.currentPowerup = Gems.In3s;
 			LevelInfo.Environments.infoMessage.ShowMessage("Triple Trouble");
 			break;
 		case Gems.FreezeWorld:
@@ -77,11 +77,11 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			LevelInfo.Environments.infoMessage.ShowMessage("Hold It Now, Hit It");
 			break;
 		case Gems.Pow:
-			LevelInfo.Environments.missles.currentPowerup = Gems.Pow;
+			LevelInfo.Environments.mButton.currentPowerup = Gems.Pow;
 			LevelInfo.Environments.infoMessage.ShowMessage("Pow");
 			break;
 		case Gems.FireBall:
-			LevelInfo.Environments.missles.currentPowerup = Gems.FireBall;
+			LevelInfo.Environments.mButton.currentPowerup = Gems.FireBall;
 			LevelInfo.Environments.infoMessage.ShowMessage("Lighten Up");
 			break;
 		case Gems.LoveUnlikelium:
