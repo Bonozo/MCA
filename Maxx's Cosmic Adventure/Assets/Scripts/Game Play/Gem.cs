@@ -14,6 +14,7 @@ public class Gem : MonoBehaviour {
 	void Start ()
 	{
 		tag = "Gem";
+		LevelInfo.Environments.tutorials.SpawnedGem(gemType);
 	}
 	
 	// Update is called once per frame

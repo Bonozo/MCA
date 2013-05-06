@@ -32,6 +32,10 @@ public class GameManager : MonoBehaviour {
 	
 	public GameObject popupHeadStart;
 	
+	public Tutorials tutorials;
+	public GameObject popupTutorial;
+	public UILabel labelTutorial;
+	
 	public GameObject FPS;
 	
 	#endregion
