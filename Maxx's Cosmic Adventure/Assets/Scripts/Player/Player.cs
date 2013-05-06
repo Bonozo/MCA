@@ -34,23 +34,8 @@ public class Player : MonoBehaviour {
 	private float fireDeltaTime = 0.0f;
 	private float autofireDeltaTime = 0.0f;
 	
-	private int lastmeter = 0;
-	private float _travelled = 0;
-	public float travelled{
-		get{
-			return _travelled;
-		}
-		set{
-			_travelled = value;
-			int meter = (int)_travelled;
-			if(meter > lastmeter )
-			{
-				int report = (meter-lastmeter)*LevelInfo.Settings.scoreDistanceMultiply;
-				LevelInfo.Environments.score.score += report;
-				lastmeter = meter;
-			}
-		}
-	}
+	[System.NonSerializedAttribute]
+	public float travelled = 0;
 	public float DistanceTravelled { get { return travelled; }}
 	private int lastunlikeliums = 0;
 	private int _unlikeliums = 0;

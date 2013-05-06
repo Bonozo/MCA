@@ -77,7 +77,7 @@ public class StateManager : MonoBehaviour {
 				LevelInfo.Environments.popupLoseLabel.text = 
 					"CRASHED\n\n" +
 					"unlikeliums: " + LevelInfo.Environments.playerShip.unlikeliums + "\n" +
-					"score: " + LevelInfo.Environments.score.score;
+					"score: " + LevelInfo.Environments.score.totalScore;
 				LevelInfo.Environments.popupLose.SetActive(true);
 				break;
 			}

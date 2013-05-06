@@ -98,7 +98,10 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			break;
 		}
 		
-		LevelInfo.Environments.score.score += LevelInfo.Settings.scorePowerup;
+		if( gemtype == Gems.Unlikelium && gem.GetComponent<Gem>().unlikeliumValue == 1 )
+			LevelInfo.Environments.score.unlikeliumsCollected++;
+		else
+			LevelInfo.Environments.score.powerupsCollected++;
 		
 		LevelInfo.Audio.PlayAudioGemPickUp(gemtype);
 		Destroy(gem);

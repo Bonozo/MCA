@@ -18,19 +18,6 @@ public class LevelManager : MonoBehaviour {
 	public float PlayerWaitForRise = 4f;
 	public float SureShotDistance = 150f;
 	
-	// Score
-	[System.NonSerializedAttribute]
-	public int scoreDistanceMultiply = 5;
-	
-	[System.NonSerializedAttribute]
-	public int scoreJeebie = 250;
-	
-	[System.NonSerializedAttribute]
-	public int scoreAsteroid = 100;
-	
-	[System.NonSerializedAttribute]
-	public int scorePowerup = 50;
-	
 	// Aliens
 	public float AlienShipAppearTime = 1f;
 	

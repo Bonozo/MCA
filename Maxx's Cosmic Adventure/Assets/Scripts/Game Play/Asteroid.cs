@@ -58,7 +58,7 @@ public class Asteroid : MonoBehaviour {
 			
 		if(byMaxx)
 		{
-			LevelInfo.Environments.score.score += LevelInfo.Settings.scoreAsteroid;
+			LevelInfo.Environments.score.asteroidsDestoyed++;
 			LevelInfo.Audio.MaxxExplodedAsteroid();
 		}
 		

@@ -8,9 +8,6 @@ public class Score : MonoBehaviour {
 	
 	private int currentLives = 3;
 	
-	[System.NonSerializedAttribute]
-	public int score = 0;
-	
 	void Start ()
 	{
 		Lives = Store.Instance.powerupToughGuy.level+1;
@@ -35,7 +32,7 @@ public class Score : MonoBehaviour {
 	}
 	
 	void Update()
-	{
+	{	
 		if(LevelInfo.State.state != GameState.Play) return;
 		UpdateActiveShields();
 	}
@@ -81,6 +78,26 @@ public class Score : MonoBehaviour {
 		yield return new WaitForSeconds(0.5f);
 		if(t>=currentLives) 
 			guiShield[t].gameObject.SetActive(false);
+	}
+	
+	#endregion
+	
+	#region Score
+	
+	[System.NonSerializedAttribute]
+	public int asteroidsDestoyed=0;
+	[System.NonSerializedAttribute]
+	public int jeebiesDestoyed=0;
+	[System.NonSerializedAttribute]
+	public int unlikeliumsCollected=0;
+	[System.NonSerializedAttribute]
+	public int powerupsCollected=0;
+	
+	public int totalScore{
+		get{
+			return Mathf.FloorToInt( (10*asteroidsDestoyed+10*jeebiesDestoyed+
+				unlikeliumsCollected+1)*LevelInfo.Environments.playerShip.DistanceTravelled );
+		}
 	}
 	
 	#endregion
