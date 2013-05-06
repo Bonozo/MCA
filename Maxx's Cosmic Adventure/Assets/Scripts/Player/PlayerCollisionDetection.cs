@@ -43,6 +43,7 @@ public class PlayerCollisionDetection : MonoBehaviour {
 	private void TakeGem(GameObject gem)
 	{
 		Gems gemtype = gem.GetComponent<Gem>().gemType;
+		LevelInfo.Environments.tutorials.TakenGem(gemtype);
 		
 		if(gemtype != Gems.Unlikelium)
 		{
@@ -61,8 +62,6 @@ public class PlayerCollisionDetection : MonoBehaviour {
 		case Gems.SureShot:
 			LevelInfo.Environments.playerShip.StartSureShot();
 			LevelInfo.Environments.infoMessage.ShowMessage("Sure Shot");
-			break;
-		case Gems.Shield:
 			break;
 		case Gems.Magnet:
 			LevelInfo.Environments.playerShip.StartMagned();

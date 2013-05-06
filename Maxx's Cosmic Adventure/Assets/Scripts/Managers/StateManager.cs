@@ -16,7 +16,6 @@ public enum Gems
 	None,
 	Unlikelium,
 	SureShot,
-	Shield,
 	Magnet,
 	In3s,
 	FreezeWorld,

@@ -3,12 +3,48 @@ using System.Collections;
 
 public class Tutorials : MonoBehaviour {
 	
-	string messageUnlikelium = "Pick up unlikeliums";
+	#region Messages
 	
+	string messageUnlikelium = 
+		"Pick up unlikeliums";
+	string messageSureShot = 
+		"Description of Sure Shot";
+	string messageMagnet = 
+		"Description of Magnet";
+	string messageIn3s = 
+		"Description of Missies";
+	string messageFreezeWorld = 
+		"Description of Hold It Now, Hit It";
+	string messagePow = 
+		"Description of Pow";
+	string messageFireBall = 
+		"Description of Lighten Up";
+	string messageLoveUnlikelium = 
+		"Description of Shazam!";
+	string messageIntergalactic = 
+		"Description of Intergalactic";
+	string messageToughGuy = 
+		"Description of Tough Guy";
+	
+	#endregion
+	
+	void Awake()
+	{
+		ResetTutorials();
+	}
 	
 	public void ResetTutorials()
 	{
 		PlayerPrefs.SetInt("tutorials_unlikeliums",0);
+		PlayerPrefs.SetInt("tutorials_sureshot",0);
+		PlayerPrefs.SetInt("tutorials_magned",0);
+		PlayerPrefs.SetInt("tutorials_in3s",0);
+		PlayerPrefs.SetInt("tutorials_freeze",0);
+		PlayerPrefs.SetInt("tutorials_pow",0);
+		PlayerPrefs.SetInt("tutorials_fireball",0);
+		PlayerPrefs.SetInt("tutorials_loveunlikelium",0);
+		PlayerPrefs.SetInt("tutorials_intergalactic",0);
+		PlayerPrefs.SetInt("tutorials_toughguy",0);
 	}
 	
 	private void ShowTutorialPopup(string id,string message,float delay)
@@ -29,14 +65,44 @@ public class Tutorials : MonoBehaviour {
 		}
 	}
 	
-	public void SpawnedGem(Gems gemtype)
+	public void SpawnedSimpleUnlikelium()
 	{
+		ShowTutorialPopup("tutorials_unlikeliums",messageUnlikelium,3f);
+	}
+	
+	public void TakenGem(Gems gemtype)
+	{
+		float delay = 1.5f;
 		switch(gemtype)
 		{
-		case Gems.Unlikelium:
-			ShowTutorialPopup("tutorials_unlikeliums",messageUnlikelium,3f);
+		case Gems.SureShot:
+			ShowTutorialPopup("tutorials_sureshot",messageSureShot,delay);
 			break;
-		}
+		case Gems.Magnet:
+			ShowTutorialPopup("tutorials_magned",messageMagnet,delay);
+			break;
+		case Gems.In3s:
+			ShowTutorialPopup("tutorials_in3s",messageIn3s,delay);
+			break;
+		case Gems.FreezeWorld:
+			ShowTutorialPopup("tutorials_freeze",messageFreezeWorld,delay);
+			break;
+		case Gems.Pow:
+			ShowTutorialPopup("tutorials_pow",messagePow,delay);
+			break;
+		case Gems.FireBall:
+			ShowTutorialPopup("tutorials_fireball",messageFireBall,delay);
+			break;
+		case Gems.LoveUnlikelium:
+			ShowTutorialPopup("tutorials_loveunlikelium",messageLoveUnlikelium,delay);
+			break;
+		case Gems.Intergalactic:
+			ShowTutorialPopup("tutorials_intergalactic",messageIntergalactic,delay);
+			break;
+		case Gems.ToughGuy:
+			ShowTutorialPopup("tutorials_toughguy",messageToughGuy,delay);
+			break;
+		}		
 	}
 	
 }

@@ -14,7 +14,8 @@ public class Gem : MonoBehaviour {
 	void Start ()
 	{
 		tag = "Gem";
-		LevelInfo.Environments.tutorials.SpawnedGem(gemType);
+		if(gemType == Gems.Unlikelium && unlikeliumValue == 1 )
+		LevelInfo.Environments.tutorials.SpawnedSimpleUnlikelium();
 	}
 	
 	// Update is called once per frame
