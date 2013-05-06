@@ -96,8 +96,11 @@ public class Bullet : MonoBehaviour {
 	float delta = 0.025f*0.5f;
 	void UpdateLRHitch()
 	{
-		delta += 0.1f*Time.deltaTime;
-		delta%=len;
-		transform.Translate(transform.right*(delta-len*0.5f));
+		if(Time.deltaTime>0)
+		{
+			delta += 0.1f*Time.deltaTime;
+			delta%=len;
+			transform.Translate(transform.right*(delta-len*0.5f));
+		}
 	}
 }
