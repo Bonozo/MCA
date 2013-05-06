@@ -90,7 +90,7 @@ public class Store : MonoBehaviour {
 		if( Mathf.Abs(fingerPos.y) <= 250f )
 		{
 			float scrollmax = storeWidth-camera2d.pixelWidth/camera2d.pixelHeight*800;
-			buttonsDelta.localPosition = new Vector3(Mathf.Clamp(buttonsDelta.localPosition.x+delta.x,-scrollmax,5f),buttonsDelta.localPosition.y,buttonsDelta.localPosition.z);
+			buttonsDelta.localPosition = new Vector3(Mathf.Clamp(buttonsDelta.localPosition.x+4f*delta.x,-scrollmax,5f),buttonsDelta.localPosition.y,buttonsDelta.localPosition.z);
 		}
 	}
 	
