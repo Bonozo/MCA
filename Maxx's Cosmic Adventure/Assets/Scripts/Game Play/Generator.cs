@@ -19,6 +19,8 @@ public class Generator : MonoBehaviour {
 	
 	public void GenerateNewAlienShip()
 	{
+		if(firstUnlikeliumsListCount>0) return;
+		
 		float maxdistance = 12000f;
 		float currentdistance = LevelInfo.Environments.playerShip.DistanceTravelled;
 		
@@ -54,10 +56,18 @@ public class Generator : MonoBehaviour {
 	public GameObject[] AsteroidPrefabs;
 	public float AsteroidDistanceMin=30f, AsteroidDistanceMax=50f;
 	
+	private int firstUnlikeliumsListCount=0;
 	public void GenerateNewAsteroid(int index)
 	{
 		if( GenerateAsteroid && Asteroid.GlobalCount<15) 
 		{
+			// Spawn unlikelium list for first random 1-3 times
+			if( firstUnlikeliumsListCount>0 )
+			{
+				firstUnlikeliumsListCount--;
+				index=0;
+			}
+			
 			Instantiate(AsteroidPrefabs[index]);
 		}
 	}
@@ -85,8 +95,9 @@ public class Generator : MonoBehaviour {
 	private float next_asteroid_time = Stage_One_Step;
 	private float next_jeeble_time = Stage_One_Distance;
 	
-	void Start()
+	void Awake()
 	{
+		firstUnlikeliumsListCount = Random.Range(1,4);
 	}
 	
 	void Update () 
