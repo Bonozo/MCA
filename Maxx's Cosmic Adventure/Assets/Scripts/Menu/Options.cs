@@ -154,6 +154,9 @@ public class Options : MonoBehaviour {
 			if( GUI.Button(buttonRect(4),yInvert?"ON":"OFF" ) )
 				yInvert = !yInvert;
 			
+			if( GUI.Button( new Rect(Screen.width-150,20,130,40),"Reset Tutorial"))
+				Tutorials.ResetTutorials();
+			
 			if( GUI.Button( new Rect(Screen.width-100,Screen.height-60,80,40),"Debug"))
 				debug = true;
 		}

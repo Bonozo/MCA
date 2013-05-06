@@ -38,7 +38,7 @@ public class Tutorials : MonoBehaviour {
 	
 	#endregion
 	
-	public void ResetTutorials()
+	public static void ResetTutorials()
 	{
 		PlayerPrefs.SetInt("tutorials_calibrate",0);// implemented in player.cs
 		
