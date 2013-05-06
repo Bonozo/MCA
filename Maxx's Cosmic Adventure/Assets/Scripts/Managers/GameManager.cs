@@ -24,7 +24,8 @@ public class GameManager : MonoBehaviour {
 	public InfoMessage infoMessage;
 	
 	public GameObject popupLose;
-	public UILabel popupLoseLabel;
+	public UILabel popupLoseLabelNames;
+	public UILabel popupLoseLabelResults;
 	
 	public GameObject popupCalibrate;
 	public UILabel gameStartTimer;

@@ -74,17 +74,60 @@ public class StateManager : MonoBehaviour {
 				LevelInfo.Audio.StopAll();
 				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Environments.playerShip.AudioGameOver);
 				
-				LevelInfo.Environments.popupLoseLabel.text = 
-					"CRASHED\n\n" +
-					"unlikeliums: " + LevelInfo.Environments.playerShip.unlikeliums + "\n" +
-					"score: " + LevelInfo.Environments.score.totalScore;
-				LevelInfo.Environments.popupLose.SetActive(true);
+				StartCoroutine(ShowGameOverScreenThread());
+				
 				break;
 			}
 			
 			Time.timeScale = (state == GameState.Play?1f:0f);
 		}
 	}
+	
+	private IEnumerator ShowGameOverScreenThread()
+	{
+		var names = LevelInfo.Environments.popupLoseLabelNames;
+		var results = LevelInfo.Environments.popupLoseLabelResults;
+		
+		float startdelay = 1f;
+		float deltadelay = 0.5f;
+		
+		names.text = results.text = "";
+		
+		LevelInfo.Environments.popupLose.SetActive(true);
+		
+		yield return StartCoroutine(WaitSeconds(startdelay));
+		
+		names.text += "DISTANCE:";
+		results.text += Mathf.FloorToInt(LevelInfo.Environments.playerShip.DistanceTravelled);
+		yield return StartCoroutine(WaitSeconds(deltadelay));
+		
+		names.text +=   "\n"+"JEEBIES:";
+		results.text += "\n"+LevelInfo.Environments.score.jeebiesDestoyed;
+		yield return StartCoroutine(WaitSeconds(deltadelay));
+		
+		names.text +=   "\n"+"ASTEROIDS:";
+		results.text += "\n"+LevelInfo.Environments.score.asteroidsDestoyed;
+		yield return StartCoroutine(WaitSeconds(deltadelay));
+		
+		names.text +=   "\n"+"POWERUPS:";
+		results.text += "\n"+LevelInfo.Environments.score.powerupsCollected;
+		yield return StartCoroutine(WaitSeconds(deltadelay));
+		
+		names.text +=   "\n"+"UNLIKELIUMS:";
+		results.text += "\n"+LevelInfo.Environments.score.unlikeliumsCollected;
+		yield return StartCoroutine(WaitSeconds(startdelay));
+		
+		
+		names.text +=   "\n\n"+"TOTAL SCORE:";
+		results.text += "\n\n"+LevelInfo.Environments.score.totalScore;
+	}
+	
+	private IEnumerator WaitSeconds(float sec)
+	{
+		while(sec>0f) {sec-=0.016f; yield return null;}
+	}
+	
+	
 	
 	private bool HUBActiveHelper(GameState _state)
 	{
