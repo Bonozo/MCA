@@ -157,9 +157,9 @@ public class Player : MonoBehaviour {
 		if(!useHeadStart)
 			StartCoroutine(DisalbeHeadStartButton());
 		
-		if( PlayerPrefs.GetInt("first_play",0)==0)
+		if( PlayerPrefs.GetInt("tutorials_calibrate",0)==0)
 		{
-			PlayerPrefs.SetInt("first_play",1);
+			PlayerPrefs.SetInt("tutorials_calibrate",1);
 			waitforcalibrate = true;
 			LevelInfo.Environments.popupCalibrate.SetActive(true);
 			Time.timeScale = 0.0f;

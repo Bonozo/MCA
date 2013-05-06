@@ -26,6 +26,7 @@ public class Asteroid : MonoBehaviour {
 	void Start () 
 	{
 		gameObject.tag = "Asteroid";
+		LevelInfo.Environments.tutorials.SpawnedAsteroid();
 	}
 	
 	

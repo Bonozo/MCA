@@ -80,6 +80,7 @@ public class AlienShip : MonoBehaviour {
 			transform.rotation = ToNearPlayerRotation();
 		
 		tag = "Enemy";
+		LevelInfo.Environments.tutorials.SpawnedJeebie();
 		
 		StartCoroutine(GetReady());
 	}

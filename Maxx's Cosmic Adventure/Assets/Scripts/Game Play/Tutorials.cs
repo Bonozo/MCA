@@ -4,7 +4,11 @@ using System.Collections;
 public class Tutorials : MonoBehaviour {
 	
 	#region Messages
-	
+	string messageFirstControls =
+		"First Controls\n" +
+		"Use device tilting to turn and up/down moves!\n" +
+		"Use 'F' button to the left or right to fire!\n" +
+		"Use 'B' button to boost!";
 	string messageUnlikelium = 
 		"Pick up unlikeliums";
 	string messageSureShot = 
@@ -25,16 +29,21 @@ public class Tutorials : MonoBehaviour {
 		"Description of Intergalactic";
 	string messageToughGuy = 
 		"Description of Tough Guy";
+	string messageAsteroid =
+		"Spawned Asteroid";
+	string messageJeebie =
+		"Spawned Jeebie";
+	string messageOverheated = 
+		"Button Overheated";
 	
 	#endregion
 	
-	void Awake()
-	{
-		ResetTutorials();
-	}
-	
 	public void ResetTutorials()
 	{
+		PlayerPrefs.SetInt("tutorials_calibrate",0);// implemented in player.cs
+		
+		PlayerPrefs.SetInt("tutorials_firstcontrols",0);
+		
 		PlayerPrefs.SetInt("tutorials_unlikeliums",0);
 		PlayerPrefs.SetInt("tutorials_sureshot",0);
 		PlayerPrefs.SetInt("tutorials_magned",0);
@@ -45,6 +54,16 @@ public class Tutorials : MonoBehaviour {
 		PlayerPrefs.SetInt("tutorials_loveunlikelium",0);
 		PlayerPrefs.SetInt("tutorials_intergalactic",0);
 		PlayerPrefs.SetInt("tutorials_toughguy",0);
+		
+		PlayerPrefs.SetInt("tutorials_jeebie",0);
+		PlayerPrefs.SetInt("tutorials_asteroid",0);
+
+		PlayerPrefs.SetInt("tutorials_overheated",0);
+	}
+	
+	void Start()
+	{
+		ShowTutorialPopup("tutorials_firstcontrols",messageFirstControls,7f);
 	}
 	
 	private void ShowTutorialPopup(string id,string message,float delay)
@@ -59,6 +78,7 @@ public class Tutorials : MonoBehaviour {
 		{
 			Time.timeScale = 0f;
 			LevelInfo.Environments.playerShip.Ready = false;
+			LevelInfo.Audio.StopEffects();
 			LevelInfo.Environments.labelTutorial.text = message;
 			LevelInfo.Environments.popupTutorial.SetActive(true);
 			PlayerPrefs.SetInt(id,1);
@@ -68,6 +88,16 @@ public class Tutorials : MonoBehaviour {
 	public void SpawnedSimpleUnlikelium()
 	{
 		ShowTutorialPopup("tutorials_unlikeliums",messageUnlikelium,3f);
+	}
+	
+	public void SpawnedJeebie()
+	{
+		ShowTutorialPopup("tutorials_jeebie",messageJeebie,2f);
+	}
+	
+	public void SpawnedAsteroid()
+	{
+		ShowTutorialPopup("tutorials_asteroid",messageAsteroid,2f);
 	}
 	
 	public void TakenGem(Gems gemtype)
@@ -103,6 +133,16 @@ public class Tutorials : MonoBehaviour {
 			ShowTutorialPopup("tutorials_toughguy",messageToughGuy,delay);
 			break;
 		}		
+	}
+	
+	bool overheated = false;
+	public void ButtonOverheated()
+	{
+		if(!overheated)
+		{
+			overheated = true;
+			ShowTutorialPopup("tutorials_overheated",messageOverheated,0.05f);
+		}
 	}
 	
 }

@@ -44,6 +44,12 @@ public class Overheat : MonoBehaviour {
 		if( delay == 0f ) reloading = false;
 	}
 	
-	public bool Overheated { get { return delay == 1f || reloading; } }
+	public bool Overheated{
+		get{
+			var res = (delay == 1f || reloading);
+			if(res) LevelInfo.Environments.tutorials.ButtonOverheated();
+			return res;
+		}
+	}
 
 }
