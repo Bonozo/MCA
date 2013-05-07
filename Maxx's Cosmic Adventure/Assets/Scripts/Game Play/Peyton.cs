@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Peyton : MonoBehaviour {
 	
+	public GameObject guiRoot;
 	public UIWidget[] gui;
 	public UILabel label;
 	public float framerate=0.03f;
@@ -27,7 +28,7 @@ public class Peyton : MonoBehaviour {
 	}
 
 	void Update ()
-	{
+	{	
 		// Update screen
 		if(Active)
 		{
@@ -36,6 +37,8 @@ public class Peyton : MonoBehaviour {
 			int frame = (int)(screenAnimTime/screenAnimFramerate)+1;
 			spriteScreen.spriteName = "Peyton_Icon_Static_0" + frame;
 		}
+		
+		guiRoot.SetActive(Active&&LevelInfo.Environments.playerShip.Ready&&LevelInfo.State.state == GameState.Play);
 	}
 	
 	public bool Active{get;private set;}
