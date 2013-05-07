@@ -49,7 +49,7 @@ public class MButton : MonoBehaviour {
 	
 	void OnPress(bool isDown)
 	{
-		if(isDown && LevelInfo.Environments.playerShip.Ready && !LevelInfo.Environments.playerShip.IsBoost) 
+		if(isDown && LevelInfo.Environments.playerShip.Ready && !LevelInfo.Environments.playerShip.IsBoost && !LevelInfo.Environments.playerShip.Intergalactic) 
 		{
 			if(LevelInfo.State.state == GameState.Play && currentPowerup != Gems.None)
 				StartPowerup();
