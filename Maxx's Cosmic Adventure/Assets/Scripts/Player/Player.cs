@@ -513,6 +513,7 @@ public class Player : MonoBehaviour {
 			AutoFire = true;
 			
 			poweruptime = Store.Instance.powerupSureShot.LevelTime;
+			LevelInfo.Environments.guiPowerupCountDown.color = new Color(0,1f,0,1f);
 			LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
 			SetPowerupFillAmount(1f,1f);
 			
@@ -550,6 +551,7 @@ public class Player : MonoBehaviour {
 			ClearAllPowerups();
 			FreezeWorld = true;
 			poweruptime = Store.Instance.powerupFreeze.LevelTime*0.5f;
+			LevelInfo.Environments.guiPowerupCountDown.color = new Color(0,1f,1f,1f);
 			while ( poweruptime > 0f )
 			{
 				if(Time.timeScale>0) Time.timeScale = 0.5f;
@@ -584,6 +586,7 @@ public class Player : MonoBehaviour {
 			LevelInfo.Environments.generator.GenerateAsteroid = false;
 			
 			poweruptime = Store.Instance.powerupIntergalactic.LevelTime*0.5f;
+			LevelInfo.Environments.guiPowerupCountDown.color = new Color(0.1f,0.1f,0.1f,1f);
 			while(poweruptime>0f)
 			{
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
@@ -618,6 +621,7 @@ public class Player : MonoBehaviour {
 			
 			LevelInfo.Environments.generator.StartUnlikeliumGenerator();
 			poweruptime = 10f+(float)Store.Instance.powerupShazam.level;
+			LevelInfo.Environments.guiPowerupCountDown.color = new Color(1f,0.5f,0,1f);
 			while(poweruptime>0f)
 			{
 				poweruptime -= Time.deltaTime;
@@ -656,6 +660,7 @@ public class Player : MonoBehaviour {
 			ClearAllPowerups();
 			Magned = true;
 			poweruptime = Store.Instance.powerupMagned.LevelTime;
+			LevelInfo.Environments.guiPowerupCountDown.color = new Color(0.33f,0.1f,0.54f,1f);
 			while ( poweruptime > 0f )
 			{
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
