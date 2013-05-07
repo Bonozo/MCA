@@ -160,8 +160,8 @@ public class Generator : MonoBehaviour {
 	// Used after headstart, intergalactic, ...
 	public void ResetSpawnDeltaTime()
 	{
-		next_asteroid_time += Random.Range(0,1f);
-		next_jeeble_time += Random.Range(0,1f);
+		next_asteroid_time = LevelInfo.Environments.playerShip.DistanceTravelled + Random.Range(0,Stage_One_Step);
+		next_jeeble_time = LevelInfo.Environments.playerShip.DistanceTravelled + Random.Range(0,Stage_Two_Step_Enemy);
 	}
 	
 	#endregion

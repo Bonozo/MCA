@@ -205,7 +205,7 @@ public class Player : MonoBehaviour {
 		}
 		
 		Intergalactic = false;
-		yield return new WaitForSeconds(1.5f);
+		yield return new WaitForSeconds(0.5f);
 		LevelInfo.Environments.generator.GenerateAlienShip = true;
 		LevelInfo.Environments.generator.GenerateAsteroid = true;
 		LevelInfo.Environments.generator.ResetSpawnDeltaTime();
@@ -603,7 +603,7 @@ public class Player : MonoBehaviour {
 			}
 			LevelInfo.Environments.guiPowerUpTime.text = "";
 			Intergalactic = false;
-			yield return new WaitForSeconds(1.5f);
+			yield return new WaitForSeconds(0.5f);
 			LevelInfo.Environments.generator.GenerateAlienShip = true;
 			LevelInfo.Environments.generator.GenerateAsteroid = true;
 			LevelInfo.Environments.generator.ResetSpawnDeltaTime();
