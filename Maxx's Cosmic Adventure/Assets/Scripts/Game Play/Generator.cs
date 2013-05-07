@@ -87,7 +87,7 @@ public class Generator : MonoBehaviour {
 	
 	#endregion
 	
-	#region Auto Spawing
+	#region Auto Spawning
 	
 	private const float Stage_One_Step = 50f, Stage_Two_Step_Enemy = 100f;
 	private const float Stage_One_Distance = 500f, Stage_Three_Distance = 1000f;
@@ -155,6 +155,13 @@ public class Generator : MonoBehaviour {
 			}
 		}
 	
+	}
+	
+	// Used after headstart, intergalactic, ...
+	public void ResetSpawnDeltaTime()
+	{
+		next_asteroid_time += Random.Range(0,1f);
+		next_jeeble_time += Random.Range(0,1f);
 	}
 	
 	#endregion

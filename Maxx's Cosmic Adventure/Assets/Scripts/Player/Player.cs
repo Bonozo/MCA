@@ -204,10 +204,12 @@ public class Player : MonoBehaviour {
 			yield return null;
 		}
 		
-		_invincibility--;
 		Intergalactic = false;
+		yield return new WaitForSeconds(1.5f);
 		LevelInfo.Environments.generator.GenerateAlienShip = true;
 		LevelInfo.Environments.generator.GenerateAsteroid = true;
+		LevelInfo.Environments.generator.ResetSpawnDeltaTime();
+		_invincibility--;
 	}
 	
 	IEnumerator EnableHeadStartButton()
@@ -600,9 +602,11 @@ public class Player : MonoBehaviour {
 				yield return null;
 			}
 			LevelInfo.Environments.guiPowerUpTime.text = "";
+			Intergalactic = false;
+			yield return new WaitForSeconds(1.5f);
 			LevelInfo.Environments.generator.GenerateAlienShip = true;
 			LevelInfo.Environments.generator.GenerateAsteroid = true;
-			Intergalactic = false;
+			LevelInfo.Environments.generator.ResetSpawnDeltaTime();
 			_invincibility--;
 		}
 	}	
