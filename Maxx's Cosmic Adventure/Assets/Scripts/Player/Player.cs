@@ -96,9 +96,9 @@ public class Player : MonoBehaviour {
 		
 		UpdateShip();
 		
-		FireSetUp();	
-		CameraSetUp();
+		FireSetUp();
 		ExhaustSetUp();
+		CameraSetUp();
 	}
 	
 	#endregion
@@ -355,7 +355,7 @@ public class Player : MonoBehaviour {
 		if(Intergalactic) return;
 		
 		// Standart shot
-		if(FireButtonPressed)
+		if(FireButtonPressed&&!BoostButtonPressed)
 			TryStandardShot(true);
 		else
 			LevelInfo.Environments.fireOverheat.Down();
@@ -367,7 +367,7 @@ public class Player : MonoBehaviour {
 	
 	void CameraSetUp()
 	{
-		transform.Translate(-Vector3.forward*lastexhaust);
+		transform.Translate(-Vector3.forward*lastboost);
 		
 		LevelInfo.Environments.mainCamera.transform.position = new Vector3(transform.position.x,0f,transform.position.z);
 		LevelInfo.Environments.mainCamera.transform.rotation = transform.rotation;
@@ -381,28 +381,37 @@ public class Player : MonoBehaviour {
 		LevelInfo.Environments.mainCamera.transform.Translate(-Vector3.forward*CameraZ);
 		LevelInfo.Environments.mainCamera.transform.Translate(0,CameraHeight,0);
 		
-		transform.Translate(Vector3.forward*lastexhaust);
+		transform.Translate(Vector3.forward*lastboost);
 	}
 	
 	#endregion
 	
 	#region Exhaust
 	
-	float lastexhaust = 1f;
+	float boostx=0f;
+	float lastboost = 1f;
 	void ExhaustSetUp()
 	{	
+		bool boostend = true;
 		bool reduce=false;
-		float currentspeed = ExhaustArray[0].startSpeed;
+		float currentspeed = lastboost;
 		
 		if( Intergalactic )
 		{
 			currentspeed += 60f*Time.deltaTime;
 			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;		
 		}
-		else if( LoveUnlikelium || ( BoostButtonPressed && !LevelInfo.Environments.fuelOverheat.Up() && currentspeed<=6f) )
+		else if(LoveUnlikelium)
 		{
 			currentspeed += 30f*Time.deltaTime;
 			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;
+		}
+		else if(BoostButtonPressed && !LevelInfo.Environments.fuelOverheat.Up() && currentspeed<=6f)
+		{
+			boostend = false;
+			boostx =  Mathf.Min(2f,boostx+0.5f*Time.deltaTime);
+			currentspeed += 30f*Time.deltaTime;
+			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;			
 		}
 		else
 		{
@@ -411,6 +420,8 @@ public class Player : MonoBehaviour {
 			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineNormal;
 			reduce=true;
 		}
+		
+		if(boostend) boostx = Mathf.Max(0f,boostx-Time.deltaTime);
 		if( !LevelInfo.Audio.audioSourcePlayerShip.isPlaying ) LevelInfo.Audio.audioSourcePlayerShip.Play();
 		
 		if(reduce)
@@ -424,12 +435,12 @@ public class Player : MonoBehaviour {
 		}
 		
 		foreach(ParticleSystem e in ExhaustArray)
-			e.startSpeed = currentspeed;
-		float delta = currentspeed-lastexhaust;
-		lastexhaust = currentspeed;
+			e.startSpeed = lastboost;
+		float delta = currentspeed-lastboost;
+		lastboost = currentspeed;
 		
-		transform.Translate(Vector3.forward*delta);
-		LevelInfo.Settings.PlayerSpeed += 4*delta;
+		transform.Translate(Vector3.forward*boostx*0.5f);
+		LevelInfo.Settings.PlayerSpeed += 5*delta;
 	}
 	
 	#endregion
@@ -681,6 +692,8 @@ public class Player : MonoBehaviour {
 	// Buttons
 	bool BoostButtonPressed{ get{ return LevelInfo.Environments.boostLeftButton.isDown&&LevelInfo.Environments.boostRightButton.isDown||Input.GetKey(KeyCode.B); }}
 	bool FireButtonPressed{ get{ return LevelInfo.Environments.fireLeftButton.isDown||LevelInfo.Environments.fireRightButton.isDown||Input.GetKey(KeyCode.F); }}
+	
+	public bool IsBoost{ get { return BoostButtonPressed; }}
 	
 	#endregion
 }
