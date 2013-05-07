@@ -29,8 +29,6 @@ public class Player : MonoBehaviour {
 	
 	#region Variables
 	
-	private TouchInput touchInput;
-	
 	private float fireDeltaTime = 0.0f;
 	private float autofireDeltaTime = 0.0f;
 	
@@ -58,7 +56,7 @@ public class Player : MonoBehaviour {
 	
 	#endregion
 	
-	#region Start Update
+	#region Awake, Start, Update
 	
 	void Awake()
 	{
@@ -69,7 +67,6 @@ public class Player : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{	
-		touchInput = (TouchInput)GameObject.FindObjectOfType(typeof(TouchInput));
 		CameraSetUp();
 		
 		lastPosition = transform.position;
@@ -102,7 +99,6 @@ public class Player : MonoBehaviour {
 		FireSetUp();	
 		CameraSetUp();
 		ExhaustSetUp();
-		SoundSetUp();
 	}
 	
 	#endregion
@@ -356,18 +352,18 @@ public class Player : MonoBehaviour {
 	
 	void FireSetUp()
 	{
-		if( Intergalactic ) return;
+		if(Intergalactic) return;
 		
 		// Standart shot
-		if( Input.GetKey(KeyCode.F) || touchInput.FireRight || touchInput.FireLeft )
+		if(FireButtonPressed)
 			TryStandardShot(true);
 		else
 			LevelInfo.Environments.fireOverheat.Down();
-		
-		if( AutoFire ) return;
 	}
 	
 	#endregion
+	
+	#region Camera
 	
 	void CameraSetUp()
 	{
@@ -388,6 +384,10 @@ public class Player : MonoBehaviour {
 		transform.Translate(Vector3.forward*lastexhaust);
 	}
 	
+	#endregion
+	
+	#region Exhaust
+	
 	float lastexhaust = 1f;
 	void ExhaustSetUp()
 	{	
@@ -399,7 +399,7 @@ public class Player : MonoBehaviour {
 			currentspeed += 60f*Time.deltaTime;
 			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;		
 		}
-		else if( LoveUnlikelium || ( (LevelInfo.Environments.bButton.isDown||Input.GetKey(KeyCode.B))  && !LevelInfo.Environments.fuelOverheat.Up() && currentspeed<=6f) )
+		else if( LoveUnlikelium || ( BoostButtonPressed && !LevelInfo.Environments.fuelOverheat.Up() && currentspeed<=6f) )
 		{
 			currentspeed += 30f*Time.deltaTime;
 			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;
@@ -430,27 +430,6 @@ public class Player : MonoBehaviour {
 		
 		transform.Translate(Vector3.forward*delta);
 		LevelInfo.Settings.PlayerSpeed += 4*delta;
-	}
-	
-	void SoundSetUp()
-	{
-	}
-	
-	#region Get Hit
-	
-	public void GetAsteroidBump()
-	{
-		
-	}
-	
-	public void GetEnemyShipBump()
-	{
-		
-	}
-	
-	public void GetEnemyBulletBump()
-	{
-		
 	}
 	
 	#endregion
@@ -683,8 +662,9 @@ public class Player : MonoBehaviour {
 	
 	#endregion
 	
-	#region Helpful
+	#region Properties
 	
+	// Distance
 	private float DistXZ(Vector3 a,Vector3 b)
 	{
 		a.y=b.y=0;
@@ -697,6 +677,10 @@ public class Player : MonoBehaviour {
 		a.y=pos.y=0;
 		return Vector3.Distance(a,pos);
 	}
+	
+	// Buttons
+	bool BoostButtonPressed{ get{ return LevelInfo.Environments.boostLeftButton.isDown&&LevelInfo.Environments.boostRightButton.isDown||Input.GetKey(KeyCode.B); }}
+	bool FireButtonPressed{ get{ return LevelInfo.Environments.fireLeftButton.isDown||LevelInfo.Environments.fireRightButton.isDown||Input.GetKey(KeyCode.F); }}
 	
 	#endregion
 }

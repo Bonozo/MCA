@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class BButton : MonoBehaviour {
+public class HUBButton : MonoBehaviour {
 	
 	public bool isDown {get;private set;}
 	

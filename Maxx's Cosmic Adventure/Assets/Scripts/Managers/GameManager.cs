@@ -18,9 +18,12 @@ public class GameManager : MonoBehaviour {
 	public GameObject HUB;
 	public Generator generator;
 	public Score score;
-	public MButton mButton;
-	public BButton bButton;
 	public Pause pause;
+
+	public MButton mButton;
+	public HUBButton boostLeftButton,boostRightButton;
+	public HUBButton fireLeftButton,fireRightButton;
+	
 	public InfoMessage infoMessage;
 	
 	public GameObject popupLose;
