@@ -13,7 +13,7 @@ public class Store : MonoBehaviour {
 		set{
 			_unlikeliums=value;
 			PlayerPrefs.SetInt("unlikeliums",_unlikeliums);
-			guiUnlikelium.text = "Unlikeliums " + _unlikeliums;
+			guiUnlikelium.text = "" + _unlikeliums;
 		}
 	}
 	
