@@ -19,7 +19,7 @@ public class TweetScale : MonoBehaviour {
 	
 	void Update()
 	{
-		time += Time.deltaTime*speed;
+		time += 0.016f*speed;
 		if(time>period) time-=period;
 		if(time>pause)
 		{
