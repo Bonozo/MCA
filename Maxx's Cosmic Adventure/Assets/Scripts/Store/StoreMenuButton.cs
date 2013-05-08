@@ -16,4 +16,16 @@ public class StoreMenuButton : MonoBehaviour {
 				Application.LoadLevel("mainmenu");
 		}
 	}
+	
+	
+	private UIButton button;
+	
+	void Awake()
+	{
+		button = this.GetComponent<UIButton>();
+	}
+	void Update()
+	{	
+		button.isEnabled = !Store.Instance.PopupActive;
+	}
 }

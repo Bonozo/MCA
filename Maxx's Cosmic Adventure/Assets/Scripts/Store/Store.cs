@@ -19,7 +19,7 @@ public class Store : MonoBehaviour {
 	
 	void Awake()
 	{
-		Application.targetFrameRate = -1;//??//
+		Application.targetFrameRate = -1;
 		
 		Unlikeliums = PlayerPrefs.GetInt("unlikeliums",0);
 		
@@ -40,7 +40,9 @@ public class Store : MonoBehaviour {
 	public UILabel guiUnlikelium;
 	public GameObject buttonGame;
 	
-	public GameObject popup;
+	public GameObject popupUpgradePowerups;
+	public GameObject popupBuyUnlikeliums;
+	
 	public UILabel popupName;
 	public UISprite popupIcon;
 	public UILabel popupCost;
@@ -60,7 +62,7 @@ public class Store : MonoBehaviour {
 			gui.SetActive(value);
 			if(_showStore)
 			{
-				popup.SetActive(false);
+				popupUpgradePowerups.SetActive(false);
 				buttonGame.SetActive(IsPlayGame);
 				audio.volume = Options.Instance.volumeMusic;
 				audio.Play();
@@ -127,10 +129,10 @@ public class Store : MonoBehaviour {
 			popupCost.text = "LEVEL " + (powerup.level+1);
 			popupBuyText.text = powerup.FullyUpdated?"FULLY UPGRADED":"LEVEL " + (powerup.level+2) + " BY "  + costs[powerup.level];
 		}
-		popup.SetActive(true);
+		popupUpgradePowerups.SetActive(true);
 	}
 	
-	public bool PopupActive{ get{ return popup.activeSelf; }}
+	public bool PopupActive{ get{ return popupUpgradePowerups.activeSelf||popupBuyUnlikeliums.activeSelf; }}
 	
 	#endregion
 	

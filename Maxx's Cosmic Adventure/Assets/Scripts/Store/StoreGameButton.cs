@@ -12,4 +12,15 @@ public class StoreGameButton : MonoBehaviour {
 			LevelInfo.State.state = GameState.Paused;
 		}
 	}
+	
+	private UIButton button;
+	
+	void Awake()
+	{
+		button = this.GetComponent<UIButton>();
+	}
+	void Update()
+	{	
+		button.isEnabled = !Store.Instance.PopupActive;
+	}
 }
