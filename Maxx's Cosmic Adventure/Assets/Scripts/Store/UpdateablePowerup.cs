@@ -37,7 +37,7 @@ public class UpdateablePowerup : MonoBehaviour {
 		button.isEnabled = !Store.Instance.PopupActive;
 	}
 	
-	public bool FullyUpdated { get { return stored?false:level==4; }}
+	public bool FullyUpdated { get { return stored?false:level==5; }}
 	
 	// for timed powerups
 	public float LevelTime { get { return 10+5*level; }}

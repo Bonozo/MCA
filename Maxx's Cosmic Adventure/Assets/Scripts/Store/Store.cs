@@ -111,7 +111,7 @@ public class Store : MonoBehaviour {
 	public UpdateablePowerup powerupFireHeating;
 	public UpdateablePowerup powerupHeadStart;
 	
-	public readonly int[] costs = {30,100,300,1000,3000};
+	public readonly int[] costs = {50,250,1000,5000,25000};
 	public readonly int costStored = 1000;
 	
 	public void Activate(UpdateablePowerup powerup)
@@ -126,8 +126,8 @@ public class Store : MonoBehaviour {
 		}
 		else
 		{
-			popupCost.text = "LEVEL " + (powerup.level+1);
-			popupBuyText.text = powerup.FullyUpdated?"FULLY UPGRADED":"LEVEL " + (powerup.level+2) + " BY "  + costs[powerup.level];
+			popupCost.text = "LEVEL " + powerup.level;
+			popupBuyText.text = powerup.FullyUpdated?"FULLY UPGRADED":"" + costs[powerup.level] + " (LEVEL " + (powerup.level+1) + ")";
 		}
 		popupUpgradePowerups.SetActive(true);
 	}
