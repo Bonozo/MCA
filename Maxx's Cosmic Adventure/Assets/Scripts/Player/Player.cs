@@ -23,7 +23,8 @@ public class Player : MonoBehaviour {
 	
 	public GameObject leftturret,rightturret;
 	
-	public static int attempt = 0;
+	public static int localAttempt = 0;
+	public int allAttempt = 0;
 	
 	#endregion
 	
@@ -59,9 +60,14 @@ public class Player : MonoBehaviour {
 	#region Awake, Start, Update
 	
 	void Awake()
-	{
-		if(attempt==0&&!Application.isEditor&&(Application.platform==RuntimePlatform.Android||Application.platform==RuntimePlatform.IPhonePlayer)) calibrate = 45;
-		attempt++;
+	{	
+		if(localAttempt==0&&!Application.isEditor&&(Application.platform==RuntimePlatform.Android||Application.platform==RuntimePlatform.IPhonePlayer)) calibrate = 45;
+		
+		// Change/Save attemps game played
+		localAttempt++;
+		allAttempt = PlayerPrefs.GetInt("all_game_attempt_count",0);
+		allAttempt++;
+		PlayerPrefs.SetInt("all_game_attempt_count",allAttempt);
 	}
 	
 	// Use this for initialization
