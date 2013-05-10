@@ -24,6 +24,8 @@ public class AlienShip : MonoBehaviour {
 	
 	// Move
 	public bool canTilt = false;
+	public float tiltMaxAngle = 30f;
+	
 	public bool targetedMove = false;
 	public bool appearAtPlayerFront = false;
 	
@@ -162,7 +164,7 @@ public class AlienShip : MonoBehaviour {
 			rotating = true;
 			yield return new WaitForSeconds(Random.Range(0f,1.5f));
 			float time = Random.Range(0.4f,1.5f);
-			float angle = Random.Range(-30f,30f);
+			float angle = Random.Range(-tiltMaxAngle,tiltMaxAngle);
 			
 			float beginy = transform.rotation.eulerAngles.y;
 			var rot = transform.rotation.eulerAngles;
