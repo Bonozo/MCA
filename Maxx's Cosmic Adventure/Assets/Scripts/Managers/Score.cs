@@ -10,7 +10,12 @@ public class Score : MonoBehaviour {
 	
 	void Start ()
 	{
-		Lives = Store.Instance.powerupToughGuy.level+1;
+		Lives = 3;
+		if( Store.Instance.powerupToughGuy.level>0 )
+		{
+			Store.Instance.powerupToughGuy.level--;
+			Lives = 5;
+		}
 		
 		UpdateActiveShields();
 		UpdateCrashedShield();
