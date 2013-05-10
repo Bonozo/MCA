@@ -64,7 +64,7 @@ public class StateManager : MonoBehaviour {
 				Options.Instance.ShowOptions = true;
 				break;
 			case GameState.Lose:
-				LevelInfo.Environments.playerShip.transform.localScale *= 0;
+				//LevelInfo.Environments.playerShip.transform.localScale *= 0;
 				LevelInfo.Environments.playerShip.ClearAllPowerups();
 				
 				foreach(var r in LevelInfo.Environments.playerShip.ExhaustArray )
