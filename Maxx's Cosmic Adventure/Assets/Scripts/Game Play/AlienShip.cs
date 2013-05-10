@@ -316,7 +316,7 @@ public class AlienShip : MonoBehaviour {
 	
 	private IEnumerator EnableTargetingBoxThread()
 	{
-		targetingboxappeartime = 2f;
+		targetingboxappeartime = 0.5f;
 		if(targetingBox==null&&!exploded)
 		{
 			targetingBox = (GameObject)Instantiate(LevelInfo.Environments.targetingBoxPrefab);
