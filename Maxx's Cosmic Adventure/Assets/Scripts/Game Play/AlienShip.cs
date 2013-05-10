@@ -23,6 +23,7 @@ public class AlienShip : MonoBehaviour {
 	public float fireRelax = 0.5f;
 	
 	// Move
+	public bool canTilt = false;
 	public bool targetedMove = false;
 	public bool appearAtPlayerFront = false;
 	
@@ -54,7 +55,7 @@ public class AlienShip : MonoBehaviour {
 	}
 	
 	void Start () 
-	{
+	{		
 		if( initBeginTransform )
 		{
 			var player = LevelInfo.Environments.playerShip.transform;
@@ -98,6 +99,7 @@ public class AlienShip : MonoBehaviour {
 			yield return null;
 		}
 		ready = true;
+		if(canTilt)	StartCoroutine(RotateThread());
 	}
 	
 	void Update ()
@@ -130,8 +132,8 @@ public class AlienShip : MonoBehaviour {
 				transform.RotateAround(LevelInfo.Environments.playerShip.transform.position, Vector3.up,Time.deltaTime*speed);
 			if( y > playery+ignore)
 				transform.RotateAround(LevelInfo.Environments.playerShip.transform.position, Vector3.up,-Time.deltaTime*speed);
-			
 		}
+		
 		transform.Translate(Speed*Time.deltaTime*Vector3.forward);
 		
 		// Fire
@@ -149,6 +151,38 @@ public class AlienShip : MonoBehaviour {
 				
 				fireDeltaTime = fireRelax;
 			}
+		}
+	}
+	
+	private bool rotating = false;
+	private IEnumerator RotateThread()
+	{
+		if(!rotating)
+		{
+			rotating = true;
+			yield return new WaitForSeconds(Random.Range(0f,1.5f));
+			float time = Random.Range(0.4f,1.5f);
+			float angle = Random.Range(-30f,30f);
+			
+			float beginy = transform.rotation.eulerAngles.y;
+			var rot = transform.rotation.eulerAngles;
+			for(float t=0f;t<time;t+=Time.deltaTime)
+			{
+				float gl = Time.deltaTime*angle/time;
+				rot.y -= gl; rot.z += gl;
+				transform.rotation = Quaternion.Euler(rot);
+				yield return new WaitForEndOfFrame();
+			}
+			yield return new WaitForSeconds(Random.Range(0f,10f));
+			for(float t=0f;t<time;t+=Time.deltaTime)
+			{
+				float gl = Time.deltaTime*angle/time;
+				rot.y += gl; rot.z -= gl;
+				transform.rotation = Quaternion.Euler(rot);
+				yield return new WaitForEndOfFrame();
+			}
+			transform.rotation = Quaternion.Euler(0,beginy,0f);
+			rotating = false;
 		}
 	}
 	
