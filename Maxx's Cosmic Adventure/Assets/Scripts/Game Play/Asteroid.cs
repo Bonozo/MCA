@@ -29,7 +29,6 @@ public class Asteroid : MonoBehaviour {
 		LevelInfo.Environments.tutorials.SpawnedAsteroid();
 	}
 	
-	
 	void Update()
 	{
 		if(LevelInfo.State.state != GameState.Play) return;
