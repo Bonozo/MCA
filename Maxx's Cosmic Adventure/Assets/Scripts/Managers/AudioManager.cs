@@ -63,9 +63,6 @@ public class AudioManager : MonoBehaviour {
 		VolumeSetup();
 		if( LevelInfo.Environments.playerShip.DistanceTravelled >= pitchAudioUnlikeliumDistance )
 			audioSourceUnlikeliums.pitch = 1f;
-		
-		if(Input.GetKeyDown(KeyCode.L))
-			MaxxExplodedJeebie();
 	}
 	
 	#endregion
@@ -118,6 +115,22 @@ public class AudioManager : MonoBehaviour {
 	
 	#region Maxx!!!!!
 	
+	/* player voice-overs with events
+	 * 1. All time phrases 
+	 * 2. Maxx's ship crashing
+	 * 
+	 * 3. Evading jeebies
+ 	 * 4. Near miss with obstacle 
+ 	 * 
+	 * 5. Lots of Jeebies
+	 * 6. Lots of Asteroids
+	 * 
+	 * 7. Maxx Chases Jeebies
+	 * 8. Maxx Destroys Asteroids
+	 * 
+	 * 9. Powerups use
+	 * */
+	
 	public AudioClip[] explodedJeebie;	
 	public void MaxxExplodedJeebie()
 	{
@@ -151,7 +164,7 @@ public class AudioManager : MonoBehaviour {
 	public AudioClip[] maxxGetsHit;
 	public void MaxxLostLife()
 	{
-		MaxxPlay(maxxGetsHit[Random.Range(0,maxxGetsHit.Length)],0.3f,0.4f);
+		MaxxPlay(maxxGetsHit[Random.Range(0,maxxGetsHit.Length)],0f,0.8f);
 	}	
 	
 	public void MaxxPlay(AudioClip clip,float delay,float probablity)

@@ -65,4 +65,12 @@ public class Asteroid : MonoBehaviour {
 		Instantiate(LevelInfo.Environments.particleExplosionAsteroid,transform.position,Quaternion.identity);
 		Destroy(this.gameObject);
 	}
+	
+	public bool IsFrontOfCamera{ 
+		get{
+		var sc = LevelInfo.Environments.mainCamera.WorldToScreenPoint(transform.position);
+		sc.x /= Screen.width; sc.y /= Screen.height;
+		return sc.z > 20f && Mathf.Clamp(sc.x,0.1f,0.9f)==sc.x && Mathf.Clamp(sc.y,0.1f,0.9f) == sc.y;
+		}
+	}
 }

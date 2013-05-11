@@ -124,7 +124,7 @@ public class AlienShip : MonoBehaviour {
 		if(LevelInfo.Environments.playerShip.FreezeWorld) return;
 		
 		// Move
-		if( appearAtPlayerFront && IsFrontOfCamera() && PlayerDistance()>50f)
+		if( appearAtPlayerFront && IsFrontOfCamera && PlayerDistance()>50f)
 		{
 			float playery = LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y+360f;
 			float y = transform.rotation.eulerAngles.y+360f+180f;
@@ -147,7 +147,7 @@ public class AlienShip : MonoBehaviour {
 		if( canFire )
 		{
 			if( fireDeltaTime > 0f ) fireDeltaTime -= Time.deltaTime;
-			if( Random.Range(1,fireFrequency) == 1 && fireDeltaTime<=0f && IsFrontOfCamera() && PlayerDistance()>50f )
+			if( Random.Range(1,fireFrequency) == 1 && fireDeltaTime<=0f && IsFrontOfCamera && PlayerDistance()>50f )
 			{
 				var c = ((GameObject)Instantiate(alienBullet,projectilePosition.position,transform.rotation)).GetComponent<AlienBullet>();
 				if(targetedFire)
@@ -251,11 +251,12 @@ public class AlienShip : MonoBehaviour {
 		return Vector3.Distance(transform.position,p);
 	}
 	
-	private bool IsFrontOfCamera()
-	{
+	public bool IsFrontOfCamera{
+		get{
 		var sc = LevelInfo.Environments.mainCamera.WorldToScreenPoint(transform.position);
 		sc.x /= Screen.width; sc.y /= Screen.height;
 		return sc.z > 20f && Mathf.Clamp(sc.x,0.1f,0.9f)==sc.x && Mathf.Clamp(sc.y,0.1f,0.9f) == sc.y;
+		}
 	}
 	
 	#endregion
