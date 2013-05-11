@@ -11,6 +11,9 @@ public class MButton : MonoBehaviour {
 			return _currentPowerup;
 		}
 		set{
+			
+			if(_currentPowerup == Gems.FireBall)
+				LevelInfo.Environments.playerFlamethrowerTransform.gameObject.SetActive(false);
 			_currentPowerup = value;
 			
 			switch(_currentPowerup)
@@ -23,6 +26,7 @@ public class MButton : MonoBehaviour {
 				break;
 			case Gems.FireBall:
 				fireballCount = 3*(Store.Instance.powerupLighenUp.level+1);
+				LevelInfo.Environments.playerFlamethrowerTransform.gameObject.SetActive(true);
 				powerupName.text = "Lighten Up " + fireballCount;
 				break;
 			default:
@@ -34,7 +38,7 @@ public class MButton : MonoBehaviour {
 	
 	void Awake()
 	{
-		currentPowerup = Gems.In3s;
+		currentPowerup = Gems.None;
 	}
 	
 	void Update()
@@ -67,7 +71,7 @@ public class MButton : MonoBehaviour {
 			StartCoroutine(PowPowerup());
 			break;
 		case Gems.FireBall:
-			Instantiate(LevelInfo.Environments.prefabPlayerFireBall,LevelInfo.Environments.posPlayerMissle[0].position,LevelInfo.Environments.posPlayerMissle[0].rotation);			
+			Instantiate(LevelInfo.Environments.prefabPlayerFireBall,LevelInfo.Environments.playerFireballTransform.position,LevelInfo.Environments.playerFireballTransform.rotation);			
 			fireballCount--;
 			if(fireballCount==0)
 			{

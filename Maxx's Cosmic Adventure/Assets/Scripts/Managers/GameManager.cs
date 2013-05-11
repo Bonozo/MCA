@@ -85,8 +85,10 @@ public class GameManager : MonoBehaviour {
 	public Transform playerLeftFireTransform;
 	public Transform playerRightFireTransform;
 	public Transform playerAutoFireTransform;
+	public Transform playerFlamethrowerTransform;
 	
 	public Transform[] posPlayerMissle;
+	public Transform playerFireballTransform;
 	public ParticleSystem ShockWave;
 	
 	#endregion
