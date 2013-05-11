@@ -44,7 +44,12 @@ public class StateManager : MonoBehaviour {
 			_state = value;
 			
 			LevelInfo.Environments.HUB.SetActive(HUBActiveHelper(_state));
-	
+			
+			if(last == GameState.Store && LevelInfo.Environments.score.Lives==0)
+			{
+				_state = GameState.Lose;
+				return;
+			}
 			if(last == GameState.Store) LevelInfo.Audio.ResumeMusic();
 			
 			switch(_state)
@@ -88,7 +93,7 @@ public class StateManager : MonoBehaviour {
 		var results = LevelInfo.Environments.popupLoseLabelResults;
 		
 		float startdelay = 1f;
-		float deltadelay = 0.5f;
+		float deltadelay = 0.3f;
 		
 		names.text = results.text = "";
 		
@@ -96,28 +101,23 @@ public class StateManager : MonoBehaviour {
 		
 		yield return StartCoroutine(WaitSeconds(startdelay));
 		
-		names.text += "DISTANCE:";
+		names.text += "Distance Traveled:";
 		results.text += Mathf.FloorToInt(LevelInfo.Environments.playerShip.DistanceTravelled);
 		yield return StartCoroutine(WaitSeconds(deltadelay));
 		
-		names.text +=   "\n"+"JEEBIES:";
-		results.text += "\n"+LevelInfo.Environments.score.jeebiesDestoyed;
+		names.text +=   "\n"+"Unlikelium Collected:";
+		results.text += "\n"+LevelInfo.Environments.score.unlikeliumsCollected;
 		yield return StartCoroutine(WaitSeconds(deltadelay));
 		
-		names.text +=   "\n"+"ASTEROIDS:";
+		names.text +=   "\n"+"Asteroids Destroyed:";
 		results.text += "\n"+LevelInfo.Environments.score.asteroidsDestoyed;
 		yield return StartCoroutine(WaitSeconds(deltadelay));
 		
-		names.text +=   "\n"+"POWERUPS:";
-		results.text += "\n"+LevelInfo.Environments.score.powerupsCollected;
-		yield return StartCoroutine(WaitSeconds(deltadelay));
-		
-		names.text +=   "\n"+"UNLIKELIUMS:";
-		results.text += "\n"+LevelInfo.Environments.score.unlikeliumsCollected;
+		names.text +=   "\n"+"Jeebies Defeated:";
+		results.text += "\n"+LevelInfo.Environments.score.jeebiesDestoyed;
 		yield return StartCoroutine(WaitSeconds(startdelay));
 		
-		
-		names.text +=   "\n\n"+"TOTAL SCORE:";
+		names.text +=   "\n\n"+"Score:";
 		results.text += "\n\n"+LevelInfo.Environments.score.totalScore;
 	}
 	
@@ -148,10 +148,5 @@ public class StateManager : MonoBehaviour {
 	void Start()
 	{
 		state = GameState.Play;
-	}
-	
-	void Update()
-	{
-		
 	}
 }
