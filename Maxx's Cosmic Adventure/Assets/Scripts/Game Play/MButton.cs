@@ -22,12 +22,13 @@ public class MButton : MonoBehaviour {
 				powerupName.text = "Triple Trouble";
 				break;
 			case Gems.Pow:
-				powerupName.text = "Pow";
+				powerupCount = Store.Instance.powerupPOW.level+1;
+				powerupName.text = "POW " + powerupCount;
 				break;
 			case Gems.FireBall:
-				fireballCount = 3*(Store.Instance.powerupLighenUp.level+1);
+				powerupCount = 3*(Store.Instance.powerupLighenUp.level+1);
 				LevelInfo.Environments.playerFlamethrowerTransform.gameObject.SetActive(true);
-				powerupName.text = "Lighten Up " + fireballCount;
+				powerupName.text = "Lighten Up " + powerupCount;
 				break;
 			default:
 				powerupName.text = "";
@@ -69,17 +70,25 @@ public class MButton : MonoBehaviour {
 			break;
 		case Gems.Pow:
 			StartCoroutine(PowPowerup());
-			break;
-		case Gems.FireBall:
-			Instantiate(LevelInfo.Environments.prefabPlayerFireBall,LevelInfo.Environments.playerFireballTransform.position,LevelInfo.Environments.playerFireballTransform.rotation);			
-			fireballCount--;
-			if(fireballCount==0)
+			powerupCount--;
+			if(powerupCount==0)
 			{
 				powerupName.text = "";
 				currentPowerup = Gems.None;
 			}
 			else
-				powerupName.text = "Lighten Up " + fireballCount;
+				powerupName.text = "POW " + powerupCount;
+			break;
+		case Gems.FireBall:
+			Instantiate(LevelInfo.Environments.prefabPlayerFireBall,LevelInfo.Environments.playerFireballTransform.position,LevelInfo.Environments.playerFireballTransform.rotation);			
+			powerupCount--;
+			if(powerupCount==0)
+			{
+				powerupName.text = "";
+				currentPowerup = Gems.None;
+			}
+			else
+				powerupName.text = "Lighten Up " + powerupCount;
 			break;
 		}
 	}
@@ -218,11 +227,9 @@ public class MButton : MonoBehaviour {
 		
 		foreach(GameObject g in ship) g.SendMessage("Explode");
 		foreach(GameObject g in asteroid) g.SendMessage("Explode");
-		
-		currentPowerup = Gems.None;
 	}
 	
-	int fireballCount = 0;
+	int powerupCount = 0;
 	/*IEnumerator FireBallPowerup()
 	{
 		timedpowerup = true;
