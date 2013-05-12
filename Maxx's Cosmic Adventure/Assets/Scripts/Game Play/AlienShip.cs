@@ -111,8 +111,6 @@ public class AlienShip : MonoBehaviour {
 	
 	void Update ()
 	{
-		Debug.Log(IsRightOfCamera);
-		
 		if(LevelInfo.State.state != GameState.Play) return;
 		if( !ready ) return;
 

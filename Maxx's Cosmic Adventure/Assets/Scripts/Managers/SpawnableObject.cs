@@ -11,7 +11,7 @@ public class SpawnableObject : MonoBehaviour {
 	public float autoDestroyDistance;
 	
 	// Use this for initialization
-	void Start () 
+	void Awake () 
 	{	
 		if( autoInitTransform )
 		{
