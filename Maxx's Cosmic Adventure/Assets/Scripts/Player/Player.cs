@@ -701,7 +701,7 @@ public class Player : MonoBehaviour {
 	}
 	
 	// Buttons
-	bool BoostButtonPressed{ get{ return LevelInfo.Environments.boostLeftButton.isDown&&LevelInfo.Environments.boostRightButton.isDown||Input.GetKey(KeyCode.B); }}
+	bool BoostButtonPressed{ get{ return LevelInfo.Environments.bButton.isDown||Input.GetKey(KeyCode.B); }}
 	bool FireButtonPressed{ get{ return LevelInfo.Environments.fireLeftButton.isDown||LevelInfo.Environments.fireRightButton.isDown||Input.GetKey(KeyCode.F); }}
 	
 	public bool IsBoost{ get { return BoostButtonPressed; }}

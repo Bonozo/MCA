@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
 	public Pause pause;
 
 	public MButton mButton;
-	public HUBButton boostLeftButton,boostRightButton;
+	public HUBButton bButton;
 	public HUBButton fireLeftButton,fireRightButton;
 	
 	public InfoMessage infoMessage;
