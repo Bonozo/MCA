@@ -50,17 +50,17 @@ public class StateManager : MonoBehaviour {
 				_state = GameState.Lose;
 				return;
 			}
-			if(last == GameState.Store) LevelInfo.Audio.ResumeMusic();
 			
 			switch(_state)
 			{
 			case GameState.Play:
+				LevelInfo.Audio.ResumeMusic();
 				break;
 			case GameState.Paused:
 				LevelInfo.Audio.StopEffects();
+				LevelInfo.Audio.PauseMusic();
 				break;
 			case GameState.Store:
-				LevelInfo.Audio.PauseMusic();
 				LevelInfo.Environments.HUB.SetActive(false);
 				Store.Instance.ShowStore = true;
 				break;
