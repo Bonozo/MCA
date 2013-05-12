@@ -119,7 +119,7 @@ public class Store : MonoBehaviour {
 	{
 		_currentPowerup = powerup;
 		
-		popupName.text = powerup.powerupName.ToUpper()+"!";
+		popupName.text = powerup.labelName.text + "!";
 		if(_currentPowerup.stored)
 		{
 			popupCost.text = "YOU HAVE " + powerup.level;
