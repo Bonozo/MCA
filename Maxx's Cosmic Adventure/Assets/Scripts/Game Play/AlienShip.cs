@@ -111,6 +111,8 @@ public class AlienShip : MonoBehaviour {
 	
 	void Update ()
 	{
+		Debug.Log(IsRightOfCamera);
+		
 		if(LevelInfo.State.state != GameState.Play) return;
 		if( !ready ) return;
 
@@ -171,8 +173,11 @@ public class AlienShip : MonoBehaviour {
 			yield return new WaitForSeconds(delay);
 			float time = Random.Range(0.4f,1.5f);
 			
-			float angle = Random.Range(-tiltMaxAngle,tiltMaxAngle);
-			if(synsTiltAngle!=0) angle = synsTiltAngle;
+			float angle = 0;
+			if(synsTiltAngle!=0) 
+				angle = synsTiltAngle;
+			else
+				angle = Random.Range(0,tiltMaxAngle)*(IsRightOfCamera?-1:1);
 			
 			float beginy = transform.rotation.eulerAngles.y;
 			var rot = transform.rotation.eulerAngles;
@@ -256,6 +261,22 @@ public class AlienShip : MonoBehaviour {
 		var sc = LevelInfo.Environments.mainCamera.WorldToScreenPoint(transform.position);
 		sc.x /= Screen.width; sc.y /= Screen.height;
 		return sc.z > 20f && Mathf.Clamp(sc.x,0.1f,0.9f)==sc.x && Mathf.Clamp(sc.y,0.1f,0.9f) == sc.y;
+		}
+	}
+	
+	public bool IsRightOfCamera{
+		get{
+		var sc = LevelInfo.Environments.mainCamera.WorldToScreenPoint(transform.position);
+		sc.x /= Screen.width;
+		return sc.x>0.5f;
+		}
+	}
+	
+	public bool IsFrontLeftOfCamera{
+		get{
+		var sc = LevelInfo.Environments.mainCamera.WorldToScreenPoint(transform.position);
+		sc.x /= Screen.width;
+		return sc.x<0.5f;
 		}
 	}
 	
