@@ -120,6 +120,8 @@ public class Store : MonoBehaviour {
 		_currentPowerup = powerup;
 		
 		popupName.text = powerup.labelName.text + "!";
+		popupIcon.spriteName = powerup.transform.parent.FindChild("Icon").GetComponent<UISprite>().spriteName;
+
 		if(_currentPowerup.stored)
 		{
 			popupCost.text = "YOU HAVE " + powerup.level;
