@@ -27,10 +27,11 @@ public class Generator : MonoBehaviour {
 		int maxindex = Mathf.Min((int)(AlienShipPrefabs.Length*currentdistance/maxdistance),AlienShipPrefabs.Length);
 		int index = Random.Range(0,maxindex);
 		
-		int count = Mathf.Max(1,(int)(Random.Range(0,currentdistance)/1000f));
-		if(index==2||index==3) count = Mathf.Max(1,3);
+		int count = Mathf.Max(1,(int)(Random.Range(0,currentdistance+1000f)/1000f));
+		float delta = Random.Range(0.8f,1.2f);
 		
-		float delta = 1f;
+		if(index==2||index==3) count = Mathf.Min(count,3);
+		else if(index==0&&count==2&&Random.Range(0,2)==0) delta=0f;
 
 		StartCoroutine(StartAlienAttack(index,count,delta));
 	}
