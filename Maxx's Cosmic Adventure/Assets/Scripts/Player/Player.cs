@@ -361,7 +361,7 @@ public class Player : MonoBehaviour {
 		if(Intergalactic) return;
 		
 		// Standart shot
-		if(FireButtonPressed&&!BoostButtonPressed)
+		if(FireButtonPressed)
 			TryStandardShot(true);
 		else
 			LevelInfo.Environments.fireOverheat.Down();
