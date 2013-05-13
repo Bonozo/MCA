@@ -25,15 +25,15 @@ public class PlayerShipAnimationController : MonoBehaviour {
 	
 	void OnEnable()
 	{
-		FingerGestures.OnSwipe += HandleFingerGesturesOnSwipe;
+		FingerGestures.OnFingerSwipe += HandleFingerGesturesOnFingerSwipe;
 	}
 	
 	void OnDisable()
 	{
-		FingerGestures.OnSwipe -= HandleFingerGesturesOnSwipe;
+		FingerGestures.OnFingerSwipe -= HandleFingerGesturesOnFingerSwipe;
 	}
 	
-	void HandleFingerGesturesOnSwipe (Vector2 startPos, FingerGestures.SwipeDirection direction, float velocity)
+	void HandleFingerGesturesOnFingerSwipe (int fingerIndex, Vector2 startPos, FingerGestures.SwipeDirection direction, float velocity)
 	{
 		if( velocity > 250f && LevelInfo.Environments.playerShip.Ready && !IsPlayingAnyRollAnimation)
 		{
@@ -46,7 +46,7 @@ public class PlayerShipAnimationController : MonoBehaviour {
 			case FingerGestures.SwipeDirection.Up: animation.Play("barrelrollup");
 				break;
 			}
-		}
+		}		
 	}
 	
 	public bool IsPlayingAnyRollAnimation{ get{
