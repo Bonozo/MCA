@@ -373,7 +373,10 @@ public class Player : MonoBehaviour {
 	
 	void CameraSetUp()
 	{
-		transform.Translate(-Vector3.forward*lastboost);
+		float boost = lastboost;
+		if(boost<1f) boost = 1f-0.25f*(1f-boost);
+		
+		transform.Translate(-Vector3.forward*boost);
 		
 		LevelInfo.Environments.mainCamera.transform.position = new Vector3(transform.position.x,0f,transform.position.z);
 		LevelInfo.Environments.mainCamera.transform.rotation = transform.rotation;
@@ -387,7 +390,7 @@ public class Player : MonoBehaviour {
 		LevelInfo.Environments.mainCamera.transform.Translate(-Vector3.forward*CameraZ);
 		LevelInfo.Environments.mainCamera.transform.Translate(0,CameraHeight,0);
 		
-		transform.Translate(Vector3.forward*lastboost);
+		transform.Translate(Vector3.forward*boost);
 	}
 	
 	#endregion
@@ -400,6 +403,7 @@ public class Player : MonoBehaviour {
 	{	
 		bool boostend = true;
 		bool reduce=false;
+		bool brake = LevelInfo.Environments.maximumSwipeDown.Value>=0.1f;
 		float currentspeed = lastboost;
 		
 		if( Intergalactic )
@@ -421,8 +425,10 @@ public class Player : MonoBehaviour {
 		}
 		else
 		{
+			if(currentspeed<1f&&!brake) currentspeed = Mathf.Min(1f,currentspeed+30*Time.deltaTime);
+			if(currentspeed>1f) currentspeed = Mathf.Max(1f,currentspeed-30f*Time.deltaTime);
+			
 			LevelInfo.Environments.fuelOverheat.Down();
-			currentspeed -= 30f*Time.deltaTime;
 			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineNormal;
 			reduce=true;
 		}
@@ -432,7 +438,13 @@ public class Player : MonoBehaviour {
 		
 		if(reduce)
 		{ 
-			currentspeed = Mathf.Clamp(currentspeed,1f,float.PositiveInfinity);
+			if(currentspeed<=1f&&brake)
+			{	
+				float vl = 12f*Mathf.Min(LevelInfo.Environments.maximumSwipeDown.Value-0.1f,0.3f);
+				
+				currentspeed -= 5*Time.deltaTime;	
+				currentspeed = Mathf.Max(1f - vl,currentspeed);
+			}
 		}
 		else
 		{
@@ -441,7 +453,7 @@ public class Player : MonoBehaviour {
 		}
 		
 		foreach(ParticleSystem e in ExhaustArray)
-			e.startSpeed = lastboost;
+			e.startSpeed = Mathf.Max(1f,lastboost);
 		float delta = currentspeed-lastboost;
 		lastboost = currentspeed;
 		

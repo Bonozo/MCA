@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour {
 	public HUBButton fireLeftButton,fireRightButton;
 	
 	public InfoMessage infoMessage;
+	public MaximumSwipeDown maximumSwipeDown;
 	
 	public GameObject popupLose;
 	public UILabel popupLoseLabelNames;
