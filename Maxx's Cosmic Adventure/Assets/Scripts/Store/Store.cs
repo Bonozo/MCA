@@ -72,6 +72,8 @@ public class Store : MonoBehaviour {
 			{
 				if(IsPlayGame)
 					LevelInfo.Settings.UpdatePurchasedItems();
+				DisableAllPopups();
+				SetQuitPopupButtonEnabled(true);
 				audio.Stop();
 			}
 		}
@@ -144,6 +146,14 @@ public class Store : MonoBehaviour {
 		popupUpgradePowerups.SetActive(false);
 		popupBuyUnlikeliums.SetActive(false);
 		popupQuit.SetActive(false);
+	}
+	
+	
+	public UIButton[] quitPopupButtons;
+	public void SetQuitPopupButtonEnabled(bool enable)
+	{
+		foreach(var button in quitPopupButtons)
+			button.isEnabled = enable;
 	}
 	
 	#endregion

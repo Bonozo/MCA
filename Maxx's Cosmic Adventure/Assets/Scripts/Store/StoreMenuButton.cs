@@ -15,12 +15,18 @@ public class StoreMenuButton : MonoBehaviour {
 		else
 		{
 			Time.timeScale = 1f;
-			Store.Instance.ShowStore = false;
 			Store.Instance._currentPowerup = null;
 			if(Store.Instance.IsMainMenu)
+			{
 				MainMenu.Instance.State = MainMenu.MenuState.Title;
+				Store.Instance.ShowStore = false;
+			}
 			if(Store.Instance.IsPlayGame)
+			{
+				Store.Instance.audio.Stop();
+				Store.Instance.SetQuitPopupButtonEnabled(false);
 				Application.LoadLevel("mainmenu");
+			}
 		}
 	}
 	

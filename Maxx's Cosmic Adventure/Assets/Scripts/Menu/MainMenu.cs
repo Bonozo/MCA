@@ -52,6 +52,7 @@ public class MainMenu : MonoBehaviour {
 	void Awake ()
 	{
 		Time.timeScale = 1.0f;
+		Store.Instance.ShowStore = false;
 		State = MenuState.Title;
 	}
 	
