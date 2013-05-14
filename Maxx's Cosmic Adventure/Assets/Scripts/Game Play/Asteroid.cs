@@ -62,7 +62,7 @@ public class Asteroid : MonoBehaviour {
 			LevelInfo.Audio.MaxxExplodedAsteroid();
 		}
 		
-		Instantiate(LevelInfo.Environments.particleExplosionAsteroid,transform.position,Quaternion.identity);
+		Instantiate(LevelInfo.Environments.particleExplosionAsteroid,transform.parent.position,Random.rotation);
 		Destroy(this.gameObject);
 	}
 	
