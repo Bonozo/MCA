@@ -459,7 +459,7 @@ public class Player : MonoBehaviour {
 		float delta = currentspeed-lastboost;
 		lastboost = currentspeed;
 		
-		transform.Translate(Vector3.forward*boostx*0.5f);
+		transform.Translate(Vector3.forward*boostx*30f*Time.deltaTime);
 		LevelInfo.Settings.PlayerSpeed += 5*delta;
 	}
 	
