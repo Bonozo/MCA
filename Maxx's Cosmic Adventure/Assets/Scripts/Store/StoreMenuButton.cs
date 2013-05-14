@@ -2,16 +2,26 @@ using UnityEngine;
 using System.Collections;
 
 public class StoreMenuButton : MonoBehaviour {
-
+	
+	public bool disableWhenPopupActive = true;
+	public GameObject vertifyPopup;
+	
 	void OnClick()
 	{
-		Time.timeScale = 1f;
-		Store.Instance.ShowStore = false;
-		Store.Instance._currentPowerup = null;
-		if(Store.Instance.IsMainMenu)
-			MainMenu.Instance.State = MainMenu.MenuState.Title;
-		if(Store.Instance.IsPlayGame)
-			Application.LoadLevel("mainmenu");
+		if(Store.Instance.IsPlayGame && vertifyPopup != null)
+		{
+			vertifyPopup.SetActive(true);
+		}
+		else
+		{
+			Time.timeScale = 1f;
+			Store.Instance.ShowStore = false;
+			Store.Instance._currentPowerup = null;
+			if(Store.Instance.IsMainMenu)
+				MainMenu.Instance.State = MainMenu.MenuState.Title;
+			if(Store.Instance.IsPlayGame)
+				Application.LoadLevel("mainmenu");
+		}
 	}
 	
 	
@@ -23,6 +33,7 @@ public class StoreMenuButton : MonoBehaviour {
 	}
 	void Update()
 	{	
-		button.isEnabled = !Store.Instance.PopupActive;
+		if(disableWhenPopupActive)
+			button.isEnabled = !Store.Instance.PopupActive;
 	}
 }

@@ -8,6 +8,9 @@ public class StorePopupSetActive : MonoBehaviour {
 	void OnPress(bool isDown)
 	{
 		if(isDown)
+		{
+			Store.Instance.DisableAllPopups();
 			popup.SetActive(toActiveState);
+		}
 	}
 }
