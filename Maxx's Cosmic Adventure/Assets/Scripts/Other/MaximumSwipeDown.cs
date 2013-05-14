@@ -8,13 +8,6 @@ public class MaximumSwipeDown : MonoBehaviour {
 	float[] begin = new float[3] {0f,0f,0f};
 	float[] end = new float[3] {0f,0f,0f};
 	
-	/*void OnGUI()
-	{
-		GUI.Label(new Rect(100,100,1000,1000),"b1: " + (begin[0]-end[0]));
-		GUI.Label(new Rect(100,150,1000,1000),"b1: " + (begin[1]-end[1]));
-		GUI.Label(new Rect(100,200,1000,1000),"b1: " + (begin[2]-end[2]));
-	}*/
-	
 	void Update ()
 	{
 		#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
@@ -58,7 +51,7 @@ public class MaximumSwipeDown : MonoBehaviour {
 		get{
 			#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
 			float max=0f;
-			for(int i=0;i<3;i++)
+			for(int i=0;i<maxfingers;i++)
 				if(begin[i]!=0)
 					max = Mathf.Max(max,begin[i]-end[i]);
 			return max;

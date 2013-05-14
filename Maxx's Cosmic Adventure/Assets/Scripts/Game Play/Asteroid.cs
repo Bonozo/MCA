@@ -43,6 +43,15 @@ public class Asteroid : MonoBehaviour {
 			Explode();
 	}
 	
+	void OnTriggerEnter(Collider col)
+	{
+		if( col.gameObject.CompareTag("Asteroid") )
+		{
+			Debug.LogError("MCA Internal Error: Two asteroids collision");
+			Explode();
+		}
+	}
+	
 	public void Explode()
 	{
 		Explode(true);
