@@ -3,14 +3,11 @@ using System.Collections;
 
 public class StoreGameButton : MonoBehaviour {
 
-	void OnPress(bool isDown)
+	void OnClick()
 	{
-		if(!isDown)
-		{
-			Store.Instance.ShowStore = false;
-			Store.Instance._currentPowerup = null;
-			LevelInfo.State.state = GameState.Paused;
-		}
+		Store.Instance.ShowStore = false;
+		Store.Instance._currentPowerup = null;
+		LevelInfo.State.state = GameState.Paused;
 	}
 	
 	private UIButton button;

@@ -7,6 +7,7 @@ public class StorePopupSetActive : MonoBehaviour {
 	public bool toActiveState=false;
 	void OnPress(bool isDown)
 	{
-		popup.SetActive(toActiveState);
+		if(isDown)
+			popup.SetActive(toActiveState);
 	}
 }

@@ -29,7 +29,7 @@ public class UpdateablePowerup : MonoBehaviour {
 	
 	void OnPress(bool isDown)
 	{
-		if(!isDown)
+		if(isDown)
 			Store.Instance.Activate(this);
 	}
 	
