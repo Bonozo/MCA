@@ -197,6 +197,7 @@ public class Player : MonoBehaviour {
 		LevelInfo.Environments.generator.GenerateAlienShip = false;
 		LevelInfo.Environments.generator.GenerateAsteroid = false;
 		Intergalactic = true;
+		intergalacticLocal = true;
 		_invincibility++;
 		
 		float poweruptime = 5f;
@@ -206,8 +207,9 @@ public class Player : MonoBehaviour {
 			yield return null;
 		}
 		
+		intergalacticLocal = false;
+		yield return new WaitForSeconds(1f);
 		Intergalactic = false;
-		yield return new WaitForSeconds(0.5f);
 		LevelInfo.Environments.generator.GenerateAlienShip = true;
 		LevelInfo.Environments.generator.GenerateAsteroid = true;
 		LevelInfo.Environments.generator.ResetSpawnDeltaTime();
@@ -406,7 +408,7 @@ public class Player : MonoBehaviour {
 		bool brake = LevelInfo.Environments.maximumSwipeDown.Value>=0.1f;
 		float currentspeed = lastboost;
 		
-		if( Intergalactic )
+		if( intergalacticLocal )
 		{
 			currentspeed += 60f*Time.deltaTime;
 			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;		
@@ -448,7 +450,7 @@ public class Player : MonoBehaviour {
 		}
 		else
 		{
-			if(Intergalactic) currentspeed = Mathf.Clamp(currentspeed,1f,50f);
+			if(intergalacticLocal) currentspeed = Mathf.Clamp(currentspeed,1f,50f);
 			else currentspeed = Mathf.Clamp(currentspeed,1f,LoveUnlikelium?8f:6f);
 		}
 		
@@ -480,6 +482,7 @@ public class Player : MonoBehaviour {
 	
 	[System.NonSerializedAttribute]
 	public bool Intergalactic = false;
+	private bool intergalacticLocal = false;
 	
 	[System.NonSerializedAttribute]
 	public bool LoveUnlikelium = false;
@@ -599,6 +602,7 @@ public class Player : MonoBehaviour {
 		{
 			ClearAllPowerups();
 			Intergalactic = true;
+			intergalacticLocal = true;
 			_invincibility++;
 			LevelInfo.Environments.generator.GenerateAlienShip = false;
 			LevelInfo.Environments.generator.GenerateAsteroid = false;
@@ -613,8 +617,9 @@ public class Player : MonoBehaviour {
 				yield return null;
 			}
 			LevelInfo.Environments.guiPowerUpTime.text = "";
+			intergalacticLocal = false;
+			yield return new WaitForSeconds(1f);
 			Intergalactic = false;
-			yield return new WaitForSeconds(0.5f);
 			LevelInfo.Environments.generator.GenerateAlienShip = true;
 			LevelInfo.Environments.generator.GenerateAsteroid = true;
 			LevelInfo.Environments.generator.ResetSpawnDeltaTime();
