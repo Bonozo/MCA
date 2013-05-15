@@ -55,6 +55,7 @@ public class PlayerCollisionDetection : MonoBehaviour {
 		case Gems.Unlikelium:
 			int val = gem.GetComponent<Gem>().unlikeliumValue;
 			LevelInfo.Environments.playerShip.unlikeliums += val;
+			LevelInfo.Environments.score.unlikeliumsCollected += val;
 			if(val==5) LevelInfo.Environments.infoMessage.ShowMessage("Bronze");
 			if(val==10) LevelInfo.Environments.infoMessage.ShowMessage("Silver");
 			if(val==25) LevelInfo.Environments.infoMessage.ShowMessage("Gold");
@@ -97,9 +98,7 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			break;
 		}
 		
-		if( gemtype == Gems.Unlikelium && gem.GetComponent<Gem>().unlikeliumValue == 1 )
-			LevelInfo.Environments.score.unlikeliumsCollected++;
-		else
+		if( gemtype != Gems.Unlikelium)
 			LevelInfo.Environments.score.powerupsCollected++;
 		
 		LevelInfo.Audio.PlayAudioGemPickUp(gemtype);
