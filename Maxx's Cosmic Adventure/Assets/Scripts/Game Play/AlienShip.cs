@@ -124,7 +124,11 @@ public class AlienShip : MonoBehaviour {
 			return;
 		}
 		
-		if(LevelInfo.Environments.playerShip.FreezeWorld) return;
+		if(LevelInfo.Environments.playerShip.FreezeWorld)
+		{
+			FreezeUpdate();
+			return;
+		}
 		
 		// Move
 		if( appearAtPlayerFront && IsFrontOfCamera && PlayerDistance()>50f)
@@ -162,6 +166,13 @@ public class AlienShip : MonoBehaviour {
 				fireDeltaTime = fireRelax;
 			}
 		}
+	}
+	
+	bool f=false;
+	private void FreezeUpdate()
+	{
+		f=!f;
+		transform.Rotate(0f,0f,0.001f*(f?-1:1));
 	}
 	
 	private bool rotating = false;

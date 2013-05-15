@@ -52,7 +52,10 @@ public class Asteroid : MonoBehaviour {
 	void OnTriggerEnter(Collider col)
 	{
 		if( col.gameObject.CompareTag("Asteroid") && numberInRunLocal>col.gameObject.GetComponent<Asteroid>().numberInRunLocal)
+		{
+			Debug.LogWarning("MCA Warning: Asteroids overlapping");
 			Destroy(this.gameObject);
+		}
 	}
 	
 	public void Explode()
