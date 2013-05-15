@@ -11,9 +11,15 @@ public class Asteroid : MonoBehaviour {
 	private Vector3 beginposition;
 	private bool f=false;
 	
+	private static int numberInRun = 0;
+	[System.NonSerializedAttribute]
+	public int numberInRunLocal = 0;
+	
 	void Awake()
 	{
 		GlobalCount++;
+		numberInRun++;
+		numberInRunLocal = numberInRun;
 		if(GlobalCount > 5 )
 			LevelInfo.Audio.MaxxAsteroidBelt();
 	}
@@ -45,11 +51,8 @@ public class Asteroid : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider col)
 	{
-		if( col.gameObject.CompareTag("Asteroid") )
-		{
-			Debug.LogError("MCA Internal Error: Two asteroids collision");
-			Explode();
-		}
+		if( col.gameObject.CompareTag("Asteroid") && numberInRunLocal>col.gameObject.GetComponent<Asteroid>().numberInRunLocal)
+			Destroy(this.gameObject);
 	}
 	
 	public void Explode()
