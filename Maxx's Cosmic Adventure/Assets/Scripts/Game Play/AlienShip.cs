@@ -41,6 +41,7 @@ public class AlienShip : MonoBehaviour {
 	public Transform projectilePosition;
 	
 	public AudioClip ExplosionSoundEffect;
+	public GameObject prefabExplosion;
 	
 	#endregion
 	
@@ -308,7 +309,9 @@ public class AlienShip : MonoBehaviour {
 	{
 		if(exploded) return;
 		exploded = true;
-		Instantiate(LevelInfo.Environments.particleExplosionJeeb,Centr.transform.position,Quaternion.identity);
+		
+		var explosion = prefabExplosion==null?LevelInfo.Environments.particleExplosionJeeb:prefabExplosion;
+		Instantiate(explosion,Centr.transform.position,Quaternion.identity);
 		
 		LevelInfo.Audio.audioSourceJeebles.PlayOneShot(ExplosionSoundEffect);
 		LevelInfo.Audio.audioSourceJeebles.time = 0.5f;

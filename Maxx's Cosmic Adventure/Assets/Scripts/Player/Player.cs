@@ -87,6 +87,8 @@ public class Player : MonoBehaviour {
 			StartSureShot();
 		if( Input.GetKeyUp(KeyCode.PageDown) )
 			StartFreezeWorld();
+		if( Input.GetKeyUp(KeyCode.Home) )
+			StartIntergalactic();
 		
 		if( Input.GetKeyUp(KeyCode.KeypadPlus) )
 			LevelInfo.Environments.score.AddLive();
