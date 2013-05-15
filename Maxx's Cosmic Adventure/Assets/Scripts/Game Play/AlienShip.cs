@@ -109,7 +109,7 @@ public class AlienShip : MonoBehaviour {
 			yield return null;
 		}
 		ready = true;
-		if(canTilt)	StartCoroutine(RotateThread());
+		if(canTilt && !(Mathf.Abs(ScreenX-0.5f)<=0.075f && Random.Range(0,2)==1) ) StartCoroutine(RotateThread());
 	}
 	
 	void Update ()
@@ -179,8 +179,6 @@ public class AlienShip : MonoBehaviour {
 				angle = synsTiltAngle;
 			else
 				angle = Random.Range(0,tiltMaxAngle)*(IsRightOfCamera?-1:1);
-			
-			Debug.Log("angle: " + angle + ", delay: " + delay);
 			
 			float beginy = transform.rotation.eulerAngles.y;
 			var rot = transform.rotation.eulerAngles;
@@ -280,6 +278,13 @@ public class AlienShip : MonoBehaviour {
 		var sc = LevelInfo.Environments.mainCamera.WorldToScreenPoint(transform.position);
 		sc.x /= Screen.width;
 		return sc.x<0.5f;
+		}
+	}
+	public float ScreenX{
+		get{
+		var sc = LevelInfo.Environments.mainCamera.WorldToScreenPoint(transform.position);
+		sc.x /= Screen.width;
+		return sc.x;
 		}
 	}
 	
