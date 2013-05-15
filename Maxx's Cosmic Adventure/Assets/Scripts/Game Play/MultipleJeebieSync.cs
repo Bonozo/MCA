@@ -10,10 +10,12 @@ public class MultipleJeebieSync : MonoBehaviour {
 	{
 		var tilt = Random.Range(0,maxTiltAngle)*(IsRightOfCamera?-1:1);
 		var delay = Random.Range(0f,1f);
+		var time = Random.Range(0.4f,1.5f);
 		foreach(var s in ship)
 		{
 			s.synsTiltAngle = tilt;
 			s.synsTiltDelay = delay;
+			s.synsTiltTime = time;
 		}
 	}
 	
