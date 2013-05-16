@@ -68,7 +68,7 @@ public class Asteroid : MonoBehaviour {
 		if(exploded) return; exploded=true;
 		LevelInfo.Audio.PlayAudioAsteroidExplode();
 		
-		var gempos = transform.parent.position; gempos.y=0;
+		var gempos = transform.parent.position;
 		LevelInfo.Environments.generator.GenerateNewGem(gempos);
 			
 		if(byMaxx)
