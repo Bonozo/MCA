@@ -274,18 +274,30 @@ public class Player : MonoBehaviour {
 	{	
 		// Up/Down Tilting
 		float ytilt = calibratedelta(); if(Options.Instance.yInvert) ytilt =- ytilt;
-		float current = Mathf.Clamp(ytilt,-30f,30f)*LevelInfo.Settings.MaxSpaceY/-30f;
+		/*float current = Mathf.Clamp(ytilt,-30f,30f)*LevelInfo.Settings.MaxSpaceY/-30f;
 		var y = transform.position.y;
 		
 		if( Mathf.Abs(y-current) > LevelInfo.Settings.PlayerUpDownIgnore )
 		{
 			y = Mathf.SmoothStep(y,current,LevelInfo.Settings.PlayerUpDownSpeed);
 			transform.position = new Vector3(transform.position.x,y,transform.position.z);
+		}*/
+		
+		// Rotate Y
+		float maxrotateangle = 30f;
+		float current = Mathf.Clamp(ytilt,-30f,30f);
+		var rot = transform.rotation.eulerAngles;
+		if( rot.x > 180.0f ) rot.x -= 360.0f;
+		if( Mathf.Abs(rot.x-current) > LevelInfo.Settings.PlayerRotateIgnore)
+		{
+			rot.x = Mathf.SmoothStep(rot.x,current,LevelInfo.Settings.PlayerRotateSpeed);
+			rot.x = Mathf.Clamp(rot.x,-maxrotateangle,maxrotateangle);
+			transform.rotation = Quaternion.Euler(rot);
 		}
 		
 		// Rotation by tilt
 		current = -GameEnvironment.InputAxis.x*90f;
-		var rot = transform.rotation.eulerAngles;
+		rot = transform.rotation.eulerAngles;
 		if( rot.z > 180.0f ) rot.z -= 360.0f;
 		
 		if( Mathf.Abs(rot.z-current) > LevelInfo.Settings.PlayerRotateIgnore)
@@ -313,8 +325,8 @@ public class Player : MonoBehaviour {
 		if( fireDeltaTime <= 0 && (!effectOverheat || !LevelInfo.Environments.fireOverheat.Overheated) )
 		{
 			LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(AudioFire);
-			Instantiate(LevelInfo.Environments.prefabPlayerProjectile,LevelInfo.Environments.playerLeftFireTransform.position,Quaternion.Euler(0f,transform.rotation.eulerAngles.y,0f) );
-			Instantiate(LevelInfo.Environments.prefabPlayerProjectile,LevelInfo.Environments.playerRightFireTransform.position,Quaternion.Euler(0f,transform.rotation.eulerAngles.y,0f) );
+			Instantiate(LevelInfo.Environments.prefabPlayerProjectile,LevelInfo.Environments.playerLeftFireTransform.position,transform.rotation );
+			Instantiate(LevelInfo.Environments.prefabPlayerProjectile,LevelInfo.Environments.playerRightFireTransform.position,transform.rotation );
 			fireDeltaTime = FireDeltaTime;
 		}			
 	}
@@ -382,13 +394,16 @@ public class Player : MonoBehaviour {
 		
 		transform.Translate(-Vector3.forward*boost);
 		
-		LevelInfo.Environments.mainCamera.transform.position = new Vector3(transform.position.x,0f,transform.position.z);
+		LevelInfo.Environments.mainCamera.transform.position = new Vector3(transform.position.x,transform.position.y,transform.position.z);
 		LevelInfo.Environments.mainCamera.transform.rotation = transform.rotation;
 		
 		
 		Vector3 crot = LevelInfo.Environments.mainCamera.transform.rotation.eulerAngles;
-		crot.z = 0.0f;
-		crot.x = 20.0f;
+		if(crot.z>180f) crot.z -= 360f;
+		crot.z = 0.75f*crot.z;
+		if(crot.x>180f) crot.x -= 360f;
+		crot.x = 0.75f*crot.x;
+		crot.x += 20f;
 		LevelInfo.Environments.mainCamera.transform.rotation = Quaternion.Euler(crot);
 		
 		LevelInfo.Environments.mainCamera.transform.Translate(-Vector3.forward*CameraZ);
