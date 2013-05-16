@@ -24,6 +24,8 @@ public class Player : MonoBehaviour {
 	public GameObject leftturret,rightturret;
 	
 	public static int localAttempt = 0;
+	
+	[System.NonSerializedAttribute]
 	public int allAttempt = 0;
 	
 	#endregion
@@ -284,8 +286,8 @@ public class Player : MonoBehaviour {
 		}*/
 		
 		// Rotate Y
-		float maxrotateangle = 30f;
-		float current = Mathf.Clamp(ytilt,-30f,30f);
+		float maxrotateangle = 15f;
+		float current = Mathf.Clamp(ytilt,-30f,30f)*0.5f;
 		var rot = transform.rotation.eulerAngles;
 		if( rot.x > 180.0f ) rot.x -= 360.0f;
 		if( Mathf.Abs(rot.x-current) > LevelInfo.Settings.PlayerRotateIgnore)
