@@ -200,7 +200,7 @@ public class Player : MonoBehaviour {
 		LevelInfo.Environments.generator.GenerateAsteroid = false;
 		Intergalactic = true;
 		intergalacticLocal = true;
-		_invincibility++;
+		//_invincibility++;
 		
 		float poweruptime = 5f;
 		while(poweruptime>0f)
@@ -215,7 +215,7 @@ public class Player : MonoBehaviour {
 		LevelInfo.Environments.generator.GenerateAlienShip = true;
 		LevelInfo.Environments.generator.GenerateAsteroid = true;
 		LevelInfo.Environments.generator.ResetSpawnDeltaTime();
-		_invincibility--;
+		//_invincibility--;
 	}
 	
 	IEnumerator EnableHeadStartButton()
@@ -605,7 +605,7 @@ public class Player : MonoBehaviour {
 			ClearAllPowerups();
 			Intergalactic = true;
 			intergalacticLocal = true;
-			_invincibility++;
+			//_invincibility++;
 			LevelInfo.Environments.generator.GenerateAlienShip = false;
 			LevelInfo.Environments.generator.GenerateAsteroid = false;
 			
@@ -625,7 +625,7 @@ public class Player : MonoBehaviour {
 			LevelInfo.Environments.generator.GenerateAlienShip = true;
 			LevelInfo.Environments.generator.GenerateAsteroid = true;
 			LevelInfo.Environments.generator.ResetSpawnDeltaTime();
-			_invincibility--;
+			//_invincibility--;
 		}
 	}	
 
