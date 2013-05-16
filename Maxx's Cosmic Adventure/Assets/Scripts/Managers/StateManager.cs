@@ -78,7 +78,15 @@ public class StateManager : MonoBehaviour {
 				LevelInfo.Audio.StopAll();
 				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Environments.playerShip.AudioGameOver);
 				
-				StartCoroutine(ShowGameOverScreenThread());
+				LevelInfo.Environments.popupLose.SetActive(true);
+				var results = LevelInfo.Environments.popupLoseLabelResults;
+				results.text = 
+					"Distance Traveled: " + Mathf.FloorToInt(LevelInfo.Environments.playerShip.DistanceTravelled) +
+					"\nUnlikelium Collected: " + LevelInfo.Environments.score.unlikeliumsCollected +
+					"\nAsteroids Destroyed: " + LevelInfo.Environments.score.asteroidsDestoyed +
+					"\nJeebies Defeated: " + LevelInfo.Environments.score.jeebiesDestoyed + 
+					"\n\nScore: " + LevelInfo.Environments.score.totalScore;
+				//StartCoroutine(ShowGameOverScreenThread());
 				
 				break;
 			}
@@ -148,5 +156,24 @@ public class StateManager : MonoBehaviour {
 	void Start()
 	{
 		state = GameState.Play;
+	}
+	
+	private bool _goMenuWhenLose = false;
+	public bool goMenuWhenLose{
+		get{
+			return _goMenuWhenLose;
+		}
+		set{
+			_goMenuWhenLose = value;
+			LevelInfo.Environments.popupLose.SetActive(!value);
+			LevelInfo.Environments.popupQuit.SetActive(value);
+		}
+	}
+	void Update()
+	{
+		if( state == GameState.Lose && Input.GetKeyUp(KeyCode.Escape) )
+		{
+			goMenuWhenLose = !goMenuWhenLose;
+		}
 	}
 }

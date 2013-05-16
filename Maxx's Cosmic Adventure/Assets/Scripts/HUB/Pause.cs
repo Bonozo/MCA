@@ -5,7 +5,6 @@ public class Pause : MonoBehaviour {
 	
 	public Transform left1,left2,right1,right2;
 	public UIButton[] buttons;
-	public GameObject popupQuitGame;
 	
 	bool ppause = false;
 	float maxx = 1500;
@@ -97,7 +96,7 @@ public class Pause : MonoBehaviour {
 		set{
 			wantToExitGame = value;
 			SetPauseButtonsActive(!value);
-			popupQuitGame.SetActive(value);
+			LevelInfo.Environments.popupQuit.SetActive(value);
 		}
 	}
 	

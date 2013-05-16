@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour {
 	public UILabel gameStartTimer;
 	
 	public GameObject popupHeadStart;
+	public GameObject popupQuit;
 	
 	public Tutorials tutorials;
 	public GameObject popupTutorial;
