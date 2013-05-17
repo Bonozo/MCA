@@ -65,25 +65,41 @@ public class AlienShip : MonoBehaviour {
 	}
 	
 	void Start () 
-	{		
-		if( initBeginTransform )
+	{	
+		if(Options.Instance.flightControls3D)
 		{
-			var player = LevelInfo.Environments.playerShip.transform;
-			transform.position = new Vector3(player.position.x,player.position.y,player.position.z+Random.Range(spawnDistanceMin,spawnDistanceMax));
-		
-			var dlt = Random.Range(-maxFrontAngle,maxFrontAngle);
-			dlt *= 1f/Random.Range(1,3);
-			transform.RotateAround (LevelInfo.Environments.playerShip.transform.position, Vector3.up, 
-			LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y + dlt );	
-			transform.RotateAround (LevelInfo.Environments.playerShip.transform.position, LevelInfo.Environments.playerShip.transform.right, 
-					Random.Range(-10f,10f));	
+			if( initBeginTransform )
+			{
+				var player = LevelInfo.Environments.playerShip.transform;
+				transform.position = new Vector3(player.position.x,player.position.y,player.position.z+Random.Range(spawnDistanceMin,spawnDistanceMax));
+			
+				var dlt = Random.Range(-maxFrontAngle,maxFrontAngle);
+				dlt *= 1f/Random.Range(1,3);
+				transform.RotateAround (LevelInfo.Environments.playerShip.transform.position, Vector3.up, 
+				LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y + dlt );	
+				transform.RotateAround (LevelInfo.Environments.playerShip.transform.position, LevelInfo.Environments.playerShip.transform.right, 
+						Random.Range(-10f,10f));	
+			}
 		}
-		
-		/*if(randomHeight)
+		else
 		{
-			float height = Random.Range(-LevelInfo.Settings.MaxSpaceY,LevelInfo.Settings.MaxSpaceY);
-			transform.position = new Vector3(transform.position.x,height,transform.position.z);
-		}*/
+			if( initBeginTransform )
+			{
+				var player = LevelInfo.Environments.playerShip.transform;
+				transform.position = new Vector3(player.position.x,0,player.position.z+Random.Range(spawnDistanceMin,spawnDistanceMax));
+			
+				var dlt = Random.Range(-maxFrontAngle,maxFrontAngle);
+				dlt *= 1f/Random.Range(1,3);
+				transform.RotateAround (LevelInfo.Environments.playerShip.transform.position, Vector3.up, 
+				LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y + dlt );	
+			}
+			
+			if(randomHeight)
+			{
+				float height = Random.Range(-LevelInfo.Settings.MaxSpaceY,LevelInfo.Settings.MaxSpaceY);
+				transform.position = new Vector3(transform.position.x,height,transform.position.z);
+			}	
+		}
 		
 		if(targetedMove)
 			transform.rotation = ToForwardPlayerRotation();

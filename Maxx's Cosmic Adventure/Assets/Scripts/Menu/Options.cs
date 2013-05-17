@@ -52,12 +52,24 @@ public class Options : MonoBehaviour {
 		}
 	}
 	
+	private bool _flightControls3D;
+	public bool flightControls3D{
+		get{
+			return _flightControls3D;
+		}
+		set{
+			_flightControls3D = value;
+			PlayerPrefs.SetInt("options_flightcontrols",_flightControls3D?1:0);
+		}
+	}
+	
 	public void RestoreOptions()
 	{
 		volumeMusic = PlayerPrefs.GetFloat("options_volume_music",1f);
 		volumeSFX = PlayerPrefs.GetFloat("options_volume_sfx",1f);
 		vibration = PlayerPrefs.GetInt("options_vibration",1)==1;
 		yInvert = PlayerPrefs.GetInt("options_yinvert",0)==1;
+		flightControls3D = PlayerPrefs.GetInt("options_flightcontrols",0)==1;
 		
 		showFPS = PlayerPrefs.GetInt("options_showframerate",0)==1;
 	}
@@ -153,6 +165,10 @@ public class Options : MonoBehaviour {
 			GUI.Label(textRect(4),"Y Invert");
 			if( GUI.Button(buttonRect(4),yInvert?"ON":"OFF" ) )
 				yInvert = !yInvert;
+			
+			GUI.Label(textRect(5),"Flight Controls");
+			if( GUI.Button(buttonRect(5),flightControls3D?"3D":"2D" ) )
+				flightControls3D = !flightControls3D;
 			
 			if( GUI.Button( new Rect(Screen.width-150,20,130,40),"Reset Tutorial"))
 				Tutorials.ResetTutorials();

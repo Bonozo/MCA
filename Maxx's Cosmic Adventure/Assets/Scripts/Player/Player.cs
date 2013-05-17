@@ -274,42 +274,62 @@ public class Player : MonoBehaviour {
 	
 	void UpdateShip()
 	{	
-		// Up/Down Tilting
-		float ytilt = calibratedelta(); if(Options.Instance.yInvert) ytilt =- ytilt;
-		/*float current = Mathf.Clamp(ytilt,-30f,30f)*LevelInfo.Settings.MaxSpaceY/-30f;
-		var y = transform.position.y;
-		
-		if( Mathf.Abs(y-current) > LevelInfo.Settings.PlayerUpDownIgnore )
+		if(Options.Instance.flightControls3D)
 		{
-			y = Mathf.SmoothStep(y,current,LevelInfo.Settings.PlayerUpDownSpeed);
-			transform.position = new Vector3(transform.position.x,y,transform.position.z);
-		}*/
-		
-		// Rotate Y
-		float maxrotateangle = 15f;
-		float current = Mathf.Clamp(ytilt,-30f,30f)*0.5f;
-		var rot = transform.rotation.eulerAngles;
-		if( rot.x > 180.0f ) rot.x -= 360.0f;
-		if( Mathf.Abs(rot.x-current) > LevelInfo.Settings.PlayerRotateIgnore)
-		{
-			rot.x = Mathf.SmoothStep(rot.x,current,LevelInfo.Settings.PlayerRotateSpeed);
-			rot.x = Mathf.Clamp(rot.x,-maxrotateangle,maxrotateangle);
-			transform.rotation = Quaternion.Euler(rot);
+			// Up/Down Tilting
+			float ytilt = calibratedelta(); if(Options.Instance.yInvert) ytilt =- ytilt;
+			
+			// Rotate Y
+			float maxrotateangle = 15f;
+			float current = Mathf.Clamp(ytilt,-30f,30f)*0.5f;
+			var rot = transform.rotation.eulerAngles;
+			if( rot.x > 180.0f ) rot.x -= 360.0f;
+			if( Mathf.Abs(rot.x-current) > LevelInfo.Settings.PlayerRotateIgnore)
+			{
+				rot.x = Mathf.SmoothStep(rot.x,current,LevelInfo.Settings.PlayerRotateSpeed);
+				rot.x = Mathf.Clamp(rot.x,-maxrotateangle,maxrotateangle);
+				transform.rotation = Quaternion.Euler(rot);
+			}
+			
+			// Rotation by tilt
+			current = -GameEnvironment.InputAxis.x*90f;
+			rot = transform.rotation.eulerAngles;
+			if( rot.z > 180.0f ) rot.z -= 360.0f;
+			
+			if( Mathf.Abs(rot.z-current) > LevelInfo.Settings.PlayerRotateIgnore)
+			{
+				rot.z = Mathf.SmoothStep(rot.z,current,LevelInfo.Settings.PlayerRotateSpeed);
+				rot.z = Mathf.Clamp(rot.z,-LevelInfo.Settings.PlayerRotationMaxAngle,LevelInfo.Settings.PlayerRotationMaxAngle);
+				rot.y -= rot.z*0.5f*Mathf.PI*Time.deltaTime;
+				transform.rotation = Quaternion.Euler(rot);
+			}
 		}
-		
-		// Rotation by tilt
-		current = -GameEnvironment.InputAxis.x*90f;
-		rot = transform.rotation.eulerAngles;
-		if( rot.z > 180.0f ) rot.z -= 360.0f;
-		
-		if( Mathf.Abs(rot.z-current) > LevelInfo.Settings.PlayerRotateIgnore)
+		else
 		{
-			rot.z = Mathf.SmoothStep(rot.z,current,LevelInfo.Settings.PlayerRotateSpeed);
-			rot.z = Mathf.Clamp(rot.z,-LevelInfo.Settings.PlayerRotationMaxAngle,LevelInfo.Settings.PlayerRotationMaxAngle);
-			rot.y -= rot.z*0.5f*Mathf.PI*Time.deltaTime;
-			transform.rotation = Quaternion.Euler(rot);
+			// Up/Down Tilting
+			float ytilt = calibratedelta(); if(Options.Instance.yInvert) ytilt =- ytilt;
+			float current = Mathf.Clamp(ytilt,-30f,30f)*LevelInfo.Settings.MaxSpaceY/-30f;
+			var y = transform.position.y;
+			
+			if( Mathf.Abs(y-current) > LevelInfo.Settings.PlayerUpDownIgnore )
+			{
+				y = Mathf.SmoothStep(y,current,LevelInfo.Settings.PlayerUpDownSpeed);
+				transform.position = new Vector3(transform.position.x,y,transform.position.z);
+			}
+			
+			// Rotation by tilt
+			current = -GameEnvironment.InputAxis.x*90f;
+			var rot = transform.rotation.eulerAngles; rot.x=0;
+			if( rot.z > 180.0f ) rot.z -= 360.0f;
+			
+			if( Mathf.Abs(rot.z-current) > LevelInfo.Settings.PlayerRotateIgnore)
+			{
+				rot.z = Mathf.SmoothStep(rot.z,current,LevelInfo.Settings.PlayerRotateSpeed);
+				rot.z = Mathf.Clamp(rot.z,-LevelInfo.Settings.PlayerRotationMaxAngle,LevelInfo.Settings.PlayerRotationMaxAngle);
+				rot.y -= rot.z*0.5f*Mathf.PI*Time.deltaTime;
+				transform.rotation = Quaternion.Euler(rot);
+			}
 		}
-		
 		// Ship moving
 		transform.Translate(LevelInfo.Settings.PlayerSpeed*Time.deltaTime*Vector3.forward);
 	}
@@ -391,25 +411,44 @@ public class Player : MonoBehaviour {
 	
 	void CameraSetUp()
 	{
+		//# remove this
+		if( Input.GetKeyUp(KeyCode.Space) )
+			Options.Instance.flightControls3D = !Options.Instance.flightControls3D;
+		
 		float boost = lastboost;
 		if(boost<1f) boost = 1f-0.25f*(1f-boost);
 		
 		transform.Translate(-Vector3.forward*boost);
 		
-		LevelInfo.Environments.mainCamera.transform.position = new Vector3(transform.position.x,transform.position.y,transform.position.z);
-		LevelInfo.Environments.mainCamera.transform.rotation = transform.rotation;
-		
-		
-		Vector3 crot = LevelInfo.Environments.mainCamera.transform.rotation.eulerAngles;
-		if(crot.z>180f) crot.z -= 360f;
-		crot.z = 0.75f*crot.z;
-		if(crot.x>180f) crot.x -= 360f;
-		crot.x = 0.75f*crot.x;
-		crot.x += 20f;
-		LevelInfo.Environments.mainCamera.transform.rotation = Quaternion.Euler(crot);
-		
-		LevelInfo.Environments.mainCamera.transform.Translate(-Vector3.forward*CameraZ);
-		LevelInfo.Environments.mainCamera.transform.Translate(0,CameraHeight,0);
+		if(Options.Instance.flightControls3D)
+		{
+			LevelInfo.Environments.mainCamera.transform.position = new Vector3(transform.position.x,transform.position.y,transform.position.z);
+			LevelInfo.Environments.mainCamera.transform.rotation = transform.rotation;
+			
+			Vector3 crot = LevelInfo.Environments.mainCamera.transform.rotation.eulerAngles;
+			if(crot.z>180f) crot.z -= 360f;
+			crot.z = 0.75f*crot.z;
+			if(crot.x>180f) crot.x -= 360f;
+			crot.x = 0.75f*crot.x;
+			crot.x += 20f;
+			LevelInfo.Environments.mainCamera.transform.rotation = Quaternion.Euler(crot);
+			
+			LevelInfo.Environments.mainCamera.transform.Translate(-Vector3.forward*CameraZ);
+			LevelInfo.Environments.mainCamera.transform.Translate(0,CameraHeight,0);
+		}
+		else
+		{
+			LevelInfo.Environments.mainCamera.transform.position = new Vector3(transform.position.x,0f,transform.position.z);
+			LevelInfo.Environments.mainCamera.transform.rotation = transform.rotation;
+			
+			Vector3 crot = LevelInfo.Environments.mainCamera.transform.rotation.eulerAngles;
+			crot.z = 0.0f;
+			crot.x = 20.0f;
+			LevelInfo.Environments.mainCamera.transform.rotation = Quaternion.Euler(crot);
+			
+			LevelInfo.Environments.mainCamera.transform.Translate(-Vector3.forward*CameraZ);
+			LevelInfo.Environments.mainCamera.transform.Translate(0,CameraHeight,0);			
+		}
 		
 		transform.Translate(Vector3.forward*boost);
 	}
