@@ -27,10 +27,9 @@ public class UpdateablePowerup : MonoBehaviour {
 		button = this.GetComponent<UIButton>();
 	}
 	
-	void OnPress(bool isDown)
+	void OnClick()
 	{
-		if(isDown)
-			Store.Instance.Activate(this);
+		Store.Instance.Activate(this);
 	}
 	
 	void Update()
