@@ -410,11 +410,7 @@ public class Player : MonoBehaviour {
 	#region Camera
 	
 	void CameraSetUp()
-	{
-		//# remove this
-		if( Input.GetKeyUp(KeyCode.Space) )
-			Options.Instance.flightControls3D = !Options.Instance.flightControls3D;
-		
+	{	
 		float boost = lastboost;
 		if(boost<1f) boost = 1f-0.25f*(1f-boost);
 		
@@ -424,7 +420,15 @@ public class Player : MonoBehaviour {
 		{
 			LevelInfo.Environments.mainCamera.transform.position = new Vector3(transform.position.x,transform.position.y,transform.position.z);
 			LevelInfo.Environments.mainCamera.transform.rotation = transform.rotation;
-			
+		}
+		else
+		{
+			LevelInfo.Environments.mainCamera.transform.position = new Vector3(transform.position.x,0f,transform.position.z);
+			LevelInfo.Environments.mainCamera.transform.rotation = transform.rotation;		
+		}
+		
+		if( Options.Instance.cameraRotation)
+		{
 			Vector3 crot = LevelInfo.Environments.mainCamera.transform.rotation.eulerAngles;
 			if(crot.z>180f) crot.z -= 360f;
 			crot.z = 0.75f*crot.z;
@@ -432,23 +436,17 @@ public class Player : MonoBehaviour {
 			crot.x = 0.75f*crot.x;
 			crot.x += 20f;
 			LevelInfo.Environments.mainCamera.transform.rotation = Quaternion.Euler(crot);
-			
-			LevelInfo.Environments.mainCamera.transform.Translate(-Vector3.forward*CameraZ);
-			LevelInfo.Environments.mainCamera.transform.Translate(0,CameraHeight,0);
 		}
 		else
 		{
-			LevelInfo.Environments.mainCamera.transform.position = new Vector3(transform.position.x,0f,transform.position.z);
-			LevelInfo.Environments.mainCamera.transform.rotation = transform.rotation;
-			
 			Vector3 crot = LevelInfo.Environments.mainCamera.transform.rotation.eulerAngles;
 			crot.z = 0.0f;
 			crot.x = 20.0f;
-			LevelInfo.Environments.mainCamera.transform.rotation = Quaternion.Euler(crot);
-			
-			LevelInfo.Environments.mainCamera.transform.Translate(-Vector3.forward*CameraZ);
-			LevelInfo.Environments.mainCamera.transform.Translate(0,CameraHeight,0);			
+			LevelInfo.Environments.mainCamera.transform.rotation = Quaternion.Euler(crot);		
 		}
+		
+		LevelInfo.Environments.mainCamera.transform.Translate(-Vector3.forward*CameraZ);
+		LevelInfo.Environments.mainCamera.transform.Translate(0,CameraHeight,0);	
 		
 		transform.Translate(Vector3.forward*boost);
 	}

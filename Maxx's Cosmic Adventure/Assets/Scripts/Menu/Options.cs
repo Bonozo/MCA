@@ -63,6 +63,17 @@ public class Options : MonoBehaviour {
 		}
 	}
 	
+	private bool _cameraRotation;
+	public bool cameraRotation{
+		get{
+			return _cameraRotation;
+		}
+		set{
+			_cameraRotation = value;
+			PlayerPrefs.SetInt("options_camerarotation",_cameraRotation?1:0);
+		}
+	}
+	
 	public void RestoreOptions()
 	{
 		volumeMusic = PlayerPrefs.GetFloat("options_volume_music",1f);
@@ -70,6 +81,7 @@ public class Options : MonoBehaviour {
 		vibration = PlayerPrefs.GetInt("options_vibration",1)==1;
 		yInvert = PlayerPrefs.GetInt("options_yinvert",0)==1;
 		flightControls3D = PlayerPrefs.GetInt("options_flightcontrols",0)==1;
+		cameraRotation = PlayerPrefs.GetInt("options_camerarotation",0)==1;
 		
 		showFPS = PlayerPrefs.GetInt("options_showframerate",0)==1;
 	}
@@ -169,6 +181,10 @@ public class Options : MonoBehaviour {
 			GUI.Label(textRect(5),"Flight Controls");
 			if( GUI.Button(buttonRect(5),flightControls3D?"3D":"2D" ) )
 				flightControls3D = !flightControls3D;
+			
+			GUI.Label(textRect(6),"Camera Rotation");
+			if( GUI.Button(buttonRect(6),cameraRotation?"ON":"OFF" ) )
+				cameraRotation = !cameraRotation;
 			
 			if( GUI.Button( new Rect(Screen.width-150,20,130,40),"Reset Tutorial"))
 				Tutorials.ResetTutorials();
