@@ -5,6 +5,7 @@ public class UpdateablePowerup : MonoBehaviour {
 	
 	public bool stored = false;
 	public string powerupName;
+	public string description;
 	public UILabel labelName;
 	
 	private int _level = -1;
