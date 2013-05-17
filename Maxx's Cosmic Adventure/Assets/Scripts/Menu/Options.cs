@@ -74,6 +74,17 @@ public class Options : MonoBehaviour {
 		}
 	}
 	
+	private bool _peyton;
+	public bool peyton{
+		get{
+			return _peyton;
+		}
+		set{
+			_peyton = value;
+			PlayerPrefs.SetInt("options_peyton",_peyton?1:0);
+		}
+	}
+	
 	public void RestoreOptions()
 	{
 		volumeMusic = PlayerPrefs.GetFloat("options_volume_music",1f);
@@ -82,6 +93,7 @@ public class Options : MonoBehaviour {
 		yInvert = PlayerPrefs.GetInt("options_yinvert",0)==1;
 		flightControls3D = PlayerPrefs.GetInt("options_flightcontrols",0)==1;
 		cameraRotation = PlayerPrefs.GetInt("options_camerarotation",0)==1;
+		peyton = PlayerPrefs.GetInt("options_peyton",0)==1;
 		
 		showFPS = PlayerPrefs.GetInt("options_showframerate",0)==1;
 	}
@@ -185,6 +197,10 @@ public class Options : MonoBehaviour {
 			GUI.Label(textRect(6),"Camera Rotation");
 			if( GUI.Button(buttonRect(6),cameraRotation?"ON":"OFF" ) )
 				cameraRotation = !cameraRotation;
+			
+			GUI.Label(textRect(7),"Peyton Messages");
+			if( GUI.Button(buttonRect(7),peyton?"ON":"OFF" ) )
+				peyton = !peyton;
 			
 			if( GUI.Button( new Rect(Screen.width-150,20,130,40),"Reset Tutorial"))
 				Tutorials.ResetTutorials();

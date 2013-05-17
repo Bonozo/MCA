@@ -79,7 +79,7 @@ public class Peyton : MonoBehaviour {
 	
 	public void ShowMessage(string str)
 	{
-		if(!Active)
+		if(!Active && Options.Instance.peyton)
 		{
 			StartCoroutine(ShowMessageThread(str));
 		}
