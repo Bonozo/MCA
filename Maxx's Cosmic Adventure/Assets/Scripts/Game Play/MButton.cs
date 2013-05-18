@@ -19,7 +19,8 @@ public class MButton : MonoBehaviour {
 			switch(_currentPowerup)
 			{
 			case Gems.In3s:
-				powerupName.text = "Triple Trouble";
+				powerupCount = Store.Instance.powerupTripleTrouble.level+1;
+				powerupName.text = "Triple Trouble " + powerupCount;
 				break;
 			case Gems.Pow:
 				powerupCount = Store.Instance.powerupPOW.level+1;
@@ -66,7 +67,18 @@ public class MButton : MonoBehaviour {
 		switch(currentPowerup)
 		{
 		case Gems.In3s:
-			In3sPowerup();
+			if(in3scount!=3)
+			{
+				In3sPowerup();
+				powerupCount--;
+				if(powerupCount==0)
+				{
+					powerupName.text = "";
+					currentPowerup = Gems.None;
+				}
+				else
+					powerupName.text = "Triple Trouble " + powerupCount;
+			}
 			break;
 		case Gems.Pow:
 			StartCoroutine(PowPowerup());
@@ -105,65 +117,6 @@ public class MButton : MonoBehaviour {
 			in3smissle[in3scount].transform.parent = LevelInfo.Environments.posPlayerMissle[in3scount].transform;
 			in3scount++;
 		}
-		
-		currentPowerup = Gems.None;
-		/*return;
-		
-		GameObject[] ship = GameObject.FindGameObjectsWithTag("Enemy");
-		GameObject[] asteroid = GameObject.FindGameObjectsWithTag("Asteroid");
-		
-		GameObject[] target = {null,null,null};
-		float[] dist = {float.PositiveInfinity,float.PositiveInfinity,float.PositiveInfinity};
-		
-		foreach(GameObject g in ship)
-		{
-			Vector3 toscreen = LevelInfo.Environments.mainCamera.WorldToScreenPoint(g.transform.position);
-			if(toscreen.x >= 0 && toscreen.x <= Screen.width && toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f)
-			{
-				for(int i=0;i<3;i++)
-					if(toscreen.z < dist[i])
-					{
-						for(int j=i+1;j<3;j++)
-						{
-							target[j]=target[j-1];
-							dist[j] = dist[j-1];
-						}
-						dist[i] = toscreen.z;
-						target[i] = g;
-						break;
-					}
-			}	
-		}
-		
-		foreach(GameObject g in asteroid)
-		{
-			Vector3 toscreen = LevelInfo.Environments.mainCamera.WorldToScreenPoint(g.transform.position);
-			if(toscreen.x >= 0 && toscreen.x <= Screen.width && toscreen.y >= 0 && toscreen.y <= Screen.height && toscreen.z > 1f)
-			{
-				for(int i=0;i<3;i++)
-					if(toscreen.z < dist[i])
-					{
-						for(int j=i+1;j<3;j++)
-						{
-							target[j]=target[j-1];
-							dist[j] = dist[j-1];
-						}
-						dist[i] = toscreen.z;
-						target[i] = g;
-						break;
-					}
-			}	
-		}
-		
-		for(int i=0;i<3;i++)
-		{
-			GameObject missle = (GameObject)Instantiate(LevelInfo.Environments.prefabPlayerMissle,
-				LevelInfo.Environments.posPlayerMissle[i].position,LevelInfo.Environments.posPlayerMissle[i].rotation);
-			if( target[i] != null)
-				missle.GetComponent<Bullet>().ExplodeTargetWithOneShot(target[i]);
-		}
-		
-		currentPowerup = Gems.None;*/
 	}
 	
 	float in3sdistancetoshot = 200f;
