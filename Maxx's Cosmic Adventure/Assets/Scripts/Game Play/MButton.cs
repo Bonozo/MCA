@@ -119,7 +119,7 @@ public class MButton : MonoBehaviour {
 		}
 	}
 	
-	float in3sdistancetoshot = 200f;
+	float in3sdistancetoshot = 300f;
 	float wtin3s = 0.0f;
 	void In3sUpdate()
 	{
