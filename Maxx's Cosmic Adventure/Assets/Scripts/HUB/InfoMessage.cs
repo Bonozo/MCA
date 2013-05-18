@@ -28,8 +28,8 @@ public class InfoMessage : MonoBehaviour {
 	{
 		if(timetoshow>0f) 
 		{
-			timetoshow -= Time.deltaTime;
-			label.transform.localPosition = new Vector3(label.transform.localPosition.x,label.transform.localPosition.y+200f*Time.deltaTime,label.transform.localPosition.z);
+			timetoshow -= 0.016f;
+			label.transform.localPosition = new Vector3(label.transform.localPosition.x,label.transform.localPosition.y+200f*0.016f,label.transform.localPosition.z);
 		}
 		label.gameObject.SetActive(timetoshow>0f&&Time.timeScale!=0.0f);
 		

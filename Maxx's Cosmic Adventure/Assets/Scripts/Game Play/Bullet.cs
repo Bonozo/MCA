@@ -15,7 +15,6 @@ public class Bullet : MonoBehaviour {
 	private bool targeted = false;
 	private GameObject target;
 	
-	
 	// Use this for initialization
 	void Start () {
 

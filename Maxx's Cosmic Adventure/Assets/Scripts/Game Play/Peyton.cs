@@ -66,7 +66,7 @@ public class Peyton : MonoBehaviour {
 		// Update screen
 		if(Active)
 		{
-			screenAnimTime += Time.deltaTime;
+			screenAnimTime += 0.016f;
 			screenAnimTime %= (screenAnimFrames*screenAnimFramerate);
 			int frame = (int)(screenAnimTime/screenAnimFramerate)+1;
 			spriteScreen.spriteName = "Peyton_Icon_Static_0" + frame;
@@ -99,7 +99,7 @@ public class Peyton : MonoBehaviour {
 			float alpha = 0f;
 			while(alpha<1f)
 			{
-				alpha = Mathf.Clamp01(alpha+Time.deltaTime);
+				alpha = Mathf.Clamp01(alpha+0.016f);
 				foreach(var g in gui) g.color = new Color(1f,1f,1f,alpha);
 				yield return null;
 			}
@@ -128,7 +128,7 @@ public class Peyton : MonoBehaviour {
 			
 			while(alpha>0f)
 			{
-				alpha = Mathf.Clamp01(alpha-2*Time.deltaTime);
+				alpha = Mathf.Clamp01(alpha-2*0.016f);
 				foreach(var g in gui) g.color = new Color(1f,1f,1f,alpha);
 				yield return null;
 			}

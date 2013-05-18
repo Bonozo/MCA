@@ -340,7 +340,7 @@ public class Player : MonoBehaviour {
 
 	void TryStandardShot(bool effectOverheat)
 	{
-		if( fireDeltaTime > 0f ) fireDeltaTime -= Time.deltaTime;
+		if( fireDeltaTime > 0f ) fireDeltaTime -= FreezeMultiply*Time.deltaTime;
 		bool ovh = LevelInfo.Environments.fireOverheat.Overheated;
 		if( effectOverheat ) LevelInfo.Environments.fireOverheat.Up();
 		if( !ovh && LevelInfo.Environments.fireOverheat.Overheated ) {/*PLevelInfo.Audio.PlayAudioWeaponExpire();*/}
@@ -535,6 +535,7 @@ public class Player : MonoBehaviour {
 	
 	[System.NonSerializedAttribute]
 	public bool FreezeWorld = false;
+	public float FreezeMultiply{ get{ return FreezeWorld?2f:1f;} }
 	
 	[System.NonSerializedAttribute]
 	public bool Intergalactic = false;
@@ -559,7 +560,7 @@ public class Player : MonoBehaviour {
 		LevelInfo.Environments.guiPowerupCountDown.fillAmount = 0;
 		
 		FreezeWorld = false;
-		RenderSettings.ambientLight = ambientStandard;
+		//RenderSettings.ambientLight = ambientStandard;
 		
 		//intergalacticLocal = false;
 		Intergalactic = false;
@@ -625,8 +626,8 @@ public class Player : MonoBehaviour {
 		StartCoroutine("FreezeWorldThread");
 	}
 	
-	private readonly Color ambientStandard = new Color(101f/255f,101f/255f,101f/255f,1f);
-	private readonly Color ambientFreezeWorld = new Color(0f,0.6f,1f,1f);
+	//private readonly Color ambientStandard = new Color(101f/255f,101f/255f,101f/255f,1f);
+	//private readonly Color ambientFreezeWorld = new Color(0f,0.6f,1f,1f);
 	//private readonly Color ambientFreezeWorld = new Color(0.8f,0.8f,0.8f,1f);
 	
 	private IEnumerator FreezeWorldThread()
@@ -635,12 +636,12 @@ public class Player : MonoBehaviour {
 		{
 			ClearAllPowerups();
 			FreezeWorld = true;
-			RenderSettings.ambientLight = ambientFreezeWorld;
-			poweruptime = Store.Instance.powerupFreeze.LevelTime;
+			//RenderSettings.ambientLight = ambientFreezeWorld;
+			poweruptime = Store.Instance.powerupFreeze.LevelTime*0.5f;
 			LevelInfo.Environments.guiPowerupCountDown.color = new Color(0,1f,1f,1f);
 			while ( poweruptime > 0f )
 			{
-				//if(Time.timeScale>0) Time.timeScale = 0.5f;
+				if(Time.timeScale>0) Time.timeScale = 0.5f;
 				
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
 				poweruptime -= Time.deltaTime;
@@ -650,11 +651,11 @@ public class Player : MonoBehaviour {
 		
 			LevelInfo.Environments.guiPowerUpTime.text = "";
 			FreezeWorld = false;
-			RenderSettings.ambientLight = ambientStandard;
+			//RenderSettings.ambientLight = ambientStandard;
 			Time.timeScale = 1f;
 		}
 		else
-			poweruptime = Store.Instance.powerupFreeze.LevelTime;
+			poweruptime = Store.Instance.powerupFreeze.LevelTime*0.5f;
 	}
 	
 	public void StartIntergalactic()
