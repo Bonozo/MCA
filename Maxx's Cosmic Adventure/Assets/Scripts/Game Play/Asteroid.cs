@@ -29,10 +29,20 @@ public class Asteroid : MonoBehaviour {
 		GlobalCount--;
 	}
 	
-	void Start () 
+	IEnumerator Start () 
 	{
 		gameObject.tag = "Asteroid";
 		LevelInfo.Environments.tutorials.SpawnedAsteroid();
+		
+		Color color = gameObject.renderer.material.color;
+		color.a = 0f;
+		gameObject.renderer.material.color = color;
+		while(color.a<1f)
+		{
+			color.a = Mathf.Clamp01(color.a+Time.deltaTime);
+			gameObject.renderer.material.color = color;
+			yield return null;
+		}
 	}
 	
 	void Update()
