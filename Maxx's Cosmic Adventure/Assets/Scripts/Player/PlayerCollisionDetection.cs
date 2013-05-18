@@ -10,7 +10,7 @@ public class PlayerCollisionDetection : MonoBehaviour {
 		switch(col.gameObject.tag)
 		{
 		case "Gem":
-			if(LevelInfo.Environments.playerShip.Invincibility && col.gameObject.GetComponent<Gem>().gemType != Gems.Unlikelium)
+			if(LevelInfo.Environments.playerShip.Intergalactic && col.gameObject.GetComponent<Gem>().gemType != Gems.Unlikelium)
 				break;
 			TakeGem(col.gameObject);
 			break;
