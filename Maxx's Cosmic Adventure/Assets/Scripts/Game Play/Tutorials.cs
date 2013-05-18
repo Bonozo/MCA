@@ -12,23 +12,33 @@ public class Tutorials : MonoBehaviour {
 	string messageUnlikelium = 
 		"Pick up unlikeliums";
 	string messageSureShot = 
-		"Description of Sure Shot";
+		"Sure Shot\n" +
+		"Automatically targets & destroys the nearest Jeebie.";
 	string messageMagnet = 
-		"Description of Magnet";
+		"Lay It On Me\n" +
+		"Sucks in all nearby Unlikelium.";
 	string messageIn3s = 
-		"Description of Missies";
+		"Triple Trouble\n" +
+		"Three self-targeting missiles protect by\n" +
+		"destroying the next 3 targets.";
 	string messageFreezeWorld = 
-		"Description of Hold It Now, Hit It";
+		"Hold It Now, Hit It\n" +
+		"Super slow motion.";
 	string messagePow = 
-		"Description of Pow";
+		"Pow\n" +
+		"Destroys all obstacles in view with one shot.";
 	string messageFireBall = 
-		"Description of Lighten Up";
+		"Lighten Up\n" +
+		"Enables the fireball cannon.";
 	string messageLoveUnlikelium = 
-		"Description of Shazam!";
+		"Shazam!\n" +
+		"Automatic boost and a bonus Unlikelium trail.";
 	string messageIntergalactic = 
-		"Description of Intergalactic";
+		"Intergalactic\n" +
+		"Sends you into hyperspace.";
 	string messageToughGuy = 
-		"Description of Tough Guy";
+		"Tough Guy\n" +
+		"Adds one more shield.";
 	string messageAsteroid =
 		"Spawned Asteroid";
 	string messageJeebie =
