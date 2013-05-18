@@ -559,12 +559,16 @@ public class Player : MonoBehaviour {
 		LevelInfo.Environments.guiPowerupCountDown.fillAmount = 0;
 		
 		FreezeWorld = false;
+		RenderSettings.ambientLight = ambientStandard;
+		
+		//intergalacticLocal = false;
 		Intergalactic = false;
 		
 		LoveUnlikelium = false;
 		LevelInfo.Environments.generator.StopUnlikeliumGenerator();
 		
 		Magned = false;
+		
 		_invincibility = 0;
 		
 		if(Time.timeScale>0) Time.timeScale = 1.0f;
@@ -621,17 +625,22 @@ public class Player : MonoBehaviour {
 		StartCoroutine("FreezeWorldThread");
 	}
 	
+	private readonly Color ambientStandard = new Color(0.2f,0.2f,0.2f,1f);
+	private readonly Color ambientFreezeWorld = new Color(0f,0.6f,1f,1f);
+	//private readonly Color ambientFreezeWorld = new Color(0.8f,0.8f,0.8f,1f);
+	
 	private IEnumerator FreezeWorldThread()
 	{
 		if(!FreezeWorld ) 
 		{
 			ClearAllPowerups();
 			FreezeWorld = true;
-			poweruptime = Store.Instance.powerupFreeze.LevelTime*0.5f;
+			RenderSettings.ambientLight = ambientFreezeWorld;
+			poweruptime = Store.Instance.powerupFreeze.LevelTime;
 			LevelInfo.Environments.guiPowerupCountDown.color = new Color(0,1f,1f,1f);
 			while ( poweruptime > 0f )
 			{
-				if(Time.timeScale>0) Time.timeScale = 0.5f;
+				//if(Time.timeScale>0) Time.timeScale = 0.5f;
 				
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
 				poweruptime -= Time.deltaTime;
@@ -641,10 +650,11 @@ public class Player : MonoBehaviour {
 		
 			LevelInfo.Environments.guiPowerUpTime.text = "";
 			FreezeWorld = false;
+			RenderSettings.ambientLight = ambientStandard;
 			Time.timeScale = 1f;
 		}
 		else
-			poweruptime = Store.Instance.powerupFreeze.LevelTime*0.5f;
+			poweruptime = Store.Instance.powerupFreeze.LevelTime;
 	}
 	
 	public void StartIntergalactic()
