@@ -46,6 +46,7 @@ public class Store : MonoBehaviour {
 	
 	public UILabel popupName;
 	public UISprite popupIcon;
+	public UILabel popupDecsription;
 	public UILabel popupCost;
 	public UILabel popupBuyText;
 	
@@ -123,6 +124,7 @@ public class Store : MonoBehaviour {
 		_currentPowerup = powerup;
 		
 		popupName.text = powerup.labelName.text + "!";
+		popupDecsription.text = powerup.description;
 		popupIcon.spriteName = powerup.transform.FindChild("Icon").GetComponent<UISprite>().spriteName;
 
 		if(_currentPowerup.stored)
