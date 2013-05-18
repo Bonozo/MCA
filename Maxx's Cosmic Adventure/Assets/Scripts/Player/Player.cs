@@ -625,7 +625,7 @@ public class Player : MonoBehaviour {
 		StartCoroutine("FreezeWorldThread");
 	}
 	
-	private readonly Color ambientStandard = new Color(0.2f,0.2f,0.2f,1f);
+	private readonly Color ambientStandard = new Color(101f/255f,101f/255f,101f/255f,1f);
 	private readonly Color ambientFreezeWorld = new Color(0f,0.6f,1f,1f);
 	//private readonly Color ambientFreezeWorld = new Color(0.8f,0.8f,0.8f,1f);
 	
