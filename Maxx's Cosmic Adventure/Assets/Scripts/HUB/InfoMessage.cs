@@ -32,8 +32,5 @@ public class InfoMessage : MonoBehaviour {
 			label.transform.localPosition = new Vector3(label.transform.localPosition.x,label.transform.localPosition.y+200f*0.016f,label.transform.localPosition.z);
 		}
 		label.gameObject.SetActive(timetoshow>0f&&Time.timeScale!=0.0f);
-		
-		if( Input.GetKeyDown(KeyCode.Space))
-			ShowMessage("Message");
 	}
 }
