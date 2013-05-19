@@ -81,7 +81,10 @@ public class AudioManager : MonoBehaviour {
 	
 	
 	#region Player
-	public AudioClip audioGemUnlikeliumPickUp;
+	public AudioClip clipGetUnlikelium;
+	public AudioClip clipFire;
+	public AudioClip clipAutoFire;
+	
 	public AudioClip audioWeaponPickUp;
 	public AudioClip audioWeaponExpire;
 	
@@ -89,7 +92,7 @@ public class AudioManager : MonoBehaviour {
 	{
 		if( gem == Gems.Unlikelium )
 		{
-			audioSourceUnlikeliums.PlayOneShot(audioGemUnlikeliumPickUp);
+			audioSourceUnlikeliums.PlayOneShot(clipGetUnlikelium);
 			audioSourceUnlikeliums.pitch += 0.025f;
 			pitchAudioUnlikeliumDistance = LevelInfo.Environments.playerShip.DistanceTravelled+35;
 		}
@@ -104,12 +107,6 @@ public class AudioManager : MonoBehaviour {
 	
 	
 	#region Enemies
-	
-	public AudioClip audioGotEm;
-	public void PlayAudioGotEm()
-	{
-		audioSourceJeebles.PlayOneShot(audioGotEm);
-	}
 	
 	public AudioClip audioAsteroidExplode;
 	public void PlayAudioAsteroidExplode()

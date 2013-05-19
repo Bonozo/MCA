@@ -12,7 +12,6 @@ public class Player : MonoBehaviour {
 	public float CameraZ = 9.5f; 
 	public float CameraHeight = 1.5f;
 	
-	public AudioClip AudioFire;
 	public AudioClip ExplosionSoundEffect;
 	
 	public AudioClip AudioEngineNormal;
@@ -346,7 +345,7 @@ public class Player : MonoBehaviour {
 		if( !ovh && LevelInfo.Environments.fireOverheat.Overheated ) {/*PLevelInfo.Audio.PlayAudioWeaponExpire();*/}
 		if( fireDeltaTime <= 0 && (!effectOverheat || !LevelInfo.Environments.fireOverheat.Overheated) )
 		{
-			LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(AudioFire);
+			LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Audio.clipFire);
 			Instantiate(LevelInfo.Environments.prefabPlayerProjectile,LevelInfo.Environments.playerLeftFireTransform.position,transform.rotation );
 			Instantiate(LevelInfo.Environments.prefabPlayerProjectile,LevelInfo.Environments.playerRightFireTransform.position,transform.rotation );
 			fireDeltaTime = FireDeltaTime;
@@ -383,7 +382,7 @@ public class Player : MonoBehaviour {
 				j1.SendMessage("ToTarget",g[index]);
 				j2.SendMessage("ToTarget",g[index]);
 				g[index].SendMessage("EnableTargetingBox");*/
-				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(AudioFire);
+				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Audio.clipAutoFire);
 				GameObject bullet = (GameObject)Instantiate(LevelInfo.Environments.prefabPlayerAutoFireProjectile,LevelInfo.Environments.playerAutoFireTransform.position,Quaternion.Euler(0f,transform.rotation.eulerAngles.y,0f) );
 				bullet.transform.LookAt(g[index].transform);
 				bullet.GetComponent<Bullet>().ToTarget(g[index]);
