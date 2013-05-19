@@ -163,6 +163,7 @@ public class MButton : MonoBehaviour {
 					in3smissle[in3scount].transform.parent = null;
 					in3smissle[in3scount].GetComponent<Bullet>().Activate();
 					in3smissle[in3scount].GetComponent<Bullet>().ExplodeTargetWithOneShot(target);	
+					LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Audio.clipTripleTroubleFire);
 				}
 			}
 		}		

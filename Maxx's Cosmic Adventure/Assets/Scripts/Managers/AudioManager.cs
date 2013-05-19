@@ -86,6 +86,8 @@ public class AudioManager : MonoBehaviour {
 	public AudioClip clipGetUnlikelium;
 	public AudioClip clipFire;
 	public AudioClip clipAutoFire;
+	public AudioClip clipLightenUpFire;
+	public AudioClip clipTripleTroubleFire;
 	
 	public AudioClip audioWeaponPickUp;
 	public AudioClip audioWeaponExpire;
