@@ -84,6 +84,8 @@ public class AudioManager : MonoBehaviour {
 	
 	#region Player
 	public AudioClip clipGetUnlikelium;
+	public AudioClip clipGetPowerup;
+	
 	public AudioClip clipFire;
 	public AudioClip clipAutoFire;
 	public AudioClip clipLightenUpFire;
@@ -99,6 +101,10 @@ public class AudioManager : MonoBehaviour {
 			audioSourceUnlikeliums.PlayOneShot(clipGetUnlikelium);
 			audioSourceUnlikeliums.pitch += 0.025f;
 			pitchAudioUnlikeliumDistance = LevelInfo.Environments.playerShip.DistanceTravelled+35;
+		}
+		else
+		{
+			audioSourcePlayerShip.PlayOneShot(clipGetPowerup);
 		}
 	}
 	
