@@ -5,7 +5,6 @@ public class Tutorials : MonoBehaviour {
 	
 	#region Messages
 	string messageFirstControls =
-		"First Controls\n" +
 		"Use device tilting to turn and up/down moves!\n" +
 		"Use 'F' button to the left or right to fire!\n" +
 		"Use 'B' button to boost!";
@@ -13,7 +12,8 @@ public class Tutorials : MonoBehaviour {
 		"Pick up unlikeliums";
 	string messageSureShot = 
 		"Sure Shot\n" +
-		"Automatically targets & destroys the nearest Jeebie.";
+		"Automatically targets & destroys the\n" +
+		"nearest Jeebie.";
 	string messageMagnet = 
 		"Lay It On Me\n" +
 		"Sucks in all nearby Unlikelium.";
@@ -81,18 +81,56 @@ public class Tutorials : MonoBehaviour {
 		StartCoroutine(ShowTutorialPopupThread(id,message,delay));
 	}
 	
+	bool popupactive = false;
 	private IEnumerator ShowTutorialPopupThread(string id,string message,float delay)
-	{
+	{	
 		yield return new WaitForSeconds(delay);
-		if( PlayerPrefs.GetInt(id,0)==0 )
+		if(!popupactive)
 		{
-			Time.timeScale = 0f;
-			LevelInfo.Environments.playerShip.Ready = false;
-			LevelInfo.Audio.StopEffects();
-			LevelInfo.Environments.labelTutorial.text = message;
-			LevelInfo.Environments.popupTutorial.SetActive(true);
-			PlayerPrefs.SetInt(id,1);
+			popupactive = true;
+			
+			if( PlayerPrefs.GetInt(id,0)==0 )
+			{
+				LevelInfo.Environments.labelTutorial.text = message;
+			
+				var sc = LevelInfo.Environments.backgroundTutorial.transform.localScale;
+				int maxlinelenght=0;
+				int lines=0;
+				lines = PopupSizeParamsByMessage(ref message,ref maxlinelenght);
+				
+				Debug.Log("maxlinelenght: " + maxlinelenght);
+				sc.x = 17*(maxlinelenght+5);
+				sc.y = 60f*(lines+1);
+				
+				LevelInfo.Environments.backgroundTutorial.transform.localScale = sc;
+				
+				LevelInfo.Environments.popupTutorial.SetActive(true);
+				yield return new WaitForSeconds(5f);
+				LevelInfo.Environments.popupTutorial.SetActive(false);
+				
+				PlayerPrefs.SetInt(id,1);
+			}
+			
+			popupactive = false;
 		}
+	}
+	
+	private int PopupSizeParamsByMessage(ref string s,ref int maxlinelenght) //:)
+	{
+		maxlinelenght=0;
+		int n=0,len=0;
+		for(int i=0;i<s.Length;i++)
+		{
+			len++;
+			if(s[i]=='\n')
+			{
+				n++;
+				maxlinelenght = Mathf.Max(maxlinelenght,len);
+				len=0;
+			}
+		}
+		maxlinelenght = Mathf.Max(maxlinelenght,len);
+		return n;
 	}
 	
 	public void SpawnedSimpleUnlikelium()

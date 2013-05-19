@@ -19,7 +19,7 @@ public class Store : MonoBehaviour {
 	
 	void Awake()
 	{
-		Application.targetFrameRate = -1;
+		Application.targetFrameRate = 60;
 		
 		Unlikeliums = PlayerPrefs.GetInt("unlikeliums",0);
 		

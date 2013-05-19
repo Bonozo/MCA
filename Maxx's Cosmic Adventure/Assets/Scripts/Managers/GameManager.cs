@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour {
 	public Tutorials tutorials;
 	public GameObject popupTutorial;
 	public UILabel labelTutorial;
+	public UISprite backgroundTutorial;
 	
 	public GameObject FPS;
 	
