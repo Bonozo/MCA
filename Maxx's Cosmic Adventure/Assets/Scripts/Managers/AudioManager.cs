@@ -55,6 +55,7 @@ public class AudioManager : MonoBehaviour {
 	
 	void Start()
 	{
+		PlayRandomGamePlay();
 		VolumeSetup();
 	}
 	
@@ -63,6 +64,17 @@ public class AudioManager : MonoBehaviour {
 		VolumeSetup();
 		if( LevelInfo.Environments.playerShip.DistanceTravelled >= pitchAudioUnlikeliumDistance )
 			audioSourceUnlikeliums.pitch = 1f;
+	}
+	
+	#endregion
+	
+	#region Game
+	
+	public AudioClip[] gameMusic;
+	public void PlayRandomGamePlay()
+	{
+		audioSourceBackground.clip = gameMusic[Random.Range(0,gameMusic.Length)];
+		audioSourceBackground.Play();
 	}
 	
 	#endregion
