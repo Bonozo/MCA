@@ -4,119 +4,36 @@ using System.Collections;
 [AddComponentMenu("Menu/Option")]
 public class Options : MonoBehaviour {
 	
-	#region Options
-	private float _volumeMusic;
-	public float volumeMusic{
-		get{
-			return _volumeMusic;
-		}
-		set{
-			_volumeMusic = value;
-			PlayerPrefs.SetFloat("options_volume_music",_volumeMusic);
-		}
-	}
+	public OptionsSlider _volumeMusic;
+	public float volumeMusic{ get{ return _volumeMusic.value; }}
+	
+	public OptionsSlider _volumeSFX;
+	public float volumeSFX{ get{ return _volumeSFX.value; }}
 	
 	
-	private float _volumeSFX;
-	public float volumeSFX{
-		get{
-			return _volumeSFX;
-		}
-		set{
-			_volumeSFX = value;
-			NGUITools.soundVolume = value;
-			PlayerPrefs.SetFloat("options_volume_sfx",_volumeSFX);
-		}
-	}
+	public OptionsItem _vibration;
+	public bool vibration { get{ return _vibration.isEnabled; }}
 	
+	public OptionsItem _yInvert;
+	public bool yInvert { get{ return _yInvert.isEnabled; }}
 	
-	private bool _vibration;
-	public bool vibration{
-		get{
-			return _vibration;
-		}
-		set{
-			_vibration = value;
-			PlayerPrefs.SetInt("options_vibration",_vibration?1:0);
-		}
-	}
+	public OptionsItem _flightControls3D;
+	public bool flightControls3D { get{ return _flightControls3D.isEnabled; }}
 	
-	private bool _yInvert;
-	public bool yInvert{
-		get{
-			return _yInvert;
-		}
-		set{
-			_yInvert = value;
-			PlayerPrefs.SetInt("options_yinvert",_yInvert?1:0);
-		}
-	}
+	public OptionsItem _cameraRotation;
+	public bool cameraRotation { get{ return _cameraRotation.isEnabled; }}
 	
-	private bool _flightControls3D;
-	public bool flightControls3D{
-		get{
-			return _flightControls3D;
-		}
-		set{
-			_flightControls3D = value;
-			PlayerPrefs.SetInt("options_flightcontrols",_flightControls3D?1:0);
-		}
-	}
+	public OptionsItem _peyton;
+	public bool peyton { get{ return _peyton.isEnabled; }}
 	
-	private bool _cameraRotation;
-	public bool cameraRotation{
-		get{
-			return _cameraRotation;
-		}
-		set{
-			_cameraRotation = value;
-			PlayerPrefs.SetInt("options_camerarotation",_cameraRotation?1:0);
-		}
-	}
-	
-	private bool _peyton;
-	public bool peyton{
-		get{
-			return _peyton;
-		}
-		set{
-			_peyton = value;
-			PlayerPrefs.SetInt("options_peyton",_peyton?1:0);
-		}
-	}
-	
-	public void RestoreOptions()
-	{
-		volumeMusic = PlayerPrefs.GetFloat("options_volume_music",1f);
-		volumeSFX = PlayerPrefs.GetFloat("options_volume_sfx",1f);
-		vibration = PlayerPrefs.GetInt("options_vibration",1)==1;
-		yInvert = PlayerPrefs.GetInt("options_yinvert",0)==1;
-		flightControls3D = PlayerPrefs.GetInt("options_flightcontrols",0)==1;
-		cameraRotation = PlayerPrefs.GetInt("options_camerarotation",0)==1;
-		peyton = PlayerPrefs.GetInt("options_peyton",0)==1;
-		
-		showFPS = PlayerPrefs.GetInt("options_showframerate",0)==1;
-	}
-	
-	#endregion
-	
-	#region Debug Options
-	private bool _showFPS = false;
-	public bool showFPS{
-		get{
-			return _showFPS;
-		}
-		set{
-			_showFPS = value;
-			PlayerPrefs.SetInt("options_showframerate",_showFPS?1:0);
-		}
-		
-	}
-	#endregion
+	public OptionsItem _showFPS;
+	public bool showFPS { get{ return _showFPS.isEnabled; }}
 	
 	#region GUI
 	
 	public GameObject gui;
+	public GameObject standardGUI;
+	public GameObject debugGUI;
 	
 	private bool _showOptions = false;
 	public bool ShowOptions{
@@ -126,88 +43,40 @@ public class Options : MonoBehaviour {
 		set{
 			_showOptions = value;
 			gui.SetActive(value);
+			debug = false;
 		}
 	}
 	
-	private bool debug;
-	
-	private Rect textRect(float index)
-	{
-		Vector2 textSize = new Vector2(Screen.width*0.2f,30);
-		
-		float w = 0f;
-		if( index > 8 ) { w = Screen.width*0.5f; index-=8; }
-		return new Rect(w + Screen.width*0.05f,index*50f,textSize.x,textSize.y);
-	}
-	private Rect buttonRect(float index)
-	{
-		Vector2 textSize = new Vector2(Screen.width*0.2f,30);
-		Vector2 buttonSize = new Vector2(Screen.width*0.2f,30);
-		
-		float w = 0f;
-		if( index > 8 ) { w = Screen.width*0.5f; index-=8; }
-		return new Rect(w+Screen.width*0.0f+textSize.x,index*50f,buttonSize.x,buttonSize.y);
+	private bool _debug = false;
+	public bool debug{
+		get{
+			return _debug;
+		}
+		set{
+			_debug = value;
+			standardGUI.SetActive(!value);
+			debugGUI.SetActive(value);
+		}
 	}
 	
 	void Awake()
 	{
-		RestoreOptions();
 		ShowOptions = false;
+		
+		_volumeMusic.Init();
+		_volumeSFX.Init();
+		_vibration.Init();
+		_yInvert.Init();
+		_flightControls3D.Init();
+		_cameraRotation.Init();
+		_peyton.Init();
+		_showFPS.Init();
+
 	}
 	
-	void OnGUI()
+	void Update()
 	{
-		if(!ShowOptions) return;
-		if(debug)
-		{
-			GUI.Label(textRect(1),"Display Framerate");
-			if( GUI.Button(buttonRect(1),showFPS?"ON":"OFF" ) )
-				showFPS = !showFPS;
-			
-			
-			if( GUI.Button( new Rect(Screen.width-110,10,100,40),"1000 Unlikeliums"))
-				Store.Instance.Unlikeliums += 1000;
-	
-			if(Store.Instance.IsPlayGame && GUI.Button( new Rect(Screen.width-110,60,100,40),"5000 Distance"))
-				LevelInfo.Environments.playerShip.travelled += 5000;
-			
-			if( GUI.Button( new Rect(Screen.width-110,Screen.height-50,100,40),"Options"))
-				debug = false;
-		}
-		else
-		{
-			GUI.Label(textRect(1),"Music");
-			volumeMusic = GUI.HorizontalSlider(buttonRect(1),volumeMusic,0f,1f);
-	
-			GUI.Label(textRect(2),"Sfx");
-			volumeSFX = GUI.HorizontalSlider(buttonRect(2),volumeSFX,0f,1f);
-			
-			GUI.Label(textRect(3),"Vibration");
-			if( GUI.Button(buttonRect(3),vibration?"ON":"OFF" ) )
-				vibration = !vibration;			
-			
-			GUI.Label(textRect(4),"Y Invert");
-			if( GUI.Button(buttonRect(4),yInvert?"ON":"OFF" ) )
-				yInvert = !yInvert;
-			
-			GUI.Label(textRect(5),"Flight Controls");
-			if( GUI.Button(buttonRect(5),flightControls3D?"3D":"2D" ) )
-				flightControls3D = !flightControls3D;
-			
-			GUI.Label(textRect(6),"Camera Rotation");
-			if( GUI.Button(buttonRect(6),cameraRotation?"ON":"OFF" ) )
-				cameraRotation = !cameraRotation;
-			
-			GUI.Label(textRect(7),"Peyton Messages");
-			if( GUI.Button(buttonRect(7),peyton?"ON":"OFF" ) )
-				peyton = !peyton;
-			
-			if( GUI.Button( new Rect(Screen.width-150,20,130,40),"Reset Tutorial"))
-				Tutorials.ResetTutorials();
-			
-			if( GUI.Button( new Rect(Screen.width-100,Screen.height-60,80,40),"Debug"))
-				debug = true;
-		}
+		NGUITools.soundVolume = volumeSFX;
 	}
 	
 	#endregion
