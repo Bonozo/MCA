@@ -77,6 +77,8 @@ public class AudioManager : MonoBehaviour {
 		audioSourceBackground.Play();
 	}
 	
+	public AudioClip clipGameOver;
+	
 	#endregion
 	
 	

@@ -76,7 +76,7 @@ public class StateManager : MonoBehaviour {
 					r.enableEmission = false;
 				
 				LevelInfo.Audio.StopAll();
-				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Environments.playerShip.AudioGameOver);
+				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Audio.clipGameOver);
 				
 				LevelInfo.Environments.popupLose.SetActive(true);
 				var results = LevelInfo.Environments.popupLoseLabelResults;

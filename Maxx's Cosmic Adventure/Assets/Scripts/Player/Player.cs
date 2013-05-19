@@ -12,11 +12,8 @@ public class Player : MonoBehaviour {
 	public float CameraZ = 9.5f; 
 	public float CameraHeight = 1.5f;
 	
-	public AudioClip ExplosionSoundEffect;
-	
 	public AudioClip AudioEngineNormal;
 	public AudioClip AudioEngineBoost;
-	public AudioClip AudioGameOver;
 	
 	public ParticleSystem[] ExhaustArray;
 	
