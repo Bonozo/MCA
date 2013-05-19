@@ -98,7 +98,6 @@ public class Tutorials : MonoBehaviour {
 				int lines=0;
 				lines = PopupSizeParamsByMessage(ref message,ref maxlinelenght);
 				
-				Debug.Log("maxlinelenght: " + maxlinelenght);
 				sc.x = 17*(maxlinelenght+5);
 				sc.y = 60f*(lines+1);
 				
