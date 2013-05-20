@@ -37,30 +37,28 @@ public class Story : MonoBehaviour {
 		// show swipe popup
 		while(!firstpageslided)
 		{
-			yield return new WaitForSeconds(5f);
 			if(!firstpageslided)
 			{
 				showpopup = true;
 				
-				float transparent = 0.9f;
-				float showpopuptime = 2f;
-				while(showpopuptime>0f)
+				float showpopuptime = 0;
+				while(showpopuptime<1f)
 				{
-					showpopuptime -= Time.deltaTime;
-					popupcolor.a = transparent-transparent*(0.5f*showpopuptime);
+					showpopuptime += Time.deltaTime;
+					popupcolor.a = showpopuptime;
 					yield return new WaitForEndOfFrame();
 				}
-				yield return new WaitForSeconds(1f);
-				showpopuptime = 2f;
+				yield return new WaitForSeconds(4f);
+				showpopuptime = 1;
 				while(showpopuptime>0f)
 				{
 					showpopuptime -= Time.deltaTime;
-					popupcolor.a = transparent*0.5f*showpopuptime;
+					popupcolor.a = showpopuptime;
 					yield return new WaitForEndOfFrame();
 				}
 				
 				showpopup = false;
-				yield return new WaitForSeconds(7f);
+				yield return new WaitForSeconds(10f);
 			}
 		}
 	}
@@ -130,7 +128,7 @@ public class Story : MonoBehaviour {
 		
 		GUI.color = popupcolor;
 		
-		if(showpopup)
+		if(showpopup && !firstpageslided)
 			GUI.DrawTexture(new Rect(Screen.width*0.35f,Screen.height*0.35f,Screen.width*0.3f,Screen.height*0.3f),popUp,ScaleMode.StretchToFill);	
 	}
 }
