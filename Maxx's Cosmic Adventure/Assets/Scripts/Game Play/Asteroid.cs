@@ -76,7 +76,6 @@ public class Asteroid : MonoBehaviour {
 	public void Explode(bool byMaxx)
 	{
 		if(exploded) return; exploded=true;
-		LevelInfo.Audio.PlayAudioAsteroidExplode();
 		
 		var gempos = transform.parent.position; if(!Options.Instance.flightControls3D) gempos.y=0f;
 		LevelInfo.Environments.generator.GenerateNewGem(gempos);
