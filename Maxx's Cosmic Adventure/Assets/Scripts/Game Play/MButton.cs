@@ -93,6 +93,7 @@ public class MButton : MonoBehaviour {
 			break;
 		case Gems.FireBall:
 			Instantiate(LevelInfo.Environments.prefabPlayerFireBall,LevelInfo.Environments.playerFireballTransform.position,LevelInfo.Environments.playerFireballTransform.rotation);			
+			LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Audio.clipLightenUpFire);
 			powerupCount--;
 			if(powerupCount==0)
 			{
