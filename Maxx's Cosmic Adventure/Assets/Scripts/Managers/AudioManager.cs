@@ -88,6 +88,7 @@ public class AudioManager : MonoBehaviour {
 	#region Player
 	public AudioClip clipGetUnlikelium;
 	public AudioClip clipGetPowerup;
+	public AudioClip clipGetIntergalactic;
 	
 	public AudioClip clipFire;
 	public AudioClip clipAutoFire;
@@ -96,15 +97,19 @@ public class AudioManager : MonoBehaviour {
 	
 	public void PlayAudioGemPickUp(Gems gem)
 	{
-		if( gem == Gems.Unlikelium )
+		switch(gem)
 		{
+		case Gems.Unlikelium:
 			audioSourceUnlikeliums.PlayOneShot(clipGetUnlikelium);
 			audioSourceUnlikeliums.pitch += 0.025f;
 			pitchAudioUnlikeliumDistance = LevelInfo.Environments.playerShip.DistanceTravelled+35;
-		}
-		else
-		{
+			break;
+		case Gems.Intergalactic:
+			audioSourcePlayerShip.PlayOneShot(clipGetIntergalactic);
+			break;
+		default:
 			audioSourcePlayerShip.PlayOneShot(clipGetPowerup);
+			break;
 		}
 	}
 	
