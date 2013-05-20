@@ -34,6 +34,7 @@ public class Options : MonoBehaviour {
 	public GameObject gui;
 	public GameObject standardGUI;
 	public GameObject debugGUI;
+	public AudioSource audioSource;
 	
 	private bool _showOptions = false;
 	public bool ShowOptions{
@@ -44,6 +45,15 @@ public class Options : MonoBehaviour {
 			_showOptions = value;
 			gui.SetActive(value);
 			debug = false;
+			if(_showOptions)
+			{
+				audioSource.volume = Options.Instance.volumeMusic;
+				audioSource.Play();
+			}
+			else
+			{
+				audioSource.Stop();
+			}
 		}
 	}
 	
@@ -77,6 +87,7 @@ public class Options : MonoBehaviour {
 	void Update()
 	{
 		NGUITools.soundVolume = volumeSFX;
+		audioSource.volume = volumeMusic;
 	}
 	
 	#endregion

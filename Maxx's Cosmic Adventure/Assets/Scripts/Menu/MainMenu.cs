@@ -26,7 +26,7 @@ public class MainMenu : MonoBehaviour {
 		}
 		set
 		{
-			if(_state == MenuState.Store && value != MenuState.Store && !audio.isPlaying)
+			if( (_state == MenuState.Store || _state == MenuState.Options) && value != MenuState.Store && value != MenuState.Options && !audio.isPlaying)
 				audio.Play();
 			
 			_state = value;
@@ -42,7 +42,10 @@ public class MainMenu : MonoBehaviour {
 			}
 			
 			if(_state == MenuState.Options)
+			{
 				Options.Instance.ShowOptions = true;
+				audio.Stop();
+			}
 		}
 	}
 	
