@@ -89,6 +89,7 @@ public class AudioManager : MonoBehaviour {
 	public AudioClip clipGetUnlikelium;
 	public AudioClip clipGetPowerup;
 	public AudioClip clipGetIntergalactic;
+	public AudioClip clipGetToughGuy;
 	
 	public AudioClip clipFire;
 	public AudioClip clipAutoFire;
@@ -106,6 +107,9 @@ public class AudioManager : MonoBehaviour {
 			break;
 		case Gems.Intergalactic:
 			audioSourcePlayerShip.PlayOneShot(clipGetIntergalactic);
+			break;
+		case Gems.ToughGuy:
+			audioSourcePlayerShip.PlayOneShot(clipGetToughGuy);
 			break;
 		default:
 			audioSourcePlayerShip.PlayOneShot(clipGetPowerup);
