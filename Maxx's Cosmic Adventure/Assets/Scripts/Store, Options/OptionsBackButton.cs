@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ButtonOptionsBack : MonoBehaviour {
+public class OptionsBackButton : MonoBehaviour {
 	
 	void Action()
 	{

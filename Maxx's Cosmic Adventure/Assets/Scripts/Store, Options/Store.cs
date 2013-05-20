@@ -38,7 +38,6 @@ public class Store : MonoBehaviour {
 	public Camera camera2d;
 	public Transform buttonsDelta;
 	public UILabel guiUnlikelium;
-	public GameObject buttonGame;
 	
 	public GameObject popupUpgradePowerups;
 	public GameObject popupBuyUnlikeliums;
@@ -65,7 +64,6 @@ public class Store : MonoBehaviour {
 			if(_showStore)
 			{
 				popupUpgradePowerups.SetActive(false);
-				buttonGame.SetActive(IsPlayGame);
 				audio.volume = Options.Instance.volumeMusic;
 				audio.Play();
 			}
