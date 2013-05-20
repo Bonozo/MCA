@@ -61,7 +61,6 @@ public class GameManager : MonoBehaviour {
 	
 	#region Particles
 	
-	public GameObject particleExplosionJeeb;
 	public GameObject particleExplosionAsteroid;
 	public GameObject particleSpark;
 	
