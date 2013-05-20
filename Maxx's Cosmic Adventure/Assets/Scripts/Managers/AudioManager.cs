@@ -7,6 +7,7 @@ public class AudioManager : MonoBehaviour {
 	
 	public AudioSource audioSourceBackground;
 	public AudioSource audioSourcePlayerShip;
+	public AudioSource audioSourcePlayerShipEngine;
 	public AudioSource audioSourceJeebles;
 	public AudioSource audioSourceUnlikeliums;
 	public AudioSource Maxx;
@@ -19,6 +20,7 @@ public class AudioManager : MonoBehaviour {
 	public void StopEffects()
 	{
 		audioSourcePlayerShip.Stop();
+		audioSourcePlayerShipEngine.Stop();
 		audioSourceJeebles.Stop();
 		audioSourceUnlikeliums.Stop();
 		Maxx.Stop();
@@ -48,6 +50,7 @@ public class AudioManager : MonoBehaviour {
 	{
 		audioSourceBackground.volume = Options.Instance.volumeMusic;
 		audioSourcePlayerShip.volume = Options.Instance.volumeSFX;
+		audioSourcePlayerShipEngine.volume = Options.Instance.volumeSFX;
 		audioSourceJeebles.volume = Options.Instance.volumeSFX;
 		audioSourceUnlikeliums.volume = Options.Instance.volumeSFX;
 		Maxx.volume = Options.Instance.volumeSFX;
@@ -91,9 +94,6 @@ public class AudioManager : MonoBehaviour {
 	public AudioClip clipLightenUpFire;
 	public AudioClip clipTripleTroubleFire;
 	
-	public AudioClip audioWeaponPickUp;
-	public AudioClip audioWeaponExpire;
-	
 	public void PlayAudioGemPickUp(Gems gem)
 	{
 		if( gem == Gems.Unlikelium )
@@ -108,10 +108,9 @@ public class AudioManager : MonoBehaviour {
 		}
 	}
 	
-	public void PlayAudioWeaponExpire()
-	{
-		audioSourcePlayerShip.PlayOneShot(audioWeaponExpire);
-	}
+	// Engine
+	public AudioClip clipPlayerShipEngineIdle;
+	public AudioClip clipPlayerShipEngineBoost;
 	
 	#endregion
 	

@@ -12,9 +12,6 @@ public class Player : MonoBehaviour {
 	public float CameraZ = 9.5f; 
 	public float CameraHeight = 1.5f;
 	
-	public AudioClip AudioEngineNormal;
-	public AudioClip AudioEngineBoost;
-	
 	public ParticleSystem[] ExhaustArray;
 	
 	public GameObject leftturret,rightturret;
@@ -463,19 +460,19 @@ public class Player : MonoBehaviour {
 		if( intergalacticLocal )
 		{
 			currentspeed += 60f*Time.deltaTime;
-			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;		
+			LevelInfo.Audio.audioSourcePlayerShipEngine.clip = LevelInfo.Audio.clipPlayerShipEngineBoost;	
 		}
 		else if(LoveUnlikelium)
 		{
 			currentspeed += 30f*Time.deltaTime;
-			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;
+			LevelInfo.Audio.audioSourcePlayerShipEngine.clip = LevelInfo.Audio.clipPlayerShipEngineBoost;
 		}
 		else if(BoostButtonPressed && !LevelInfo.Environments.fuelOverheat.Up() && currentspeed<=6f)
 		{
 			boostend = false;
 			boostx =  Mathf.Min(2f,boostx+0.5f*Time.deltaTime);
 			currentspeed += 30f*Time.deltaTime;
-			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineBoost;			
+			LevelInfo.Audio.audioSourcePlayerShipEngine.clip = LevelInfo.Audio.clipPlayerShipEngineBoost;		
 		}
 		else
 		{
@@ -483,12 +480,12 @@ public class Player : MonoBehaviour {
 			if(currentspeed>1f) currentspeed = Mathf.Max(1f,currentspeed-30f*Time.deltaTime);
 			
 			LevelInfo.Environments.fuelOverheat.Down();
-			LevelInfo.Audio.audioSourcePlayerShip.clip = AudioEngineNormal;
+			LevelInfo.Audio.audioSourcePlayerShipEngine.clip = LevelInfo.Audio.clipPlayerShipEngineIdle;
 			reduce=true;
 		}
 		
 		if(boostend) boostx = Mathf.Max(0f,boostx-Time.deltaTime);
-		if( !LevelInfo.Audio.audioSourcePlayerShip.isPlaying ) LevelInfo.Audio.audioSourcePlayerShip.Play();
+		if( !LevelInfo.Audio.audioSourcePlayerShipEngine.isPlaying ) LevelInfo.Audio.audioSourcePlayerShipEngine.Play();
 		
 		if(reduce)
 		{ 
