@@ -352,7 +352,7 @@ public class AlienShip : MonoBehaviour {
 		if(byMaxx)
 		{
 			LevelInfo.Environments.score.jeebiesDestoyed++;
-			LevelInfo.Audio.MaxxExplodedJeebie();
+			LevelInfo.Audio.PlayVoiceOverJeebieDestroyed();
 		}	
 		
 		Destroy(this.gameObject);		

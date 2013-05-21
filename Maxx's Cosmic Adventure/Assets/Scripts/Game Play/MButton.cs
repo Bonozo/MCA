@@ -82,6 +82,7 @@ public class MButton : MonoBehaviour {
 			break;
 		case Gems.Pow:
 			StartCoroutine(PowPowerup());
+			LevelInfo.Audio.PlayVoiceOverUsePOW();
 			powerupCount--;
 			if(powerupCount==0)
 			{

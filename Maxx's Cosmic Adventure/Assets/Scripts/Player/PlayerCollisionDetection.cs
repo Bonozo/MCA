@@ -29,7 +29,7 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			#endif	
 			LevelInfo.Environments.score.LostLive();
 			if(LevelInfo.Environments.score.Lives > 0 )
-				LevelInfo.Audio.MaxxLostLife();
+				LevelInfo.Audio.PlayVoiceOverShipCrash();
 			break;
 		}
 	}
@@ -47,11 +47,6 @@ public class PlayerCollisionDetection : MonoBehaviour {
 	{
 		Gems gemtype = gem.GetComponent<Gem>().gemType;
 		LevelInfo.Environments.tutorials.TakenGem(gemtype);
-		
-		if(gemtype != Gems.Unlikelium)
-		{
-			LevelInfo.Audio.MaxxGetsPowerup();
-		}
 		
 		switch( gemtype )
 		{
@@ -77,6 +72,7 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			break;
 		case Gems.FreezeWorld:
 			LevelInfo.Environments.playerShip.StartFreezeWorld();
+			LevelInfo.Audio.PlayVoiceGetHoldItNowHitIt();
 			LevelInfo.Environments.infoMessage.ShowMessage("Hold It Now, Hit It");
 			break;
 		case Gems.Pow:

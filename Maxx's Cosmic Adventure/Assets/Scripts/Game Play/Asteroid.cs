@@ -20,8 +20,6 @@ public class Asteroid : MonoBehaviour {
 		GlobalCount++;
 		numberInRun++;
 		numberInRunLocal = numberInRun;
-		if(GlobalCount > 5 )
-			LevelInfo.Audio.MaxxAsteroidBelt();
 	}
 	
 	void OnDestroy()
@@ -83,7 +81,7 @@ public class Asteroid : MonoBehaviour {
 		if(byMaxx)
 		{
 			LevelInfo.Environments.score.asteroidsDestoyed++;
-			LevelInfo.Audio.MaxxExplodedAsteroid();
+			LevelInfo.Audio.PlayVoiceOverAsteroidDestroyed();
 		}
 		
 		Instantiate(LevelInfo.Environments.particleExplosionAsteroid,transform.parent.position,Random.rotation);

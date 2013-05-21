@@ -38,14 +38,11 @@ public class Generator : MonoBehaviour {
 	
 	public IEnumerator StartAlienAttack(int index,int count,float delta)
 	{
-		int countsave = count;
 		while(count>0)
 		{
 			yield return new WaitForSeconds(delta);
 			LevelInfo.Environments.generator.GenerateNewAlienShip(index);
 			count--;
-			if(countsave-count>=Random.Range(3,5))
-				LevelInfo.Audio.MaxxJeebieAttack();
 		}
 	}
 	

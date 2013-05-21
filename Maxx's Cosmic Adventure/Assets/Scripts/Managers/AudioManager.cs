@@ -140,66 +140,93 @@ public class AudioManager : MonoBehaviour {
 	
 	#endregion
 	
-	#region Maxx!!!!!
+	#region Maxx Voice Overs
 	
 	/* player voice-overs with events
 	 * 1. All time phrases 
 	 * 2. Maxx's ship crashing
 	 * 
-	 * 3. Evading jeebies
- 	 * 4. Near miss with obstacle 
- 	 * 
+	 * 3. Maxx Chases Jeebies
+	 * 4. Maxx Destroys Asteroids
+	 * 
 	 * 5. Lots of Jeebies
 	 * 6. Lots of Asteroids
 	 * 
-	 * 7. Maxx Chases Jeebies
-	 * 8. Maxx Destroys Asteroids
+	 * 7. Evading jeebies
+ 	 * 8. Near miss with obstacle 
 	 * 
 	 * 9. Powerups use
 	 * */
 	
-	public AudioClip[] explodedJeebie;	
-	public void MaxxExplodedJeebie()
+	// All time phrases 
+	public AudioClip[] voicoverAllTime;
+	public void PlayVoiceOverAllTime()
 	{
-		MaxxPlay(explodedJeebie[Random.Range(0,explodedJeebie.Length)],0.3f,0.7f);
-	}
-	
-	public AudioClip[] explodedAsteroid;
-	public void MaxxExplodedAsteroid()
-	{
-		MaxxPlay(explodedAsteroid[Random.Range(0,explodedAsteroid.Length)],0.3f,0.7f);
-	}
-	
-	public AudioClip[] maxxAsteroidBelt;
-	public void MaxxAsteroidBelt()
-	{
-		MaxxPlay(maxxAsteroidBelt[Random.Range(0,maxxAsteroidBelt.Length)],0.0f,0.3f);
-	}
-	
-	public AudioClip[] maxxJeebieAttack;
-	public void MaxxJeebieAttack()
-	{
-		MaxxPlay(maxxJeebieAttack[Random.Range(0,maxxJeebieAttack.Length)],1.1f,0.5f);
+		MaxxPlay(voicoverAllTime[Random.Range(0,voicoverAllTime.Length)],0.0f,1f);
 	}	
 	
-	public AudioClip[] maxxGetsPowerup;
-	public void MaxxGetsPowerup()
+	// Maxx's ship crashing
+	public AudioClip[] voicoverShipCrash;	
+	public void PlayVoiceOverShipCrash()
 	{
-		MaxxPlay(maxxGetsPowerup[Random.Range(0,maxxGetsPowerup.Length)],1f,0.5f);
+		MaxxPlay(voicoverShipCrash[Random.Range(0,voicoverShipCrash.Length)],0.0f,1f);
 	}	
 	
-	public AudioClip[] maxxGetsHit;
-	public void MaxxLostLife()
+	// Jeebie destroyed
+	public AudioClip[] voicoverJeebieDestroyed;	
+	public void PlayVoiceOverJeebieDestroyed()
 	{
-		MaxxPlay(maxxGetsHit[Random.Range(0,maxxGetsHit.Length)],0f,0.8f);
+		MaxxPlay(voicoverJeebieDestroyed[Random.Range(0,voicoverJeebieDestroyed.Length)],0.3f,0.7f);
 	}	
 	
+	// Asteroid destroyed
+	public AudioClip[] voicoverAsteroidDestroyed;	
+	public void PlayVoiceOverAsteroidDestroyed()
+	{
+		MaxxPlay(voicoverAsteroidDestroyed[Random.Range(0,voicoverAsteroidDestroyed.Length)],0.3f,0.25f);
+	}	
+	
+	// Lots Of Jeebies (not determined)
+	public AudioClip[] voicoverLotsOfJeebies;	
+	public void PlayVoiceOverLotsOfJeebies()
+	{
+		MaxxPlay(voicoverLotsOfJeebies[Random.Range(0,voicoverLotsOfJeebies.Length)],0,1);
+	}		
+	
+	// Lots Of Asteroids (not determined)
+	public AudioClip[] voicoverLotsOfAsteroids;	
+	public void PlayVoiceOverLotsOfAsteroids()
+	{
+		MaxxPlay(voicoverLotsOfAsteroids[Random.Range(0,voicoverLotsOfAsteroids.Length)],0,1);
+	}	
+	
+	// Waiting For A Jeebie (not determined)
+	public AudioClip[] voicoverWaitingForAJeebie;	
+	public void PlayVoiceOverWaitingForAJeebie()
+	{
+		MaxxPlay(voicoverWaitingForAJeebie[Random.Range(0,voicoverWaitingForAJeebie.Length)],0,1);
+	}
+	
+	// Use POW
+	public AudioClip[] voicoverUsePOW;	
+	public void PlayVoiceOverUsePOW()
+	{
+		MaxxPlay(voicoverUsePOW[Random.Range(0,voicoverUsePOW.Length)],0.1f,1);
+	}	
+	
+	// Get Hold It Now, Hit It
+	public AudioClip[] voicoverGetHoldItNowHitIt;	
+	public void PlayVoiceGetHoldItNowHitIt()
+	{
+		MaxxPlay(voicoverGetHoldItNowHitIt[Random.Range(0,voicoverGetHoldItNowHitIt.Length)],0.3f,1);
+	}	
+	
+	// Implementation
 	public void MaxxPlay(AudioClip clip,float delay,float probablity)
 	{
 		if( Random.Range(0f,1f)<=probablity )
 			StartCoroutine(MaxxPlayThread(clip,delay));
-	}
-				
+	}	
 	private IEnumerator MaxxPlayThread(AudioClip clip,float delay)
 	{
 		yield return new WaitForSeconds(delay);
