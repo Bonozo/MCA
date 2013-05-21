@@ -65,6 +65,10 @@ public class AudioManager : MonoBehaviour {
 	void Update()
 	{
 		VolumeSetup();
+		
+		// Maxx Voice Overs
+		if(Maxx.clip!=null && !Maxx.isPlaying) Maxx.clip = null;
+		
 		if( LevelInfo.Environments.playerShip.DistanceTravelled >= pitchAudioUnlikeliumDistance )
 			audioSourceUnlikeliums.pitch = 1f;
 	}
