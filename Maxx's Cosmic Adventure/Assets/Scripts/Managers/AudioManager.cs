@@ -66,9 +66,9 @@ public class AudioManager : MonoBehaviour {
 	{
 		VolumeSetup();
 		
-		// Maxx Voice Overs
-		if(Maxx.clip!=null && !Maxx.isPlaying) Maxx.clip = null;
+		UpdateVoiceOvers();
 		
+		// Unlikelium audio pitch
 		if( LevelInfo.Environments.playerShip.DistanceTravelled >= pitchAudioUnlikeliumDistance )
 			audioSourceUnlikeliums.pitch = 1f;
 	}
@@ -146,21 +146,12 @@ public class AudioManager : MonoBehaviour {
 	
 	#region Maxx Voice Overs
 	
-	/* player voice-overs with events
-	 * 1. All time phrases 
-	 * 2. Maxx's ship crashing
-	 * 
-	 * 3. Maxx Chases Jeebies
-	 * 4. Maxx Destroys Asteroids
-	 * 
-	 * 5. Lots of Jeebies
-	 * 6. Lots of Asteroids
-	 * 
-	 * 7. Evading jeebies
- 	 * 8. Near miss with obstacle 
-	 * 
-	 * 9. Powerups use
-	 * */
+	// For special events
+	void UpdateVoiceOvers()
+	{
+		if(Maxx.clip!=null && !Maxx.isPlaying) Maxx.clip = null;
+		if(Random.Range(0,500)==1) PlayVoiceOverAllTime();
+	}
 	
 	// All time phrases 
 	public AudioClip[] voicoverAllTime;
@@ -180,7 +171,8 @@ public class AudioManager : MonoBehaviour {
 	public AudioClip[] voicoverJeebieDestroyed;	
 	public void PlayVoiceOverJeebieDestroyed()
 	{
-		MaxxPlay(voicoverJeebieDestroyed[Random.Range(0,voicoverJeebieDestroyed.Length)],0.3f,0.7f);
+		Debug.Log("Got em");
+		MaxxPlay(voicoverJeebieDestroyed[Random.Range(0,voicoverJeebieDestroyed.Length)],0.3f,1f);
 	}	
 	
 	// Asteroid destroyed
@@ -190,26 +182,60 @@ public class AudioManager : MonoBehaviour {
 		MaxxPlay(voicoverAsteroidDestroyed[Random.Range(0,voicoverAsteroidDestroyed.Length)],0.3f,0.25f);
 	}	
 	
-	// Lots Of Jeebies (not determined)
+	// Lots Of Jeebies
 	public AudioClip[] voicoverLotsOfJeebies;	
 	public void PlayVoiceOverLotsOfJeebies()
 	{
-		MaxxPlay(voicoverLotsOfJeebies[Random.Range(0,voicoverLotsOfJeebies.Length)],0,1);
+		if( AlienShip.GlobalCount >= 6 && Random.Range(0,12)==1)
+		{
+			GameObject[] g = GameObject.FindGameObjectsWithTag("Enemy");
+			int front = 0;
+			foreach(var gg in g)
+				if( gg.GetComponent<AlienShip>().IsFrontOfCamera )
+					front++;
+			if(front>=6)
+				MaxxPlay(voicoverLotsOfJeebies[Random.Range(0,voicoverLotsOfJeebies.Length)],Random.Range(0f,1f),1);
+		}		
 	}		
 	
-	// Lots Of Asteroids (not determined)
+	// Lots Of Asteroids
 	public AudioClip[] voicoverLotsOfAsteroids;	
 	public void PlayVoiceOverLotsOfAsteroids()
 	{
-		MaxxPlay(voicoverLotsOfAsteroids[Random.Range(0,voicoverLotsOfAsteroids.Length)],0,1);
+		if( Asteroid.GlobalCount >= 5 && Random.Range(0,3)==1)
+		{
+			GameObject[] g = GameObject.FindGameObjectsWithTag("Asteroid");
+			int front = 0;
+			foreach(var gg in g)
+				if( gg.GetComponent<Asteroid>().IsFrontOfCamera )
+					front++;
+			if(front>=5)
+				MaxxPlay(voicoverLotsOfAsteroids[Random.Range(0,voicoverLotsOfAsteroids.Length)],Random.Range(0f,1f),1);
+		}	
 	}	
 	
-	// Waiting For A Jeebie (not determined)
+	// Waiting For A Jeebie
 	public AudioClip[] voicoverWaitingForAJeebie;	
 	public void PlayVoiceOverWaitingForAJeebie()
 	{
-		MaxxPlay(voicoverWaitingForAJeebie[Random.Range(0,voicoverWaitingForAJeebie.Length)],0,1);
+		if(AlienShip.GlobalCount <= 2 && Random.Range(0,10)==1)
+		{
+			GameObject[] g = GameObject.FindGameObjectsWithTag("Enemy");
+			int front = 0;
+			foreach(var gg in g)
+				if( gg.GetComponent<AlienShip>().PlayerDistance >= 300f)
+					front++;
+			if( front == AlienShip.GlobalCount )
+				MaxxPlay(voicoverWaitingForAJeebie[Random.Range(0,voicoverWaitingForAJeebie.Length)],0,1);
+		}
 	}
+	
+	// Near miss with obstacle
+	public AudioClip[] voicoverNearMissWithObstacle;	
+	public void PlayVoiceOverNearMissWithObstacle()
+	{
+		MaxxPlay(voicoverNearMissWithObstacle[Random.Range(0,voicoverNearMissWithObstacle.Length)],0f,0.5f);
+	}	
 	
 	// Use POW
 	public AudioClip[] voicoverUsePOW;	

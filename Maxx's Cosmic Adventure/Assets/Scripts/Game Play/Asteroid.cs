@@ -41,6 +41,9 @@ public class Asteroid : MonoBehaviour {
 			gameObject.renderer.material.color = color;
 			yield return null;
 		}
+		
+		// check and say lot's of asteroids
+		LevelInfo.Audio.PlayVoiceOverLotsOfAsteroids();
 	}
 	
 	void Update()
@@ -48,6 +51,9 @@ public class Asteroid : MonoBehaviour {
 		if(LevelInfo.State.state != GameState.Play) return;
 		f=!f;
 		transform.Rotate(0f,0f,0.001f*(f?-1:1));
+		
+		if( !nearmisshappened && PlayerDistance <= 40f )
+		StartCoroutine(NearMissThread());
 	}
 	
 	public void GetHit(int power)
@@ -55,6 +61,21 @@ public class Asteroid : MonoBehaviour {
 		Power -= power;
 		if(Power <= 0 )
 			Explode();
+	}
+	
+	public float PlayerDistance{
+		get{
+		var p = LevelInfo.Environments.playerShip.transform.position; p.y = transform.position.y;
+		return Vector3.Distance(transform.position,p);
+		}
+	}
+	
+	private bool nearmisshappened = false;
+	IEnumerator NearMissThread()
+	{
+		nearmisshappened = true;
+		yield return new WaitForSeconds(Random.Range(0.2f,0.5f));
+		LevelInfo.Audio.PlayVoiceOverNearMissWithObstacle();
 	}
 	
 	void OnTriggerEnter(Collider col)

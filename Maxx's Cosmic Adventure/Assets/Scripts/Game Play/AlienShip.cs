@@ -110,6 +110,9 @@ public class AlienShip : MonoBehaviour {
 		tag = "Enemy";
 		LevelInfo.Environments.tutorials.SpawnedJeebie();
 		
+		// check and say waiting for a jeebie
+		LevelInfo.Audio.PlayVoiceOverWaitingForAJeebie();
+		
 		StartCoroutine(GetReady());
 	}
 	
@@ -127,6 +130,9 @@ public class AlienShip : MonoBehaviour {
 		}
 		ready = true;
 		if(canTilt && !(Mathf.Abs(ScreenX-0.5f)<=0.075f && Random.Range(0,2)==1) ) StartCoroutine(RotateThread());
+		
+		// check and say lot's of jeebies
+		LevelInfo.Audio.PlayVoiceOverLotsOfJeebies();
 	}
 	
 	void Update ()
@@ -141,6 +147,9 @@ public class AlienShip : MonoBehaviour {
 			return;
 		}
 		
+		if( !nearmisshappened && PlayerDistance <= 40f )
+			StartCoroutine(NearMissThread());
+		
 		if(LevelInfo.Environments.playerShip.FreezeWorld)
 		{
 			FreezeUpdate();
@@ -148,7 +157,7 @@ public class AlienShip : MonoBehaviour {
 		}
 		
 		// Move
-		if( appearAtPlayerFront && IsFrontOfCamera && PlayerDistance()>50f)
+		if( appearAtPlayerFront && IsFrontOfCamera && PlayerDistance>50f)
 		{
 			float playery = LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y+360f;
 			float y = transform.rotation.eulerAngles.y+360f+180f;
@@ -171,7 +180,7 @@ public class AlienShip : MonoBehaviour {
 		if( canFire )
 		{
 			if( fireDeltaTime > 0f ) fireDeltaTime -= Time.deltaTime;
-			if( Random.Range(1,fireFrequency) == 1 && fireDeltaTime<=0f && IsFrontOfCamera && PlayerDistance()>50f )
+			if( Random.Range(1,fireFrequency) == 1 && fireDeltaTime<=0f && IsFrontOfCamera && PlayerDistance>50f )
 			{
 				var c = ((GameObject)Instantiate(alienBullet,projectilePosition.position,transform.rotation)).GetComponent<AlienBullet>();
 				if(targetedFire)
@@ -240,7 +249,15 @@ public class AlienShip : MonoBehaviour {
 		float playery = LevelInfo.Environments.playerShip.transform.rotation.eulerAngles.y; if(playery>=180f) playery-=360f;
 		if( Vector3.Distance(transform.position,LevelInfo.Environments.playerShip.transform.position) >= 50f && Mathf.Abs(y-playery) <= 45f )
 			return true;*/
-		return PlayerDistance() >= autoKillDistance;
+		return PlayerDistance >= autoKillDistance;
+	}
+	
+	private bool nearmisshappened = false;
+	IEnumerator NearMissThread()
+	{
+		nearmisshappened = true;
+		yield return new WaitForSeconds(Random.Range(0.2f,0.5f));
+		LevelInfo.Audio.PlayVoiceOverNearMissWithObstacle();
 	}
 	
 	private Quaternion ToPlayerRotation()
@@ -279,10 +296,11 @@ public class AlienShip : MonoBehaviour {
 		return player;
 	}
 	
-	private float PlayerDistance()
-	{
+	public float PlayerDistance{
+		get{
 		var p = LevelInfo.Environments.playerShip.transform.position; p.y = transform.position.y;
 		return Vector3.Distance(transform.position,p);
+		}
 	}
 	
 	public bool IsFrontOfCamera{
