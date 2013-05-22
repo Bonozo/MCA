@@ -35,6 +35,7 @@ public class Store : MonoBehaviour {
 	#region References
 	
 	public GameObject gui;
+	public AudioSource audioSource;
 	public Camera camera2d;
 	public Transform buttonsDelta;
 	public UILabel guiUnlikelium;
@@ -64,8 +65,8 @@ public class Store : MonoBehaviour {
 			if(_showStore)
 			{
 				popupUpgradePowerups.SetActive(false);
-				audio.volume = Options.Instance.volumeMusic;
-				audio.Play();
+				audioSource.volume = Options.Instance.volumeMusic;
+				audioSource.Play();
 			}
 			else
 			{
@@ -73,7 +74,7 @@ public class Store : MonoBehaviour {
 					LevelInfo.Settings.UpdatePurchasedItems();
 				DisableAllPopups();
 				SetQuitPopupButtonEnabled(true);
-				audio.Stop();
+				audioSource.Stop();
 			}
 		}
 	}

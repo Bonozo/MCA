@@ -58,7 +58,7 @@ public class AudioManager : MonoBehaviour {
 	
 	void Start()
 	{
-		PlayRandomGamePlay();
+		PlayRandomPossibleGamePlay();
 		VolumeSetup();
 	}
 	
@@ -78,9 +78,29 @@ public class AudioManager : MonoBehaviour {
 	#region Game
 	
 	public AudioClip[] gameMusic;
-	public void PlayRandomGamePlay()
+	public void PlayRandomPossibleGamePlay()
 	{
-		audioSourceBackground.clip = gameMusic[Random.Range(0,gameMusic.Length)];
+		// local protocol xprefabs
+		int allow = 0;
+		for(int i=1;i<=6;i++)
+		{
+			if( PlayerPrefs.GetInt("options_music"+i)==1 )
+				allow++;
+		}
+		if(allow==0)
+		{
+			Debug.LogError("MCA local: 0 enabled game play musics.");
+			return;
+		}
+		int selected = Random.Range(0,allow);
+		for(int i=1;i<=6;i++)
+			if(PlayerPrefs.GetInt("options_music"+i)==1 && selected--==0)
+			{
+				audioSourceBackground.clip = gameMusic[i-1];
+				break;
+			}
+		if(audioSourceBackground.clip == null)
+			Debug.LogError("MCA local: No clip choosen for game play music.");
 		audioSourceBackground.Play();
 	}
 	

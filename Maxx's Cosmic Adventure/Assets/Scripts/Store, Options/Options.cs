@@ -10,7 +10,6 @@ public class Options : MonoBehaviour {
 	public OptionsSlider _volumeSFX;
 	public float volumeSFX{ get{ return _volumeSFX.value; }}
 	
-	
 	public OptionsItem _vibration;
 	public bool vibration { get{ return _vibration.isEnabled; }}
 	
@@ -29,12 +28,12 @@ public class Options : MonoBehaviour {
 	public OptionsItem _showFPS;
 	public bool showFPS { get{ return _showFPS.isEnabled; }}
 	
-	#region GUI
-	
 	public GameObject gui;
 	public GameObject standardGUI;
 	public GameObject debugGUI;
+	public GameObject musicGUI;
 	public AudioSource audioSource;
+	public AudioClip clipLoop;
 	
 	private bool _showOptions = false;
 	public bool ShowOptions{
@@ -48,6 +47,7 @@ public class Options : MonoBehaviour {
 			if(_showOptions)
 			{
 				audioSource.volume = Options.Instance.volumeMusic;
+				audioSource.clip = clipLoop;
 				audioSource.Play();
 			}
 			else
@@ -69,6 +69,19 @@ public class Options : MonoBehaviour {
 		}
 	}
 	
+	private bool _musics = false;
+	public bool musics{
+		get{
+			return _musics;
+		}
+		set{
+			_musics = value;
+			standardGUI.SetActive(!value);
+			musicGUI.SetActive(value);
+			if(!value) PlayMainLoop();
+		}
+	}
+	
 	void Awake()
 	{
 		ShowOptions = false;
@@ -81,7 +94,8 @@ public class Options : MonoBehaviour {
 		_cameraRotation.Init();
 		_peyton.Init();
 		_showFPS.Init();
-
+		
+		foreach(var elem in gameMusicsItems) elem.Init();
 	}
 	
 	void Update()
@@ -90,7 +104,43 @@ public class Options : MonoBehaviour {
 		audioSource.volume = volumeMusic;
 	}
 	
-	#endregion
+	public OptionsMusicPlay[] gameMusics;
+	public OptionsItem[] gameMusicsItems;
+	
+	public void ClearAllClips()
+	{
+		foreach(var elem in gameMusics) elem.isPlaying = false;
+	}
+	
+	public void PlayClip(OptionsMusicPlay musicItem)
+	{
+		ClearAllClips();
+		
+		audioSource.clip = musicItem.clip;
+		audioSource.Play();
+		
+		musicItem.isPlaying = true;
+	}
+	
+	public void PlayMainLoop()
+	{
+		ClearAllClips();
+		if( audioSource.clip != clipLoop)
+		{
+			audioSource.clip = clipLoop;
+			audioSource.Play();
+		}
+	}
+	
+	public bool MusicCanDisable{
+		get{
+			int count = 0;
+			foreach(var elem in gameMusicsItems)
+				if(elem.isEnabled)
+					count++;
+			return count>1;
+		}
+	}
 	
 	#region  Static Instance
 	

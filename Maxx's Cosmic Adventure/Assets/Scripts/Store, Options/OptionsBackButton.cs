@@ -5,6 +5,18 @@ public class OptionsBackButton : MonoBehaviour {
 	
 	void Action()
 	{
+		if(Options.Instance.musics)
+		{
+			Options.Instance.musics = false;
+			return;
+		}
+		
+		if(Options.Instance.debug)
+		{
+			Options.Instance.debug = false;
+			return;
+		}
+		
 		Options.Instance.ShowOptions = false;
 		if(Store.Instance.IsMainMenu)
 			MainMenu.Instance.State = MainMenu.MenuState.Title;

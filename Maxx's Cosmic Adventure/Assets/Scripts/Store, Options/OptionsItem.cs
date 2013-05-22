@@ -11,14 +11,20 @@ public class OptionsItem : MonoBehaviour {
 	public UISlicedSprite background;
 	public UILabel backtext;
 	
+	public bool isMusicOption = false;
+	
 	public void Init()
 	{
 		isEnabled = PlayerPrefs.GetInt("options_" + prefName,isEnabled?1:0)==1;
+		PlayerPrefs.SetInt("options_" + prefName,isEnabled?1:0);
 		UpdateState();
 	}
 	
 	void OnClick()
 	{
+		if(isMusicOption && isEnabled && !Options.Instance.MusicCanDisable)
+			return;
+		
 		isEnabled = !isEnabled;
 		PlayerPrefs.SetInt("options_" + prefName,isEnabled?1:0);
 		UpdateState();
