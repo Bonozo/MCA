@@ -109,7 +109,12 @@ public class Generator : MonoBehaviour {
 		{
 			if( Random.Range(0,2)==1 )
 			{
-				int len = distance >= Stage_One_Distance ? AsteroidPrefabs.Length : 2 ;
+				int len = AsteroidPrefabs.Length;
+				if(distance<10000) len = AsteroidPrefabs.Length-1;
+				if(distance<5000) len = AsteroidPrefabs.Length-2;
+				if(distance<1000) len = AsteroidPrefabs.Length-3;
+				if(distance<500) len = AsteroidPrefabs.Length-4;
+				if(len<1) len = 1;
 				GenerateNewAsteroid(Random.Range(0,len));
 			}
 			next_asteroid_time += Stage_One_Step;
