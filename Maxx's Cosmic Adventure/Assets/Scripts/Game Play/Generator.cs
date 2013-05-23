@@ -19,8 +19,6 @@ public class Generator : MonoBehaviour {
 	
 	public void GenerateNewAlienShip()
 	{
-		if(firstUnlikeliumsListCount>0) return;
-		
 		float maxdistance = 12000f;
 		float currentdistance = LevelInfo.Environments.playerShip.DistanceTravelled;
 		
@@ -53,23 +51,25 @@ public class Generator : MonoBehaviour {
 	public bool GenerateAsteroid = false;
 	public GameObject[] AsteroidPrefabs;
 	public float AsteroidDistanceMin=30f, AsteroidDistanceMax=50f;
-	
-	private int firstUnlikeliumsListCount=0;
+
 	public void GenerateNewAsteroid(int index)
 	{
 		if( GenerateAsteroid && Asteroid.GlobalCount<15) 
 		{
-			// Spawn unlikelium list for first random 1-3 times
-			if( firstUnlikeliumsListCount>0 )
-			{
-				firstUnlikeliumsListCount--;
-				index=0;
-			}
-			
 			Instantiate(AsteroidPrefabs[index]);
 		}
 	}
 	
+	
+	#endregion
+	
+	#region Unlikeliums
+	
+	public GameObject[] prefabUnlikelium;
+	private float distance_Unlikelium_Min = 300f, distance_Unlikelium_Max = 600f;
+	private float muchUnlikeliumsInFirstTimes_Meter = 1000f;
+	private float distance_Unlikelium_Min_FirstTimes = 150f, distance_Unlikelium_Max_FirstTimes = 300f;
+	private float next_unlikelium_distance = 0f;
 	
 	#endregion
 	
@@ -95,7 +95,8 @@ public class Generator : MonoBehaviour {
 	
 	void Awake()
 	{
-		firstUnlikeliumsListCount = Random.Range(1,4);
+		next_unlikelium_distance = Random.Range(100f,150f);
+		next_asteroid_time = Random.Range(160f,300f);
 	}
 	
 	void Update () 
@@ -124,6 +125,16 @@ public class Generator : MonoBehaviour {
 			}
 			next_jeeble_time += Stage_Two_Step_Enemy;	
 			/*??*/if(next_jeeble_time<distance) next_jeeble_time=distance+Random.Range(0f,2f);
+		}
+		
+		// Unlikeliums
+		if( distance >= next_unlikelium_distance)
+		{
+			if(distance <= muchUnlikeliumsInFirstTimes_Meter )
+				next_unlikelium_distance = distance + Random.Range(distance_Unlikelium_Min_FirstTimes,distance_Unlikelium_Max_FirstTimes);
+			else
+				next_unlikelium_distance = distance + Random.Range(distance_Unlikelium_Min,distance_Unlikelium_Max);
+			Instantiate(prefabUnlikelium[Random.Range(0,prefabUnlikelium.Length)]);
 		}
 		
 		if( GenerateUnlikeliumList )

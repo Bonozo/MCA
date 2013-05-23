@@ -191,7 +191,6 @@ public class AudioManager : MonoBehaviour {
 	public AudioClip[] voicoverJeebieDestroyed;	
 	public void PlayVoiceOverJeebieDestroyed()
 	{
-		Debug.Log("Got em");
 		MaxxPlay(voicoverJeebieDestroyed[Random.Range(0,voicoverJeebieDestroyed.Length)],0.3f,1f);
 	}	
 	
