@@ -136,7 +136,7 @@ public class AlienShip : MonoBehaviour {
 	}
 	
 	void Update ()
-	{
+	{	
 		if(LevelInfo.State.state != GameState.Play) return;
 		if( !ready ) return;
 
@@ -219,19 +219,27 @@ public class AlienShip : MonoBehaviour {
 			
 			float beginy = transform.rotation.eulerAngles.y;
 			var rot = transform.rotation.eulerAngles;
-			for(float t=0f;t<time;t+=Time.deltaTime)
+			for(float t=0f;t<time;)
 			{
-				float gl = Time.deltaTime*angle/time;
-				rot.y -= gl; rot.z += gl;
-				transform.rotation = Quaternion.Euler(rot);
+				if(!LevelInfo.Environments.playerShip.FreezeWorld) 
+				{
+					float gl = Time.deltaTime*angle/time;
+					rot.y -= gl; rot.z += gl;
+					transform.rotation = Quaternion.Euler(rot);
+					t+=Time.deltaTime;
+				}
 				yield return new WaitForEndOfFrame();
 			}
 			yield return new WaitForSeconds(Random.Range(0f,10f));
-			for(float t=0f;t<time;t+=Time.deltaTime)
+			for(float t=0f;t<time;)
 			{
-				float gl = Time.deltaTime*angle/time;
-				rot.y += gl; rot.z -= gl;
-				transform.rotation = Quaternion.Euler(rot);
+				if(!LevelInfo.Environments.playerShip.FreezeWorld)
+				{
+					float gl = Time.deltaTime*angle/time;
+					rot.y += gl; rot.z -= gl;
+					transform.rotation = Quaternion.Euler(rot);
+					t+=Time.deltaTime;
+				}
 				yield return new WaitForEndOfFrame();
 			}
 			transform.rotation = Quaternion.Euler(0,beginy,0f);
