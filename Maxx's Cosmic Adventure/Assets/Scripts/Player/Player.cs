@@ -54,11 +54,8 @@ public class Player : MonoBehaviour {
 	
 	#region Awake, Start, Update
 	
-	public UILabel debugLabel;
-	
 	void Awake()
 	{	
-		debugLabel.text += "\nAwake Begin";
 		#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
 		if(localAttempt==0) calibrate = 45;
 		#endif
@@ -68,24 +65,16 @@ public class Player : MonoBehaviour {
 		allAttempt = PlayerPrefs.GetInt("all_game_attempt_count",0);
 		allAttempt++;
 		PlayerPrefs.SetInt("all_game_attempt_count",allAttempt);
-		
-		debugLabel.text += "\nAwake End";
 	}
 	
 	// Use this for initialization
 	void Start () 
 	{	
-		if(Store.Instance == null)
-			debugLabel.text += "\n Store Instace is null";
-		
-		debugLabel.text += "\nStart Begin";
 		CameraSetUp();
 		
 		lastPosition = transform.position;
 		
 		StartCoroutine("Rise");
-		
-		debugLabel.text += "\nStart End";
 	}
 	
 	void Update () 
@@ -141,8 +130,6 @@ public class Player : MonoBehaviour {
 	
 	private IEnumerator Rise()
 	{
-		debugLabel.text += "\nRise Begin";
-		
 		LevelInfo.Environments.gameStartTimer.gameObject.SetActive(true);
 		
 		if(Store.Instance.powerupHeadStart.level>0)	
@@ -192,8 +179,6 @@ public class Player : MonoBehaviour {
 		}
 		
 		LevelInfo.Environments.gameStartTimer.gameObject.SetActive(false);
-		
-		debugLabel.text += "\nRise End";
 	}
 	
 	private bool useHeadStart = false;
