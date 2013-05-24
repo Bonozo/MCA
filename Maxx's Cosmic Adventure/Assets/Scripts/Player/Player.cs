@@ -56,7 +56,9 @@ public class Player : MonoBehaviour {
 	
 	void Awake()
 	{	
-		if(localAttempt==0&&!Application.isEditor&&(Application.platform==RuntimePlatform.Android||Application.platform==RuntimePlatform.IPhonePlayer)) calibrate = 45;
+		#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
+		if(localAttempt==0) calibrate = 45;
+		#endif
 		
 		// Change/Save attemps game played
 		localAttempt++;
