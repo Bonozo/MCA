@@ -392,6 +392,11 @@ public class Generator : MonoBehaviour {
 		next_asteroid_time = LevelInfo.Environments.playerShip.DistanceTravelled + Random.Range(0,Stage_One_Step);
 	}
 	
+	public void ResetAfterOptions5000Distance()
+	{
+		next_jeebie_distance = LevelInfo.Environments.playerShip.DistanceTravelled + Random.Range(0f,300f);
+	}
+	
 	#endregion
 	
 	#region Unlikelium Generator
