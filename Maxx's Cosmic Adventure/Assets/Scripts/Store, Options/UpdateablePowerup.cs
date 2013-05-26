@@ -7,12 +7,13 @@ public class UpdateablePowerup : MonoBehaviour {
 	public string powerupName;
 	public string description;
 	public UILabel labelName;
+	public int defaultLevel = 0;
 	
 	private int _level = -1;
 	public int level{
 		get{
 			if(_level==-1)
-				level = PlayerPrefs.GetInt("powerup_"+powerupName,0);
+				level = PlayerPrefs.GetInt("powerup_"+powerupName,defaultLevel);
 			return _level;
 		}
 		set{
