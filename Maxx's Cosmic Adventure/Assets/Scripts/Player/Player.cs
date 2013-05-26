@@ -91,6 +91,11 @@ public class Player : MonoBehaviour {
 			LevelInfo.Environments.score.AddLive();
 		if( Input.GetKeyUp(KeyCode.KeypadMinus) )
 			LevelInfo.Environments.score.LostLive();
+		
+		if( Input.GetKeyDown(KeyCode.Space) )
+		{
+			LostLifeSmoke();
+		}
 		#endif
 		
 		if(LevelInfo.State.state != GameState.Play ) return;
@@ -327,6 +332,24 @@ public class Player : MonoBehaviour {
 		}
 		// Ship moving
 		transform.Translate(LevelInfo.Settings.PlayerSpeed*Time.deltaTime*Vector3.forward);
+	}
+	
+	public void LostLifeSmoke()
+	{
+		StartCoroutine(LostLifeSmokeThread());
+	}
+	
+	private IEnumerator LostLifeSmokeThread()
+	{
+		ParticleSystem particle = LevelInfo.Environments.playerLostLifeSmoke;
+		if(!particle.enableEmission)
+		{
+			particle.enableEmission = true;
+			_invincibility++;
+			yield return new WaitForSeconds(2.5f);
+			_invincibility--;
+			particle.enableEmission = false;
+		}
 	}
 	
 	#endregion

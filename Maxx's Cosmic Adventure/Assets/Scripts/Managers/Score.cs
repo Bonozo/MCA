@@ -73,6 +73,7 @@ public class Score : MonoBehaviour {
 		}
 		else
 		{
+			LevelInfo.Environments.playerShip.LostLifeSmoke();
 			StartCoroutine(LostLiveThread(currentLives));
 		}
 	}

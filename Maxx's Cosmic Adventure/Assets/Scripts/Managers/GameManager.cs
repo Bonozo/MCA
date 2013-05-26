@@ -92,6 +92,7 @@ public class GameManager : MonoBehaviour {
 	public Transform[] posPlayerMissle;
 	public Transform playerFireballTransform;
 	public ParticleSystem ShockWave;
+	public ParticleSystem playerLostLifeSmoke;
 	
 	#endregion
 	
