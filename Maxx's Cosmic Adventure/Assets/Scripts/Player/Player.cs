@@ -612,10 +612,8 @@ public class Player : MonoBehaviour {
 			ClearAllPowerups();
 			AutoFire = true;
 			
-			poweruptime = Store.Instance.powerupSureShot.LevelTime;
+			poweruptime = Store.Instance.powerupSureShot.TimedLevelTime;
 			LevelInfo.Environments.guiPowerupCountDown.color = new Color(0,1f,0,1f);
-			LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
-			SetPowerupFillAmount(1f,1f);
 			
 			LevelInfo.Environments.playerAnimations.OpenTurette();
 			yield return new WaitForSeconds(0.5f);
@@ -626,7 +624,7 @@ public class Player : MonoBehaviour {
 				TryAutoShot();
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
 				poweruptime -= Time.deltaTime;
-				SetPowerupFillAmount(poweruptime,Store.Instance.powerupSureShot.LevelTime);
+				SetPowerupFillAmount(poweruptime,Store.Instance.powerupSureShot.TimedLevelTime);
 				yield return new WaitForEndOfFrame();
 			}
 		
@@ -636,7 +634,7 @@ public class Player : MonoBehaviour {
 			AutoFire = false;
 		}
 		else
-			poweruptime = Store.Instance.powerupSureShot.LevelTime;
+			poweruptime = Store.Instance.powerupSureShot.TimedLevelTime;
 	}
 	
 	public void StartFreezeWorld()
@@ -655,7 +653,7 @@ public class Player : MonoBehaviour {
 			ClearAllPowerups();
 			FreezeWorld = true;
 			//RenderSettings.ambientLight = ambientFreezeWorld;
-			poweruptime = Store.Instance.powerupFreeze.LevelTime*0.5f;
+			poweruptime = Store.Instance.powerupFreeze.TimedLevelTime*0.5f;
 			LevelInfo.Environments.guiPowerupCountDown.color = new Color(0,1f,1f,1f);
 			while ( poweruptime > 0f )
 			{
@@ -663,7 +661,7 @@ public class Player : MonoBehaviour {
 				
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
 				poweruptime -= Time.deltaTime;
-				SetPowerupFillAmount(poweruptime,Store.Instance.powerupFreeze.LevelTime*0.5f);
+				SetPowerupFillAmount(poweruptime,Store.Instance.powerupFreeze.TimedLevelTime*0.5f);
 				yield return new WaitForEndOfFrame();
 			}
 		
@@ -673,7 +671,7 @@ public class Player : MonoBehaviour {
 			Time.timeScale = 1f;
 		}
 		else
-			poweruptime = Store.Instance.powerupFreeze.LevelTime*0.5f;
+			poweruptime = Store.Instance.powerupFreeze.TimedLevelTime*0.5f;
 	}
 	
 	public void StartIntergalactic()
@@ -692,13 +690,13 @@ public class Player : MonoBehaviour {
 			LevelInfo.Environments.generator.GenerateAlienShip = false;
 			LevelInfo.Environments.generator.GenerateAsteroid = false;
 			
-			poweruptime = Store.Instance.powerupIntergalactic.LevelTime*0.5f;
+			poweruptime = Store.Instance.powerupIntergalactic.TimedLevelTime*0.5f;
 			LevelInfo.Environments.guiPowerupCountDown.color = new Color(0.1f,0.1f,0.1f,1f);
 			while(poweruptime>0f)
 			{
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
 				poweruptime -= Time.deltaTime;
-				SetPowerupFillAmount(poweruptime,Store.Instance.powerupIntergalactic.LevelTime*0.5f);
+				SetPowerupFillAmount(poweruptime,Store.Instance.powerupIntergalactic.TimedLevelTime*0.5f);
 				yield return null;
 			}
 			LevelInfo.Environments.guiPowerUpTime.text = "";
@@ -767,13 +765,13 @@ public class Player : MonoBehaviour {
 		{
 			ClearAllPowerups();
 			Magned = true;
-			poweruptime = Store.Instance.powerupMagned.LevelTime;
+			poweruptime = Store.Instance.powerupMagned.TimedLevelTime;
 			LevelInfo.Environments.guiPowerupCountDown.color = new Color(0.33f,0.1f,0.54f,1f);
 			while ( poweruptime > 0f )
 			{
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
 				poweruptime -= Time.deltaTime;
-				SetPowerupFillAmount(poweruptime,Store.Instance.powerupMagned.LevelTime);
+				SetPowerupFillAmount(poweruptime,Store.Instance.powerupMagned.TimedLevelTime);
 				yield return new WaitForEndOfFrame();
 			}
 	
@@ -781,7 +779,7 @@ public class Player : MonoBehaviour {
 			Magned = false;
 		}
 		else
-			poweruptime = Store.Instance.powerupMagned.LevelTime;
+			poweruptime = Store.Instance.powerupMagned.TimedLevelTime;
 	}
 	
 	#endregion

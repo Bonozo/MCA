@@ -19,21 +19,28 @@ public class MButton : MonoBehaviour {
 			switch(_currentPowerup)
 			{
 			case Gems.In3s:
-				powerupCount = Store.Instance.powerupTripleTrouble.level+1;
+				powerupCount = Store.Instance.powerupTripleTrouble.StoredPowerupCount;
 				powerupName.text = "Triple Trouble " + powerupCount;
 				break;
 			case Gems.Pow:
-				powerupCount = Store.Instance.powerupPOW.level+1;
+				powerupCount = Store.Instance.powerupPOW.StoredPowerupCount;
 				powerupName.text = "POW " + powerupCount;
 				break;
 			case Gems.FireBall:
-				powerupCount = 3*(Store.Instance.powerupLighenUp.level+1);
+				powerupCount = 3*Store.Instance.powerupLighenUp.StoredPowerupCount;
 				LevelInfo.Environments.playerFlamethrowerTransform.gameObject.SetActive(true);
 				powerupName.text = "Lighten Up " + powerupCount;
 				break;
 			default:
 				powerupName.text = "";
 				break;
+			}
+			
+			// safe code
+			if(powerupCount==0)
+			{
+				_currentPowerup = Gems.None;
+				powerupName.text = "";
 			}
 		}
 	}
@@ -186,18 +193,4 @@ public class MButton : MonoBehaviour {
 	}
 	
 	int powerupCount = 0;
-	/*IEnumerator FireBallPowerup()
-	{
-		timedpowerup = true;
-		float time = Store.Instance.powerupLighenUp.LevelTime;
-		while(time>0)
-		{
-			time -= Time.deltaTime;
-			powerupName.text = "" + (int)(time+0.99f);
-			yield return null;
-		}
-		
-		timedpowerup = false;
-		currentPowerup = Gems.None;
-	}*/
 }
