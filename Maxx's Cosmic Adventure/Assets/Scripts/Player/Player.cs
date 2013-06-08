@@ -91,11 +91,6 @@ public class Player : MonoBehaviour {
 			LevelInfo.Environments.score.AddLive();
 		if( Input.GetKeyUp(KeyCode.KeypadMinus) )
 			LevelInfo.Environments.score.LostLive();
-		
-		if( Input.GetKeyDown(KeyCode.Space) )
-		{
-			LostLifeSmoke();
-		}
 		#endif
 		
 		if(LevelInfo.State.state != GameState.Play ) return;
@@ -334,19 +329,40 @@ public class Player : MonoBehaviour {
 		transform.Translate(LevelInfo.Settings.PlayerSpeed*Time.deltaTime*Vector3.forward);
 	}
 	
-	public void LostLifeSmoke()
+	public void LostLifeSmoke(int stayedLives)
 	{
-		StartCoroutine(LostLifeSmokeThread());
+		StartCoroutine(LostLifeSmokeThread(stayedLives));
 	}
 	
-	private IEnumerator LostLifeSmokeThread()
+	private IEnumerator LostLifeSmokeThread(int stayedLives)
 	{
 		ParticleSystem particle = LevelInfo.Environments.playerLostLifeSmoke;
 		if(!particle.enableEmission)
 		{
 			particle.enableEmission = true;
 			_invincibility++;
-			yield return new WaitForSeconds(2.5f);
+			
+			if(stayedLives>=4)
+			{
+				yield return new WaitForSeconds(1.0f);
+			}
+			if(stayedLives==3)
+			{
+				yield return new WaitForSeconds(1.5f);
+			}
+			else if(stayedLives==2)
+			{
+				yield return new WaitForSeconds(2.0f);				
+			}
+			else if(stayedLives==1)
+			{
+				yield return new WaitForSeconds(1.5f);
+				particle.enableEmission = false;		
+				yield return new WaitForSeconds(0.5f);
+				particle.enableEmission = true;
+				yield return new WaitForSeconds(1.0f);
+			}
+
 			_invincibility--;
 			particle.enableEmission = false;
 		}
