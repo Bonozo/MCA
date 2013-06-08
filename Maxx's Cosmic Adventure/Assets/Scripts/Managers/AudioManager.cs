@@ -66,6 +66,8 @@ public class AudioManager : MonoBehaviour {
 	{
 		VolumeSetup();
 		
+		if(LevelInfo.State.state != GameState.Play) return;
+		
 		UpdateVoiceOvers();
 		
 		// Unlikelium audio pitch
