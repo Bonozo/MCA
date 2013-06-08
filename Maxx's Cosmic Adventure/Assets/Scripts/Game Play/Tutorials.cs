@@ -50,7 +50,8 @@ public class Tutorials : MonoBehaviour {
 		"Adds one more shield.";
 	string messageAsteroid =
 		"Destroy as many asteroids as you can.\n" +
-		"They can spawn powerups and high value unlikeliums.";
+		"It can be spawned a powerup or a high\n" + 
+		"value unlikelium in it.";
 	string messageJeebie =
 		"Spawned Jeebie";
 	string messageBoostOverheated = 
