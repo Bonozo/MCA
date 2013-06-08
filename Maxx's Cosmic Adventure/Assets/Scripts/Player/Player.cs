@@ -376,6 +376,7 @@ public class Player : MonoBehaviour {
 	{
 		if( fireDeltaTime > 0f ) fireDeltaTime -= FreezeMultiply*Time.deltaTime;
 		bool ovh = LevelInfo.Environments.fireOverheat.Overheated;
+		if(ovh) LevelInfo.Environments.tutorials.FireOverheated();
 		if( effectOverheat ) LevelInfo.Environments.fireOverheat.Up();
 		if( !ovh && LevelInfo.Environments.fireOverheat.Overheated ) {/*PLevelInfo.Audio.PlayAudioWeaponExpire();*/}
 		if( fireDeltaTime <= 0 && (!effectOverheat || !LevelInfo.Environments.fireOverheat.Overheated) )
@@ -524,6 +525,9 @@ public class Player : MonoBehaviour {
 			LevelInfo.Audio.audioSourcePlayerShipEngine.clip = LevelInfo.Audio.clipPlayerShipEngineIdle;
 			reduce=true;
 		}
+		
+		if(LevelInfo.Environments.fuelOverheat.Overheated)
+			LevelInfo.Environments.tutorials.BoostOverheated();
 		
 		if(boostend) boostx = Mathf.Max(0f,boostx-Time.deltaTime);
 		if( !LevelInfo.Audio.audioSourcePlayerShipEngine.isPlaying ) LevelInfo.Audio.audioSourcePlayerShipEngine.Play();

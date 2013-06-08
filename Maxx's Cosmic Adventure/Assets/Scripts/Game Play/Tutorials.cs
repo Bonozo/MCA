@@ -43,8 +43,10 @@ public class Tutorials : MonoBehaviour {
 		"Spawned Asteroid";
 	string messageJeebie =
 		"Spawned Jeebie";
-	string messageOverheated = 
-		"Button Overheated";
+	string messageBoostOverheated = 
+		"Boost Overheated";
+	string messageFireOverheated = 
+		"Fire Overheated";
 	
 	#endregion
 	
@@ -68,7 +70,8 @@ public class Tutorials : MonoBehaviour {
 		PlayerPrefs.SetInt("tutorials_jeebie",0);
 		PlayerPrefs.SetInt("tutorials_asteroid",0);
 
-		PlayerPrefs.SetInt("tutorials_overheated",0);
+		PlayerPrefs.SetInt("tutorials_boostoverheated",0);
+		PlayerPrefs.SetInt("tutorials_fireoverheated",0);
 	}
 	
 	void Start()
@@ -182,14 +185,23 @@ public class Tutorials : MonoBehaviour {
 		}		
 	}
 	
-	bool overheated = false;
-	public void ButtonOverheated()
+	bool boostoverheated = false;
+	public void BoostOverheated()
 	{
-		if(!overheated)
+		if(!boostoverheated&&!popupactive)
 		{
-			overheated = true;
-			ShowTutorialPopup("tutorials_overheated",messageOverheated,0.05f);
+			boostoverheated = true;
+			ShowTutorialPopup("tutorials_boostoverheated",messageBoostOverheated,0.05f);
 		}
 	}
 	
+	bool fireoverheated = false;
+	public void FireOverheated()
+	{
+		if(!fireoverheated&&!popupactive)
+		{
+			fireoverheated = true;
+			ShowTutorialPopup("tutorials_fireoverheated",messageFireOverheated,0.05f);
+		}
+	}
 }
