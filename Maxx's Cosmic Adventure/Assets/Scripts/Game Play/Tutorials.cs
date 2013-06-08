@@ -8,8 +8,14 @@ public class Tutorials : MonoBehaviour {
 		"Use device tilting to turn and up/down moves!\n" +
 		"Use 'F' button to the left or right to fire!\n" +
 		"Use 'B' button to boost!";
+	string messageSecondControls = 
+		"Swipe Up for Loop!\n" +
+		"Swipe Left or Right for Barrel Roll!\n" +
+		"Swipe and Hold Down for Brakes!";
 	string messageUnlikelium = 
-		"Pick up unlikeliums";
+		"Grab all the Unlikelium you can.\n" +
+		"You can buy or upgrade powerups in the store\n" +
+		"by unlikeliums.";
 	string messageSureShot = 
 		"Sure Shot\n" +
 		"Automatically targets & destroys the\n" +
@@ -20,16 +26,19 @@ public class Tutorials : MonoBehaviour {
 	string messageIn3s = 
 		"Triple Trouble\n" +
 		"Three self-targeting missiles protect by\n" +
-		"destroying the next 3 targets.";
+		"destroying the next 3 targets.\n" +
+		"Push 'M' button in the bottom left to activate it.";
 	string messageFreezeWorld = 
 		"Hold It Now, Hit It\n" +
 		"Super slow motion.";
 	string messagePow = 
 		"Pow\n" +
-		"Destroys all obstacles in view with one shot.";
+		"Destroys all obstacles in view with one shot.\n" +
+		"Push 'M' button in the bottom left to activate it.";
 	string messageFireBall = 
 		"Lighten Up\n" +
-		"Enables the fireball cannon.";
+		"Enables the fireball cannon.\n" +
+		"Use 'M' button in the bottom left to fire.";
 	string messageLoveUnlikelium = 
 		"Shazam!\n" +
 		"Automatic boost and a bonus Unlikelium trail.";
@@ -40,13 +49,16 @@ public class Tutorials : MonoBehaviour {
 		"Tough Guy\n" +
 		"Adds one more shield.";
 	string messageAsteroid =
-		"Spawned Asteroid";
+		"Destroy as many asteroids as you can.\n" +
+		"They can spawn powerups and high value unlikeliums.";
 	string messageJeebie =
 		"Spawned Jeebie";
 	string messageBoostOverheated = 
-		"Boost Overheated";
+		"The boost motor of the ship has overheated.\n" +
+		"It is shown in the bottom right of the screen.";
 	string messageFireOverheated = 
-		"Fire Overheated";
+		"Firing overheated.\n" +
+		"It is shown in the bottom left of the screen.";
 	
 	#endregion
 	
@@ -55,6 +67,7 @@ public class Tutorials : MonoBehaviour {
 		PlayerPrefs.SetInt("tutorials_calibrate",0);// implemented in player.cs
 		
 		PlayerPrefs.SetInt("tutorials_firstcontrols",0);
+		PlayerPrefs.SetInt("tutorials_secondcontrols",0);
 		
 		PlayerPrefs.SetInt("tutorials_unlikeliums",0);
 		PlayerPrefs.SetInt("tutorials_sureshot",0);
@@ -77,6 +90,7 @@ public class Tutorials : MonoBehaviour {
 	void Start()
 	{
 		ShowTutorialPopup("tutorials_firstcontrols",messageFirstControls,7f);
+		ShowTutorialPopup("tutorials_secondcontrols",messageSecondControls,7.5f);
 	}
 	
 	private void ShowTutorialPopup(string id,string message,float delay)
@@ -107,10 +121,11 @@ public class Tutorials : MonoBehaviour {
 				LevelInfo.Environments.backgroundTutorial.transform.localScale = sc;
 				
 				LevelInfo.Environments.popupTutorial.SetActive(true);
-				yield return new WaitForSeconds(5f);
+				yield return new WaitForSeconds(6f);
 				LevelInfo.Environments.popupTutorial.SetActive(false);
 				
 				PlayerPrefs.SetInt(id,1);
+				yield return new WaitForSeconds(1f);
 			}
 			
 			popupactive = false;
