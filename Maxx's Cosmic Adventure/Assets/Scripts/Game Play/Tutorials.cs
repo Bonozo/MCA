@@ -13,9 +13,8 @@ public class Tutorials : MonoBehaviour {
 		"Swipe Left or Right for Barrel Roll!\n" +
 		"Swipe and Hold Down for Brakes!";
 	string messageUnlikelium = 
-		"Grab all the Unlikelium you can.\n" +
-		"You can buy or upgrade powerups in the store\n" +
-		"by unlikeliums.";
+		"Pick up unlikeliums to buy or upgrade\n" +
+		"powerups in the store.";
 	string messageSureShot = 
 		"Sure Shot\n" +
 		"Automatically targets & destroys the\n" +
@@ -55,7 +54,7 @@ public class Tutorials : MonoBehaviour {
 	string messageJeebie =
 		"Spawned Jeebie";
 	string messageBoostOverheated = 
-		"The boost motor of the ship has overheated.\n" +
+		"The boost motor of the ship has been overheated.\n" +
 		"It is shown in the bottom right of the screen.";
 	string messageFireOverheated = 
 		"Firing overheated.\n" +

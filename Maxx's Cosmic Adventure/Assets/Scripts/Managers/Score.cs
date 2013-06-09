@@ -7,6 +7,7 @@ public class Score : MonoBehaviour {
 	public UISprite[] guiShield;
 	
 	private int currentLives = 3;
+	private Color colRed = new Color(1f,0.2f,0.2f,1f),colSt = new Color(1f,1f,1f,1f);
 	
 	void Start ()
 	{
@@ -26,7 +27,7 @@ public class Score : MonoBehaviour {
 		for(int i=0;i<currentLives;i++)
 		{
 			guiShield[i].gameObject.SetActive(true);
-			guiShield[i].spriteName = "shield";
+			guiShield[i].color = colSt;
 		}
 	}
 	
@@ -80,7 +81,7 @@ public class Score : MonoBehaviour {
 	
 	private IEnumerator LostLiveThread(int t)
 	{
-		guiShield[t].spriteName = "shieldcrash";
+		guiShield[t].color = colRed;
 		yield return new WaitForSeconds(0.5f);
 		if(t>=currentLives) 
 			guiShield[t].gameObject.SetActive(false);
