@@ -5,16 +5,6 @@ public class Generator : MonoBehaviour {
 	
 	#region Alien Ship
 	
-	public enum Jeebie
-	{
-		BlueFighterPilot=0,
-		BlueLeader=1,
-		RedKamikaze=2,
-		TripleKamikaze=3,
-		PurpleFigher=4,
-		Reactive=5
-	}
-	
 	private readonly float first_jeebie_distance = 500f;
 	private readonly float[] next_jeebie_stage_distance = new float[] {100f,150f,200f,300f};
 	private float next_jeebie_distance = 0f;
@@ -251,7 +241,6 @@ public class Generator : MonoBehaviour {
 	
 	public bool GenerateAsteroid = false;
 	public GameObject[] AsteroidPrefabs;
-	public float AsteroidDistanceMin=30f, AsteroidDistanceMax=50f;
 
 	public void GenerateNewAsteroid(int index)
 	{
@@ -284,6 +273,45 @@ public class Generator : MonoBehaviour {
 		Instantiate(Gem[rand],pos,Quaternion.identity);
 	}
 	
+	public GameObject unlikeliumSimplePrefab;
+	public GameObject unlikeliumBronzePrefab;
+	public GameObject unlikeliumSilverPrefab;
+	public GameObject unlikeliumGoldPrefab;
+	
+	public void GenerateHighValueUnlikelium(Jeebie jeebie,Vector3 position)
+	{
+		StartCoroutine(GenerateHighValueUnlikeliumThread(jeebie,position));
+	}
+	
+	private IEnumerator GenerateHighValueUnlikeliumThread(Jeebie jeebie,Vector3 position)
+	{
+		yield return new WaitForSeconds(0.5f);
+		
+		GameObject prefab = null;
+		
+		if(!Options.Instance.flightControls3D)
+			position.y*=0.5f; // the vertical position transforms to 0 by 50%
+		
+		switch(jeebie)
+		{
+		case Jeebie.BlueFighterPilot:
+		case Jeebie.BlueLeader:
+			prefab = unlikeliumBronzePrefab;
+			break;
+		case Jeebie.RedKamikaze:
+		case Jeebie.Reactive:
+			prefab = unlikeliumSilverPrefab;
+			break;
+		case Jeebie.PurpleFigher:
+			prefab = unlikeliumGoldPrefab;
+			break;
+		}
+		
+		if(prefab==null)
+			Debug.LogError("MCA Error: high value prefab is null. Jeebie type is: " + jeebie);
+		else
+			Instantiate(prefab,position,Quaternion.identity);
+	}
 	#endregion
 	
 	#region Auto Spawning

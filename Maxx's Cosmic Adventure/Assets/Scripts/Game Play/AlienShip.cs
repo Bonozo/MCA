@@ -7,6 +7,9 @@ public class AlienShip : MonoBehaviour {
 	
 	public static int GlobalCount=0;
 	
+	// type
+	public Jeebie jeebieType;
+	
 	// Spawn
 	public bool initBeginTransform = true;
 	public float spawnDistanceMin=230f, spawnDistanceMax=250f;
@@ -379,6 +382,7 @@ public class AlienShip : MonoBehaviour {
 		{
 			LevelInfo.Environments.score.jeebiesDestoyed++;
 			LevelInfo.Audio.PlayVoiceOverJeebieDestroyed();
+			LevelInfo.Environments.generator.GenerateHighValueUnlikelium(jeebieType,Centr.position);
 		}	
 		
 		Destroy(this.gameObject);		

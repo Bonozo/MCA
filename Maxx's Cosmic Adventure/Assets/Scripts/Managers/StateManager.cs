@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
+#region Main Enumerations
+
 public enum GameState
 {
 	Play,
@@ -25,6 +27,18 @@ public enum Gems
 	Intergalactic,
 	ToughGuy
 }
+
+public enum Jeebie
+{
+	BlueFighterPilot=0,
+	BlueLeader=1,
+	RedKamikaze=2,
+	TripleKamikaze=3,
+	PurpleFigher=4,
+	Reactive=5
+}
+
+#endregion
 
 public class StateManager : MonoBehaviour {
 	
