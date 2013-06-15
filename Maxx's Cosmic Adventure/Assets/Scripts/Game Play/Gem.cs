@@ -8,6 +8,7 @@ public class Gem : MonoBehaviour {
 	public GameObject particle;
 	public Gems gemType;
 	
+	private float AutodestructDistance = 500;
 	private float MoveSpeed = 100f;
 	
 	// Use this for initialization
@@ -36,5 +37,7 @@ public class Gem : MonoBehaviour {
 			particle.transform.Rotate(0,-1.25f*RotateSpeed*Time.deltaTime,0);
 		transform.Rotate(0,RotateSpeed*Time.deltaTime,0);
 		
+		if(LevelInfo.Environments.playerShip.DistXZ(transform.position) > AutodestructDistance )
+			Destroy(this.gameObject);
 	}
 }
