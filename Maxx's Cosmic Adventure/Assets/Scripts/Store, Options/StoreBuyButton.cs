@@ -18,8 +18,8 @@ public class StoreBuyButton : MonoBehaviour {
 		}
 		else
 		{
-			Store.Instance.popupUpgradePowerups.SetActive(false);
-			Store.Instance.popupBuyUnlikeliums.SetActive(true);
+			Store.Instance.SetBuyMoreNeedDisabled(false);
+			Store.Instance.popupBuyUnlikeliumsConfirmation.SetActive(true);
 		}
 	}
 }

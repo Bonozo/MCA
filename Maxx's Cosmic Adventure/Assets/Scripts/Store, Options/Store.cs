@@ -42,7 +42,7 @@ public class Store : MonoBehaviour {
 	
 	public GameObject popupUpgradePowerups;
 	public GameObject popupBuyUnlikeliums;
-	public GameObject popupQuit;
+	public GameObject popupBuyUnlikeliumsConfirmation;
 	
 	public UILabel popupName;
 	public UISprite popupIcon;
@@ -140,14 +140,14 @@ public class Store : MonoBehaviour {
 		popupUpgradePowerups.SetActive(true);
 	}
 	
-	public bool PopupActive{ get{ return popupUpgradePowerups.activeSelf||popupBuyUnlikeliums.activeSelf||popupQuit.activeSelf; }}
+	public bool PopupActive{ get{ return popupUpgradePowerups.activeSelf||popupBuyUnlikeliums.activeSelf; }}
 	
 		
 	public void DisableAllPopups()
 	{
 		popupUpgradePowerups.SetActive(false);
 		popupBuyUnlikeliums.SetActive(false);
-		popupQuit.SetActive(false);
+		popupBuyUnlikeliumsConfirmation.SetActive(false);
 	}
 	
 	
@@ -156,6 +156,18 @@ public class Store : MonoBehaviour {
 	{
 		foreach(var button in quitPopupButtons)
 			button.isEnabled = enable;
+	}
+	
+	#endregion
+	
+	#region Buy More Unlikeliums Confiramtion
+	
+	public UIButton[] buttonsBuyMoreNeedToDisable;
+	
+	public void SetBuyMoreNeedDisabled(bool state)
+	{
+		foreach(var b in buttonsBuyMoreNeedToDisable)
+			b.isEnabled = state;
 	}
 	
 	#endregion
