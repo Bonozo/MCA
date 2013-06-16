@@ -170,6 +170,11 @@ public class Store : MonoBehaviour {
 			b.isEnabled = state;
 	}
 	
+	public void AddUnlikeliums(int unlk)
+	{
+		Unlikeliums += unlk;
+	}
+	
 	#endregion
 	
 	#region Properties
