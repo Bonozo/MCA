@@ -394,7 +394,6 @@ public class Generator : MonoBehaviour {
 				next_unlikelium_distance = distance + Random.Range(distance_Unlikelium_Min_FirstTimes,distance_Unlikelium_Max_FirstTimes);
 			else
 				next_unlikelium_distance = distance + Random.Range(distance_Unlikelium_Min,distance_Unlikelium_Max);
-			Debug.Log("Unlikelium list: " + distance);
 			Instantiate(prefabUnlikelium[Random.Range(0,prefabUnlikelium.Length)]);
 		}
 		////////////////////////////////////////////////

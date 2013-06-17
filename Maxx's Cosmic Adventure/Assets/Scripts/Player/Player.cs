@@ -20,7 +20,7 @@ public class Player : MonoBehaviour {
 	
 	[System.NonSerializedAttribute]
 	public int allAttempt = 0;
-	
+
 	#endregion
 	
 	#region Variables

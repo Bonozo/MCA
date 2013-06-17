@@ -25,9 +25,9 @@ public class ColorPlayNGUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(pauseTime>0) {pauseTime-=Time.deltaTime; return;}
+		if(pauseTime>0) {pauseTime-=0.016f; return;}
 		
-		percent += Time.deltaTime * speed * (up?1:-1);
+		percent += 0.016f * speed * (up?1:-1);
 		if(percent>1||percent<0) { percent = Mathf.Clamp01(percent); up=!up; }
 		if(percent==0) pauseTime=pause;
 		if(percent==1) pauseTime=upPause;

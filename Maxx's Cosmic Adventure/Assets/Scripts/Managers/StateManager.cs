@@ -82,26 +82,8 @@ public class StateManager : MonoBehaviour {
 				LevelInfo.Environments.HUB.SetActive(false);
 				Options.Instance.ShowOptions = true;
 				break;
-			case GameState.Lose:
-				//LevelInfo.Environments.playerShip.transform.localScale *= 0;
-				LevelInfo.Environments.playerShip.ClearAllPowerups();
-				
-				foreach(var r in LevelInfo.Environments.playerShip.ExhaustArray )
-					r.enableEmission = false;
-				
-				LevelInfo.Audio.StopAll();
-				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Audio.clipGameOver);
-				
-				LevelInfo.Environments.popupLose.SetActive(true);
-				var results = LevelInfo.Environments.popupLoseLabelResults;
-				results.text = 
-					"Distance Traveled: " + Mathf.FloorToInt(LevelInfo.Environments.playerShip.DistanceTravelled) +
-					"\nUnlikelium Collected: " + LevelInfo.Environments.score.unlikeliumsCollected +
-					"\nAsteroids Destroyed: " + LevelInfo.Environments.score.asteroidsDestoyed +
-					"\nJeebies Defeated: " + LevelInfo.Environments.score.jeebiesDestoyed + 
-					"\n\nScore: " + LevelInfo.Environments.score.totalScore;
-				//StartCoroutine(ShowGameOverScreenThread());
-				
+			case GameState.Lose:				
+				StartCoroutine(ShowGameOverScreenThread());
 				break;
 			}
 			
@@ -111,7 +93,9 @@ public class StateManager : MonoBehaviour {
 	
 	private IEnumerator ShowGameOverScreenThread()
 	{
-		var names = LevelInfo.Environments.popupLoseLabelNames;
+		/* old version
+		 * 
+		 * var names = LevelInfo.Environments.popupLoseLabelNames;
 		var results = LevelInfo.Environments.popupLoseLabelResults;
 		
 		float startdelay = 1f;
@@ -140,15 +124,40 @@ public class StateManager : MonoBehaviour {
 		yield return StartCoroutine(WaitSeconds(startdelay));
 		
 		names.text +=   "\n\n"+"Score:";
-		results.text += "\n\n"+LevelInfo.Environments.score.totalScore;
+		results.text += "\n\n"+LevelInfo.Environments.score.totalScore;*/
+		
+		int distance = Mathf.FloorToInt(LevelInfo.Environments.playerShip.DistanceTravelled);
+		int highscore = PlayerPrefs.GetInt("high_score",0);
+		
+		LevelInfo.Environments.playerShip.ClearAllPowerups();
+		
+		foreach(var r in LevelInfo.Environments.playerShip.ExhaustArray )
+			r.enableEmission = false;
+		
+		LevelInfo.Audio.StopAll();
+		LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Audio.clipGameOver);
+		
+		LevelInfo.Environments.popupLose.SetActive(true);
+		var results = LevelInfo.Environments.popupLoseLabelResults;
+		results.text = 
+			"Distance Traveled: " + distance +
+			"\nUnlikelium Collected: " + LevelInfo.Environments.score.unlikeliumsCollected +
+			"\nAsteroids Destroyed: " + LevelInfo.Environments.score.asteroidsDestoyed +
+			"\nJeebies Defeated: " + LevelInfo.Environments.score.jeebiesDestoyed + 
+			"\n\nScore: " + LevelInfo.Environments.score.totalScore;
+		
+		LevelInfo.Environments.popupLoseLabelNewRecord.gameObject.SetActive(false);
+		if(distance>highscore) PlayerPrefs.SetInt("high_score",distance);
+		
+		yield return StartCoroutine(WaitSeconds(0.5f));
+		
+		LevelInfo.Environments.popupLoseLabelNewRecord.gameObject.SetActive(distance>highscore);
 	}
 	
 	private IEnumerator WaitSeconds(float sec)
 	{
 		while(sec>0f) {sec-=0.016f; yield return null;}
 	}
-	
-	
 	
 	private bool HUBActiveHelper(GameState _state)
 	{
@@ -160,8 +169,7 @@ public class StateManager : MonoBehaviour {
 			return HUBActiveHelper(state);
 		}
 	}
-	
-	
+		
 	void Awake()
 	{
 		Application.targetFrameRate = 60;
@@ -183,6 +191,7 @@ public class StateManager : MonoBehaviour {
 			LevelInfo.Environments.popupQuit.SetActive(value);
 		}
 	}
+	
 	void Update()
 	{
 		if( state == GameState.Lose && Input.GetKeyUp(KeyCode.Escape) )
