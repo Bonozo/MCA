@@ -261,6 +261,18 @@ public class Generator : MonoBehaviour {
 	private float distance_Unlikelium_Min_FirstTimes = 150f, distance_Unlikelium_Max_FirstTimes = 300f;
 	private float next_unlikelium_distance = 0f;
 	
+	private bool shazammodespawn = false;
+	public void StartShazam()
+	{
+		shazammodespawn = true;
+		next_unlikelium_distance = LevelInfo.Environments.playerShip.DistanceTravelled + 0.2f*Random.Range(distance_Unlikelium_Min,distance_Unlikelium_Max);
+	}
+	
+	public void EndShazam()
+	{
+		shazammodespawn = false;
+	}
+	
 	#endregion
 	
 	#region Gems
@@ -376,10 +388,13 @@ public class Generator : MonoBehaviour {
 		////////////////// Unlikeliums /////////////////
 		if( distance >= next_unlikelium_distance)
 		{
-			if(distance <= muchUnlikeliumsInFirstTimes_Meter )
+			if(shazammodespawn)
+				next_unlikelium_distance = LevelInfo.Environments.playerShip.DistanceTravelled + 0.2f*Random.Range(distance_Unlikelium_Min,distance_Unlikelium_Max);
+			else if(distance <= muchUnlikeliumsInFirstTimes_Meter )
 				next_unlikelium_distance = distance + Random.Range(distance_Unlikelium_Min_FirstTimes,distance_Unlikelium_Max_FirstTimes);
 			else
 				next_unlikelium_distance = distance + Random.Range(distance_Unlikelium_Min,distance_Unlikelium_Max);
+			Debug.Log("Unlikelium list: " + distance);
 			Instantiate(prefabUnlikelium[Random.Range(0,prefabUnlikelium.Length)]);
 		}
 		////////////////////////////////////////////////

@@ -86,6 +86,8 @@ public class Player : MonoBehaviour {
 			StartFreezeWorld();
 		if( Input.GetKeyUp(KeyCode.Home) )
 			StartIntergalactic();
+		if( Input.GetKeyUp(KeyCode.End) )
+			StartLoveUnlikelium();
 		
 		if( Input.GetKeyUp(KeyCode.KeypadPlus) )
 			LevelInfo.Environments.score.AddLive();
@@ -745,32 +747,39 @@ public class Player : MonoBehaviour {
 			//LevelInfo.Environments.generator.GenerateAlienShip = false;
 			//LevelInfo.Environments.generator.GenerateAsteroid = false;
 			
-			LevelInfo.Environments.generator.StartUnlikeliumGenerator();
-			poweruptime = 10f+(float)Store.Instance.powerupShazam.level;
+			//LevelInfo.Environments.generator.StartUnlikeliumGenerator();
+			//poweruptime = 10f+(float)Store.Instance.powerupShazam.level;
+			
+			poweruptime = Store.Instance.powerupShazam.TimedLevelTime;
+			LevelInfo.Environments.generator.StartShazam();
+			
 			LevelInfo.Environments.guiPowerupCountDown.color = new Color(1f,0.5f,0,1f);
 			while(poweruptime>0f)
 			{
 				poweruptime -= Time.deltaTime;
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
-				SetPowerupFillAmount(poweruptime,10f+Store.Instance.powerupShazam.level);
+				SetPowerupFillAmount(poweruptime,Store.Instance.powerupShazam.TimedLevelTime);
 				yield return null;
 			}
-			LevelInfo.Environments.generator.StopUnlikeliumGenerator();
+			LevelInfo.Environments.generator.EndShazam();
+			//LevelInfo.Environments.generator.StopUnlikeliumGenerator();
 			LevelInfo.Environments.guiPowerUpTime.text = "";
 			
-			float time = 4f;
-			while(time>0f)
-			{
-				time -= Time.deltaTime;
-				yield return null;
-			}
-			LevelInfo.Environments.generator.DeletaUnlikeliumList();
+			//float time = 4f;
+			//while(time>0f)
+			//{
+			//	time -= Time.deltaTime;
+			//	yield return null;
+			//}
+			//LevelInfo.Environments.generator.DeletaUnlikeliumList();
 			
 			//LevelInfo.Environments.generator.GenerateAlienShip = true;
 			//LevelInfo.Environments.generator.GenerateAsteroid = true;
 			//_invincibility--;
 			LoveUnlikelium = false;
 		}
+		else
+			poweruptime = Store.Instance.powerupShazam.TimedLevelTime;
 	}		
 		
 	
