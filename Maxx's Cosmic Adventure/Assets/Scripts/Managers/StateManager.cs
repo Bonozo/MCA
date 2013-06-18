@@ -147,11 +147,32 @@ public class StateManager : MonoBehaviour {
 			"\n\nScore: " + LevelInfo.Environments.score.totalScore;
 		
 		LevelInfo.Environments.popupLoseLabelNewRecord.gameObject.SetActive(false);
+		LevelInfo.Environments.popupLoseLabelBonus.gameObject.SetActive(false);
+		
 		if(distance>highscore) PlayerPrefs.SetInt("high_score",distance);
 		
 		yield return StartCoroutine(WaitSeconds(0.5f));
 		
 		LevelInfo.Environments.popupLoseLabelNewRecord.gameObject.SetActive(distance>highscore);
+		
+		yield return StartCoroutine(WaitSeconds(0.5f));
+		
+		int bonus=0;
+		if(highscore<5000&&distance>=5000) 		bonus+=100;
+		if(highscore<10000&&distance>=10000) 	bonus+=250;
+		if(highscore<15000&&distance>=15000) 	bonus+=500;
+		if(highscore<20000&&distance>=20000) 	bonus+=1000;
+		if(highscore<30000&&distance>=30000) 	bonus+=2500;
+		if(highscore<50000&&distance>=50000) 	bonus+=5000;
+		if(highscore<100000&&distance>=100000) 	bonus+=10000;
+		if(highscore<200000&&distance>=200000) 	bonus+=25000;
+		
+		if(bonus>0)
+		{
+			LevelInfo.Environments.popupLoseLabelBonus.text = "BUNUS\nUNLIKELIUMS\n"+bonus;
+			Store.Instance.Unlikeliums += bonus;
+			LevelInfo.Environments.popupLoseLabelBonus.gameObject.SetActive(true);
+		}
 	}
 	
 	private IEnumerator WaitSeconds(float sec)
