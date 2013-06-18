@@ -95,6 +95,10 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			LevelInfo.Environments.score.AddLive();
 			LevelInfo.Environments.infoMessage.ShowMessage("Tough Guy");
 			break;
+		case Gems.BeastieBoost:
+			LevelInfo.Environments.playerShip.StartBeastieBoost();
+			LevelInfo.Environments.infoMessage.ShowMessage("Beastie Boost!");
+			break;
 		}
 		
 		if( gemtype != Gems.Unlikelium)

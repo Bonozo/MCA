@@ -328,7 +328,9 @@ public class Player : MonoBehaviour {
 			}
 		}
 		// Ship moving
-		transform.Translate(LevelInfo.Settings.PlayerSpeed*Time.deltaTime*Vector3.forward);
+		float speed = LevelInfo.Settings.PlayerSpeed;
+		if(BeastieBoost) speed*=2f;
+		transform.Translate(speed*Time.deltaTime*Vector3.forward);
 	}
 	
 	public void LostLifeSmoke(int stayedLives)
@@ -587,6 +589,9 @@ public class Player : MonoBehaviour {
 	[System.NonSerializedAttribute]
 	public bool Magned = false;
 	
+	[System.NonSerializedAttribute]
+	public bool BeastieBoost = false;
+	
 	public void ClearAllPowerups()
 	{
 		StopCoroutine("SureShotThread");
@@ -594,6 +599,7 @@ public class Player : MonoBehaviour {
 		StopCoroutine("IntergalacticThread");
 		StopCoroutine("LoveUnlikeliumThread");
 		StopCoroutine("MagnedThread");
+		StopCoroutine("BeastieBoost");
 		
 		AutoFire = false;
 		LevelInfo.Environments.playerAnimations.CloseTurette();
@@ -609,6 +615,8 @@ public class Player : MonoBehaviour {
 		LevelInfo.Environments.generator.StopUnlikeliumGenerator();
 		
 		Magned = false;
+		
+		BeastieBoost = false;
 		
 		_invincibility = 0;
 		
@@ -781,7 +789,6 @@ public class Player : MonoBehaviour {
 		else
 			poweruptime = Store.Instance.powerupShazam.TimedLevelTime;
 	}		
-		
 	
 	public void StartMagned()
 	{
@@ -811,6 +818,32 @@ public class Player : MonoBehaviour {
 			poweruptime = Store.Instance.powerupMagned.TimedLevelTime;
 	}
 	
+	public void StartBeastieBoost()
+	{
+		StartCoroutine("BeastieBoostThread");
+	}
+	private IEnumerator BeastieBoostThread()
+	{
+		if(!BeastieBoost ) 
+		{
+			ClearAllPowerups();
+			BeastieBoost = true;
+			poweruptime = Store.Instance.powerupBeastieBoost.TimedLevelTime;
+			LevelInfo.Environments.guiPowerupCountDown.color = new Color(0.937f,0.5f,0.5f,1f);
+			while ( poweruptime > 0f )
+			{
+				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
+				poweruptime -= Time.deltaTime;
+				SetPowerupFillAmount(poweruptime,Store.Instance.powerupBeastieBoost.TimedLevelTime);
+				yield return new WaitForEndOfFrame();
+			}
+	
+			LevelInfo.Environments.guiPowerUpTime.text = "";
+			BeastieBoost = false;
+		}
+		else
+			poweruptime = Store.Instance.powerupBeastieBoost.TimedLevelTime;
+	}
 	#endregion
 	
 	#region Properties
