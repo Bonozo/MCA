@@ -128,8 +128,6 @@ public class Player : MonoBehaviour {
 	[System.NonSerializedAttribute]
 	public bool Ready = false;
 	
-	private bool waitforcalibrate = false;
-	
 	private IEnumerator Rise()
 	{
 		LevelInfo.Environments.gameStartTimer.gameObject.SetActive(true);
@@ -160,11 +158,10 @@ public class Player : MonoBehaviour {
 		if(!useHeadStart)
 			StartCoroutine(DisalbeHeadStartButton());
 		
-		if( PlayerPrefs.GetInt("tutorials_calibrate",0)==0)
+		if( PlayerPrefs.GetInt("tutorials",0)>=0)
 		{
-			PlayerPrefs.SetInt("tutorials_calibrate",1);
-			waitforcalibrate = true;
-			LevelInfo.Environments.popupCalibrate.SetActive(true);
+			LevelInfo.Environments.gameStartTimer.gameObject.SetActive(false);
+			LevelInfo.Environments.popupStartTrainings.SetActive(true);
 			Time.timeScale = 0.0f;
 		}
 		else
@@ -178,9 +175,8 @@ public class Player : MonoBehaviour {
 				StartCoroutine("StartHeadStartThread");
 			}
 			yield return new WaitForSeconds(1.5f);
-		}
-		
-		LevelInfo.Environments.gameStartTimer.gameObject.SetActive(false);
+			LevelInfo.Environments.gameStartTimer.gameObject.SetActive(false);
+		}	
 	}
 	
 	private bool useHeadStart = false;
@@ -260,13 +256,18 @@ public class Player : MonoBehaviour {
 	public void Calibrate(bool vertified)
 	{
 		calibrate = GameEnvironment.DeviceAngle;
-		if(waitforcalibrate && vertified)
+		if(vertified)
 		{
-			Ready = true;
-			waitforcalibrate = false;
 			LevelInfo.Environments.popupCalibrate.SetActive(false);
-			Time.timeScale = 1.0f;
+			GetReady();
+			LevelInfo.Environments.tutorials.StartTrainings();
 		}
+	}
+	
+	public void GetReady()
+	{
+		Ready = true;
+		Time.timeScale = 1.0f;		
 	}
 	
 	void UpdateShip()

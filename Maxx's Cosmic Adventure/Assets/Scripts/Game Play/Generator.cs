@@ -255,6 +255,7 @@ public class Generator : MonoBehaviour {
 	
 	#region Unlikeliums
 	
+	public bool GenerateUnlikeliums = true;
 	public GameObject[] prefabUnlikelium;
 	private float distance_Unlikelium_Min = 300f, distance_Unlikelium_Max = 600f;
 	private float muchUnlikeliumsInFirstTimes_Meter = 1000f;
@@ -394,7 +395,9 @@ public class Generator : MonoBehaviour {
 				next_unlikelium_distance = distance + Random.Range(distance_Unlikelium_Min_FirstTimes,distance_Unlikelium_Max_FirstTimes);
 			else
 				next_unlikelium_distance = distance + Random.Range(distance_Unlikelium_Min,distance_Unlikelium_Max);
-			Instantiate(prefabUnlikelium[Random.Range(0,prefabUnlikelium.Length)]);
+			
+			if(GenerateUnlikeliums)
+				Instantiate(prefabUnlikelium[Random.Range(0,prefabUnlikelium.Length)]);
 		}
 		////////////////////////////////////////////////
 		

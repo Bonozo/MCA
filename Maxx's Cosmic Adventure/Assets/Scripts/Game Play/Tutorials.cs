@@ -62,6 +62,22 @@ public class Tutorials : MonoBehaviour {
 	
 	#endregion
 	
+	public void StartTrainings()
+	{
+		StartCoroutine(TrainingThread());
+	}
+	
+	private IEnumerator TrainingThread()
+	{	
+		// Implement tutorials
+		
+		yield return new WaitForSeconds(10f);
+		ShowTutorialPopup("tutorial_completed","Tutorials Complete.",0f);
+		PlayerPrefs.SetInt("tutorials",-1);
+		yield return new WaitForSeconds(10f);
+		Application.LoadLevel(Application.loadedLevel);
+	}
+	
 	public static void ResetTutorials()
 	{
 		PlayerPrefs.SetInt("tutorials_calibrate",0);// implemented in player.cs
