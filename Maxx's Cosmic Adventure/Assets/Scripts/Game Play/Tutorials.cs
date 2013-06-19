@@ -4,7 +4,7 @@ using System.Collections;
 public class Tutorials : MonoBehaviour {
 	
 	#region Messages
-	string messageFirstControls =
+	/*string messageFirstControls =
 		"Use device tilting to turn and up/down moves!\n" +
 		"Use 'F' button to the left or right to fire!\n" +
 		"Use 'B' button to boost!";
@@ -14,7 +14,7 @@ public class Tutorials : MonoBehaviour {
 		"Swipe and Hold Down for Brakes!";
 	string messageUnlikelium = 
 		"Pick up unlikeliums to buy or upgrade\n" +
-		"powerups in the store.";
+		"powerups in the store.";*/
 	string messageSureShot = 
 		"Sure Shot\n" +
 		"Automatically targets & destroys the\n" +
@@ -50,12 +50,12 @@ public class Tutorials : MonoBehaviour {
 	string messageBeastieBoost = 
 		"Beastie Boost!\n" +
 		"Double the player's speed.";
-	string messageAsteroid =
+	/*string messageAsteroid =
 		"Destroy as many asteroids as you can.\n" +
 		"It can be spawned a powerup or a high\n" + 
 		"value unlikelium in it.";
 	string messageJeebie =
-		"Spawned Jeebie";
+		"Spawned Jeebie";*/
 	string messageBoostOverheated = 
 		"The boost motor of the ship has been overheated.\n" +
 		"It is shown in the bottom right of the screen.";
