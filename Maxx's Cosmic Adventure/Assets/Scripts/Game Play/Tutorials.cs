@@ -47,6 +47,9 @@ public class Tutorials : MonoBehaviour {
 	string messageToughGuy = 
 		"Tough Guy\n" +
 		"Adds one more shield.";
+	string messageBeastieBoost = 
+		"Beastie Boost!\n" +
+		"Double the player's speed.";
 	string messageAsteroid =
 		"Destroy as many asteroids as you can.\n" +
 		"It can be spawned a powerup or a high\n" + 
@@ -62,6 +65,8 @@ public class Tutorials : MonoBehaviour {
 	
 	#endregion
 	
+	#region Trainings
+	
 	public void StartTrainings()
 	{
 		StartCoroutine(TrainingThread());
@@ -69,17 +74,62 @@ public class Tutorials : MonoBehaviour {
 	
 	private IEnumerator TrainingThread()
 	{	
-		// Implement tutorials
+		yield return new WaitForSeconds(5f);
+		
+		ShowTraining("Use device left and right tilting\n to turn.",5f);
+		yield return new WaitForSeconds(10f);
+		
+		ShowTraining("Use device up and down tilting\n to rise and down.",5f);
+		yield return new WaitForSeconds(10f);
+		
+		ShowTraining("Use 'F' button to the left or right to fire.",5f);
+		yield return new WaitForSeconds(10f);
+		
+		ShowTraining("Use 'B' button in the bottom right to boost.",5f);
+		yield return new WaitForSeconds(10f);
+		
+		ShowTraining("Swipe and Hold Down to slow the speed of the ship down.",5f);
+		yield return new WaitForSeconds(10f);
+		
+		LevelInfo.Environments.generator.SpawnTutorialUnlikeliumList();
+		yield return new WaitForSeconds(1f);
+		ShowTraining("An unlikelium list appeared.\n Pick them up and you can update\nor buy new items in the store.",6f);
+		yield return new WaitForSeconds(12f);		
+		
+		LevelInfo.Environments.generator.SpawnTutorialAsteroid();
+		yield return new WaitForSeconds(1f);
+		ShowTraining("An asteroid appeard.\nDestroy this and you can find a powerup there.",6f);
+		yield return new WaitForSeconds(12f);
+		
+		LevelInfo.Environments.generator.SpawnTutorialJeebie();
+		yield return new WaitForSeconds(1f);
+		ShowTraining("Warning! A Blue Fighter Jeebie appeared.\nDestroy this and you can find a high value unlikelium.",6f);
+		yield return new WaitForSeconds(12f);
+		
+		ShowTraining("Avoid to collide with asteroids and jeebies.\nJeebies can attack to you.",5f);
+		yield return new WaitForSeconds(10f);		
+	
+		ShowTraining("There are two types of powerups.\nbutton powerup: you can use this by pressing\n'M' button in the bottom left...",6f);
+		yield return new WaitForSeconds(6.1f);	
+		ShowTraining("or timed powerup that takes for a certain time.",5f);
+		yield return new WaitForSeconds(10f);	
+		
+		ShowTraining("You can run tutorials again\nby going to options and pressing 'Reset Tutorial' button\nHave a good flight and enjoy it!",7f);
+		yield return new WaitForSeconds(10f);	
 		
 		yield return new WaitForSeconds(10f);
-		ShowTutorialPopup("tutorial_completed","Tutorials Complete.",0f);
+		ShowTraining("Tutorials Complete.\nThe game will start after few seconds...",6f);
 		PlayerPrefs.SetInt("tutorials",-1);
 		yield return new WaitForSeconds(10f);
 		Application.LoadLevel(Application.loadedLevel);
 	}
 	
+	#endregion
+	
 	public static void ResetTutorials()
 	{
+		PlayerPrefs.SetInt("tutorials",0);
+		
 		PlayerPrefs.SetInt("tutorials_calibrate",0);// implemented in player.cs
 		
 		PlayerPrefs.SetInt("tutorials_firstcontrols",0);
@@ -95,6 +145,7 @@ public class Tutorials : MonoBehaviour {
 		PlayerPrefs.SetInt("tutorials_loveunlikelium",0);
 		PlayerPrefs.SetInt("tutorials_intergalactic",0);
 		PlayerPrefs.SetInt("tutorials_toughguy",0);
+		PlayerPrefs.SetInt("tutorials_beastieboost",0);
 		
 		PlayerPrefs.SetInt("tutorials_jeebie",0);
 		PlayerPrefs.SetInt("tutorials_asteroid",0);
@@ -105,24 +156,30 @@ public class Tutorials : MonoBehaviour {
 	
 	void Start()
 	{
-		ShowTutorialPopup("tutorials_firstcontrols",messageFirstControls,7f);
-		ShowTutorialPopup("tutorials_secondcontrols",messageSecondControls,7.5f);
+		//ShowTutorialPopup("tutorials_firstcontrols",messageFirstControls,7f);
+		//ShowTutorialPopup("tutorials_secondcontrols",messageSecondControls,7.5f);
+	}
+	
+	private void ShowTraining(string message,float wait)
+	{
+		StartCoroutine(ShowTutorialPopupThread("",message,0f,wait,false));
 	}
 	
 	private void ShowTutorialPopup(string id,string message,float delay)
 	{
-		StartCoroutine(ShowTutorialPopupThread(id,message,delay));
+		if(LevelInfo.Settings.tutorialMode) return;
+		StartCoroutine(ShowTutorialPopupThread(id,message,delay,6f,true));
 	}
 	
 	bool popupactive = false;
-	private IEnumerator ShowTutorialPopupThread(string id,string message,float delay)
+	private IEnumerator ShowTutorialPopupThread(string id,string message,float delay,float wait,bool savedata)
 	{	
 		yield return new WaitForSeconds(delay);
 		if(!popupactive)
 		{
 			popupactive = true;
 			
-			if( PlayerPrefs.GetInt(id,0)==0 )
+			if(!savedata || PlayerPrefs.GetInt(id,0)==0 )
 			{
 				LevelInfo.Environments.labelTutorial.text = message;
 			
@@ -137,10 +194,11 @@ public class Tutorials : MonoBehaviour {
 				LevelInfo.Environments.backgroundTutorial.transform.localScale = sc;
 				
 				LevelInfo.Environments.popupTutorial.SetActive(true);
-				yield return new WaitForSeconds(6f);
+				yield return new WaitForSeconds(wait);
 				LevelInfo.Environments.popupTutorial.SetActive(false);
 				
-				PlayerPrefs.SetInt(id,1);
+				if(savedata)
+					PlayerPrefs.SetInt(id,1);
 				yield return new WaitForSeconds(1f);
 			}
 			
@@ -168,17 +226,17 @@ public class Tutorials : MonoBehaviour {
 	
 	public void SpawnedSimpleUnlikelium()
 	{
-		ShowTutorialPopup("tutorials_unlikeliums",messageUnlikelium,3f);
+		//ShowTutorialPopup("tutorials_unlikeliums",messageUnlikelium,3f);
 	}
 	
 	public void SpawnedJeebie()
 	{
-		ShowTutorialPopup("tutorials_jeebie",messageJeebie,2f);
+		//ShowTutorialPopup("tutorials_jeebie",messageJeebie,2f);
 	}
 	
 	public void SpawnedAsteroid()
 	{
-		ShowTutorialPopup("tutorials_asteroid",messageAsteroid,2f);
+		//ShowTutorialPopup("tutorials_asteroid",messageAsteroid,2f);
 	}
 	
 	public void TakenGem(Gems gemtype)
@@ -213,6 +271,9 @@ public class Tutorials : MonoBehaviour {
 		case Gems.ToughGuy:
 			ShowTutorialPopup("tutorials_toughguy",messageToughGuy,delay);
 			break;
+		case Gems.BeastieBoost:
+			ShowTutorialPopup("tutorials_beastieboost",messageBeastieBoost,delay);
+			break;			
 		}		
 	}
 	

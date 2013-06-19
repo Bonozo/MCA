@@ -6,6 +6,9 @@ public class LevelManager : MonoBehaviour {
 	// Environments
 	public float MaxSpaceY = 3f;
 	
+	[System.NonSerializedAttribute]
+	public bool tutorialMode = false;
+	
 	// Player
 	public float PlayerSpeed = 40f;
 	public float PlayerUpDownSpeed = 0.2f;

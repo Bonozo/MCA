@@ -3,6 +3,25 @@ using System.Collections;
 
 public class Generator : MonoBehaviour {
 	
+	#region Tutorials
+	
+	public void SpawnTutorialUnlikeliumList()
+	{
+		Instantiate(prefabUnlikelium[Random.Range(0,prefabUnlikelium.Length)]);
+	}
+	
+	public void SpawnTutorialAsteroid()
+	{
+		Instantiate(AsteroidPrefabs[0]);
+	}
+	
+	public void SpawnTutorialJeebie()
+	{
+		Instantiate(AlienShipPrefabs[0]);
+	}
+	
+	#endregion
+	
 	#region Alien Ship
 	
 	private readonly float first_jeebie_distance = 500f;

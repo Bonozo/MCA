@@ -117,8 +117,10 @@ public class Player : MonoBehaviour {
 		// calc travelled
 		travelled += DistXZ(lastPosition,transform.position);
 		lastPosition = transform.position;
-		LevelInfo.Environments.guiDistanceTravelled.text = "" + (int)travelled /*+ " ly"*/;
 		LevelInfo.Environments.guiUnlikeliums.text = "" + unlikeliums;
+		
+		if(!LevelInfo.Settings.tutorialMode)
+			LevelInfo.Environments.guiDistanceTravelled.text = "" + (int)travelled;
 	}
 	
 	#endregion
