@@ -152,11 +152,11 @@ public class StateManager : MonoBehaviour {
 		
 		if(distance>highscore) PlayerPrefs.SetInt("high_score",distance);
 		
-		yield return StartCoroutine(WaitSeconds(0.5f));
+		yield return StartCoroutine(WaitSeconds(1.0f));
 		
 		LevelInfo.Environments.popupLoseLabelNewRecord.gameObject.SetActive(distance>highscore);
 		
-		yield return StartCoroutine(WaitSeconds(0.5f));
+		yield return StartCoroutine(WaitSeconds(1.0f));
 		
 		int bonus=0;
 		if(highscore<5000&&distance>=5000) 		bonus+=100;
