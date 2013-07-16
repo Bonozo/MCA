@@ -160,12 +160,12 @@ public class Tutorials : MonoBehaviour {
 		//ShowTutorialPopup("tutorials_secondcontrols",messageSecondControls,7.5f);
 	}
 	
-	private void ShowTraining(string message,float wait)
+	public void ShowTraining(string message,float wait)
 	{
 		StartCoroutine(ShowTutorialPopupThread("",message,0f,wait,false));
 	}
 	
-	private void ShowTutorialPopup(string id,string message,float delay)
+	public void ShowTutorialPopup(string id,string message,float delay)
 	{
 		if(LevelInfo.Settings.tutorialMode) return;
 		StartCoroutine(ShowTutorialPopupThread(id,message,delay,6f,true));
@@ -296,4 +296,6 @@ public class Tutorials : MonoBehaviour {
 			ShowTutorialPopup("tutorials_fireoverheated",messageFireOverheated,0.05f);
 		}
 	}
+	
+	public bool Active{ get { return popupactive; }}
 }

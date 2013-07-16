@@ -272,16 +272,29 @@ public class Player : MonoBehaviour {
 		Time.timeScale = 1.0f;		
 	}
 	
+	private float badcontroldelay = 0f;
+	private float badcontroldelaycomplete = 10f;
 	void UpdateShip()
 	{	
+		float ytilt = calibratedelta(); if(Options.Instance.yInvert) ytilt =- ytilt;
+		
+		// warning about flying to high or too low for too long
+		if(Mathf.Abs(ytilt)>=30f) 
+			badcontroldelay+=Time.deltaTime;
+		else
+			badcontroldelay=0f;
+		if(badcontroldelay>=badcontroldelaycomplete && !LevelInfo.Environments.tutorials.Active)
+		{
+			LevelInfo.Environments.tutorials.ShowTraining("Push the calibrate button at the top right\n of the screen to calibrate the ship.",7.5f);
+			badcontroldelay = 0f;
+			badcontroldelaycomplete += 10f;
+		}
+		
 		if(Options.Instance.flightControls3D)
 		{
 			// Up/Down Tilting
-			float ytilt = calibratedelta(); if(Options.Instance.yInvert) ytilt =- ytilt;
-			
-			// Rotate Y
-			float maxrotateangle = 15f;
 			float current = Mathf.Clamp(ytilt,-30f,30f)*0.5f;
+			float maxrotateangle = 15f;
 			var rot = transform.rotation.eulerAngles;
 			if( rot.x > 180.0f ) rot.x -= 360.0f;
 			if( Mathf.Abs(rot.x-current) > LevelInfo.Settings.PlayerRotateIgnore)
@@ -307,7 +320,6 @@ public class Player : MonoBehaviour {
 		else
 		{
 			// Up/Down Tilting
-			float ytilt = calibratedelta(); if(Options.Instance.yInvert) ytilt =- ytilt;
 			float current = Mathf.Clamp(ytilt,-30f,30f)*LevelInfo.Settings.MaxSpaceY/-30f;
 			var y = transform.position.y;
 			
