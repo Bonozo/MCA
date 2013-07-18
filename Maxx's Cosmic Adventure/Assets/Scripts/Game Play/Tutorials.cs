@@ -50,12 +50,6 @@ public class Tutorials : MonoBehaviour {
 	string messageBeastieBoost = 
 		"Beastie Boost!\n" +
 		"Double the player's speed.";
-	/*string messageAsteroid =
-		"Destroy as many asteroids as you can.\n" +
-		"It can be spawned a powerup or a high\n" + 
-		"value unlikelium in it.";
-	string messageJeebie =
-		"Spawned Jeebie";*/
 	string messageBoostOverheated = 
 		"The boost motor of the ship has been overheated.\n" +
 		"It is shown in the bottom right of the screen.";
