@@ -35,16 +35,19 @@ public class MainMenu : MonoBehaviour {
 			objCredits.SetActive(_state == MenuState.Credits);
 			objStats.SetActive(_state == MenuState.Stats);
 			
-			if(_state == MenuState.Store)
+			switch(_state)
 			{
+			case MenuState.Store:
 				Store.Instance.ShowStore = true;
 				audio.Stop();
-			}
-			
-			if(_state == MenuState.Options)
-			{
+				break;
+			case MenuState.Options:
 				Options.Instance.ShowOptions = true;
 				audio.Stop();
+				break;
+			case MenuState.Stats:
+				Stats.Instance.ShowStats = true;
+				break;
 			}
 		}
 	}
