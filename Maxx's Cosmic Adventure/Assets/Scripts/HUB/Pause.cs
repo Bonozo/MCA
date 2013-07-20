@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Pause : MonoBehaviour {
 	
-	public Transform left1,left2,right1,right2;
+	public Transform left1,left2,left3,right1,right2;
 	public UIButton[] buttons;
 	
 	bool ppause = false;
@@ -51,19 +51,11 @@ public class Pause : MonoBehaviour {
 		{
 			float delta = Mathf.Min(speed*0.0167f,-left1.localPosition.x);
 			SetX(-left1.localPosition.x-delta);
-			/*left1.Translate(delta,0f,0f);
-			left2.Translate(delta,0f,0f);
-			right1.Translate(-delta,0f,0f);
-			right2.Translate(-delta,0f,0f);*/
 		}
 		if(!ppause && left1.localPosition.x>-maxx)
 		{
 			float delta = speed*0.0167f;
 			SetX(-left1.localPosition.x+delta);
-			/*left1.Translate(-delta,0f,0f);
-			left2.Translate(-delta,0f,0f);
-			right1.Translate(delta,0f,0f);
-			right2.Translate(delta,0f,0f);	*/	
 			if(left1.localPosition.x<=-maxx)
 			{
 				LevelInfo.State.state = GameState.Play;
@@ -78,6 +70,7 @@ public class Pause : MonoBehaviour {
 	{
 		left1.localPosition  = new Vector3(-maxx,left1.localPosition.y,left1.localPosition.z);
 		left2.localPosition  = new Vector3(-maxx,left2.localPosition.y,left2.localPosition.z);
+		left3.localPosition  = new Vector3(-maxx,left3.localPosition.y,left3.localPosition.z);
 		right1.localPosition = new Vector3( maxx,right1.localPosition.y,right1.localPosition.z);
 		right2.localPosition = new Vector3( maxx,right2.localPosition.y,right2.localPosition.z);		
 	}

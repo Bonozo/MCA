@@ -9,6 +9,7 @@ public enum GameState
 	Paused,
 	Options,
 	Store,
+	Stats,
 	Lose,
 	None
 }
@@ -82,6 +83,10 @@ public class StateManager : MonoBehaviour {
 			case GameState.Options:
 				LevelInfo.Environments.HUB.SetActive(false);
 				Options.Instance.ShowOptions = true;
+				break;
+			case GameState.Stats:
+				LevelInfo.Environments.HUB.SetActive(false);
+				Stats.Instance.ShowStats = true;
 				break;
 			case GameState.Lose:				
 				StartCoroutine(ShowGameOverScreenThread());

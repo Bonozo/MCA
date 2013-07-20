@@ -4,6 +4,21 @@ using System.Collections;
 public class Stats : MonoBehaviour {
 	
 	public GameObject gui;
+	public UILabel labelLevel;
+	
+	private int _level = -1;
+	public int level{
+		get{
+			if(_level==-1)
+				_level = PlayerPrefs.GetInt("stats_level",1);
+			return _level;
+		}
+		private set
+		{
+			_level = value;
+			PlayerPrefs.SetInt("stats_level",_level);
+		}
+	}
 	
 	private bool _showStats = false;
 	public bool ShowStats{
@@ -13,6 +28,11 @@ public class Stats : MonoBehaviour {
 		set{
 			_showStats = value;
 			gui.SetActive(value);
+			
+			if(_showStats)
+			{
+				labelLevel.text = "LEVEL " + level;
+			}
 		}
 	}
 	
