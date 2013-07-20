@@ -31,12 +31,18 @@ public class Mission : MonoBehaviour
 		}
 	}
 	
+	public void CompleteDirectly()
+	{
+		complete = levelCount[Stats.Instance.level-1];
+	}
+	
 	public void Add(int count)
 	{
 		if(IsComplete) return;
 		int cmpt = complete + count;
 		if(single && cmpt>1) cmpt=1;
 		else if(cmpt>levelCount[Stats.Instance.level-1]) cmpt=levelCount[Stats.Instance.level-1];
+		complete = cmpt;
 	}
 	
 	void OnEnable()

@@ -41,6 +41,17 @@ public class Stats : MonoBehaviour {
 		ShowStats = false;
 	}
 	
+	#region Missions
+	
+	public Mission missionCollectUnlikeliums;
+	
+	public void ReportCollectedUnlikelium(int count)
+	{
+		missionCollectUnlikeliums.Add(count);
+	}
+	
+	#endregion
+	
 	#region  Static Instance
 	
 	//Multithreaded Safe Singleton Pattern
