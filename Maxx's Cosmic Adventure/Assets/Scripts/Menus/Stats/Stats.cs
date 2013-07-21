@@ -44,10 +44,40 @@ public class Stats : MonoBehaviour {
 	#region Missions
 	
 	public Mission missionCollectUnlikeliums;
+	public Mission missionKillBlueFighterPilots;
+	public Mission missionKillYellowLeaders;
+	public Mission missionKillRedKamikazes;
+	public Mission missionKillPurpleFighters;
+	public Mission missionKillReactiveFighter;
 	
 	public void ReportCollectedUnlikelium(int count)
 	{
 		missionCollectUnlikeliums.Add(count);
+	}
+	
+	public void ReportKilledJeebie(Jeebie jeebie)
+	{
+		switch(jeebie)
+		{
+		case Jeebie.BlueFighterPilot:
+			missionKillBlueFighterPilots.Add(1);
+			break;
+		case Jeebie.BlueLeader:
+			missionKillYellowLeaders.Add(1);
+			break;
+		case Jeebie.RedKamikaze:
+			missionKillRedKamikazes.Add(1);
+			break;
+		case Jeebie.PurpleFigher:
+			missionKillPurpleFighters.Add(1);
+			break;	
+		case Jeebie.Reactive:
+			missionKillReactiveFighter.Add(1);
+			break;
+		default:
+			Debug.LogError("ReportKilledJeebie: the jeebie type is not implemented");
+			break;
+		}
 	}
 	
 	#endregion

@@ -21,12 +21,14 @@ public class MissionButton : MonoBehaviour {
 			button.isEnabled = false;
 			text.text = "COMPLETE";
 			text.color = Color.green;
+			mission.labelDescription.color = Color.green;
 		}
 		else
 		{
 			button.isEnabled = true;
 			text.text = "SKIP";
 			text.color = Color.white;
+			mission.labelDescription.color = Color.white;
 		}
 	}
 }

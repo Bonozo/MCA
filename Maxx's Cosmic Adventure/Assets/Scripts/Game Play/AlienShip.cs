@@ -381,7 +381,11 @@ public class AlienShip : MonoBehaviour {
 		if(byMaxx)
 		{
 			LevelInfo.Environments.score.jeebiesDestoyed++;
+			
+			// reportings
 			LevelInfo.Audio.PlayVoiceOverJeebieDestroyed();
+			Stats.Instance.ReportKilledJeebie(jeebieType);
+			
 			LevelInfo.Environments.generator.GenerateHighValueUnlikelium(jeebieType,Centr.position);
 		}	
 		
