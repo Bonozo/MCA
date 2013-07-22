@@ -173,6 +173,12 @@ public class Store : MonoBehaviour {
 	
 	public void AddUnlikeliums(int unlk)
 	{
+		StartCoroutine(AddUnlikeliumsAfter3Seconds(unlk));
+	}
+	
+	private IEnumerator AddUnlikeliumsAfter3Seconds(int unlk)
+	{
+		yield return new WaitForSeconds(3f);
 		Unlikeliums += unlk;
 	}
 	
