@@ -1,27 +1,33 @@
 fileFormatVersion: 2
-guid: b2b13ed1e63ed824da7c1186dc9548f9
+guid: 07299cca07a49ee448acfd063333d718
 ModelImporter:
+  serializedVersion: 15
   fileIDToRecycleName:
-    7400000: Take 001 //// MaxxShip@MaxxShip_anim1
-    7400002: Take 001 //// MaxxShip@up
-    7400004: Take 001 //// MaxxShip@barrol
-    7400006: Take 001 //// MaxxShip@barrelrolllup
-    7400008: Take 001 //// MaxxShip@barrelrollup
-  serializedVersion: 10
+    100000: bn_base01
+    100002: bn_turett_01
+    100004: //RootNode
+    100006: root
+    400000: bn_base01
+    400002: bn_turett_01
+    400004: //RootNode
+    400006: root
+    7400000: Take 001
+    9500000: //RootNode
+    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
   animations:
-    generateAnimations: 3
+    legacyGenerateAnimations: 4
     bakeSimulation: 0
-    splitAnimations: 1
     animationCompression: 1
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
     animationWrapMode: 0
     clipAnimations: []
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: .00999999978
@@ -30,7 +36,7 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMesh: 0
+    optimizeMeshForGPU: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -40,28 +46,21 @@ ModelImporter:
     splitTangentsAcrossUV: 1
     normalImportMode: 0
     tangentImportMode: 1
-  textMetaNamesToFileIDs:
-    //RootNode:
-      data:
-        first: 1
-        second: a4860100
-      data:
-        first: 4
-        second: 841a0600
-      data:
-        first: 111
-        second: 605fa900
-    bn_maxx01:
-      data:
-        first: 1
-        second: a0860100
-      data:
-        first: 4
-        second: 801a0600
-    root01:
-      data:
-        first: 1
-        second: a2860100
-      data:
-        first: 4
-        second: 821a0600
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 1
+  userData: 

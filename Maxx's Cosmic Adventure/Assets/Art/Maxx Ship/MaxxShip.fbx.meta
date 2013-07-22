@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1fe519d91641e0d4ea0898feea686fdd
+guid: 6cf924a4fce96fa4a9f90abeafa96540
 ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
@@ -9,23 +9,57 @@ ModelImporter:
     100006: cabin
     100008: Max_geo
     100010: //RootNode
-    100012: root
-    100014: turett
+    100012: polySurface1
+    100014: polySurface2
+    100016: polySurface3
+    100018: polySurface4
+    100020: polySurface5
+    100022: polySurface6
+    100024: polySurface9
+    100026: root
+    100028: transform1
+    100030: transform2
+    100032: transform3
+    100034: transform4
+    100036: transform5
+    100038: transform6
+    100040: transform7
+    100042: turett
     400000: base
     400002: bn_base01
     400004: bn_turett_01
     400006: cabin
     400008: Max_geo
     400010: //RootNode
-    400012: root
-    400014: turett
+    400012: polySurface1
+    400014: polySurface2
+    400016: polySurface3
+    400018: polySurface4
+    400020: polySurface5
+    400022: polySurface6
+    400024: polySurface9
+    400026: root
+    400028: transform1
+    400030: transform2
+    400032: transform3
+    400034: transform4
+    400036: transform5
+    400038: transform6
+    400040: transform7
+    400042: turett
+    2300000: base
+    2300002: cabin
+    2300004: polySurface9
+    2300006: turett
+    3300000: base
+    3300002: cabin
+    3300004: polySurface9
+    3300006: turett
     4300000: turett
-    4300002: cabin
-    4300004: base
+    4300002: base
+    4300004: polySurface9
+    4300006: cabin
     9500000: //RootNode
-    13700000: base
-    13700002: cabin
-    13700004: turett
   materials:
     importMaterials: 1
     materialName: 0

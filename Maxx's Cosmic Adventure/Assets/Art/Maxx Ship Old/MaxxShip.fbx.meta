@@ -1,46 +1,37 @@
 fileFormatVersion: 2
-guid: 574edadc38c2f444294d20d62955774c
+guid: 1fe519d91641e0d4ea0898feea686fdd
 ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
-    100000: root01
-    100002: bn_maxx01
-    100004: Maxx_geo
-    100006: //RootNode
-    100008: base
-    100010: bn_base01
-    100012: bn_turett_01
-    100014: cabin
-    100016: Max_geo
-    100018: root
-    100020: turett
-    400000: root01
-    400002: bn_maxx01
-    400004: Maxx_geo
-    400006: //RootNode
-    400008: base
-    400010: bn_base01
-    400012: bn_turett_01
-    400014: cabin
-    400016: Max_geo
-    400018: root
-    400020: turett
-    4300000: Maxx_geo
-    4300002: turett
-    4300004: cabin
-    4300006: base
-    7400000: Take 001
-    11100000: //RootNode
-    13700000: bn_maxx01
-    13700002: base
-    13700004: cabin
-    13700006: turett
+    100000: base
+    100002: bn_base01
+    100004: bn_turett_01
+    100006: cabin
+    100008: Max_geo
+    100010: //RootNode
+    100012: root
+    100014: turett
+    400000: base
+    400002: bn_base01
+    400004: bn_turett_01
+    400006: cabin
+    400008: Max_geo
+    400010: //RootNode
+    400012: root
+    400014: turett
+    4300000: turett
+    4300002: cabin
+    4300004: base
+    9500000: //RootNode
+    13700000: base
+    13700002: cabin
+    13700004: turett
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
   animations:
-    legacyGenerateAnimations: 3
+    legacyGenerateAnimations: 4
     bakeSimulation: 0
     animationCompression: 1
     animationRotationError: .5
@@ -83,5 +74,5 @@ ModelImporter:
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   additionalBone: 1
-  animationType: 1
+  animationType: 2
   userData: 
