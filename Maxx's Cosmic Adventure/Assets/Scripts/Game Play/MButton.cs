@@ -4,6 +4,7 @@ using System.Collections;
 public class MButton : MonoBehaviour {
 	
 	public UILabel powerupName;
+	public UISprite powerupColor;
 	
 	private Gems _currentPowerup = Gems.None;
 	public Gems currentPowerup{
@@ -21,18 +22,22 @@ public class MButton : MonoBehaviour {
 			case Gems.In3s:
 				powerupCount = Store.Instance.powerupTripleTrouble.StoredPowerupCount;
 				powerupName.text = "Triple Trouble " + powerupCount;
+				powerupColor.color = new Color(1f,0f,0f,0.67f);
 				break;
 			case Gems.Pow:
 				powerupCount = Store.Instance.powerupPOW.StoredPowerupCount;
 				powerupName.text = "POW " + powerupCount;
+				powerupColor.color = new Color(1f,1f,1f,0.39f);
 				break;
 			case Gems.FireBall:
 				powerupCount = 3*Store.Instance.powerupLighenUp.StoredPowerupCount;
 				LevelInfo.Environments.playerFlamethrowerTransform.gameObject.SetActive(true);
 				powerupName.text = "Lighten Up " + powerupCount;
+				powerupColor.color = new Color(1f,1f,0f,0.33f);
 				break;
 			default:
 				powerupName.text = "";
+				powerupColor.color = new Color(0f,0f,0f,0.0f);
 				break;
 			}
 			
