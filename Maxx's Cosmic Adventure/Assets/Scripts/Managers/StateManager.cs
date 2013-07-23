@@ -40,6 +40,16 @@ public enum Jeebie
 	Reactive=5
 }
 
+public enum Asteroids
+{
+	White,
+	Blue,
+	Green,
+	Red,
+	Yellow,
+	Purple
+}
+
 #endregion
 
 public class StateManager : MonoBehaviour {

@@ -44,16 +44,17 @@ public class Stats : MonoBehaviour {
 	#region Missions
 	
 	public Mission missionCollectUnlikeliums;
-	public Mission missionKillBlueFighterPilots;
-	public Mission missionKillYellowLeaders;
-	public Mission missionKillRedKamikazes;
-	public Mission missionKillPurpleFighters;
-	public Mission missionKillReactiveFighter;
 	
 	public void ReportCollectedUnlikelium(int count)
 	{
 		missionCollectUnlikeliums.Add(count);
 	}
+	
+	public Mission missionKillBlueFighterPilots;
+	public Mission missionKillYellowLeaders;
+	public Mission missionKillRedKamikazes;
+	public Mission missionKillPurpleFighters;
+	public Mission missionKillReactiveFighter;
 	
 	public void ReportKilledJeebie(Jeebie jeebie)
 	{
@@ -76,6 +77,41 @@ public class Stats : MonoBehaviour {
 			break;
 		default:
 			Debug.LogError("ReportKilledJeebie: the jeebie type is not implemented");
+			break;
+		}
+	}
+	
+	public Mission missionDestroyBlueAsteroids;
+	public Mission missionDestroyWhiteAsteroids;
+	public Mission missionDestroyGreenAsteroids;
+	public Mission missionDestroyRedAsteroids;
+	public Mission missionDestroyYellowAsteroids;
+	public Mission missionDestroyPurpleAsteroids;
+	
+	public void ReportDestroyedAsteroid(Asteroids asteroidType)
+	{
+		switch(asteroidType)
+		{
+		case Asteroids.Blue:
+			missionDestroyBlueAsteroids.Add(1);
+			break;
+		case Asteroids.White:
+			missionDestroyWhiteAsteroids.Add(1);
+			break;
+		case Asteroids.Green:
+			missionDestroyGreenAsteroids.Add(1);
+			break;
+		case Asteroids.Red:
+			missionDestroyRedAsteroids.Add(1);
+			break;
+		case Asteroids.Yellow:
+			missionDestroyYellowAsteroids.Add(1);
+			break;
+		case Asteroids.Purple:
+			missionDestroyPurpleAsteroids.Add(1);
+			break;	
+		default:
+			Debug.LogError("ReportDestroyedAsteroid: the asteroid type is not implemented");
 			break;
 		}
 	}

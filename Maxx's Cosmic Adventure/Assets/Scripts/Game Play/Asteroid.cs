@@ -5,6 +5,7 @@ public class Asteroid : MonoBehaviour {
 	
 	public static int GlobalCount = 0;
 	
+	public Asteroids asteroidType;
 	public int Power = 10;
 	
 	private bool exploded=false;
@@ -101,7 +102,10 @@ public class Asteroid : MonoBehaviour {
 			
 		if(byMaxx)
 		{
+			// reportings
 			LevelInfo.Environments.score.asteroidsDestoyed++;
+			Stats.Instance.ReportDestroyedAsteroid(asteroidType);
+			
 			LevelInfo.Audio.PlayVoiceOverAsteroidDestroyed();
 		}
 		
