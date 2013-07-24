@@ -18,7 +18,9 @@ public class Mission : MonoBehaviour
 			return _complete;
 		}
 		set{
+			bool completed = IsComplete;
 			_complete = value;
+			if(!completed&&IsComplete) Stats.Instance.ShowMissionComplete(missionDescription);
 			PlayerPrefs.SetInt("stats_mission" + missionNumber,_complete);
 		}
 	}

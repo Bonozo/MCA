@@ -4,6 +4,8 @@ using System.Collections;
 public class Stats : MonoBehaviour {
 	
 	public GameObject gui;
+	public GameObject missionCompleteGUI;
+	public UILabel missionCompleteMessage;
 	public UILabel labelLevel;
 	public GameObject missionsRoot;
 	
@@ -170,6 +172,51 @@ public class Stats : MonoBehaviour {
 	public void ReportKilledJeebieInHoldItNowHitIt(Jeebie jeebie)
 	{
 		missionKillAJeebieDuringHoldItNowHitIt.Add(1);
+	}
+	
+	#endregion
+	
+	#region Mission Complete
+	
+	private bool showingmissioncomplete = false;
+	
+	public void ShowMissionComplete(string message)
+	{
+		StartCoroutine(ShowMissionCompleteThread(message));
+	}
+	
+	private IEnumerator ShowMissionCompleteThread(string message)
+	{
+		while(showingmissioncomplete) yield return new WaitForEndOfFrame();
+		showingmissioncomplete = true;
+		
+		missionCompleteGUI.transform.localPosition = new Vector3(0f,-80f,0f);
+		missionCompleteMessage.text = message;
+		
+		float time = 1.0f;
+		while(time>0f)
+		{
+			time -= 0.067f;
+			missionCompleteGUI.transform.Translate(0f,0.067f*0.2f,0f);
+			yield return null;
+		}
+		
+		time = 5f;
+		while(time>0)
+		{
+			time -= 0.067f;
+			yield return null;
+		}
+		
+		time = 1.0f;
+		while(time>0f)
+		{
+			time -= 0.067f;
+			missionCompleteGUI.transform.Translate(0f,-0.067f*0.2f,0f);
+			yield return null;
+		}		
+		
+		showingmissioncomplete = false;
 	}
 	
 	#endregion
