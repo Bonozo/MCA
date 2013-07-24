@@ -50,6 +50,16 @@ public enum Asteroids
 	Purple
 }
 
+public enum Projectile
+{
+	Standard,
+	AutoFire,
+	Fireball,
+	Missie,
+	Laser,
+	None
+}
+
 #endregion
 
 public class StateManager : MonoBehaviour {
@@ -141,6 +151,8 @@ public class StateManager : MonoBehaviour {
 		
 		names.text +=   "\n\n"+"Score:";
 		results.text += "\n\n"+LevelInfo.Environments.score.totalScore;*/
+		
+		Stats.Instance.ClearInSingleRunMissions();
 		
 		int distance = Mathf.FloorToInt(LevelInfo.Environments.playerShip.DistanceTravelled);
 		int highscore = PlayerPrefs.GetInt("high_score",0);

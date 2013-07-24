@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Bullet : MonoBehaviour {
 	
+	public Projectile projectileType = Projectile.None;
 	public int Power=1;
 	public float Speed = 200f;
 	public float DeadTime = 10f;	
@@ -62,6 +63,10 @@ public class Bullet : MonoBehaviour {
 	void OnTriggerEnter(Collider col)
 	{
 		if(targeted) return;
+		
+		// reporting
+		if(col.gameObject.CompareTag("Enemy") && projectileType == Projectile.Fireball)
+			Stats.Instance.ReportKilledJeebieWithAWeapon(Gems.FireBall);
 		
 		if( col.gameObject.CompareTag("Asteroid") || col.gameObject.CompareTag("Enemy") )
 		{

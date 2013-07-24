@@ -5,6 +5,7 @@ public class Stats : MonoBehaviour {
 	
 	public GameObject gui;
 	public UILabel labelLevel;
+	public GameObject missionsRoot;
 	
 	private int _level = -1;
 	public int level{
@@ -41,39 +42,82 @@ public class Stats : MonoBehaviour {
 		ShowStats = false;
 	}
 	
+	public void ClearInSingleRunMissions()
+	{
+		foreach(Transform m in missionsRoot.transform)
+			if(m.GetComponent<Mission>() != null)
+				m.GetComponent<Mission>().ClearIfNotCompleteForSingleRun();
+	}
+	
 	#region Missions
 	
-	public Mission missionCollectUnlikeliums;
+	public Mission missionCollect100UnlikeliumsTotal;
+	public Mission missionDestroy25AsteroidsTotal;
+	public Mission missionKill25JeebiesTotal;
+	public Mission missionPickUp10PowerupsTotal;
+	public Mission missionPurchaseSomethingInTheStore;
+	public Mission missionUsePow3Times;
+	public Mission missionKill5BlueFightersInASingleRun;
+	public Mission missionDestroy10AsteroidsInASingleRun;
+	public Mission missionKillAJeebieDuringHoldItNowHitIt;
+	public Mission missionEnterIntergalacticHyperspace3Times;
+	public Mission missionKill10YellowLeaderJeebies;
+	public Mission missionCollect50UnlikeliumsInASingleRun;
+	public Mission missionHaveANearMeetWith5AsteroidsInASingleRun;
+	public Mission missionKill10JeebiesWithALightenUpFireball;
+	
+	#endregion
+	
+	#region Reports
 	
 	public void ReportCollectedUnlikelium(int count)
 	{
-		missionCollectUnlikeliums.Add(count);
+		missionCollect100UnlikeliumsTotal.Add(count);
+		missionCollect50UnlikeliumsInASingleRun.Add(count);
 	}
 	
-	public Mission missionKillBlueFighterPilots;
-	public Mission missionKillYellowLeaders;
-	public Mission missionKillRedKamikazes;
-	public Mission missionKillPurpleFighters;
-	public Mission missionKillReactiveFighter;
+	public void ReportDestroyedAsteroid(Asteroids asteroidType)
+	{
+		missionDestroy25AsteroidsTotal.Add(1);
+		missionDestroy10AsteroidsInASingleRun.Add(1);
+		
+		switch(asteroidType)
+		{
+		case Asteroids.Blue:
+			break;
+		case Asteroids.White:
+			break;
+		case Asteroids.Green:
+			break;
+		case Asteroids.Red:
+			break;
+		case Asteroids.Yellow:
+			break;
+		case Asteroids.Purple:
+			break;	
+		default:
+			Debug.LogError("ReportDestroyedAsteroid: the asteroid type is not implemented");
+			break;
+		}
+	}
 	
 	public void ReportKilledJeebie(Jeebie jeebie)
 	{
+		missionKill25JeebiesTotal.Add(1);
+		
 		switch(jeebie)
 		{
 		case Jeebie.BlueFighterPilot:
-			missionKillBlueFighterPilots.Add(1);
+			missionKill5BlueFightersInASingleRun.Add(1);
 			break;
 		case Jeebie.BlueLeader:
-			missionKillYellowLeaders.Add(1);
+			missionKill10YellowLeaderJeebies.Add(1);
 			break;
 		case Jeebie.RedKamikaze:
-			missionKillRedKamikazes.Add(1);
 			break;
 		case Jeebie.PurpleFigher:
-			missionKillPurpleFighters.Add(1);
 			break;	
 		case Jeebie.Reactive:
-			missionKillReactiveFighter.Add(1);
 			break;
 		default:
 			Debug.LogError("ReportKilledJeebie: the jeebie type is not implemented");
@@ -81,39 +125,51 @@ public class Stats : MonoBehaviour {
 		}
 	}
 	
-	public Mission missionDestroyBlueAsteroids;
-	public Mission missionDestroyWhiteAsteroids;
-	public Mission missionDestroyGreenAsteroids;
-	public Mission missionDestroyRedAsteroids;
-	public Mission missionDestroyYellowAsteroids;
-	public Mission missionDestroyPurpleAsteroids;
-	
-	public void ReportDestroyedAsteroid(Asteroids asteroidType)
+	public void ReportKilledJeebieWithAWeapon(Gems gem)
 	{
-		switch(asteroidType)
+		switch(gem)
 		{
-		case Asteroids.Blue:
-			missionDestroyBlueAsteroids.Add(1);
-			break;
-		case Asteroids.White:
-			missionDestroyWhiteAsteroids.Add(1);
-			break;
-		case Asteroids.Green:
-			missionDestroyGreenAsteroids.Add(1);
-			break;
-		case Asteroids.Red:
-			missionDestroyRedAsteroids.Add(1);
-			break;
-		case Asteroids.Yellow:
-			missionDestroyYellowAsteroids.Add(1);
-			break;
-		case Asteroids.Purple:
-			missionDestroyPurpleAsteroids.Add(1);
-			break;	
-		default:
-			Debug.LogError("ReportDestroyedAsteroid: the asteroid type is not implemented");
+		case Gems.FireBall:
+			missionKill10JeebiesWithALightenUpFireball.Add(1);
 			break;
 		}
+	}
+	
+	public void ReportCollectedPowerup(Gems gem)
+	{
+		missionPickUp10PowerupsTotal.Add(1);
+		
+		switch(gem)
+		{
+		case Gems.Intergalactic:
+			missionEnterIntergalacticHyperspace3Times.Add(1);
+			break;
+		}
+	}
+	
+	public void ReportPurchasedStoreItem(UpdateablePowerup item)
+	{
+		missionPurchaseSomethingInTheStore.Add(1);
+	}
+	
+	public void ReportUsePowerup(Gems gem)
+	{
+		switch(gem)
+		{
+		case Gems.Pow:
+			missionUsePow3Times.Add(1);
+			break;
+		}
+	}
+	
+	public void ReportNearMeetWithAsteroid(Asteroids asteroid)
+	{
+		missionHaveANearMeetWith5AsteroidsInASingleRun.Add(1);
+	}
+	
+	public void ReportKilledJeebieInHoldItNowHitIt(Jeebie jeebie)
+	{
+		missionKillAJeebieDuringHoldItNowHitIt.Add(1);
 	}
 	
 	#endregion

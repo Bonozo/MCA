@@ -3,11 +3,10 @@ using System.Collections;
 
 public class Mission : MonoBehaviour
 {
-	public string missionName;
-	public string missionDescriptionPrefix;
-	public string missionDescriptionPostfix;
-	public bool single;
-	public int[] levelCount;
+	public string missionNumber;
+	public string missionDescription;
+	public int missionCount;
+	public bool inSigleRun;
 	
 	public UILabel labelDescription;
 	
@@ -15,44 +14,40 @@ public class Mission : MonoBehaviour
 	private int complete{
 		get{
 			if(_complete == -1)
-				_complete = PlayerPrefs.GetInt("stats_" + missionName,0);
+				_complete = PlayerPrefs.GetInt("stats_mission" + missionNumber,0);
 			return _complete;
 		}
 		set{
 			_complete = value;
-			PlayerPrefs.SetInt("stats_" + missionName,_complete);
+			PlayerPrefs.SetInt("stats_mission" + missionNumber,_complete);
 		}
 	}
 	
 	public bool IsComplete{
 		get{
-			if(single) return complete==1;
-			return levelCount[Stats.Instance.level-1]==complete;
+			return complete == missionCount;
 		}
 	}
 	
 	public void CompleteDirectly()
 	{
-		complete = levelCount[Stats.Instance.level-1];
+		complete = missionCount;
 	}
 	
 	public void Add(int count)
 	{
-		if(IsComplete) return;
-		int cmpt = complete + count;
-		if(single && cmpt>1) cmpt=1;
-		else if(cmpt>levelCount[Stats.Instance.level-1]) cmpt=levelCount[Stats.Instance.level-1];
-		complete = cmpt;
+		complete = Mathf.Min(missionCount,complete+count);
+	}
+	
+	public void ClearIfNotCompleteForSingleRun()
+	{
+		if(inSigleRun&&!IsComplete) complete=0;
 	}
 	
 	void OnEnable()
 	{
-		if(single)
-			labelDescription.text = missionDescriptionPrefix;
-		else
-		{
-			labelDescription.text = missionDescriptionPrefix + " " + levelCount[Stats.Instance.level-1] + " " + missionDescriptionPostfix;
-			if(!IsComplete) labelDescription.text += " (" + (levelCount[Stats.Instance.level-1]-complete) + " left)";
-		}
+		labelDescription.text = missionDescription;
+		if(missionCount>1&&!IsComplete)
+			labelDescription.text += " (" + (missionCount-complete) + " left)";
 	}
 }

@@ -5,6 +5,7 @@ public class ButtonQuitPopupQuit : MonoBehaviour {
 
 	void OnClick()
 	{
+		Stats.Instance.ClearInSingleRunMissions();
 		bool canRateApp = PlayerPrefs.GetInt("rateapppopupcompleted",0)==0;
 		
 		if(canRateApp && LevelInfo.Environments.playerShip.allAttempt%20==0)

@@ -12,6 +12,7 @@ public class StoreBuyButton : MonoBehaviour {
 		
 		if(Store.Instance.Unlikeliums>=cost)
 		{
+			Stats.Instance.ReportPurchasedStoreItem(Store.Instance._currentPowerup);
 			Store.Instance.Unlikeliums -= cost;
 			Store.Instance._currentPowerup.level++;
 			Store.Instance.Activate(Store.Instance._currentPowerup);		

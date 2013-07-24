@@ -385,6 +385,8 @@ public class AlienShip : MonoBehaviour {
 			// reportings
 			LevelInfo.Audio.PlayVoiceOverJeebieDestroyed();
 			Stats.Instance.ReportKilledJeebie(jeebieType);
+			if(LevelInfo.Environments.playerShip.FreezeWorld)
+				Stats.Instance.ReportKilledJeebieInHoldItNowHitIt(jeebieType);
 			
 			LevelInfo.Environments.generator.GenerateHighValueUnlikelium(jeebieType,Centr.position);
 		}	

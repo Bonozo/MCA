@@ -76,6 +76,8 @@ public class MButton : MonoBehaviour {
 	
 	void StartPowerup()
 	{
+		Stats.Instance.ReportUsePowerup(currentPowerup);
+		
 		switch(currentPowerup)
 		{
 		case Gems.In3s:
@@ -115,6 +117,9 @@ public class MButton : MonoBehaviour {
 			}
 			else
 				powerupName.text = "Lighten Up " + powerupCount;
+			break;
+		default:
+			Debug.Log("StartPowerup: Powerup Type is not implemented");
 			break;
 		}
 	}
