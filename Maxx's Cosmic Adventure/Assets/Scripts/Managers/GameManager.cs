@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject prefabPlayerAutoFireProjectile;
 	public GameObject prefabPlayerMissle;
 	public GameObject prefabPlayerFireBall;
+	public GameObject prefabPlayerLazer;
 	
 	public GameObject prefabUnlikelium;
 	public GameObject prefabUnlikeliumBronze;

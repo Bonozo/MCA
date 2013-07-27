@@ -103,6 +103,13 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			LevelInfo.Environments.playerShip.StartBeastieBoost();
 			LevelInfo.Environments.infoMessage.ShowMessage("Beastie Boost!");
 			break;
+		case Gems.Lazer:
+			LevelInfo.Environments.mButton.currentPowerup = Gems.Lazer;
+			LevelInfo.Environments.infoMessage.ShowMessage("Lazer");
+			break;
+		default:
+			Debug.Log("TakeGem: " + gemtype.ToString() + " is not implemented");
+			break;
 		}
 		
 		if( gemtype != Gems.Unlikelium)

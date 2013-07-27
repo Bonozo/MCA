@@ -27,7 +27,8 @@ public enum Gems
 	LoveUnlikelium,
 	Intergalactic,
 	ToughGuy,
-	BeastieBoost
+	BeastieBoost,
+	Lazer
 }
 
 public enum Jeebie

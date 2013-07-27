@@ -120,6 +120,7 @@ public class AudioManager : MonoBehaviour {
 	public AudioClip clipFire;
 	public AudioClip clipAutoFire;
 	public AudioClip clipLightenUpFire;
+	public AudioClip clipLazerFire;
 	public AudioClip clipTripleTroubleFire;
 	
 	public void PlayAudioGemPickUp(Gems gem)
