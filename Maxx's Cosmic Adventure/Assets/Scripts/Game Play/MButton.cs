@@ -38,7 +38,7 @@ public class MButton : MonoBehaviour {
 			case Gems.Lazer:
 				powerupCount = 3*Store.Instance.powerupLazer.StoredPowerupCount;
 				powerupName.text = "Lazer " + powerupCount;
-				powerupColor.color = new Color(0f,0f,0f,0.33f);
+				powerupColor.color = new Color(0.56f,0.45f,0.82f,0.33f);
 				break;
 			default:
 				powerupName.text = "";
