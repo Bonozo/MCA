@@ -2,9 +2,12 @@
 using System.Collections;
 
 public class StoreTabButton : MonoBehaviour {
-
+	
+	public bool tabVal;
+	
 	void OnClick()
 	{
+		Store.Instance.tabWeapons = tabVal;
 	}
 	
 	private UIButton button;

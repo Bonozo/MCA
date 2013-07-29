@@ -37,7 +37,7 @@ public class Store : MonoBehaviour {
 	public GameObject gui;
 	public AudioSource audioSource;
 	public Camera camera2d;
-	public Transform buttonsDelta;
+	public Transform rootWeapons,rootShip;
 	public UILabel guiUnlikelium;
 	
 	public GameObject popupUpgradePowerups;
@@ -64,6 +64,7 @@ public class Store : MonoBehaviour {
 			gui.SetActive(value);
 			if(_showStore)
 			{
+				tabWeapons = true;
 				popupUpgradePowerups.SetActive(false);
 				audioSource.volume = Options.Instance.volumeMusic;
 				audioSource.Play();
@@ -86,13 +87,36 @@ public class Store : MonoBehaviour {
 
 	#region Input Events
 	
-	public float storeWidth;
+	public GameObject tabButtonWeapons;
+	public GameObject tabButtonShip;
+	
+	private bool _tabWeapons=true;
+	public bool tabWeapons{
+		get{
+			return _tabWeapons;
+		}
+		set{
+			_tabWeapons = value;
+			rootWeapons.gameObject.SetActive(value);
+			rootShip.gameObject.SetActive(!value);
+			var small = new Vector3(0.9f,0.9f,1f);
+			var  big  = new Vector3(1.1f,1.1f,1f);
+			tabButtonWeapons.transform.localScale = value?big:small;
+			tabButtonShip.transform.localScale = value?small:big;
+		}
+	}
+	public float storeWidthWeapons;
+	public float storeWidthShip;
 	void HandleFingerGesturesOnDragMove (Vector2 fingerPos, Vector2 delta)
 	{
 		if(!ShowStore||PopupActive) return;
+		
+		float storeWidth=tabWeapons?storeWidthWeapons:storeWidthShip;
+		Transform buttonsDelta = tabWeapons?rootWeapons:rootShip;
+		
 		fingerPos = camera2d.transform.worldToLocalMatrix * camera2d.ScreenToWorldPoint( fingerPos );
 
-		if( Mathf.Abs(fingerPos.y) <= 250f )
+		if( Mathf.Abs(fingerPos.y) <= 250f && storeWidth!=0)
 		{
 			float scrollmax = storeWidth-camera2d.pixelWidth/camera2d.pixelHeight*800;
 			buttonsDelta.localPosition = new Vector3(Mathf.Clamp(buttonsDelta.localPosition.x+4f*delta.x,-scrollmax,5f),buttonsDelta.localPosition.y,buttonsDelta.localPosition.z);
