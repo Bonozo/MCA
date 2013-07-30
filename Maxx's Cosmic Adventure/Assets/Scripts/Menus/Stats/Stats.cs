@@ -198,14 +198,14 @@ public class Stats : MonoBehaviour {
 		{
 			time -= 0.067f;
 			missionCompleteGUI.transform.Translate(0f,0.067f*0.2f,0f);
-			yield return null;
+			yield return new WaitForEndOfFrame();
 		}
 		
-		time = 5f;
+		time = 10f;
 		while(time>0)
 		{
 			time -= 0.067f;
-			yield return null;
+			yield return new WaitForEndOfFrame();
 		}
 		
 		time = 1.0f;
@@ -213,7 +213,7 @@ public class Stats : MonoBehaviour {
 		{
 			time -= 0.067f;
 			missionCompleteGUI.transform.Translate(0f,-0.067f*0.2f,0f);
-			yield return null;
+			yield return new WaitForEndOfFrame();
 		}		
 		
 		showingmissioncomplete = false;
