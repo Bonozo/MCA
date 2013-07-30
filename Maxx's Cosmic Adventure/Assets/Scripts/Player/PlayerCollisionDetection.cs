@@ -89,7 +89,7 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			break;
 		case Gems.LoveUnlikelium:
 			LevelInfo.Environments.playerShip.StartLoveUnlikelium();
-			LevelInfo.Environments.infoMessage.ShowMessage("Shazam!");
+			LevelInfo.Environments.infoMessage.ShowMessage("Beastie Boost!");
 			break;
 		case Gems.Intergalactic:
 			LevelInfo.Environments.playerShip.StartIntergalactic();
@@ -99,13 +99,9 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			LevelInfo.Environments.score.AddLive();
 			LevelInfo.Environments.infoMessage.ShowMessage("Tough Guy");
 			break;
-		case Gems.BeastieBoost:
-			LevelInfo.Environments.playerShip.StartBeastieBoost();
-			LevelInfo.Environments.infoMessage.ShowMessage("Beastie Boost!");
-			break;
 		case Gems.Lazer:
 			LevelInfo.Environments.mButton.currentPowerup = Gems.Lazer;
-			LevelInfo.Environments.infoMessage.ShowMessage("Lazer");
+			LevelInfo.Environments.infoMessage.ShowMessage("Shazam!");
 			break;
 		default:
 			Debug.Log("TakeGem: " + gemtype.ToString() + " is not implemented");

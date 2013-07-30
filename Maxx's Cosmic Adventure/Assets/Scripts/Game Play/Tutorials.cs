@@ -37,9 +37,9 @@ public class Tutorials : MonoBehaviour {
 	string messageFireBall = 
 		"Lighten Up\n" +
 		"Enables the fireball cannon.\n" +
-		"Use 'M' button in the bottom left to fire.";
+		"Push 'M' button in the bottom left to fire.";
 	string messageLoveUnlikelium = 
-		"Shazam!\n" +
+		"Beastie Boost!\n" +
 		"Automatic boost and a bonus Unlikelium trail.";
 	string messageIntergalactic = 
 		"Intergalactic\n" +
@@ -47,16 +47,16 @@ public class Tutorials : MonoBehaviour {
 	string messageToughGuy = 
 		"Tough Guy\n" +
 		"Adds one more shield.";
-	string messageBeastieBoost = 
-		"Beastie Boost!\n" +
-		"Double the player's speed.";
 	string messageBoostOverheated = 
 		"The boost motor of the ship has been overheated.\n" +
 		"It is shown in the bottom right of the screen.";
 	string messageFireOverheated = 
 		"Firing overheated.\n" +
 		"It is shown in the bottom left of the screen.";
-	
+	string messageLazer = 
+		"Shazam!\n" +
+		"Constant laser steam\n" +
+		"Push 'M' button in the bottom left to fire.";
 	#endregion
 	
 	#region Trainings
@@ -139,7 +139,7 @@ public class Tutorials : MonoBehaviour {
 		PlayerPrefs.SetInt("tutorials_loveunlikelium",0);
 		PlayerPrefs.SetInt("tutorials_intergalactic",0);
 		PlayerPrefs.SetInt("tutorials_toughguy",0);
-		PlayerPrefs.SetInt("tutorials_beastieboost",0);
+		PlayerPrefs.SetInt("tutorials_lazer",0);
 		
 		PlayerPrefs.SetInt("tutorials_jeebie",0);
 		PlayerPrefs.SetInt("tutorials_asteroid",0);
@@ -265,9 +265,14 @@ public class Tutorials : MonoBehaviour {
 		case Gems.ToughGuy:
 			ShowTutorialPopup("tutorials_toughguy",messageToughGuy,delay);
 			break;
-		case Gems.BeastieBoost:
-			ShowTutorialPopup("tutorials_beastieboost",messageBeastieBoost,delay);
-			break;			
+		case Gems.Lazer:
+			ShowTutorialPopup("tutorials_lazer",messageLazer,delay);
+			break;
+		case Gems.Unlikelium:
+			break;
+		default:
+			Debug.Log("Tutorials haven't message for " + gemtype.ToString() + " powerup");
+			break;
 		}		
 	}
 	

@@ -344,7 +344,7 @@ public class Player : MonoBehaviour {
 		}
 		// Ship moving
 		float speed = LevelInfo.Settings.PlayerSpeed;
-		if(BeastieBoost) speed*=2f;
+		//if(BeastieBoost) speed*=2f;
 		transform.Translate(speed*Time.deltaTime*Vector3.forward);
 	}
 	
@@ -604,8 +604,8 @@ public class Player : MonoBehaviour {
 	[System.NonSerializedAttribute]
 	public bool Magned = false;
 	
-	[System.NonSerializedAttribute]
-	public bool BeastieBoost = false;
+	//[System.NonSerializedAttribute]
+	//public bool BeastieBoost = false;
 	
 	public void ClearAllPowerups()
 	{
@@ -614,7 +614,7 @@ public class Player : MonoBehaviour {
 		StopCoroutine("IntergalacticThread");
 		StopCoroutine("LoveUnlikeliumThread");
 		StopCoroutine("MagnedThread");
-		StopCoroutine("BeastieBoost");
+		//StopCoroutine("BeastieBoost");
 		
 		AutoFire = false;
 		LevelInfo.Environments.playerAnimations.CloseTurette();
@@ -631,7 +631,7 @@ public class Player : MonoBehaviour {
 		
 		Magned = false;
 		
-		BeastieBoost = false;
+		//BeastieBoost = false;
 		
 		_invincibility = 0;
 		
@@ -770,22 +770,22 @@ public class Player : MonoBehaviour {
 			//LevelInfo.Environments.generator.GenerateAlienShip = false;
 			//LevelInfo.Environments.generator.GenerateAsteroid = false;
 			
-			//LevelInfo.Environments.generator.StartUnlikeliumGenerator();
-			//poweruptime = 10f+(float)Store.Instance.powerupShazam.level;
+			LevelInfo.Environments.generator.StartUnlikeliumGenerator();
+			poweruptime = 10f+(float)Store.Instance.powerupBeastieBoost.level;
 			
-			poweruptime = Store.Instance.powerupShazam.TimedLevelTime;
-			LevelInfo.Environments.generator.StartShazam();
+			//poweruptime = Store.Instance.powerupShazam.TimedLevelTime;
+			//LevelInfo.Environments.generator.StartShazam();
 			
 			LevelInfo.Environments.guiPowerupCountDown.color = new Color(1f,0.5f,0,1f);
 			while(poweruptime>0f)
 			{
 				poweruptime -= Time.deltaTime;
+				if(poweruptime<3f) LevelInfo.Environments.generator.StopUnlikeliumGenerator();
 				LevelInfo.Environments.guiPowerUpTime.text = "" + Mathf.CeilToInt(poweruptime);
-				SetPowerupFillAmount(poweruptime,Store.Instance.powerupShazam.TimedLevelTime);
+				SetPowerupFillAmount(poweruptime,10f+(float)Store.Instance.powerupBeastieBoost.level);
 				yield return null;
 			}
-			LevelInfo.Environments.generator.EndShazam();
-			//LevelInfo.Environments.generator.StopUnlikeliumGenerator();
+			//LevelInfo.Environments.generator.EndShazam();
 			LevelInfo.Environments.guiPowerUpTime.text = "";
 			
 			//float time = 4f;
@@ -833,7 +833,7 @@ public class Player : MonoBehaviour {
 			poweruptime = Store.Instance.powerupMagned.TimedLevelTime;
 	}
 	
-	public void StartBeastieBoost()
+	/*public void StartBeastieBoost()
 	{
 		StartCoroutine("BeastieBoostThread");
 	}
@@ -858,7 +858,7 @@ public class Player : MonoBehaviour {
 		}
 		else
 			poweruptime = Store.Instance.powerupBeastieBoost.TimedLevelTime;
-	}
+	}*/
 	#endregion
 	
 	#region Properties

@@ -439,7 +439,7 @@ public class Generator : MonoBehaviour {
 				
 				shazamcount++;
 				
-				int level = Store.Instance.powerupShazam.level;
+				int level = Store.Instance.powerupBeastieBoost.level;
 				upos.y=0;
 				if(level>0 && shazamcount%(6-level)==0)
 					unlikeliums.Add((GameObject)Instantiate(LevelInfo.Environments.prefabUnlikeliumBronze,upos,Quaternion.identity));

@@ -36,8 +36,8 @@ public class MButton : MonoBehaviour {
 				powerupColor.color = new Color(1f,1f,0f,0.33f);
 				break;
 			case Gems.Lazer:
-				powerupCount = 3*Store.Instance.powerupLazer.StoredPowerupCount;
-				powerupName.text = "Lazer " + powerupCount;
+				powerupCount = 3*Store.Instance.powerupShazam.StoredPowerupCount;
+				powerupName.text = "Shazam! " + powerupCount;
 				powerupColor.color = new Color(0.56f,0.45f,0.82f,0.33f);
 				break;
 			default:
@@ -57,7 +57,7 @@ public class MButton : MonoBehaviour {
 	
 	void Awake()
 	{
-		currentPowerup = Gems.Lazer;
+		currentPowerup = Gems.None;
 	}
 	
 	void Update()
@@ -133,7 +133,7 @@ public class MButton : MonoBehaviour {
 				currentPowerup = Gems.None;
 			}
 			else
-				powerupName.text = "Lazer " + powerupCount;
+				powerupName.text = "Shazam! " + powerupCount;
 			break;
 		default:
 			Debug.Log("StartPowerup: Powerup Type is not implemented");
