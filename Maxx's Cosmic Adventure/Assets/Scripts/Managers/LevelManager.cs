@@ -33,6 +33,9 @@ public class LevelManager : MonoBehaviour {
 	{
 		// engine 0,1,2,3,4,5
 		PlayerSpeed = 35f+5*Store.Instance.powerupShipEngine.level;
+		
+		// wings 0,1,2,3,4,5
+		PlayerRotateSpeed = 0.12f + 0.016f*Store.Instance.powerupShipWings.level;
 	}
 	
 	public void UpdatePurchasedItems()
