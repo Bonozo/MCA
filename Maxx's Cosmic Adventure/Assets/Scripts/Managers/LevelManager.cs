@@ -18,6 +18,8 @@ public class LevelManager : MonoBehaviour {
 	public float PlayerRotationMaxAngle = 50f;
 	public float PlayerRotateIgnore = 0.0f; // in degrees (0-90)
 	
+	public float FireDeltaTime = 0.125f;
+	
 	public float PlayerWaitForRise = 4f;
 	public float SureShotDistance = 150f;
 	
@@ -31,11 +33,16 @@ public class LevelManager : MonoBehaviour {
 	
 	public void InitShipParams()
 	{
-		// engine 0,1,2,3,4,5
+		// level 0,1,2,3,4,5
+		
+		// engine 
 		PlayerSpeed = 35f+5*Store.Instance.powerupShipEngine.level;
 		
-		// wings 0,1,2,3,4,5
+		// wings 
 		PlayerRotateSpeed = 0.12f + 0.016f*Store.Instance.powerupShipWings.level;
+		
+		// barrel
+		FireDeltaTime = 0.125f - 0.01f*Store.Instance.powerupShipBarrel.level;
 	}
 	
 	public void UpdatePurchasedItems()

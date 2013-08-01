@@ -16,13 +16,13 @@ public class Bullet : MonoBehaviour {
 	private bool targeted = false;
 	private GameObject target;
 	
-	// Use this for initialization
-	void Start () {
+	void Awake ()
+	{
 
 	}
 	
-	// Update is called once per frame
-	void Update () 	{
+	void Update ()
+	{
 		
 		if(LevelInfo.State.state != GameState.Play) return;
 		

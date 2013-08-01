@@ -5,8 +5,6 @@ public class Player : MonoBehaviour {
 	
 	#region Parameters
 	
-	public float FireDeltaTime;
-	
 	public float BeginHeight = -3f;
 	
 	public float CameraZ = 9.5f; 
@@ -411,7 +409,7 @@ public class Player : MonoBehaviour {
 			LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Audio.clipFire,0.4f);
 			Instantiate(LevelInfo.Environments.prefabPlayerProjectile,LevelInfo.Environments.playerLeftFireTransform.position,transform.rotation );
 			Instantiate(LevelInfo.Environments.prefabPlayerProjectile,LevelInfo.Environments.playerRightFireTransform.position,transform.rotation );
-			fireDeltaTime = FireDeltaTime;
+			fireDeltaTime = LevelInfo.Settings.FireDeltaTime;
 		}			
 	}
 	
