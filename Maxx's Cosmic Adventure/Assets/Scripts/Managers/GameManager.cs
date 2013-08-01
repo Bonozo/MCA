@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject popupQuit;
 	public GameObject popupRateApp;
 	public GameObject popupStartTrainings;
+	public GameObject popupDying;
 	
 	public Tutorials tutorials;
 	public GameObject popupTutorial;

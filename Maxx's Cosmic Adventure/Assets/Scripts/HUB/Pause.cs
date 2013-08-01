@@ -20,7 +20,7 @@ public class Pause : MonoBehaviour {
 	
 	void DoPauseAction()
 	{
-		if(LevelInfo.Environments.playerShip.Ready && !wantToExitGame &&
+		if(LevelInfo.Environments.playerShip.Ready && !wantToExitGame && !LevelInfo.State.Dying &&
 			(LevelInfo.State.state == GameState.Play || LevelInfo.State.state == GameState.Paused) )
 		{
 			if(ppause) UnPauseGame();

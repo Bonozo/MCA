@@ -67,15 +67,12 @@ public class Score : MonoBehaviour {
 	{
 		currentLives = Mathf.Max(currentLives-1,0);
 		
+		LevelInfo.Environments.playerShip.LostLifeSmoke(currentLives);
+		StartCoroutine(LostLiveThread(currentLives));
 		if( currentLives == 0 )
 		{
 			UpdateCrashedShield();
-			LevelInfo.State.state = GameState.Lose;
-		}
-		else
-		{
-			LevelInfo.Environments.playerShip.LostLifeSmoke(currentLives);
-			StartCoroutine(LostLiveThread(currentLives));
+			LevelInfo.State.StartDying();
 		}
 	}
 	

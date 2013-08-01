@@ -55,7 +55,7 @@ public class Tutorials : MonoBehaviour {
 		"It is shown in the bottom left of the screen.";
 	string messageLazer = 
 		"Shazam!\n" +
-		"Constant laser steam\n" +
+		"Constant laser stream\n" +
 		"Push 'M' button in the bottom left to fire.";
 	#endregion
 	

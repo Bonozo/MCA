@@ -277,6 +277,7 @@ public class Player : MonoBehaviour {
 	void UpdateShip()
 	{	
 		float ytilt = calibratedelta(); if(Options.Instance.yInvert) ytilt =- ytilt;
+		if(LevelInfo.State.Dying) ytilt*=0.1f;
 		
 		// warning about flying to high or too low for too long
 		if(Mathf.Abs(ytilt)>=30f) 
@@ -306,6 +307,7 @@ public class Player : MonoBehaviour {
 			
 			// Rotation by tilt
 			current = -GameEnvironment.InputAxis.x*90f;
+			if(LevelInfo.State.Dying) current*=0.1f;
 			rot = transform.rotation.eulerAngles;
 			if( rot.z > 180.0f ) rot.z -= 360.0f;
 			
@@ -331,6 +333,7 @@ public class Player : MonoBehaviour {
 			
 			// Rotation by tilt
 			current = -GameEnvironment.InputAxis.x*90f;
+			if(LevelInfo.State.Dying) current*=0.1f;
 			var rot = transform.rotation.eulerAngles; rot.x=0;
 			if( rot.z > 180.0f ) rot.z -= 360.0f;
 			
@@ -344,7 +347,7 @@ public class Player : MonoBehaviour {
 		}
 		// Ship moving
 		float speed = LevelInfo.Settings.PlayerSpeed;
-		//if(BeastieBoost) speed*=2f;
+		if(LevelInfo.State.Dying) speed*=0.25f;
 		transform.Translate(speed*Time.deltaTime*Vector3.forward);
 	}
 	
@@ -380,6 +383,11 @@ public class Player : MonoBehaviour {
 				yield return new WaitForSeconds(0.5f);
 				particle.enableEmission = true;
 				yield return new WaitForSeconds(1.0f);
+			}
+			else // <1
+			{
+				particle.enableEmission = false;
+				yield return new WaitForSeconds(10.0f);
 			}
 
 			_invincibility--;
@@ -633,7 +641,7 @@ public class Player : MonoBehaviour {
 		
 		//BeastieBoost = false;
 		
-		_invincibility = 0;
+		//_invincibility = 0;
 		
 		if(Time.timeScale>0) Time.timeScale = 1.0f;
 		LevelInfo.Environments.guiPowerUpTime.text = "";
@@ -878,8 +886,8 @@ public class Player : MonoBehaviour {
 	}
 	
 	// Buttons
-	bool BoostButtonPressed{ get{ return LevelInfo.Environments.bButton.isDown||Input.GetKey(KeyCode.B); }}
-	bool FireButtonPressed{ get{ return LevelInfo.Environments.fireLeftButton.isDown||LevelInfo.Environments.fireRightButton.isDown||Input.GetKey(KeyCode.F); }}
+	bool BoostButtonPressed{ get{ return (LevelInfo.Environments.bButton.isDown||Input.GetKey(KeyCode.B))&&!LevelInfo.State.Dying; }}
+	bool FireButtonPressed{ get{ return (LevelInfo.Environments.fireLeftButton.isDown||LevelInfo.Environments.fireRightButton.isDown||Input.GetKey(KeyCode.F))&&!LevelInfo.State.Dying; }}
 	
 	public bool IsBoost{ get { return BoostButtonPressed; }}
 	

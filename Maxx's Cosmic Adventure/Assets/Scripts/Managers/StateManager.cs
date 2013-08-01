@@ -83,7 +83,15 @@ public class StateManager : MonoBehaviour {
 			
 			if(last == GameState.Store && LevelInfo.Environments.score.Lives==0)
 			{
-				_state = GameState.Lose;
+				if(Dying)
+				{
+					_state = GameState.Play;
+					Time.timeScale = 1f;
+				}
+				else
+				{
+					_state = GameState.Lose;
+				}
 				return;
 			}
 			
@@ -97,6 +105,8 @@ public class StateManager : MonoBehaviour {
 				LevelInfo.Audio.PauseMusic();
 				break;
 			case GameState.Store:
+				LevelInfo.Audio.StopEffects();
+				LevelInfo.Audio.PauseMusic();
 				LevelInfo.Environments.HUB.SetActive(false);
 				Store.Instance.ShowStore = true;
 				break;
@@ -115,6 +125,53 @@ public class StateManager : MonoBehaviour {
 			
 			Time.timeScale = (state == GameState.Play?1f:0f);
 		}
+	}
+	
+	public void StartDying()
+	{
+		StartCoroutine(DyingThread());
+	}
+	
+	[System.NonSerializedAttribute]
+	public bool Dying = false;
+	
+	private IEnumerator DyingThread()
+	{
+		Dying = true;
+	
+		LevelInfo.Audio.StopEffects();
+		LevelInfo.Audio.PauseMusic();
+		LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Audio.clipGameOver);
+		
+		LevelInfo.Environments.popupDying.SetActive(true);
+			
+		float time=8f;
+		while(Dying && time>0f)
+		{
+			time -= Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+		}
+		DyingToLose();
+	}
+	
+	private void DyingToLose()
+	{
+		if(Dying)
+		{
+			Dying = false;
+			LevelInfo.Environments.popupDying.SetActive(false);
+			state = GameState.Lose;
+		}
+	}
+	
+	public void KeepFighting()
+	{
+		Dying = false;
+		LevelInfo.Environments.popupDying.SetActive(false);
+		LevelInfo.Environments.score.AddLive();
+		
+		LevelInfo.Audio.StopEffects();
+		LevelInfo.Audio.ResumeMusic();
 	}
 	
 	private IEnumerator ShowGameOverScreenThread()
@@ -157,13 +214,13 @@ public class StateManager : MonoBehaviour {
 		int distance = Mathf.FloorToInt(LevelInfo.Environments.playerShip.DistanceTravelled);
 		int highscore = PlayerPrefs.GetInt("high_score",0);
 		
+		LevelInfo.Audio.StopEffects();
+		LevelInfo.Audio.PauseMusic();
+		
 		LevelInfo.Environments.playerShip.ClearAllPowerups();
 		
 		foreach(var r in LevelInfo.Environments.playerShip.ExhaustArray )
 			r.enableEmission = false;
-		
-		LevelInfo.Audio.StopAll();
-		LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Audio.clipGameOver);
 		
 		LevelInfo.Environments.popupLose.SetActive(true);
 		var results = LevelInfo.Environments.popupLoseLabelResults;
