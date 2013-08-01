@@ -25,7 +25,7 @@ public class Generator : MonoBehaviour {
 	#region Alien Ship
 	
 	private readonly float first_jeebie_distance = 500f;
-	private readonly float[] next_jeebie_stage_distance = new float[] {100f,150f,200f,300f};
+	private readonly float[] next_jeebie_stage_distance = new float[] {50f,100f,150f,200f}; // old-{100f,150f,200f,300f};
 	private float next_jeebie_distance = 0f;
 	
 	public bool GenerateAlienShip = false;
