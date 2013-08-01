@@ -29,6 +29,12 @@ public class LevelManager : MonoBehaviour {
 		LevelInfo.Environments.FPS.SetActive(Options.Instance.showFPS);
 	}
 	
+	public void InitShipParams()
+	{
+		// engine 0,1,2,3,4,5
+		PlayerSpeed = 35f+5*Store.Instance.powerupShipEngine.level;
+	}
+	
 	public void UpdatePurchasedItems()
 	{
 		LevelInfo.Environments.fuelOverheat.UpTime = 0.5f-0.08f*Store.Instance.powerupBoostFuel.level;
@@ -38,6 +44,8 @@ public class LevelManager : MonoBehaviour {
 	
 	void Awake()
 	{
+		InitShipParams();
+		
 		UpdateOptions();
 		UpdatePurchasedItems();
 	}
