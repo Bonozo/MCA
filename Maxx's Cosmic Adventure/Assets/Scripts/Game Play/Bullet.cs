@@ -16,14 +16,8 @@ public class Bullet : MonoBehaviour {
 	private bool targeted = false;
 	private GameObject target;
 	
-	void Awake ()
-	{
-
-	}
-	
 	void Update ()
-	{
-		
+	{	
 		if(LevelInfo.State.state != GameState.Play) return;
 		
 		if(!Active) 

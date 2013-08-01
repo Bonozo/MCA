@@ -56,9 +56,13 @@ public class AlienShip : MonoBehaviour {
 	
 	#region Start, Update
 	
+	private float health;
 	void Awake()
 	{
 		GlobalCount++;
+		
+		// health
+		health = (float)Power;
 	}
 	
 	void OnDestroy()
@@ -360,8 +364,9 @@ public class AlienShip : MonoBehaviour {
 	
 	public void GetHit(int power)
 	{
-		Power -= power;
-		if(Power <= 0 )
+		float factor = (1f+0.2f*Store.Instance.powerupShipBullet.level);
+		health -= factor*power;
+		if(health <= 0 )
 			Explode();
 	}
 	

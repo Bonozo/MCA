@@ -16,8 +16,12 @@ public class Asteroid : MonoBehaviour {
 	[System.NonSerializedAttribute]
 	public int numberInRunLocal = 0;
 	
+	private float health;
 	void Awake()
 	{
+		// health
+		health = (float)Power;
+		
 		GlobalCount++;
 		numberInRun++;
 		numberInRunLocal = numberInRun;
@@ -59,8 +63,9 @@ public class Asteroid : MonoBehaviour {
 	
 	public void GetHit(int power)
 	{
-		Power -= power;
-		if(Power <= 0 )
+		float factor = (1f+0.2f*Store.Instance.powerupShipBullet.level);
+		health -= factor*power;
+		if(health <= 0 )
 			Explode();
 	}
 	
