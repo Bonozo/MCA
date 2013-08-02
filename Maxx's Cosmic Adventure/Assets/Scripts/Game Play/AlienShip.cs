@@ -154,8 +154,12 @@ public class AlienShip : MonoBehaviour {
 			return;
 		}
 		
-		if( !nearmisshappened && PlayerDistance <= 40f )
-			StartCoroutine(NearMissThread());
+		if( !nearmisshappened)
+		{
+			minnearmiss = Mathf.Min(minnearmiss,PlayerDistance);
+			if(minnearmiss<=20f && PlayerDistance>=50f)
+				NearMissThread();
+		}
 		
 		if(LevelInfo.Environments.playerShip.FreezeWorld)
 		{
@@ -267,11 +271,13 @@ public class AlienShip : MonoBehaviour {
 		return PlayerDistance >= autoKillDistance;
 	}
 	
+	private float minnearmiss = 10000f;
 	private bool nearmisshappened = false;
-	IEnumerator NearMissThread()
+	void NearMissThread()
 	{
 		nearmisshappened = true;
-		yield return new WaitForSeconds(Random.Range(0.2f,0.5f));
+		
+		// reoprting
 		LevelInfo.Audio.PlayVoiceOverNearMissWithObstacle();
 	}
 	

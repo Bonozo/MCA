@@ -88,6 +88,7 @@ public class MButton : MonoBehaviour {
 		case Gems.In3s:
 			if(in3scount!=3)
 			{
+				LevelInfo.Audio.PlayVoiceUseTripleTrouble();
 				In3sPowerup();
 				powerupCount--;
 				if(powerupCount==0)

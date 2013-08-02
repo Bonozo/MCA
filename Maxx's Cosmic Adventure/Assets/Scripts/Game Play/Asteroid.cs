@@ -57,8 +57,12 @@ public class Asteroid : MonoBehaviour {
 		f=!f;
 		transform.Rotate(0f,0f,0.001f*(f?-1:1));
 		
-		if( !nearmisshappened && PlayerDistance <= 20f )
-		StartCoroutine(NearMissThread());
+		if( !nearmisshappened)
+		{
+			minnearmiss = Mathf.Min(minnearmiss,PlayerDistance);
+			if(minnearmiss<=20f && PlayerDistance>=50f)
+				NearMissThread();
+		}
 	}
 	
 	public void GetHit(int power)
@@ -76,13 +80,13 @@ public class Asteroid : MonoBehaviour {
 		}
 	}
 	
+	private float minnearmiss = 10000f;
 	private bool nearmisshappened = false;
-	IEnumerator NearMissThread()
+	void NearMissThread()
 	{
-		Debug.Log("Near Miss With A Asteroid");
 		nearmisshappened = true;
+		// reportings
 		Stats.Instance.ReportNearMeetWithAsteroid(asteroidType);
-		yield return new WaitForSeconds(Random.Range(0.2f,0.5f));
 		LevelInfo.Audio.PlayVoiceOverNearMissWithObstacle();
 	}
 	

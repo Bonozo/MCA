@@ -20,7 +20,7 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			if(col.gameObject.tag == "AlienBullet")
 				Destroy(col.gameObject);
 			else
-				col.gameObject.SendMessage("Explode");
+				col.gameObject.SendMessage("Explode",false);
 			if(LevelInfo.Environments.playerShip.Invincibility)
 				break;
 			#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR

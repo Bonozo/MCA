@@ -173,15 +173,7 @@ public class AudioManager : MonoBehaviour {
 	void UpdateVoiceOvers()
 	{
 		if(Maxx.clip!=null && !Maxx.isPlaying) Maxx.clip = null;
-		if(Random.Range(0,500)==1) PlayVoiceOverAllTime();
 	}
-	
-	// All time phrases 
-	public AudioClip[] voicoverAllTime;
-	public void PlayVoiceOverAllTime()
-	{
-		MaxxPlay(voicoverAllTime[Random.Range(0,voicoverAllTime.Length)],0.0f,1f);
-	}	
 	
 	// Maxx's ship crashing
 	public AudioClip[] voicoverShipCrash;	
@@ -205,33 +197,33 @@ public class AudioManager : MonoBehaviour {
 	}	
 	
 	// Lots Of Jeebies
-	public AudioClip[] voicoverLotsOfJeebies;	
+	public AudioClip[] voicoverLotsOfJeebies;
 	public void PlayVoiceOverLotsOfJeebies()
 	{
-		if( AlienShip.GlobalCount >= 6 && Random.Range(0,12)==1)
+		if( AlienShip.GlobalCount >= 5 && Random.Range(0,6)==1)
 		{
 			GameObject[] g = GameObject.FindGameObjectsWithTag("Enemy");
 			int front = 0;
 			foreach(var gg in g)
 				if( gg.GetComponent<AlienShip>().IsFrontOfCamera )
 					front++;
-			if(front>=6)
+			if(front>=4)
 				MaxxPlay(voicoverLotsOfJeebies[Random.Range(0,voicoverLotsOfJeebies.Length)],Random.Range(0f,1f),1);
-		}		
+		}
 	}		
 	
 	// Lots Of Asteroids
 	public AudioClip[] voicoverLotsOfAsteroids;	
 	public void PlayVoiceOverLotsOfAsteroids()
 	{
-		if( Asteroid.GlobalCount >= 5 && Random.Range(0,3)==1)
+		if( Asteroid.GlobalCount >= 4 && Random.Range(0,3)==1)
 		{
 			GameObject[] g = GameObject.FindGameObjectsWithTag("Asteroid");
 			int front = 0;
 			foreach(var gg in g)
 				if( gg.GetComponent<Asteroid>().IsFrontOfCamera )
 					front++;
-			if(front>=5)
+			if(front>=4)
 				MaxxPlay(voicoverLotsOfAsteroids[Random.Range(0,voicoverLotsOfAsteroids.Length)],Random.Range(0f,1f),1);
 		}	
 	}	
@@ -240,20 +232,11 @@ public class AudioManager : MonoBehaviour {
 	public AudioClip[] voicoverWaitingForAJeebie;	
 	public void PlayVoiceOverWaitingForAJeebie()
 	{
-		if(AlienShip.GlobalCount <= 2 && Random.Range(0,10)==1)
-		{
-			GameObject[] g = GameObject.FindGameObjectsWithTag("Enemy");
-			int front = 0;
-			foreach(var gg in g)
-				if( gg.GetComponent<AlienShip>().PlayerDistance >= 300f)
-					front++;
-			if( front == AlienShip.GlobalCount )
-				MaxxPlay(voicoverWaitingForAJeebie[Random.Range(0,voicoverWaitingForAJeebie.Length)],0,1);
-		}
+		MaxxPlay(voicoverWaitingForAJeebie[Random.Range(0,voicoverWaitingForAJeebie.Length)],Random.Range(0f,1f),0.15f);
 	}
 	
 	// Near miss with obstacle
-	public AudioClip[] voicoverNearMissWithObstacle;	
+	public AudioClip[] voicoverNearMissWithObstacle;
 	public void PlayVoiceOverNearMissWithObstacle()
 	{
 		MaxxPlay(voicoverNearMissWithObstacle[Random.Range(0,voicoverNearMissWithObstacle.Length)],0f,0.5f);
@@ -271,6 +254,13 @@ public class AudioManager : MonoBehaviour {
 	public void PlayVoiceGetHoldItNowHitIt()
 	{
 		MaxxPlay(voicoverGetHoldItNowHitIt[Random.Range(0,voicoverGetHoldItNowHitIt.Length)],0.3f,1);
+	}
+	
+	// Use Triple Trouble
+	public AudioClip[] voicoverUseTripleTrouble;	
+	public void PlayVoiceUseTripleTrouble()
+	{
+		MaxxPlay(voicoverUseTripleTrouble[Random.Range(0,voicoverUseTripleTrouble.Length)],0.1f,0.5f);
 	}	
 	
 	// Implementation
