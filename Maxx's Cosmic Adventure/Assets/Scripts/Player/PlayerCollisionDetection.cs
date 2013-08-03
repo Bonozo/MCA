@@ -27,8 +27,8 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			if( Options.Instance.vibration )
 				Handheld.Vibrate();
 			#endif	
-			LevelInfo.Environments.score.LostLive();
-			if(LevelInfo.Environments.score.Lives > 0 )
+			LevelInfo.Environments.score.LoseShield(0.2f);
+			if(!LevelInfo.Environments.score.Lose )
 				LevelInfo.Audio.PlayVoiceOverShipCrash();
 			break;
 		}
@@ -96,7 +96,7 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			LevelInfo.Environments.infoMessage.ShowMessage("Intergalactic");
 			break;
 		case Gems.ToughGuy:
-			LevelInfo.Environments.score.AddLive();
+			LevelInfo.Environments.score.AddShield(0.2f);
 			LevelInfo.Environments.infoMessage.ShowMessage("Tough Guy");
 			break;
 		case Gems.Lazer:

@@ -266,7 +266,7 @@ public class AudioManager : MonoBehaviour {
 	// Implementation
 	public void MaxxPlay(AudioClip clip,float delay,float probablity)
 	{
-		if( Random.Range(0f,1f)<=probablity )
+		if( LevelInfo.State.state == GameState.Play && Random.Range(0f,1f)<=probablity )
 			StartCoroutine(MaxxPlayThread(clip,delay));
 	}	
 	private IEnumerator MaxxPlayThread(AudioClip clip,float delay)

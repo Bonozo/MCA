@@ -81,7 +81,7 @@ public class StateManager : MonoBehaviour {
 			
 			LevelInfo.Environments.HUB.SetActive(HUBActiveHelper(_state));
 			
-			if(last == GameState.Store && LevelInfo.Environments.score.Lives==0)
+			if(last == GameState.Store && LevelInfo.Environments.score.Lose)
 			{
 				if(Dying)
 				{
@@ -168,7 +168,7 @@ public class StateManager : MonoBehaviour {
 	{
 		Dying = false;
 		LevelInfo.Environments.popupDying.SetActive(false);
-		LevelInfo.Environments.score.AddLive();
+		LevelInfo.Environments.score.AddShield(0.2f);
 		
 		LevelInfo.Audio.StopEffects();
 		LevelInfo.Audio.ResumeMusic();

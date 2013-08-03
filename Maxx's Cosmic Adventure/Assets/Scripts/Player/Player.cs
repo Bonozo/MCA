@@ -86,11 +86,6 @@ public class Player : MonoBehaviour {
 			StartIntergalactic();
 		if( Input.GetKeyUp(KeyCode.End) )
 			StartLoveUnlikelium();
-		
-		if( Input.GetKeyUp(KeyCode.KeypadPlus) )
-			LevelInfo.Environments.score.AddLive();
-		if( Input.GetKeyUp(KeyCode.KeypadMinus) )
-			LevelInfo.Environments.score.LostLive();
 		#endif
 		
 		if(LevelInfo.State.state != GameState.Play ) return;
@@ -362,17 +357,13 @@ public class Player : MonoBehaviour {
 			particle.enableEmission = true;
 			_invincibility++;
 			
-			if(stayedLives>=4)
+			if(stayedLives>=3)
 			{
 				yield return new WaitForSeconds(1.0f);
 			}
-			if(stayedLives==3)
-			{
-				yield return new WaitForSeconds(1.5f);
-			}
 			else if(stayedLives==2)
 			{
-				yield return new WaitForSeconds(2.0f);				
+				yield return new WaitForSeconds(1.5f);				
 			}
 			else if(stayedLives==1)
 			{
