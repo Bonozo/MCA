@@ -41,9 +41,10 @@ public class Score : MonoBehaviour {
 		if( shieldshow > shield ) shieldshow = Mathf.Max(shieldshow-Time.deltaTime*statusupdatespeed,shield);
 		UpdateUI();
 		
-		if(shieldshow>=0.5f) bar.color = Color.green;
+		/*if(shieldshow>=0.5f) bar.color = Color.green;
 		else if( shieldshow>0.25f) bar.color = new Color(0.257f,0.659f,1f,1f);
-		else bar.color = Color.red;
+		else bar.color = Color.red;*/
+		bar.color = hullColorByLevel[Store.Instance.powerupShipHull.level];
 		
 		if(!lost&&Lose)
 		{
@@ -52,11 +53,21 @@ public class Score : MonoBehaviour {
 		}
 	}
 	
+	private Color[] hullColorByLevel = new Color[6]
+	{
+		new Color( 133f/255f,211f/255f,255f/255f,1f), // Light Blue
+		new Color(  0f/255f,146f/255f,255f/255f,1f), // Dark Blue
+		new Color(255f/255f,255f/255f,255f/255f,1f), // White
+		new Color(255f/255f,  0f/255f,  0f/255f,1f), // Red
+		new Color(211f/255f,232f/255f,250f/255f,1f), // Silver
+		new Color(120f/255f,120f/255f,120f/255f,1f)  // Black
+	};
+	
 	void UpdateUI()
 	{
 		bar.fillAmount = Mathf.Clamp01(shieldshow);
 		bar2.fillAmount = Mathf.Clamp01(shieldshow-1);
-		NGUITools.SetActive(background2.gameObject,shieldshow>1f);	
+		NGUITools.SetActive(background2.gameObject,shieldshow>1f);
 	}
 	
 	#region Properties
@@ -75,6 +86,8 @@ public class Score : MonoBehaviour {
 	
 	public void LoseShield(float amount)
 	{
+		float hullfactor = 1f-0.1f*Store.Instance.powerupShipHull.level;
+		amount *= hullfactor;
 		shield = Mathf.Clamp(shield - amount,0f,2f);
 		LevelInfo.Environments.playerShip.LostLifeSmoke(Mathf.CeilToInt(shield*5));			
 	}
