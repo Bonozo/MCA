@@ -17,6 +17,7 @@ public class PlayerCollisionDetection : MonoBehaviour {
 		case "Asteroid":
 		case "Enemy":
 		case "AlienBullet":
+			LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Audio.clipPlayerCollision);
 			float shieldlose = 0.0f;
 			if(col.gameObject.tag == "AlienBullet")
 			{
