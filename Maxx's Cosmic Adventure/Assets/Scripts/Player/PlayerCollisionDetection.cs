@@ -17,19 +17,25 @@ public class PlayerCollisionDetection : MonoBehaviour {
 		case "Asteroid":
 		case "Enemy":
 		case "AlienBullet":
+			float shieldlose = 0.0f;
 			if(col.gameObject.tag == "AlienBullet")
+			{
 				Destroy(col.gameObject);
+				shieldlose = 0.2f;
+			}
 			else
+			{
 				col.gameObject.SendMessage("Explode",false);
+				shieldlose = 0.3f;
+			}
 			if(LevelInfo.Environments.playerShip.Invincibility)
 				break;
+			LevelInfo.Environments.score.LoseShield(shieldlose);
 			#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
 			if( Options.Instance.vibration )
 				Handheld.Vibrate();
-			#endif	
-			LevelInfo.Environments.score.LoseShield(0.2f);
-			if(!LevelInfo.Environments.score.Lose )
-				LevelInfo.Audio.PlayVoiceOverShipCrash();
+			#endif
+			LevelInfo.Audio.PlayVoiceOverShipCrash();
 			break;
 		}
 	}
