@@ -22,12 +22,12 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			if(col.gameObject.tag == "AlienBullet")
 			{
 				Destroy(col.gameObject);
-				shieldlose = 0.2f;
+				shieldlose = 0.3f;
 			}
 			else
 			{
 				col.gameObject.SendMessage("Explode",false);
-				shieldlose = 0.3f;
+				shieldlose = 0.4f;
 			}
 			if(LevelInfo.Environments.playerShip.Invincibility)
 				break;
