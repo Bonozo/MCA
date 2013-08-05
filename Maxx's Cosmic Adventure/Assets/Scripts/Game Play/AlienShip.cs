@@ -24,6 +24,7 @@ public class AlienShip : MonoBehaviour {
 	public bool targetedFire = false;
 	public int fireFrequency = 80;
 	public float fireRelax = 0.5f;
+	public AudioClip clipFire;
 	
 	// Move
 	public bool canTilt = false;
@@ -194,6 +195,8 @@ public class AlienShip : MonoBehaviour {
 			if( Random.Range(1,fireFrequency) == 1 && fireDeltaTime<=0f && IsFrontOfCamera && PlayerDistance>50f )
 			{
 				var c = ((GameObject)Instantiate(alienBullet,projectilePosition.position,transform.rotation)).GetComponent<AlienBullet>();
+				LevelInfo.Audio.audioSourceJeebles.PlayOneShot(clipFire);
+				
 				if(targetedFire)
 				{
 					c.Speed *= 2;
