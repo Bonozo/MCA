@@ -6,6 +6,7 @@ public class Score : MonoBehaviour {
 	public UIFilledSprite bar;
 	public UIFilledSprite bar2;
 	public UISprite background2;
+	public TweenAlpha danger;
 	
 	private float shield = 1f;
 	private float shieldshow = 1f;
@@ -45,6 +46,8 @@ public class Score : MonoBehaviour {
 		else if( shieldshow>0.25f) bar.color = new Color(0.257f,0.659f,1f,1f);
 		else bar.color = Color.red;*/
 		bar.color = hullColorByLevel[Store.Instance.powerupShipHull.level];
+		bar2.color = hullColorByLevel[Store.Instance.powerupShipShield.level];
+		danger.from = Mathf.Clamp01(2f*shieldshow);
 		
 		if(!lost&&Lose)
 		{
@@ -87,7 +90,9 @@ public class Score : MonoBehaviour {
 	public void LoseShield(float amount)
 	{
 		float hullfactor = 1f-0.1f*Store.Instance.powerupShipHull.level;
+		if(shield>1f) hullfactor = 1f-0.1f*Store.Instance.powerupShipShield.level;
 		amount *= hullfactor;
+		
 		shield = Mathf.Clamp(shield - amount,0f,2f);
 		LevelInfo.Environments.playerShip.LostLifeSmoke(Mathf.CeilToInt(shield*5));			
 	}
