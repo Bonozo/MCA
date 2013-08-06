@@ -54,6 +54,19 @@ public class Store : MonoBehaviour {
 	
 	#region Public Field
 	
+	private int _store_launched = -1;
+	public int store_launched{
+		get{
+			if(_store_launched==-1)
+				_store_launched = PlayerPrefs.GetInt("store_launched",0);
+			return _store_launched;
+		}
+		private set{
+			_store_launched = value;
+			PlayerPrefs.SetInt("store_launched",_store_launched);
+		}
+	}
+	
 	private bool _showStore = false;
 	public bool ShowStore{
 		get{
@@ -68,6 +81,14 @@ public class Store : MonoBehaviour {
 				popupUpgradePowerups.SetActive(false);
 				audioSource.volume = Options.Instance.volumeMusic;
 				audioSource.Play();
+				
+				store_launched++;
+				Debug.Log("store_launched: " + store_launched);
+				if(store_launched%10==5)//5,15,25,35
+				{
+					Store.Instance.SetBuyMoreNeedDisabled(false);
+					Store.Instance.popupBuyUnlikeliumsConfirmation.SetActive(true);
+				}
 			}
 			else
 			{
@@ -172,7 +193,7 @@ public class Store : MonoBehaviour {
 		popupUpgradePowerups.SetActive(true);
 	}
 	
-	public bool PopupActive{ get{ return popupUpgradePowerups.activeSelf||popupBuyUnlikeliums.activeSelf; }}
+	public bool PopupActive{ get{ return popupUpgradePowerups.activeSelf||popupBuyUnlikeliums.activeSelf||popupBuyUnlikeliumsConfirmation.activeSelf; }}
 	
 		
 	public void DisableAllPopups()
