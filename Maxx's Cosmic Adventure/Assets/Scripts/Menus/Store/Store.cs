@@ -83,7 +83,6 @@ public class Store : MonoBehaviour {
 				audioSource.Play();
 				
 				store_launched++;
-				Debug.Log("store_launched: " + store_launched);
 				if(store_launched%10==5)//5,15,25,35
 				{
 					Store.Instance.SetBuyMoreNeedDisabled(false);

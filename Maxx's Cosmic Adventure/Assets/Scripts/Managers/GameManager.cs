@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour {
 	public GameObject popupStartTrainings;
 	public GameObject popupDying;
 	
+	public GameObject missionCompleteRoot;
+	public GameObject[] missionCompletePopups;
+	public UILabel[] missionCompletePopupsLabel;
+	
 	public Tutorials tutorials;
 	public GameObject popupTutorial;
 	public UILabel labelTutorial;

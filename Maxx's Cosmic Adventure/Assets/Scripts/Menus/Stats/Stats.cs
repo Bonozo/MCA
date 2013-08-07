@@ -9,7 +9,71 @@ public class Stats : MonoBehaviour {
 	public UILabel labelLevel;
 	public GameObject missionsRoot;
 	
-	private int _level = -1;
+	#region Missions Implementation
+	
+	public Mission[] missions;
+	private int[] _current = new int[3] {-1,-1,-1};
+	public int CurrentMissionIndex(int index)
+	{
+		if(index<0||index>2)
+		{
+			Debug.Log("CurrentMission: index is out of range");
+			return -1;
+		}
+		if(_current[index]==-1)
+			_current[index] = PlayerPrefs.GetInt("missions_current_" + index,index);
+		return _current[index];
+	}
+	
+	public Mission CurrentMission(int index)
+	{
+		return missions[CurrentMissionIndex(index)];
+	}
+	
+	public void ActivateCurrentMissions()
+	{
+		if(CurrentMissionIndex(0)<missions.Length) CurrentMission(0).isActive = true;
+		if(CurrentMissionIndex(1)<missions.Length) CurrentMission(1).isActive = true;
+		if(CurrentMissionIndex(2)<missions.Length) CurrentMission(2).isActive = true;		
+	}
+	
+	public void MissionComplete(int index)
+	{
+		if(index<=0) PlayerPrefs.SetInt("missions_current_0",CurrentMissionIndex(1));
+		if(index<=1) PlayerPrefs.SetInt("missions_current_1",CurrentMissionIndex(2));
+		PlayerPrefs.SetInt("missions_current_2",CurrentMissionIndex(2)+1);
+		_current[0] = _current[1] = _current[2] = -1;
+		
+		// Active new mission
+		if(CurrentMissionIndex(2)<missions.Length) CurrentMission(2).isActive = true;
+	}
+	
+	private void ShowMission(int index,float y)
+	{
+		if(index<missions.Length)
+		{
+			missions[index].transform.localPosition = new Vector3(0f,y,0f);
+			missions[index].gameObject.SetActive(true);
+		}
+	}
+	
+	public void ShowCurrentMissions()
+	{
+		foreach(var mission in missions) mission.gameObject.SetActive(false);
+		ShowMission(CurrentMissionIndex(0),100f);
+		ShowMission(CurrentMissionIndex(1),0f);
+		ShowMission(CurrentMissionIndex(2),-100f);
+	}
+	
+	public bool Completed(int index)
+	{
+		if(CurrentMissionIndex(index)>=missions.Length) return false;
+		return CurrentMission(index).IsComplete;
+	}
+	
+	#endregion
+	
+	/*private int _level = -1;
 	public int level{
 		get{
 			if(_level==-1)
@@ -21,7 +85,7 @@ public class Stats : MonoBehaviour {
 			_level = value;
 			PlayerPrefs.SetInt("stats_level",_level);
 		}
-	}
+	}*/
 	
 	private bool _showStats = false;
 	public bool ShowStats{
@@ -34,13 +98,14 @@ public class Stats : MonoBehaviour {
 			
 			if(_showStats)
 			{
-				labelLevel.text = "LEVEL " + level;
+				ShowCurrentMissions();
 			}
 		}
 	}
 	
 	void Awake()
 	{
+		ActivateCurrentMissions();
 		ShowStats = false;
 	}
 	

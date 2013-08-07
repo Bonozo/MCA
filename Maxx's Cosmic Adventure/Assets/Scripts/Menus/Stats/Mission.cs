@@ -10,6 +10,9 @@ public class Mission : MonoBehaviour
 	
 	public UILabel labelDescription;
 	
+	[System.NonSerialized]
+	public bool isActive = false;
+	
 	private int _complete = -1;
 	private int complete{
 		get{
@@ -33,12 +36,14 @@ public class Mission : MonoBehaviour
 	
 	public void CompleteDirectly()
 	{
-		complete = missionCount;
+		if(isActive)
+			complete = missionCount;
 	}
 	
 	public void Add(int count)
 	{
-		complete = Mathf.Min(missionCount,complete+count);
+		if(isActive)
+			complete = Mathf.Min(missionCount,complete+count);
 	}
 	
 	public void ClearIfNotCompleteForSingleRun()

@@ -176,38 +176,7 @@ public class StateManager : MonoBehaviour {
 	
 	private IEnumerator ShowGameOverScreenThread()
 	{
-		/* old version
-		 * 
-		 * var names = LevelInfo.Environments.popupLoseLabelNames;
-		var results = LevelInfo.Environments.popupLoseLabelResults;
-		
-		float startdelay = 1f;
-		float deltadelay = 0.3f;
-		
-		names.text = results.text = "";
-		
-		LevelInfo.Environments.popupLose.SetActive(true);
-		
-		yield return StartCoroutine(WaitSeconds(startdelay));
-		
-		names.text += "Distance Traveled:";
-		results.text += Mathf.FloorToInt(LevelInfo.Environments.playerShip.DistanceTravelled);
-		yield return StartCoroutine(WaitSeconds(deltadelay));
-		
-		names.text +=   "\n"+"Unlikelium Collected:";
-		results.text += "\n"+LevelInfo.Environments.score.unlikeliumsCollected;
-		yield return StartCoroutine(WaitSeconds(deltadelay));
-		
-		names.text +=   "\n"+"Asteroids Destroyed:";
-		results.text += "\n"+LevelInfo.Environments.score.asteroidsDestoyed;
-		yield return StartCoroutine(WaitSeconds(deltadelay));
-		
-		names.text +=   "\n"+"Jeebies Defeated:";
-		results.text += "\n"+LevelInfo.Environments.score.jeebiesDestoyed;
-		yield return StartCoroutine(WaitSeconds(startdelay));
-		
-		names.text +=   "\n\n"+"Score:";
-		results.text += "\n\n"+LevelInfo.Environments.score.totalScore;*/
+		yield return StartCoroutine(ShowMissionsComplete());
 		
 		Stats.Instance.ClearInSingleRunMissions();
 		
@@ -258,6 +227,44 @@ public class StateManager : MonoBehaviour {
 			Store.Instance.Unlikeliums += bonus;
 			LevelInfo.Environments.popupLoseLabelBonus.gameObject.SetActive(true);
 		}
+	}
+	
+	private IEnumerator ShowMissionsComplete()
+	{
+		// Show Completed Missions
+		float speed = 6000f;
+		
+		foreach(var obj in LevelInfo.Environments.missionCompletePopups) obj.SetActive(false);
+		LevelInfo.Environments.missionCompleteRoot.SetActive(true);
+		
+		int current=0;
+		for(int i=0;i<3;i++)
+		{
+			if(Stats.Instance.Completed(i))
+			{
+				yield return StartCoroutine(WaitSeconds(0.5f));
+				var sprite = LevelInfo.Environments.missionCompletePopups[current];
+				LevelInfo.Environments.missionCompletePopupsLabel[current].text = Stats.Instance.CurrentMission(i).missionDescription;
+				sprite.transform.localPosition = new Vector3(-2000f,sprite.transform.localPosition.y,0f);
+				sprite.SetActive(true);
+				while(sprite.transform.localPosition.x<0f)
+				{
+					sprite.transform.localPosition += new Vector3(speed*0.016f,0f,0f);
+					if(sprite.transform.localPosition.x>=0) sprite.transform.localPosition = new Vector3(0f,sprite.transform.localPosition.y,0f);
+					yield return new WaitForEndOfFrame();
+				}
+				
+				Stats.Instance.MissionComplete(i);
+				i--;
+				current++;
+				yield return StartCoroutine(WaitSeconds(0.5f));
+			}
+		}
+		
+		if(current!=0)
+			yield return StartCoroutine(WaitSeconds(5f));
+
+		LevelInfo.Environments.missionCompleteRoot.SetActive(false);
 	}
 	
 	private IEnumerator WaitSeconds(float sec)
