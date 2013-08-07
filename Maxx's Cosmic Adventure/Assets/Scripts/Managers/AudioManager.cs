@@ -113,6 +113,7 @@ public class AudioManager : MonoBehaviour {
 	
 	#region Player
 	public AudioClip clipPlayerCollision;
+	public AudioClip clipCompleteMission;
 	
 	public AudioClip clipGetUnlikelium;
 	public AudioClip clipGetPowerup;

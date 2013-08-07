@@ -247,6 +247,7 @@ public class StateManager : MonoBehaviour {
 				LevelInfo.Environments.missionCompletePopupsLabel[current].text = Stats.Instance.CurrentMission(i).missionDescription;
 				sprite.transform.localPosition = new Vector3(-2000f,sprite.transform.localPosition.y,0f);
 				sprite.SetActive(true);
+				LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Audio.clipCompleteMission);
 				while(sprite.transform.localPosition.x<0f)
 				{
 					sprite.transform.localPosition += new Vector3(speed*0.016f,0f,0f);
