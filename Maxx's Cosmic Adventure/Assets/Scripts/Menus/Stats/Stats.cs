@@ -8,6 +8,8 @@ public class Stats : MonoBehaviour {
 	public UILabel missionCompleteMessage;
 	public UILabel labelLevel;
 	public GameObject missionsRoot;
+	public GameObject popupSkipMission;
+	public GameObject popupBuyMoreUnlikeliums;
 	
 	#region Missions Implementation
 	
@@ -87,6 +89,24 @@ public class Stats : MonoBehaviour {
 		}
 	}*/
 	
+	public int allcompleted{
+		get{
+			return CurrentMissionIndex(2)-2;
+		}
+	}
+	
+	public int level{
+		get{
+			return allcompleted/10+1;
+		}
+	}
+	
+	public int levelcompleted{
+		get{
+			return allcompleted%10*10;
+		}
+	}
+	
 	private bool _showStats = false;
 	public bool ShowStats{
 		get{
@@ -98,6 +118,12 @@ public class Stats : MonoBehaviour {
 			
 			if(_showStats)
 			{
+				popupSkipMission.SetActive(false);
+				popupBuyMoreUnlikeliums.SetActive(false);
+				if(allcompleted==50)
+					labelLevel.text = "ALL COMPLETE";
+				else
+					labelLevel.text = "LEVEL " + level + " (" + levelcompleted + "% complete)";
 				ShowCurrentMissions();
 			}
 		}
@@ -115,6 +141,11 @@ public class Stats : MonoBehaviour {
 			if(m.GetComponent<Mission>() != null)
 				m.GetComponent<Mission>().ClearIfNotCompleteForSingleRun();
 	}
+	
+	[System.NonSerializedAttribute]
+	public Mission currentSkippingMission = null;
+	
+	public bool PopupActive{ get{ return popupSkipMission.activeSelf || popupBuyMoreUnlikeliums.activeSelf; }}
 	
 	#region Missions
 	

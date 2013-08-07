@@ -8,6 +8,15 @@ public class MissionButton : MonoBehaviour {
 	private UIButton button;
 	private UILabel text;
 	
+	void OnClick()
+	{
+		Stats.Instance.currentSkippingMission = mission;
+		if(Store.Instance.Unlikeliums >= 5000)
+			Stats.Instance.popupSkipMission.SetActive(true);
+		else
+			Stats.Instance.popupBuyMoreUnlikeliums.SetActive(true);
+	}
+	
 	void Awake()
 	{
 		button = this.GetComponent<UIButton>();
@@ -30,5 +39,10 @@ public class MissionButton : MonoBehaviour {
 			text.color = Color.white;
 			mission.labelDescription.color = Color.white;
 		}
+	}
+	
+	void Update()
+	{
+		button.isEnabled = !Stats.Instance.PopupActive;
 	}
 }

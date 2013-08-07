@@ -17,9 +17,17 @@ public class StatsBackButton : MonoBehaviour {
 		Action();
 	}
 	
+	private UIButton button;
+	void Awake()
+	{
+		button = this.GetComponent<UIButton>();
+	}
+	
 	void Update()
 	{
-		if( Input.GetKeyUp(KeyCode.Escape) )
+		button.isEnabled = !Stats.Instance.PopupActive;
+		if(button.isEnabled && Input.GetKeyUp(KeyCode.Escape) )
 			Action();
+		
 	}
 }
