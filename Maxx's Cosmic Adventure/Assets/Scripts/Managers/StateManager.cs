@@ -238,7 +238,7 @@ public class StateManager : MonoBehaviour {
 		LevelInfo.Environments.missionCompleteRoot.SetActive(true);
 		
 		int current=0;
-		for(int i=0;i<3;i++)
+		for(int i=0;i<3&&current<3;i++)
 		{
 			if(Stats.Instance.Completed(i))
 			{
