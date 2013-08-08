@@ -15,8 +15,7 @@ public class MainMenu : MonoBehaviour {
 		Stats
 	}
 	
-	public AudioClip clipMenuLoop;
-	public GameObject objTitle,objCredits,objStats;
+	public GameObject objTitle,objCredits;
 	
 	private MenuState _state;
 	public MenuState State{
@@ -33,7 +32,6 @@ public class MainMenu : MonoBehaviour {
 			
 			objTitle.SetActive(_state == MenuState.Title);
 			objCredits.SetActive(_state == MenuState.Credits);
-			objStats.SetActive(_state == MenuState.Stats);
 			
 			switch(_state)
 			{

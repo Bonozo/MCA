@@ -6,7 +6,11 @@ public class StatsBuyMoreYesButton : MonoBehaviour {
 	void OnClick()
 	{
 		Stats.Instance.ShowStats = false;
-		Store.Instance.ShowStore = true;
+		
+		if(Store.Instance.IsMainMenu)
+			MainMenu.Instance.State = MainMenu.MenuState.Store;
+		else
+			Store.Instance.ShowStore = true;
 		
 		Store.Instance.SetBuyMoreNeedDisabled(true);
 		Store.Instance.popupBuyUnlikeliumsConfirmation.SetActive(false);	
