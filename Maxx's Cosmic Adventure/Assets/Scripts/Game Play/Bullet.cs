@@ -41,6 +41,10 @@ public class Bullet : MonoBehaviour {
 					target.SendMessage("Explode");
 				else
 					target.SendMessage("GetHit",Power);
+				
+				if(projectileType == Projectile.AutoFire)
+					Stats.Instance.ReportShotJeebieWithWeapons(Projectile.AutoFire);
+				
 				Destroy(this.gameObject);
 				return;
 			}
@@ -59,8 +63,8 @@ public class Bullet : MonoBehaviour {
 		if(targeted) return;
 		
 		// reporting
-		if(col.gameObject.CompareTag("Enemy") && projectileType == Projectile.Fireball)
-			Stats.Instance.ReportKilledJeebieWithAWeapon(Gems.FireBall);
+		if(col.gameObject.CompareTag("Enemy"))
+			Stats.Instance.ReportKilledJeebieWithAWeapon(projectileType);
 		
 		if( col.gameObject.CompareTag("Asteroid") || col.gameObject.CompareTag("Enemy") )
 		{

@@ -131,6 +131,7 @@ public class Stats : MonoBehaviour {
 	
 	void Awake()
 	{
+		ClearInSingleRunMissions();
 		ActivateCurrentMissions();
 		ShowStats = false;
 	}
@@ -170,6 +171,9 @@ public class Stats : MonoBehaviour {
 	public Mission missionReach25000LightYear;
 	public Mission missionPickUpAllUnlikeliumDroppedAfterBeastieBoost;
 	public Mission missionKill10RedJeebiesInASingleRun;
+	public Mission missionSend300SureShotProjectilesAtTheJeebies;
+	public Mission missionPurchaseAndUseHeadStart;
+	public Mission missionDestroy5GreenAsteroidsInASingleRun;
 	
 	#endregion
 	
@@ -193,6 +197,7 @@ public class Stats : MonoBehaviour {
 		case Asteroids.White:
 			break;
 		case Asteroids.Green:
+			missionDestroy5GreenAsteroidsInASingleRun.Add(1);
 			break;
 		case Asteroids.Red:
 			break;
@@ -231,14 +236,24 @@ public class Stats : MonoBehaviour {
 		}
 	}
 	
-	public void ReportKilledJeebieWithAWeapon(Gems gem)
+	public void ReportKilledJeebieWithAWeapon(Projectile projectileType)
 	{
-		switch(gem)
+		switch(projectileType)
 		{
-		case Gems.FireBall:
+		case Projectile.Fireball:
 			missionKill10JeebiesWithALightenUpFireball.Add(1);
 			break;
 		}
+	}
+	
+	public void ReportShotJeebieWithWeapons(Projectile projectileType)
+	{
+		switch(projectileType)
+		{
+		case Projectile.AutoFire:
+			missionSend300SureShotProjectilesAtTheJeebies.Add(1);
+			break;
+		}		
 	}
 	
 	public void ReportCollectedPowerup(Gems gem)
@@ -295,6 +310,11 @@ public class Stats : MonoBehaviour {
 	public void ReportPickedUpAllUnlikeliumDroppedAfterBeastieBoost()
 	{
 		missionPickUpAllUnlikeliumDroppedAfterBeastieBoost.Add(1);
+	}
+	
+	public void ReportUsedHeadStart()
+	{
+		missionPurchaseAndUseHeadStart.Add(1);
 	}
 	
 	#endregion

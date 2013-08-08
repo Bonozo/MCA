@@ -190,6 +190,8 @@ public class Player : MonoBehaviour {
 	
 	private IEnumerator StartHeadStartThread()
 	{
+		Stats.Instance.ReportUsedHeadStart();
+		
 		LevelInfo.Environments.generator.GenerateAlienShip = false;
 		LevelInfo.Environments.generator.GenerateAsteroid = false;
 		Intergalactic = true;
