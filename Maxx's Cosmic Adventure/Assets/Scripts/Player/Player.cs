@@ -105,13 +105,20 @@ public class Player : MonoBehaviour {
 	
 	#region HUB
 	
+	private int lastinttravelled = 0;
 	private void UpdateHUB()
 	{
 		// calc travelled
-		travelled += DistXZ(lastPosition,transform.position);
+		var val = DistXZ(lastPosition,transform.position);
+		travelled += val;
 		
 		// report travelled
-		Stats.Instance.ReportDistanceTravelled(travelled);
+		Stats.Instance.ReportDistanceReached(travelled);
+		if(lastinttravelled<(int)travelled)
+		{
+			Stats.Instance.ReportDistanceTravelled((int)travelled-lastinttravelled);
+			lastinttravelled = (int)travelled;
+		}
 		
 		lastPosition = transform.position;
 		LevelInfo.Environments.guiUnlikeliums.text = "" + unlikeliums;

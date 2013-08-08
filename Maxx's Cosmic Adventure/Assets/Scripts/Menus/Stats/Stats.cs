@@ -174,6 +174,8 @@ public class Stats : MonoBehaviour {
 	public Mission missionSend300SureShotProjectilesAtTheJeebies;
 	public Mission missionPurchaseAndUseHeadStart;
 	public Mission missionDestroy5GreenAsteroidsInASingleRun;
+	public Mission missionTravell30000LightYearsTotal;
+	public Mission missionCollect1000UnlikeliumsTotal;
 	
 	#endregion
 	
@@ -183,6 +185,7 @@ public class Stats : MonoBehaviour {
 	{
 		missionCollect100UnlikeliumsTotal.Add(count);
 		missionCollect50UnlikeliumsInASingleRun.Add(count);
+		missionCollect1000UnlikeliumsTotal.Add(count);
 	}
 	
 	public void ReportDestroyedAsteroid(Asteroids asteroidType)
@@ -298,7 +301,12 @@ public class Stats : MonoBehaviour {
 		missionCollect25FullUnlikeliumList.Add(1);
 	}
 	
-	public void ReportDistanceTravelled(float ly)
+	public void ReportDistanceTravelled(int ly)
+	{
+		missionTravell30000LightYearsTotal.Add(ly);
+	}
+	
+	public void ReportDistanceReached(float ly)
 	{
 		if(ly>=5000f) missionReach5000LightYear.Add(1);
 		if(ly>=10000f) missionReach10000LightYear.Add(1);
