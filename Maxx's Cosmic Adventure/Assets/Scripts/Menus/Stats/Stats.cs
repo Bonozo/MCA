@@ -336,6 +336,9 @@ public class Stats : MonoBehaviour {
 		missionCompleteGUI.transform.localPosition = new Vector3(0f,-80f,0f);
 		missionCompleteMessage.text = message;
 		
+		if(Store.Instance.IsPlayGame)
+			LevelInfo.Audio.audioSourcePlayerShip.PlayOneShot(LevelInfo.Audio.clipMission);
+		
 		float time = 1.0f;
 		while(time>0f)
 		{
@@ -360,6 +363,12 @@ public class Stats : MonoBehaviour {
 		}		
 		
 		showingmissioncomplete = false;
+	}
+	
+	void Update()
+	{
+		if(Input.GetKeyUp(KeyCode.Space))
+			ShowMissionComplete("MISSION COMPLETE");
 	}
 	
 	#endregion
