@@ -11,6 +11,9 @@ public class Gem : MonoBehaviour {
 	private float AutodestructDistance = 500;
 	private float MoveSpeed = 100f;
 	
+	[System.NonSerializedAttribute]
+	public bool loveUnlikelium = false;
+	
 	// Use this for initialization
 	void Start ()
 	{
@@ -38,6 +41,9 @@ public class Gem : MonoBehaviour {
 		transform.Rotate(0,RotateSpeed*Time.deltaTime,0);
 		
 		if(LevelInfo.Environments.playerShip.DistXZ(transform.position) > AutodestructDistance )
+		{
+			if(loveUnlikelium) LevelInfo.Environments.generator.ReportLoveUnlikeliumPartAutodestruct();
 			Destroy(this.gameObject);
+		}
 	}
 }

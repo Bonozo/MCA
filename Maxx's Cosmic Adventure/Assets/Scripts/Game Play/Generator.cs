@@ -393,18 +393,6 @@ public class Generator : MonoBehaviour {
 		}
 		////////////////////////////////////////////////
 		
-		/*if( distance >= next_jeeble_time )
-		{
-			Debug.Log("jeebie spawn time");
-			if( Random.Range(0,2)==1 )
-			{
-				//int len = distance >= Stage_Three_Distance ? AlienShipPrefabs.Length : 1 ;
-				GenerateNewAlienShip();
-			}
-			next_jeeble_time += Stage_Two_Step_Enemy;	
-			if(next_jeeble_time<distance) next_jeeble_time=distance+Random.Range(0f,2f);
-		}*/
-		
 		////////////////// Unlikeliums /////////////////
 		if( distance >= next_unlikelium_distance)
 		{
@@ -441,13 +429,17 @@ public class Generator : MonoBehaviour {
 				
 				int level = Store.Instance.powerupBeastieBoost.level;
 				upos.y=0;
+				GameObject newunlikelium;
 				if(level>0 && shazamcount%(6-level)==0)
-					unlikeliums.Add((GameObject)Instantiate(LevelInfo.Environments.prefabUnlikeliumBronze,upos,Quaternion.identity));
+					newunlikelium = (GameObject)Instantiate(LevelInfo.Environments.prefabUnlikeliumBronze,upos,Quaternion.identity);
 				else
-					unlikeliums.Add((GameObject)Instantiate(LevelInfo.Environments.prefabUnlikelium,upos,Quaternion.identity));
+					newunlikelium = (GameObject)Instantiate(LevelInfo.Environments.prefabUnlikelium,upos,Quaternion.identity);
+				
+				newunlikelium.GetComponent<Gem>().loveUnlikelium = true;
+				unlikeliums.Add(newunlikelium);
+				unlikeliums_stays++;
 			}
 		}
-	
 	}
 	
 	// Used after headstart, intergalactic, ...
@@ -473,8 +465,11 @@ public class Generator : MonoBehaviour {
 	private bool uplus = false;
 	private int shazamcount = 0;
 	
-	private System.Collections.Generic.List<GameObject> unlikeliums = new System.Collections.Generic.List<GameObject>();
 	private Vector3 upos,udir,uright;
+	
+	private System.Collections.Generic.List<GameObject> unlikeliums = new System.Collections.Generic.List<GameObject>();
+	private bool can_pickup_all_unlikeliums = false;
+	private int unlikeliums_stays = 0;
 	
 	public void StartUnlikeliumGenerator()
 	{
@@ -483,6 +478,7 @@ public class Generator : MonoBehaviour {
 	
 	public IEnumerator StartUnlikeliumGeneratorThread()
 	{
+		ResetPickedUpAllUnlikeliumList();
 		yield return new WaitForSeconds(1f);
 		upos = LevelInfo.Environments.playerShip.transform.position;
 		udir = LevelInfo.Environments.playerShip.transform.forward;
@@ -502,10 +498,30 @@ public class Generator : MonoBehaviour {
 		GenerateUnlikeliumList = false;
 	}
 	
-	public void DeletaUnlikeliumList()
+	public bool PickedUpAllUnlikeliumList()
 	{
-		foreach(GameObject v in unlikeliums) if(v!=null) Destroy(v);
+		return can_pickup_all_unlikeliums&&unlikeliums_stays==0;
 	}
-
+	
+	public void ReportLoveUnlikeliumPartAutodestruct()
+	{
+		can_pickup_all_unlikeliums=false;
+	}
+	
+	public void ReportPickedUpLoveUnlikeliumPart()
+	{
+		unlikeliums_stays--;
+	}
+	
+	public void ResetPickedUpAllUnlikeliumList()
+	{
+		foreach(GameObject v in unlikeliums) 
+			if(v!=null)
+				v.GetComponent<Gem>().loveUnlikelium=false;
+		
+		can_pickup_all_unlikeliums=true;
+		unlikeliums_stays=0;
+	}
+	
 	#endregion
 }

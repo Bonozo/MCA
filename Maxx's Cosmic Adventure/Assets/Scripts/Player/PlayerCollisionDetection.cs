@@ -65,6 +65,13 @@ public class PlayerCollisionDetection : MonoBehaviour {
 			LevelInfo.Environments.score.unlikeliumsCollected += val;
 			Stats.Instance.ReportCollectedUnlikelium(val);
 			
+			if(gem.GetComponent<Gem>().loveUnlikelium)
+			{
+				LevelInfo.Environments.generator.ReportPickedUpLoveUnlikeliumPart();
+				if( LevelInfo.Environments.generator.PickedUpAllUnlikeliumList())
+					Stats.Instance.ReportPickedUpAllUnlikeliumDroppedAfterBeastieBoost();
+			}
+			
 			if(val==5) LevelInfo.Environments.infoMessage.ShowMessage("Bronze");
 			if(val==10) LevelInfo.Environments.infoMessage.ShowMessage("Silver");
 			if(val==25) LevelInfo.Environments.infoMessage.ShowMessage("Gold");

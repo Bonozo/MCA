@@ -7,7 +7,7 @@ public class Stats : MonoBehaviour {
 	public GameObject missionCompleteGUI;
 	public UILabel missionCompleteMessage;
 	public UILabel labelLevel;
-	public GameObject missionsRoot;
+	//public GameObject missionsRoot;
 	public GameObject popupSkipMission;
 	public GameObject popupBuyMoreUnlikeliums;
 	
@@ -137,9 +137,8 @@ public class Stats : MonoBehaviour {
 	
 	public void ClearInSingleRunMissions()
 	{
-		foreach(Transform m in missionsRoot.transform)
-			if(m.GetComponent<Mission>() != null)
-				m.GetComponent<Mission>().ClearIfNotCompleteForSingleRun();
+		foreach(Mission m in missions)
+				m.ClearIfNotCompleteForSingleRun();
 	}
 	
 	[System.NonSerializedAttribute]
@@ -163,6 +162,14 @@ public class Stats : MonoBehaviour {
 	public Mission missionCollect50UnlikeliumsInASingleRun;
 	public Mission missionHaveANearMeetWith5AsteroidsInASingleRun;
 	public Mission missionKill10JeebiesWithALightenUpFireball;
+	public Mission missionCollect25FullUnlikeliumList;
+	public Mission missionReach5000LightYear;
+	public Mission missionReach10000LightYear;
+	public Mission missionReach15000LightYear;
+	public Mission missionReach20000LightYear;
+	public Mission missionReach25000LightYear;
+	public Mission missionPickUpAllUnlikeliumDroppedAfterBeastieBoost;
+	public Mission missionKill10RedJeebiesInASingleRun;
 	
 	#endregion
 	
@@ -212,6 +219,7 @@ public class Stats : MonoBehaviour {
 			missionKill10YellowLeaderJeebies.Add(1);
 			break;
 		case Jeebie.RedKamikaze:
+			missionKill10RedJeebiesInASingleRun.Add(1);
 			break;
 		case Jeebie.PurpleFigher:
 			break;	
@@ -268,6 +276,25 @@ public class Stats : MonoBehaviour {
 	public void ReportKilledJeebieInHoldItNowHitIt(Jeebie jeebie)
 	{
 		missionKillAJeebieDuringHoldItNowHitIt.Add(1);
+	}
+	
+	public void ReportCollectedFullUnlikeliumList()
+	{
+		missionCollect25FullUnlikeliumList.Add(1);
+	}
+	
+	public void ReportDistanceTravelled(float ly)
+	{
+		if(ly>=5000f) missionReach5000LightYear.Add(1);
+		if(ly>=10000f) missionReach10000LightYear.Add(1);
+		if(ly>=15000f) missionReach15000LightYear.Add(1);
+		if(ly>=20000f) missionReach20000LightYear.Add(1);
+		if(ly>=25000f) missionReach25000LightYear.Add(1);
+	}
+	
+	public void ReportPickedUpAllUnlikeliumDroppedAfterBeastieBoost()
+	{
+		missionPickUpAllUnlikeliumDroppedAfterBeastieBoost.Add(1);
 	}
 	
 	#endregion

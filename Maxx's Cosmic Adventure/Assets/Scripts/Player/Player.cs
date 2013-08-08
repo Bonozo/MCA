@@ -109,6 +109,10 @@ public class Player : MonoBehaviour {
 	{
 		// calc travelled
 		travelled += DistXZ(lastPosition,transform.position);
+		
+		// report travelled
+		Stats.Instance.ReportDistanceTravelled(travelled);
+		
 		lastPosition = transform.position;
 		LevelInfo.Environments.guiUnlikeliums.text = "" + unlikeliums;
 		
@@ -799,7 +803,7 @@ public class Player : MonoBehaviour {
 			LoveUnlikelium = false;
 		}
 		else
-			poweruptime = Store.Instance.powerupShazam.TimedLevelTime;
+			poweruptime = 10f+(float)Store.Instance.powerupBeastieBoost.level;
 	}		
 	
 	public void StartMagned()
