@@ -37,13 +37,13 @@ public class Asteroid : MonoBehaviour {
 		gameObject.tag = "Asteroid";
 		LevelInfo.Environments.tutorials.SpawnedAsteroid();
 		
-		Color color = gameObject.renderer.material.color;
+		Color color = gameObject.GetComponent<Renderer>().material.color;
 		color.a = 0f;
-		gameObject.renderer.material.color = color;
+		gameObject.GetComponent<Renderer>().material.color = color;
 		while(color.a<1f)
 		{
 			color.a = Mathf.Clamp01(color.a+Time.deltaTime);
-			gameObject.renderer.material.color = color;
+			gameObject.GetComponent<Renderer>().material.color = color;
 			yield return null;
 		}
 		

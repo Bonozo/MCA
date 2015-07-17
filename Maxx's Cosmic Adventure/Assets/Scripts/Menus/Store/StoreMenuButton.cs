@@ -23,7 +23,7 @@ public class StoreMenuButton : MonoBehaviour {
 			}
 			if(Store.Instance.IsPlayGame)
 			{
-				Store.Instance.audio.Stop();
+				Store.Instance.GetComponent<AudioSource>().Stop();
 				Store.Instance.SetQuitPopupButtonEnabled(false);
 				Application.LoadLevel("mainmenu");
 			}

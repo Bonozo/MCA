@@ -31,7 +31,7 @@ public abstract class TBComponent : MonoBehaviour
     // Use this for initialization
     protected virtual void Start()
     {
-        if( !collider )
+        if( !GetComponent<Collider>() )
         {
             Debug.LogError( this.name + " must have a valid collider." );
             enabled = false;

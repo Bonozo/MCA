@@ -20,7 +20,7 @@ public class ButtonBase : MonoBehaviour {
 	
 	virtual protected void Start()
 	{
-		if(workingGUI==null) workingGUI=this.guiTexture;
+		if(workingGUI==null) workingGUI=this.GetComponent<GUITexture>();
 	}
 	
 	virtual protected void Update()
@@ -31,7 +31,7 @@ public class ButtonBase : MonoBehaviour {
 		{
 			if( workingGUI.HitTest(touch.position ) )
 			{
-				if(!aspressed) guiTexture.texture = (touch.phase!=TouchPhase.Ended && canPressed)?pressedTexture:standartTexture;
+				if(!aspressed) GetComponent<GUITexture>().texture = (touch.phase!=TouchPhase.Ended && canPressed)?pressedTexture:standartTexture;
 				if( touch.phase == TouchPhase.Began ) down = true;
 				if( touch.phase == TouchPhase.Ended && down) up = true;
 				return;
@@ -42,26 +42,26 @@ public class ButtonBase : MonoBehaviour {
 		{
 			if( Input.GetMouseButtonDown(0) ) down=true;
 			if( Input.GetMouseButtonUp(0) && down) up=true;
-			if(!aspressed) guiTexture.texture = (Input.GetMouseButton(0) && canPressed)?pressedTexture:standartTexture;
+			if(!aspressed) GetComponent<GUITexture>().texture = (Input.GetMouseButton(0) && canPressed)?pressedTexture:standartTexture;
 			return;
 		}
 		
 		down = up = false;
-		if(!aspressed) guiTexture.texture = standartTexture;
+		if(!aspressed) GetComponent<GUITexture>().texture = standartTexture;
 	}
 	
 	private bool aspressed = false;
 	public void SetAsPressed()
 	{
 		aspressed = true;
-		guiTexture.texture = pressedTexture;
+		GetComponent<GUITexture>().texture = pressedTexture;
 	}
 	
 	private bool dsbl = false;
 	public void DisableButtonForUse()
 	{
 		dsbl = true;
-		guiTexture.texture = standartTexture;
+		GetComponent<GUITexture>().texture = standartTexture;
 	}
 	
 	public void EnableButtonForUse()

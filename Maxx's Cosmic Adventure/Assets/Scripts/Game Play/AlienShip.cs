@@ -438,7 +438,7 @@ public class AlienShip : MonoBehaviour {
 				up.x /= Screen.width; up.y /= Screen.height;
 				float sc = Mathf.Abs(centr.y-up.y)*4;
 			
-				targetingBox.guiTexture.enabled = centr.z > 0;
+				targetingBox.GetComponent<GUITexture>().enabled = centr.z > 0;
 			
 				targetingBox.transform.position = new Vector3(centr.x,centr.y,targetingBox.transform.position.z);
 				targetingBox.transform.localScale = new Vector3(sc,sc,targetingBox.transform.localScale.z);	

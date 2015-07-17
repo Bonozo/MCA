@@ -285,7 +285,7 @@ public class UICamera : MonoBehaviour
 	/// Caching is always preferable for performance.
 	/// </summary>
 
-	public Camera cachedCamera { get { if (mCam == null) mCam = camera; return mCam; } }
+	public Camera cachedCamera { get { if (mCam == null) mCam = GetComponent<Camera>(); return mCam; } }
 
 	/// <summary>
 	/// The object the mouse is hovering over.
@@ -661,7 +661,7 @@ public class UICamera : MonoBehaviour
 		mList.Sort(CompareFunc);
 
 		// If no event receiver mask was specified, use the camera's mask
-		if (eventReceiverMask == -1) eventReceiverMask = camera.cullingMask;
+		if (eventReceiverMask == -1) eventReceiverMask = GetComponent<Camera>().cullingMask;
 	}
 
 	/// <summary>

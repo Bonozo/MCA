@@ -10,8 +10,8 @@ public class test : MonoBehaviour {
 		var f2 = GetDeviceAngle2();
 		if(f1!=f2) error = true;
 		
-		guiText.text = "" + f1 + "\n" + f2 + "\n";
-		if(error) guiText.text += "error\n";
+		GetComponent<GUIText>().text = "" + f1 + "\n" + f2 + "\n";
+		if(error) GetComponent<GUIText>().text += "error\n";
 		
 		/*guiText.text = " MY + " +  GameEnvironment.InputAxis + "\n";
 		Vector3 acc = Input.acceleration;

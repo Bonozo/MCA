@@ -25,8 +25,8 @@ public class MainMenu : MonoBehaviour {
 		}
 		set
 		{
-			if( (_state == MenuState.Store || _state == MenuState.Options) && value != MenuState.Store && value != MenuState.Options && !audio.isPlaying)
-				audio.Play();
+			if( (_state == MenuState.Store || _state == MenuState.Options) && value != MenuState.Store && value != MenuState.Options && !GetComponent<AudioSource>().isPlaying)
+				GetComponent<AudioSource>().Play();
 			
 			_state = value;
 			
@@ -37,11 +37,11 @@ public class MainMenu : MonoBehaviour {
 			{
 			case MenuState.Store:
 				Store.Instance.ShowStore = true;
-				audio.Stop();
+				GetComponent<AudioSource>().Stop();
 				break;
 			case MenuState.Options:
 				Options.Instance.ShowOptions = true;
-				audio.Stop();
+				GetComponent<AudioSource>().Stop();
 				break;
 			case MenuState.Stats:
 				Stats.Instance.ShowStats = true;
@@ -65,7 +65,7 @@ public class MainMenu : MonoBehaviour {
 		if(_state == MenuState.Title && Input.GetKeyDown(KeyCode.Escape) )
 			Application.Quit();
 		
-		audio.volume = Options.Instance.volumeMusic;
+		GetComponent<AudioSource>().volume = Options.Instance.volumeMusic;
 	}
 	
 	// Multithreaded Safe Singleton Pattern

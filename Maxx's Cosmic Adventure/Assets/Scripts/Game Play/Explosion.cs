@@ -27,13 +27,13 @@ public class Explosion : MonoBehaviour {
 		
 		if(LevelInfo.State.state == GameState.Play)
 		{
-			audio.volume = Options.Instance.volumeSFX;
+			GetComponent<AudioSource>().volume = Options.Instance.volumeSFX;
 			if(lastState != GameState.Play)
-				audio.Play();
-			else if(!audio.isPlaying) finished = true;
+				GetComponent<AudioSource>().Play();
+			else if(!GetComponent<AudioSource>().isPlaying) finished = true;
 			
 		}
-		if(LevelInfo.State.state != GameState.Play && lastState == GameState.Play) audio.Pause();
+		if(LevelInfo.State.state != GameState.Play && lastState == GameState.Play) GetComponent<AudioSource>().Pause();
 		
 		lastState = LevelInfo.State.state;
 	}

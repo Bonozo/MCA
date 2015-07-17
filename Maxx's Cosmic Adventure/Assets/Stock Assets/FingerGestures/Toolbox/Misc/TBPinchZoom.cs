@@ -59,10 +59,10 @@ public class TBPinchZoom : MonoBehaviour
                     break;
 
                 case ZoomMethod.FOV:
-                    if( camera.orthographic )
-                        camera.orthographicSize = Mathf.Max( defaultOrthoSize - zoomAmount, 0.1f );
+                    if( GetComponent<Camera>().orthographic )
+                        GetComponent<Camera>().orthographicSize = Mathf.Max( defaultOrthoSize - zoomAmount, 0.1f );
                     else
-                        camera.fov = Mathf.Max( defaultFov - zoomAmount, 0.1f );
+                        GetComponent<Camera>().fov = Mathf.Max( defaultFov - zoomAmount, 0.1f );
                     break;
             }
         }
@@ -76,8 +76,8 @@ public class TBPinchZoom : MonoBehaviour
     public void SetDefaults()
     {
         DefaultPos = transform.position;
-        DefaultFov = camera.fov;
-        DefaultOrthoSize = camera.orthographicSize;
+        DefaultFov = GetComponent<Camera>().fov;
+        DefaultOrthoSize = GetComponent<Camera>().orthographicSize;
     }
 
     #region FingerGestures events

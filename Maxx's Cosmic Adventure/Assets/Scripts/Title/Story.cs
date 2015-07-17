@@ -75,7 +75,7 @@ public class Story : MonoBehaviour {
 		
 		if( GameEnvironment.Swipe.x > 0f )
 		{
-			audio.PlayOneShot(audioPageTurn);
+			GetComponent<AudioSource>().PlayOneShot(audioPageTurn);
 			current--;
 			if( current < 0 ) current = 0;
 			else 
@@ -88,7 +88,7 @@ public class Story : MonoBehaviour {
 		}
 		if( GameEnvironment.Swipe.x < 0f )
 		{
-			audio.PlayOneShot(audioPageTurn);
+			GetComponent<AudioSource>().PlayOneShot(audioPageTurn);
 			current++;
 			firstpageslided = true;
 			if( current == slide.Length )

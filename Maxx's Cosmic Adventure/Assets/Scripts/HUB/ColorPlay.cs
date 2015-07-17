@@ -28,6 +28,6 @@ public class ColorPlay : MonoBehaviour {
 		if(percent==0) pauseTime=pause;
 		if(percent==1) pauseTime=upPause;
 		
-		guiTexture.color = new Color(colmin.r + percent*(colmax.r-colmin.r),colmin.g + percent*(colmax.g-colmin.g),colmin.b + percent*(colmax.b-colmin.b),colmin.a + percent*(colmax.a-colmin.a) );
+		GetComponent<GUITexture>().color = new Color(colmin.r + percent*(colmax.r-colmin.r),colmin.g + percent*(colmax.g-colmin.g),colmin.b + percent*(colmax.b-colmin.b),colmin.a + percent*(colmax.a-colmin.a) );
 	}
 }

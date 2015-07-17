@@ -8,19 +8,19 @@ public class PlayerShipAnimationController : MonoBehaviour {
 	
 	void Awake()
 	{
-		animation["turette open"].layer = 2;
-		animation["turette close"].layer = 2;
+		GetComponent<Animation>()["turette open"].layer = 2;
+		GetComponent<Animation>()["turette close"].layer = 2;
 		
-		animation["turette open"].AddMixingTransform(boneTurret,false);
-		animation["turette close"].AddMixingTransform(boneTurret,false);
+		GetComponent<Animation>()["turette open"].AddMixingTransform(boneTurret,false);
+		GetComponent<Animation>()["turette close"].AddMixingTransform(boneTurret,false);
 		
-		animation["barrelrollright"].layer = 1;
-		animation["barrelrollleft"].layer = 1;
-		animation["barrelrollup"].layer = 1;
+		GetComponent<Animation>()["barrelrollright"].layer = 1;
+		GetComponent<Animation>()["barrelrollleft"].layer = 1;
+		GetComponent<Animation>()["barrelrollup"].layer = 1;
 		
-		animation["barrelrollright"].AddMixingTransform(boneBase,false);
-		animation["barrelrollleft"].AddMixingTransform(boneBase,false);
-		animation["barrelrollup"].AddMixingTransform(boneBase,false);
+		GetComponent<Animation>()["barrelrollright"].AddMixingTransform(boneBase,false);
+		GetComponent<Animation>()["barrelrollleft"].AddMixingTransform(boneBase,false);
+		GetComponent<Animation>()["barrelrollup"].AddMixingTransform(boneBase,false);
 	}
 	
 	void OnEnable()
@@ -39,25 +39,25 @@ public class PlayerShipAnimationController : MonoBehaviour {
 		{
 			switch(direction)
 			{
-			case FingerGestures.SwipeDirection.Left: animation.Play("barrelrollleft");
+			case FingerGestures.SwipeDirection.Left: GetComponent<Animation>().Play("barrelrollleft");
 				break;
-			case FingerGestures.SwipeDirection.Right: animation.Play("barrelrollright");
+			case FingerGestures.SwipeDirection.Right: GetComponent<Animation>().Play("barrelrollright");
 				break;
-			case FingerGestures.SwipeDirection.Up: animation.Play("barrelrollup");
+			case FingerGestures.SwipeDirection.Up: GetComponent<Animation>().Play("barrelrollup");
 				break;
 			}
 		}		
 	}
 	
 	public bool IsPlayingAnyRollAnimation{ get{
-		return animation.IsPlaying("barrelrollup")||animation.IsPlaying("barrelrollleft")
-				||animation.IsPlaying("barrelrollright");
+		return GetComponent<Animation>().IsPlaying("barrelrollup")||GetComponent<Animation>().IsPlaying("barrelrollleft")
+				||GetComponent<Animation>().IsPlaying("barrelrollright");
 		}}
 	
 	bool turreteopened = false;
 	public void OpenTurette()
 	{
-		animation.Play("turette open");
+		GetComponent<Animation>().Play("turette open");
 		turreteopened = true;
 	}
 	
@@ -65,7 +65,7 @@ public class PlayerShipAnimationController : MonoBehaviour {
 	{
 		if(turreteopened)
 		{
-			animation.Play("turette close");
+			GetComponent<Animation>().Play("turette close");
 			turreteopened = false;
 		}
 	}

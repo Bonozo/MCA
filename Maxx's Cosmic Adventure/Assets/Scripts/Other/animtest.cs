@@ -12,7 +12,7 @@ public class animtest : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		animation.Play(str);
-		Debug.Log(animation[str].time);
+		GetComponent<Animation>().Play(str);
+		Debug.Log(GetComponent<Animation>()[str].time);
 	}
 }
